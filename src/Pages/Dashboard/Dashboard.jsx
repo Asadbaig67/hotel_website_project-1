@@ -5,11 +5,14 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useSelector } from "react-redux";
 import { adminCard, patnerCard, userCard } from "../../Utilis/DashboardData";
+import { useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const { mode } = useSelector((state) => state.mode);
   const { view } = useSelector((state) => state.view);
+  const IsMedium = useMediaQuery("(max-width:1000px)");
+
 
   const card = (argument) => {
     return argument.map((element) => {
@@ -32,8 +35,8 @@ export default function Dashboard() {
   return (
     <>
       <Sidebar />
-      <div className={`bg-${mode === "light" ? "light" : "dark"}`}>
-        <div className="bg-success w-100">
+      <div className={`bg-${mode === "light" ? "light" : "dark"} ${IsMedium ? "mt-5" : ""}`}>
+        <div className={`bg-success w-100`}>
           <div className="d-flex align-items-center py-4 text-light">
             <ArrowForwardIosIcon className={style.header_icon} />
             <h1 className={style.header_item}>DashBoard</h1>

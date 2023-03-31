@@ -31,7 +31,7 @@ function App() {
 
   return (
     <>
-      {/* <Routes>
+      <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/" element={<Home />} />
@@ -47,7 +47,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/listproperty" element={<Listing />} />
         <Route path="/roomcard" element={<Roomcard />} />
-      </Routes> */}
+      </Routes>
 
       <Routes>
 
@@ -57,6 +57,7 @@ function App() {
         <Route path="/users" element={<HotelsList />} />
         <Route path="/booking" element={<HotelsList />} />
         <Route path="/hotelRequests" element={<HotelsList />} />
+        
         <Route path="/profiledata" element={<ProfileDataForm />} />
         <Route path="/maps" element={<Reactmaps />} />
         <Route path="/hotelform" element={<AddHotelForm />} />

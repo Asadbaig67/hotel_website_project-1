@@ -28,6 +28,7 @@ import { activePath } from "./reducer/activePath";
 import { mode } from "./reducer/mode";
 import { view } from "./reducer/view";
 import { dataProfile } from "./reducer/dataProfile";
+import { SetLoggedInUser } from "./reducer/getLoggedInUser";
 
 const store = configureStore({
   reducer: {
@@ -61,6 +62,7 @@ const store = configureStore({
     mode: mode,
     view: view,
     dataProfile: dataProfile,
+    getLoggedInUser: SetLoggedInUser,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
