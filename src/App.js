@@ -6,6 +6,9 @@ import Listing from "./Pages/Property Listing/Listing";
 import Hotel from "./Pages/hotel/Hotel";
 import Signin from "./Pages/Signin/Signin";
 import Signup from "./Pages/Signup/Signup";
+import Forgetpass from "./Pages/Forgetpassword/Forgetpass";
+import Otpverify from "./Pages/OtpVerification/Otpverify";
+import Changepassword from "./Pages/ChangePassword/Changepassword";
 // import Map from "./Components/Map/Map";
 import List from "./Pages/list/List";
 import HotelForm from "./Pages/hotelForm/Hotel";
@@ -34,6 +37,9 @@ function App() {
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
+        <Route path="/forgetpassword" element={<Forgetpass />} />
+        <Route path="/otpverify" element={<Otpverify />} />
+        <Route path="/reset/password" element={<Changepassword />} />
         <Route path="/" element={<Home />} />
         <Route path="/listHotel" element={<List />} />
         <Route path="/singleHotel" element={<Hotel />} />
@@ -47,6 +53,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/listproperty" element={<Listing />} />
         <Route path="/roomcard" element={<Roomcard />} />
+
       </Routes>
 
       <Routes>
@@ -57,7 +64,7 @@ function App() {
         <Route path="/users" element={<HotelsList />} />
         <Route path="/booking" element={<HotelsList />} />
         <Route path="/hotelRequests" element={<HotelsList />} />
-        
+
         <Route path="/profiledata" element={<ProfileDataForm />} />
         <Route path="/maps" element={<Reactmaps />} />
         <Route path="/hotelform" element={<AddHotelForm />} />

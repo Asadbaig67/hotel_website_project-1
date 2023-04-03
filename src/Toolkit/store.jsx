@@ -29,6 +29,7 @@ import { mode } from "./reducer/mode";
 import { view } from "./reducer/view";
 import { dataProfile } from "./reducer/dataProfile";
 import { SetLoggedInUser } from "./reducer/getLoggedInUser";
+import { PasswordResetToken } from "./reducer/passResetToken";
 
 const store = configureStore({
   reducer: {
@@ -63,6 +64,7 @@ const store = configureStore({
     view: view,
     dataProfile: dataProfile,
     getLoggedInUser: SetLoggedInUser,
+    getResetToken: PasswordResetToken,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

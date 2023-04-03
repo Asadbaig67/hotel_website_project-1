@@ -4,18 +4,18 @@ import {
   Button,
   CssBaseline,
   TextField,
-  // Link,
   Grid,
   Box,
   Typography,
   Container,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useDispatch, useSelector } from "react-redux";
 
-const Signin = () => {
+const Forgetpass = () => {
+  const Navigate = useNavigate();
   const theme = createTheme();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.getLoggedInUser);
@@ -36,28 +36,23 @@ const Signin = () => {
   }
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch("http://localhost:5000/user/userlogin", {
+    const response = await fetch("http://localhost:5000/otp/sendotp", {
       method: "POST",
-      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email }),
     });
     const data = await response.json();
-    dispatch({ type: "SET_LOGGEDIN_USER", payload: data });
+    if (data) dispatch({ type: "SET_USER_TOKEN", payload: data.user });
+    Navigate("/otpverify");
   };
 
   return (
@@ -76,8 +71,13 @@ const Signin = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Reset Password
           </Typography>
+          <small className="text-center my-5 text-muted">
+            To reset your password, enter your email below and submit. An email
+            will be sent to you with instructions about how to complete the
+            process.
+          </small>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -96,18 +96,6 @@ const Signin = () => {
               autoComplete="email"
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              value={password}
-              onChange={handlePasswordChange}
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
             <Button
               type="submit"
               fullWidth
@@ -115,16 +103,8 @@ const Signin = () => {
               sx={{ mt: 3, mb: 2 }}
               onSubmit={handleSubmit}
             >
-              Sign In
+              Verify Email
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to="/forgetpassword">Forgot password?</Link>
-              </Grid>
-              <Grid item>
-                <Link to="/signup">Don't have an account? Sign Up</Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
@@ -132,5 +112,4 @@ const Signin = () => {
     </ThemeProvider>
   );
 };
-
-export default Signin;
+export default Forgetpass;
