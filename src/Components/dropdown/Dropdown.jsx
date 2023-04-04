@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Dropdown = (props) => {
   const dispatch = useDispatch();
-  const citiesHotel = ["Lahore", "Karachi", "Islamabad"];
+  const citiesHotel = ["Lahore", "Karachi", "Islamabad", "Dubai"];
   const citiesParking = ["Tokyo", "London", "Paris"];
   const citiesHotelAndParking = ["London", "Tokyo", "Sydney"];
   const { name } = props;
