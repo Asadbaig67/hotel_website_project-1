@@ -32,6 +32,7 @@ import { useMediaQuery } from "@mui/material";
 
 const Navbar = ({ list }) => {
   // Popover Material UI Code
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl1, setAnchorEl1] = useState(null);
 
@@ -52,10 +53,15 @@ const Navbar = ({ list }) => {
   const open1 = Boolean(anchorEl1);
   const id = open ? "simple-popover" : undefined;
   const id1 = open1 ? "simple-popover" : undefined;
+
   // Popover Material UI Code
   const dispatch = useDispatch();
+
+  // Hotel City
   const { city } = useSelector((state) => state.searchCity);
+  // Parking City
   const { cityParking } = useSelector((state) => state.searchParkingCity);
+  // Hotel And Parking City
   const { cityHotelAndParking } = useSelector(
     (state) => state.searchHotelAndParkingCity
   );
@@ -140,7 +146,7 @@ const Navbar = ({ list }) => {
     }, 2000);
   }
 
-  const handleOnSearch = () => {
+  const handleOnSearch = async () => {
     setOpenOptions(false);
     if (path === "/") {
       dispatch({
@@ -277,9 +283,28 @@ const Navbar = ({ list }) => {
       : nav2
       ? navigate("/HotelAndParkingList")
       : navigate(`/ParkingList`);
+
+    try {
+      const url = `http://localhost:5000/parking/search?city=${cityParking}&vehicles=${c}`;
+      const response = await fetch(url, {
+        method: "GET",
+        // credentials: "include",
+      });
+      const { parkingList } = await response.json();
+      if (parkingList) {
+        dispatch({
+          type: "SET_PARKING_DATA",
+          payload: parkingList,
+        });
+      }
+      console.log(parkingList);
+    } catch (error) {
+      console.log("You get The Error ", error);
+    }
   };
 
   useEffect(() => {
+    console.log(cityParking, c, datesParking);
     if (path === "/" || path === "/listHotel" || path === "/singleHotel") {
       dispatch({
         type: "activePath",

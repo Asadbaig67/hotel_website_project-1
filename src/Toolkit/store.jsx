@@ -30,6 +30,8 @@ import { view } from "./reducer/view";
 import { dataProfile } from "./reducer/dataProfile";
 import { SetLoggedInUser } from "./reducer/getLoggedInUser";
 import { PasswordResetToken } from "./reducer/passResetToken";
+import { parkingDataReducer } from "./reducer/parkingData_Backend";
+import { hotelDataReducer } from "./reducer/hotelData_Backend";
 
 const store = configureStore({
   reducer: {
@@ -65,6 +67,8 @@ const store = configureStore({
     dataProfile: dataProfile,
     getLoggedInUser: SetLoggedInUser,
     getResetToken: PasswordResetToken,
+    getParkingsfrombackend: parkingDataReducer,
+    getHotelsfrombackend: hotelDataReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

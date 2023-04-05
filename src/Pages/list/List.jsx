@@ -1,6 +1,6 @@
 import style from "./list.module.css";
 import Navbar from "../../Components/Navbar/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../../Components/Card/Card";
 // import useFetch from "../../hooks/useFetch";
 import Dates from "../../Components/date/Date";
@@ -13,10 +13,16 @@ const List = () => {
   const { dates } = useSelector((state) => state.searchDate);
   const { options } = useSelector((state) => state.searchOption);
   const { hotel_data } = useSelector((state) => state.getStaticHotels);
+  const { hotelData } = useSelector((state) => state.getHotelsfrombackend);
+  const { c } = useSelector((state) => state.searchVehicle);
+
+  const { adult, children, familyroom, singleroom, twinroom } = options;
+  const checkin = dates[0];
+  const checkout = dates[1];
+
+  console.log(city, dates, options);
 
   const { activePath } = useSelector((state) => state.activePath);
-
-  // console.log("From List", seacrhLoc);
 
   if (window.scroll(0, 0)) {
     document.body.style.width = "100vw";
@@ -61,11 +67,44 @@ const List = () => {
   if (hotel_data) {
     filtered_data = hotel_data.filter(checkCity);
   }
-  console.log(filtered_data);
 
   const handleClick = () => {
     // reFetch();
   };
+
+  const getHotels = async () => {
+    try {
+      const url = `http://localhost:5000/hotels/search?city=${city}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleroom}&twinRoom=${twinroom}&familyRoom=${familyroom}`;
+      const response = await fetch(url, {
+        method: "GET",
+        // credentials: "include",
+      });
+      const { hoteldata } = await response.json();
+      dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
+    } catch (error) {
+      console.log("You get The Error ", error);
+    }
+  };
+  const getHotelAndParking = async () => {
+    try {
+      const url = `http://localhost:5000/hotelandparking/search?city=${cityHotelAndParking}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleroom}&twinRoom=${twinroom}&familyRoom=${familyroom}&vehicles=${c}`;
+      const response = await fetch(url, {
+        method: "GET",
+        // credentials: "include",
+      });
+      const { hoteldata } = await response.json();
+      dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
+    } catch (error) {
+      console.log("You get The Error ", error);
+    }
+  };
+
+  console.log(cityHotelAndParking, c, dates, options);
+
+  useEffect(() => {
+    getHotels();
+    getHotelAndParking();
+  }, [city, dates, options]);
 
   return (
     <div className="container-fluid w-100">
@@ -191,9 +230,7 @@ const List = () => {
                   <Card item={item} key={item._id} />
                 ))} */}
                 {activePath === "hotel" &&
-                  filtered_data.map((item) => (
-                    <Card item={item} key={item._id} />
-                  ))}
+                  hotelData.map((item) => <Card item={item} key={item._id} />)}
                 {activePath === "hotelAndParking" &&
                   filtered_hotel_parking.map((item) => (
                     <Card item={item} key={item._id} />

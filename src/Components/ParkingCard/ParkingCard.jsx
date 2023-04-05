@@ -2,15 +2,18 @@ import React from "react";
 import image from "../../images/listing-01.jpg";
 const ParkingCard = (props) => {
   const {
-    name,
-    description,
-    city,
-    country,
-    total_slots,
-    booked_slots,
-    price,
-    pic,
+    // name,
+    // description,
+    // city,
+    // country,
+    // total_slots,
+    // booked_slots,
+    // price,
+    // pic,
+    availableSlots,
+    parking,
   } = props.data;
+  const { name, city, country, description, price, title, photos } = parking;
   const card = {
     title: "Card title",
     rating: "4.5",
@@ -61,15 +64,36 @@ const ParkingCard = (props) => {
             <span className="visually-hidden">Next</span>
           </button>
         </div> */}
-        <img src={pic} height='220' width='200' className="card-img-top" alt="..." />
+        <img
+          src={photos[0]}
+          height="220"
+          width="200"
+          className="card-img-top"
+          alt="..."
+        />
         <div className="card-body">
           <h4 className="card-title">{name}</h4>
-          <small className="d-block"> <span className="text-primary fw-bold">{city}</span> {country}</small>
-          <small className="d-block"> <span className="text-warning fw-bold">Rating</span>  {card.rating}</small>
-          <p> <span className="fw-bold text-info">{total_slots - booked_slots}</span>  Free Slots </p>
+          <small className="d-block">
+            {" "}
+            <span className="text-primary fw-bold">{city}</span> {country}
+          </small>
+          <small className="d-block">
+            {" "}
+            <span className="text-warning fw-bold">Rating</span> {card.rating}
+          </small>
+          <p>
+            {" "}
+            <span className="fw-bold text-info">{availableSlots}</span> Free
+            Slots{" "}
+          </p>
           <p className="card-text">{description}</p>
           <div className="mt-3 ">
-            <h4 className=""><span className="fw-bold text-dark bg-success rounded-2 px-2 py-1 me-2">Price </span> {price}.00$ </h4>
+            <h4 className="">
+              <span className="fw-bold text-dark bg-success rounded-2 px-2 py-1 me-2">
+                Price{" "}
+              </span>{" "}
+              {price}.00${" "}
+            </h4>
           </div>
         </div>
 

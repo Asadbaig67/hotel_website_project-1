@@ -9,26 +9,31 @@ import StarIcon from "@mui/icons-material/Star";
 const Card = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {
-    name,
-    rating,
-    description,
-    country,
-    pic,
-    price,
-    hotel_name,
-    hotel_rating,
-    hotel_description,
-    hotel_photo,
-    parking_total_slots,
-    parking_booked_slots,
-    hotel_city,
-    hotel_country,
-  } = props.item;
-  const {activePath} = useSelector((state) => state.activePath);
+  const price = 200;
+  // const {
+  //   name,
+  //   rating,
+  //   description,
+  //   country,
+  //   pic,
+  //   price,
+  //   hotel_name,
+  //   hotel_rating,
+  //   hotel_description,
+  //   hotel_photo,
+  //   parking_total_slots,
+  //   parking_booked_slots,
+  //   hotel_city,
+  //   hotel_country,
+  // } = props.item;
+
+  const { hotel, rooms } = props.item;
+  const { name, rating, description, country, city, photos } = hotel;
+
+  const { activePath } = useSelector((state) => state.activePath);
   const { cardData } = useSelector((state) => state.setCardData);
   const { options } = useSelector((state) => state.searchOption);
-  const { city } = useSelector((state) => state.searchCity);
+  // const { city } = useSelector((state) => state.searchCity);
   const { dates } = useSelector((state) => state.searchDate);
 
   // const [value, setValue] = useState(3);
@@ -61,7 +66,9 @@ const Card = (props) => {
       payload: props.item,
     });
     // console.log(props.item);
-    activePath==="hotel"?navigate("/singleHotel"):navigate("/singleHotelAndParking")
+    activePath === "hotel"
+      ? navigate("/singleHotel")
+      : navigate("/singleHotelAndParking");
   };
   // const [card, setCard] = useState({
   //   name: "",
@@ -98,7 +105,7 @@ const Card = (props) => {
       <div className="row">
         <div className="col-md-3 col-xl-3 col-sm-12">
           <div className="h-100 bg-image hover-zoom ripple rounded ripple-surface">
-            <img src={pic ? pic : hotel_photo} className="w-100 h-100" />
+            <img src={photos[0]} className="w-100 h-100" />
             <Link to="/">
               <div className="hover-overlay">
                 <div
@@ -113,11 +120,9 @@ const Card = (props) => {
         </div>
         <div className="col-md-6 col-xl-6 col-sm-12 py-1 px-2">
           <div className="d-flex flex-row justify-content-between">
-            <h5 className="my-xl-0 my-md-0 my-sm-2 flex-grow-1">
-              {name ? name : hotel_name}
-            </h5>
+            <h5 className="my-xl-0 my-md-0 my-sm-2 flex-grow-1">{name}</h5>
             <Box
-            className="justify-content-end"
+              className="justify-content-end"
               sx={{
                 width: 200,
                 display: "flex",
@@ -126,7 +131,7 @@ const Card = (props) => {
             >
               <Rating
                 name="hover-feedback"
-                value={rating ? rating : hotel_rating}
+                value={rating}
                 precision={0.5}
                 getLabelText={getLabelText}
                 // onChange={(event, newValue) => {
@@ -153,12 +158,12 @@ const Card = (props) => {
                 to="/"
                 className="text-primary fs-8 fw-bold my-0 mx-md-0 mx-0"
               >
-                {props.item.city ? props.item.city : hotel_city}
+                {city}
               </Link>
             </span>
             <span>
               <div to="/" className="fs-8 fw-light my-0 mx-1">
-                {country ? country : hotel_country}
+                {country}
               </div>
             </span>
           </div>
@@ -247,7 +252,7 @@ const Card = (props) => {
           </div>
         </div>
       </div>
-      <hr className={`my-4 mx-auto ${style.hr}`}/>
+      <hr className={`my-4 mx-auto ${style.hr}`} />
     </div>
   );
 };

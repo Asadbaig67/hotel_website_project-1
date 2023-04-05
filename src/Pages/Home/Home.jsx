@@ -43,10 +43,8 @@ const Home = (props) => {
             isXtraSmallScreen ? "fs-4" : "fs-3"
           }`}
         >
-          {user ? user.displayName : ""} Find your perfect stay
+          Find your perfect stay
         </h1>
-        <button onClick={getUser}>GetUser</button>
-        {/* <button onClick={logout}>Logout</button> */}
 
         <Featured />
         {/* <h1 className={`${style.homeTitle} container`}>
