@@ -2,7 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
   profileData: {
-    id: 1,
+    _id: 1,
     image:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
     name: "Name Here",

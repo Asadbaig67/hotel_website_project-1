@@ -1,18 +1,91 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { useSelector } from "react-redux";
-import { hotelsHeader } from "../../Utilis/DataTableSource";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  hotelsHeader,
+  userHeader,
+  bookingHeader, 
+} from "../../Utilis/DataTableSource";
 import { Box } from "@mui/material";
+import axios from "axios";
 
-const DataTable = () => {
+const DataTable = ({ url, path }) => {
+  const useFetch = (url) => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        setLoading(true);
+        try {
+          const res = await axios.get(url);
+          setData(res.data);
+        } catch (err) {
+          setError(err);
+        }
+        setLoading(false);
+      };
+      fetchData();
+    }, [url]);
+
+    // const reFetch = async () => {
+    //   setLoading(true);
+    //   try {
+    //     const res = await axios.get(url);
+    //     setData(res.data);
+    //   } catch (err) {
+    //     setError(err);
+    //   }
+    //   setLoading(false);
+    // };
+
+    return { data, loading, error };
+  };
+
+  const { data, loading, error } = useFetch(url);
+
+  const dispatch = useDispatch();
+  dispatch({ type: "SETPROFILEDATA", payload: data });
   const { profileData } = useSelector((state) => state.dataProfile);
   const [list, setList] = useState([]);
+
   useEffect(() => {
-    setList([profileData]);
+    setList(profileData);
   }, [profileData]);
 
-  const handleDelete = () => {};
-  const handleView = () => {};
+  const header =
+    path === "hotels"
+      ? hotelsHeader
+      : path === "users"
+      ? userHeader
+      : bookingHeader;
+
+  const handleDelete = async (id) => {
+    if (path === "hotels") {
+      const data = await axios.delete(
+        `http://localhost:5000/hotels/deletehotel/${id}`
+      );
+    } else if (path === "users") {
+      const data = await axios.delete(
+        `http://localhost:5000/user/delete/${id}`
+      );
+    }
+
+    setList(list.filter((item) => item._id !== id));
+  };
+  const handleView = async (id) => {
+    if (path === "hotels") {
+      const data = await axios.get(
+        `http://localhost:5000/hotels/gethotelbyid/${id}`
+      );
+    } else if (path === "users") {
+      const data = await axios.get(
+        `http://localhost:5000/user/getuserbyid/${id}`
+      );
+      console.log(data.data);
+    }
+  };
   const deleteColumn = [
     {
       field: "delete",
@@ -47,13 +120,11 @@ const DataTable = () => {
       },
     },
   ];
-  // console.log(list);
-  //   setList([profileData]);
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={list}
-        columns={hotelsHeader.concat(viewColumn, deleteColumn)}
+        columns={header.concat(viewColumn, deleteColumn)}
         initialState={{
           pagination: {
             paginationModel: {
@@ -64,6 +135,8 @@ const DataTable = () => {
         pageSizeOptions={[5]}
         checkboxSelection
         disableRowSelectionOnClick
+        getRowId={(row) => row._id}
+        loading={loading}
       />
     </Box>
   );

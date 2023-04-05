@@ -5,9 +5,20 @@ import Sidebar from "../../Components/adminSidebar/Sidebar";
 import Dropdown from "../../Components/Filterdropdown/FilterDropdown";
 import { useLocation } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
+
 const HotelsList = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
+  let url = "";
+  if (path === "hotels") {
+    url = "http://localhost:5000/hotels/getallhotels";
+  } else if (path === "users") {
+    url = "http://localhost:5000/user/getall";
+  } else if (path === "booking") {
+    url = "http://localhost:5000/booking/getBooking";
+  } else {
+    url = "";
+  }
   const IsMedium = useMediaQuery("(max-width:1000px)");
   const IsMobile = useMediaQuery("(max-width:768px)");
 
@@ -53,7 +64,7 @@ const HotelsList = () => {
           <div className="col-md-12">
             <h2 className="fs-4 my-2">Results</h2>
           </div>
-          <DataTable />
+          <DataTable url={url} path={path} />
         </div>
       </div>
     </>

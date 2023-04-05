@@ -34,7 +34,7 @@ function App() {
 
   return (
     <>
-      <Routes>
+      {/* <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/forgetpassword" element={<Forgetpass />} />
@@ -54,7 +54,7 @@ function App() {
         <Route path="/listproperty" element={<Listing />} />
         <Route path="/roomcard" element={<Roomcard />} />
 
-      </Routes>
+      </Routes> */}
 
       <Routes>
 
