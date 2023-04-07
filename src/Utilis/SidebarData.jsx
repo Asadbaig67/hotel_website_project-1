@@ -3,8 +3,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import PendingIcon from '@mui/icons-material/Pending';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import PendingIcon from "@mui/icons-material/Pending";
 import { ElectricBike, Hotel } from "@mui/icons-material";
 
 //For admin
@@ -45,18 +45,32 @@ export const SidebarDataAdminProfile = [
     icon: <Hotel />,
     link: "/HotelsAndParkings",
   },
-
-  {
-    key: 11,
-    title: "Pending Requests",
-    icon: <PendingIcon  />,
-    link: "/hotelRequests",
-  },
   {
     key: "a",
     title: "Bookings",
     icon: <BusinessCenterIcon />,
     link: "/booking",
+  },
+];
+
+export const SidebarDataAdminProfilePending = [
+  {
+    key: 11,
+    title: "Hotels",
+    icon: <PendingIcon />,
+    link: "/hotelRequests",
+  },
+  {
+    key: 12,
+    title: "Parkings",
+    icon: <PendingIcon />,
+    link: "/parkingRequests",
+  },
+  {
+    key: 13,
+    title: "Hotel and Parkings",
+    icon: <PendingIcon />,
+    link: "/hotelAndParkingRequests",
   },
 ];
 

@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import {
-  hotelsHeader,
-  userHeader,
-  bookingHeader,
-  parkingHeader,
-  hotelAndParkingHeader,
-} from "../../Utilis/DataTableSource";
+import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
 import axios from "axios";
 
 const DataTable = ({ url, path }) => {
-  let header;
+  const { header } = useSelector((state) => state.setHeader);
   const useFetch = (url) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -53,21 +47,8 @@ const DataTable = ({ url, path }) => {
     setList(data);
   }, [data]);
 
-  header =
-    path === "hotels"
-      ? hotelsHeader
-      : path === "users"
-      ? userHeader
-      : path === "booking"
-      ? bookingHeader
-      : path === "parkings"
-      ? parkingHeader
-      : path === "HotelsAndParkings"
-      ? hotelAndParkingHeader
-      : null;
-
   const handleDelete = async (id) => {
-    if (path === "hotels") {
+    if (path === "hotels" || path === "hotelRequests") {
       const data = await axios.delete(
         `http://localhost:5000/hotels/deletehotel/${id}`
       );
@@ -75,11 +56,14 @@ const DataTable = ({ url, path }) => {
       const data = await axios.delete(
         `http://localhost:5000/user/delete/${id}`
       );
-    } else if (path === "parkings") {
+    } else if (path === "parkings" || path === "parkingRequests") {
       const data = await axios.delete(
         `http://localhost:5000/parking/deleteparking/${id}`
       );
-    } else if (path === "HotelsAndParkings") {
+    } else if (
+      path === "HotelsAndParkings" ||
+      path === "HotelsAndParkingsRequests"
+    ) {
       const data = await axios.delete(
         `http://localhost:5000/hotelandparking/deletehotelandparking/${id}`
       );
@@ -88,7 +72,7 @@ const DataTable = ({ url, path }) => {
     setList(list.filter((item) => item._id !== id));
   };
   const handleView = async (id) => {
-    if (path === "hotels") {
+    if (path === "hotels" || path === "hotelRequests") {
       const data = await axios.get(
         `http://localhost:5000/hotels/gethotelbyid/${id}`
       );
@@ -96,15 +80,35 @@ const DataTable = ({ url, path }) => {
       const data = await axios.get(
         `http://localhost:5000/user/getuserbyid/${id}`
       );
-    } else if (path === "parkings") {
+    } else if (path === "parkings" || path === "parkingRequests") {
       const data = await axios.get(
         `http://localhost:5000/parking/getParkingById/${id}`
       );
-    } else if (path === "HotelsAndParkings") {
+    } else if (
+      path === "HotelsAndParkings" ||
+      path === "HotelsAndParkingsRequests"
+    ) {
       const data = await axios.get(
         `http://localhost:5000/hotelandparking/gethotelandparkingbyid/${id}`
       );
     }
+  };
+
+  const handleApprove = async (id) => {
+    if (path === "hotelRequests") {
+      const data = await axios.put(
+        `http://localhost:5000/hotels/approvehotel/${id}`
+      );
+    } else if (path === "parkingRequests") {
+      const data = await axios.put(
+        `http://localhost:5000/parking/approveParking/${id}`
+      );
+    } else if (path === "HotelsAndParkingsRequests") {
+      const data = await axios.put(
+        `http://localhost:5000/hotelandparking/approveHotelAndParking/${id}}`
+      );
+    }
+    setList(list.filter((item) => item._id !== id));
   };
   const deleteColumn = [
     {
@@ -140,11 +144,29 @@ const DataTable = ({ url, path }) => {
       },
     },
   ];
+  const approveColumn = [
+    {
+      field: "approve",
+      headerName: "",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <button
+            className="btn btn-primary"
+            onClick={() => handleApprove(params.row._id)}
+          >
+            Approve
+          </button>
+        );
+      },
+    },
+  ];
+
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={list}
-        columns={header.concat(viewColumn, deleteColumn)}
+        columns={header.concat(viewColumn, deleteColumn, approveColumn)}
         initialState={{
           pagination: {
             paginationModel: {
