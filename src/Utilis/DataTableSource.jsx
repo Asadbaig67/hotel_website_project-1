@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getHotelName = async (params) => {
+const getHotelName = async (params) => {
   const hotel = await axios.get(
     `http://localhost:5000/hotels/gethotelbyid/${params.row.hotelId}`
   );
@@ -12,6 +12,7 @@ const getUserName = async (params) => {
   const user = await axios.get(
     `http://localhost:5000/user/getuserbyid/${params.row.userId}`
   );
+  return "Hassaan";
   // const data = `${user.data.firstName || ""} ${user.data.lastName || ""}`;
   // return data;
 };
@@ -47,6 +48,25 @@ export const hotelsHeader = [
   { field: "country", headerName: "Country", width: 130 },
 ];
 
+export const parkingHeader = [
+  { field: "_id", headerName: "ID", width: 100 },
+  { field: "name", headerName: "Name", width: 130 },
+  { field: "title", headerName: "Title", width: 130 },
+  { field: "address", headerName: "Address", width: 130 },
+  { field: "city", headerName: "City", width: 130 },
+  { field: "country", headerName: "Country", width: 130 },
+];
+
+export const hotelAndParkingHeader = [
+  { field: "_id", headerName: "ID", width: 100 },
+  { field: "hotel_name", headerName: "Hotel Name", width: 130 },
+  { field: "parking_name", headerName: "Parking Name", width: 130 },
+  { field: "hotel_address", headerName: "Address", width: 130 },
+  { field: "hotel_city", headerName: "City", width: 130 },
+  { field: "hotel_country", headerName: "Country", width: 130 },
+  { field: "hotel_rating", headerName: "Ratings", width: 130 },
+];
+
 export const bookingHeader = [
   { field: "_id", headerName: "ID", width: 100 },
   { field: "Booking_type", headerName: "Booking Type", width: 100 },
@@ -76,3 +96,4 @@ export const bookingHeader = [
   },
   { field: "totalPrice", headerName: "Total Price", width: 130 },
 ];
+

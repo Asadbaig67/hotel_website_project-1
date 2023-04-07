@@ -5,7 +5,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PendingIcon from '@mui/icons-material/Pending';
-import { Hotel } from "@mui/icons-material";
+import { ElectricBike, Hotel } from "@mui/icons-material";
 
 //For admin
 export const SidebarDataAdminProfile = [
@@ -34,6 +34,19 @@ export const SidebarDataAdminProfile = [
     link: "/hotels",
   },
   {
+    key: 5,
+    title: "Parkings",
+    icon: <ElectricBike />,
+    link: "/parkings",
+  },
+  {
+    key: 6,
+    title: "Hotels and Parkings",
+    icon: <Hotel />,
+    link: "/HotelsAndParkings",
+  },
+
+  {
     key: 11,
     title: "Pending Requests",
     icon: <PendingIcon  />,
@@ -60,12 +73,6 @@ export const SidebarDataPatnerProfile = [
     title: "Profile",
     icon: <AccountCircleIcon />,
     link: "/profile",
-  },
-  {
-    key: 9,
-    title: "Users",
-    icon: <PersonIcon />,
-    link: "/users",
   },
   {
     key: 10,

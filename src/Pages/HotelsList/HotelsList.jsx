@@ -16,8 +16,10 @@ const HotelsList = () => {
     url = "http://localhost:5000/user/getall";
   } else if (path === "booking") {
     url = "http://localhost:5000/booking/getBooking";
-  } else {
-    url = "";
+  } else if (path === "parkings") {
+    url = "http://localhost:5000/parking/getallparkings";
+  } else if (path === "HotelsAndParkings") {
+    url = "http://localhost:5000/hotelandparking/getallhotelandparkings";
   }
   const IsMedium = useMediaQuery("(max-width:1000px)");
   const IsMobile = useMediaQuery("(max-width:768px)");
@@ -33,6 +35,10 @@ const HotelsList = () => {
             <h2 className="fs-1 mb-2 mt-4">Users</h2>
           ) : path === "booking" ? (
             <h2 className="fs-1 mb-2 mt-4">Bookings</h2>
+          ) : path === "parkings" ? (
+            <h2 className="fs-1 mb-2 mt-4">Parkings</h2>
+          ) : path === "HotelsAndParkings" ? (
+            <h2 className="fs-1 mb-2 mt-4">Hotels and Parkings</h2>
           ) : (
             <h2 className="fs-1 mb-2 mt-4">Pending Requests</h2>
           )}

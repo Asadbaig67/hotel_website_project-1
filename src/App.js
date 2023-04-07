@@ -64,6 +64,10 @@ function App() {
         <Route path="/users" element={<HotelsList />} />
         <Route path="/booking" element={<HotelsList />} />
         <Route path="/hotelRequests" element={<HotelsList />} />
+        <Route path="/HotelsAndParkings" element={<HotelsList />} />
+        <Route path="/parkings" element={<HotelsList />} />
+
+
 
         <Route path="/profiledata" element={<ProfileDataForm />} />
         <Route path="/maps" element={<Reactmaps />} />

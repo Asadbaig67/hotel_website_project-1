@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { useSelector, useDispatch } from "react-redux";
 import {
   hotelsHeader,
   userHeader,
-  bookingHeader, 
+  bookingHeader,
+  parkingHeader,
+  hotelAndParkingHeader,
 } from "../../Utilis/DataTableSource";
 import { Box } from "@mui/material";
 import axios from "axios";
 
 const DataTable = ({ url, path }) => {
+  let header;
   const useFetch = (url) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -45,21 +47,24 @@ const DataTable = ({ url, path }) => {
 
   const { data, loading, error } = useFetch(url);
 
-  const dispatch = useDispatch();
-  dispatch({ type: "SETPROFILEDATA", payload: data });
-  const { profileData } = useSelector((state) => state.dataProfile);
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    setList(profileData);
-  }, [profileData]);
+    setList(data);
+  }, [data]);
 
-  const header =
+  header =
     path === "hotels"
       ? hotelsHeader
       : path === "users"
       ? userHeader
-      : bookingHeader;
+      : path === "booking"
+      ? bookingHeader
+      : path === "parkings"
+      ? parkingHeader
+      : path === "HotelsAndParkings"
+      ? hotelAndParkingHeader
+      : null;
 
   const handleDelete = async (id) => {
     if (path === "hotels") {
@@ -69,6 +74,14 @@ const DataTable = ({ url, path }) => {
     } else if (path === "users") {
       const data = await axios.delete(
         `http://localhost:5000/user/delete/${id}`
+      );
+    } else if (path === "parkings") {
+      const data = await axios.delete(
+        `http://localhost:5000/parking/deleteparking/${id}`
+      );
+    } else if (path === "HotelsAndParkings") {
+      const data = await axios.delete(
+        `http://localhost:5000/hotelandparking/deletehotelandparking/${id}`
       );
     }
 
@@ -83,7 +96,14 @@ const DataTable = ({ url, path }) => {
       const data = await axios.get(
         `http://localhost:5000/user/getuserbyid/${id}`
       );
-      console.log(data.data);
+    } else if (path === "parkings") {
+      const data = await axios.get(
+        `http://localhost:5000/parking/getParkingById/${id}`
+      );
+    } else if (path === "HotelsAndParkings") {
+      const data = await axios.get(
+        `http://localhost:5000/hotelandparking/gethotelandparkingbyid/${id}`
+      );
     }
   };
   const deleteColumn = [
