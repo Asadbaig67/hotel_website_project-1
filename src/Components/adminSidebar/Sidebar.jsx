@@ -3,6 +3,7 @@ import style from "./Sidebar.module.css";
 import Navbar from "../adminNavbar/Navbar";
 import {
   SidebarDataAdminProfile,
+  SidebarDataAdminProfilePending,
   SidebarDataPatnerProfile,
   SidebarDataUserProfile,
   SidebarDataLogout,
@@ -126,6 +127,18 @@ export default function Sidebar() {
                   : view === "patner"
                   ? sidebarProfile(SidebarDataPatnerProfile)
                   : sidebarProfile(SidebarDataUserProfile)}
+                {view === "admin" ? (
+                  <>
+                    <h3
+                      className={`${style.nav__subtitle} text-${
+                        mode === "dark" ? "light" : "dark"
+                      }`}
+                    >
+                      Pending Requests
+                    </h3>
+                    {sidebarProfile(SidebarDataAdminProfilePending)}
+                  </>
+                ) : null}
               </div>
             </div>
           </div>
