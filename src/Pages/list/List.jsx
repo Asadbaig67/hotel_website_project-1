@@ -13,7 +13,6 @@ const List = () => {
   const { dates } = useSelector((state) => state.searchDate);
   const { options } = useSelector((state) => state.searchOption);
   const { hotel_data } = useSelector((state) => state.getStaticHotels);
-  const { hotelData } = useSelector((state) => state.getHotelsfrombackend);
   const { c } = useSelector((state) => state.searchVehicle);
 
   const { adult, children, familyroom, singleroom, twinroom } = options;
@@ -80,31 +79,37 @@ const List = () => {
         // credentials: "include",
       });
       const { hoteldata } = await response.json();
-      dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
+
+      if (hoteldata.length === 0) {
+        alert("No Hotel Found");
+      } else {
+        dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
+      }
     } catch (error) {
       console.log("You get The Error ", error);
     }
   };
-  const getHotelAndParking = async () => {
-    try {
-      const url = `http://localhost:5000/hotelandparking/search?city=${cityHotelAndParking}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleroom}&twinRoom=${twinroom}&familyRoom=${familyroom}&vehicles=${c}`;
-      const response = await fetch(url, {
-        method: "GET",
-        // credentials: "include",
-      });
-      const { hoteldata } = await response.json();
-      dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
-    } catch (error) {
-      console.log("You get The Error ", error);
-    }
-  };
+  // const getHotelAndParking = async () => {
+  //   try {
+  //     const url = `http://localhost:5000/hotelandparking/search?city=${cityHotelAndParking}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleroom}&twinRoom=${twinroom}&familyRoom=${familyroom}&vehicles=${c}`;
+  //     const response = await fetch(url, {
+  //       method: "GET",
+  //       // credentials: "include",
+  //     });
+  //     const { hoteldata } = await response.json();
+  //     dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
+  //   } catch (error) {
+  //     console.log("You get The Error ", error);
+  //   }
+  // };
 
-  console.log(cityHotelAndParking, c, dates, options);
+  // console.log(cityHotelAndParking, c, dates, options);
+  getHotels();
 
-  useEffect(() => {
-    getHotels();
-    getHotelAndParking();
-  }, [city, dates, options]);
+  const { hotelData } = useSelector((state) => state.getHotelsfrombackend);
+  console.log(hotelData);
+
+  useEffect(() => {}, [city, dates, options]);
 
   return (
     <div className="container-fluid w-100">
@@ -223,7 +228,7 @@ const List = () => {
           </div>
           <div className={`col-8 ${style.listResult}`}>
             {loading ? (
-              "Loading please wait"
+              <h1>Loading Data Please Hold</h1>
             ) : (
               <>
                 {/* {hotel_data.map((item) => (
