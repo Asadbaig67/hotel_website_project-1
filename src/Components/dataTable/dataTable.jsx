@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Box } from "@mui/material";
 import axios from "axios";
 
 const DataTable = ({ url, path }) => {
   const { header } = useSelector((state) => state.setHeader);
+  const dispatch = useDispatch();
+  // const {view}=useSelector((state)=>state.view)
   const useFetch = (url) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -48,68 +50,65 @@ const DataTable = ({ url, path }) => {
   }, [data]);
 
   const handleDelete = async (id) => {
+    let data;
     if (path === "hotels" || path === "hotelRequests") {
-      const data = await axios.delete(
+      data = await axios.delete(
         `http://localhost:5000/hotels/deletehotel/${id}`
       );
     } else if (path === "users") {
-      const data = await axios.delete(
-        `http://localhost:5000/user/delete/${id}`
-      );
+      data = await axios.delete(`http://localhost:5000/user/delete/${id}`);
     } else if (path === "parkings" || path === "parkingRequests") {
-      const data = await axios.delete(
+      data = await axios.delete(
         `http://localhost:5000/parking/deleteparking/${id}`
       );
     } else if (
       path === "HotelsAndParkings" ||
-      path === "HotelsAndParkingsRequests"
+      path === "hotelAndParkingRequests"
     ) {
-      const data = await axios.delete(
+      data = await axios.delete(
         `http://localhost:5000/hotelandparking/deletehotelandparking/${id}`
       );
     }
-
-    setList(list.filter((item) => item._id !== id));
+    if (data) setList(list.filter((item) => item._id !== id));
   };
+
   const handleView = async (id) => {
+    let data;
     if (path === "hotels" || path === "hotelRequests") {
-      const data = await axios.get(
-        `http://localhost:5000/hotels/gethotelbyid/${id}`
-      );
+      data = await axios.get(`http://localhost:5000/hotels/gethotelbyid/${id}`);
     } else if (path === "users") {
-      const data = await axios.get(
-        `http://localhost:5000/user/getuserbyid/${id}`
-      );
+      data = await axios.get(`http://localhost:5000/user/getuserbyid/${id}`);
     } else if (path === "parkings" || path === "parkingRequests") {
-      const data = await axios.get(
+      data = await axios.get(
         `http://localhost:5000/parking/getParkingById/${id}`
       );
     } else if (
       path === "HotelsAndParkings" ||
-      path === "HotelsAndParkingsRequests"
+      path === "hotelAndParkingRequests"
     ) {
-      const data = await axios.get(
+      data = await axios.get(
         `http://localhost:5000/hotelandparking/gethotelandparkingbyid/${id}`
       );
     }
+    console.log(data);
   };
 
   const handleApprove = async (id) => {
+    let data;
     if (path === "hotelRequests") {
-      const data = await axios.put(
-        `http://localhost:5000/hotels/approvehotel/${id}`
-      );
+      data = await axios.put(`http://localhost:5000/hotels/approvehotel/${id}`);
     } else if (path === "parkingRequests") {
-      const data = await axios.put(
+      data = await axios.put(
         `http://localhost:5000/parking/approveParking/${id}`
       );
-    } else if (path === "HotelsAndParkingsRequests") {
-      const data = await axios.put(
-        `http://localhost:5000/hotelandparking/approveHotelAndParking/${id}}`
+    } else if (path === "hotelAndParkingRequests") {
+      data = await axios.put(
+        `http://localhost:5000/hotelandparking/approveHotelAndParking/${id}`
       );
     }
-    setList(list.filter((item) => item._id !== id));
+    if (data) setList(list.filter((item) => item._id !== id));
   };
+
   const deleteColumn = [
     {
       field: "delete",

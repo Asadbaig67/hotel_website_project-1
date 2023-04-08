@@ -60,7 +60,7 @@ function App() {
 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
-        
+
         <Route path="/hotels" element={<HotelsList />} />
         <Route path="/users" element={<HotelsList />} />
         <Route path="/booking" element={<HotelsList />} />
@@ -74,7 +74,7 @@ function App() {
 
         <Route path="/profiledata" element={<ProfileDataForm />} />
         <Route path="/maps" element={<Reactmaps />} />
-        <Route path="/hotelform" element={<AddHotelForm />} />
+        {/* <Route path="/hotelform" element={<AddHotelForm />} /> */}
         <Route path="/parkingform" element={<AddParkingForm />} />
         <Route path="/hotelparkingform" element={<AddHotelParkingForm />} />
         <Route path="/roomform" element={<AddRoomForm />} />
