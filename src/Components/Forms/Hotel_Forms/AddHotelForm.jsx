@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import FormData from "form-data";
+import { useSelector } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { FormDataEncoder } from "form-data-encoder";
+
+// import form-data-encoder from 'form-data-encoder';
 import "./addhotel.css";
 
 const AddHotelForm = () => {
@@ -20,8 +24,6 @@ const AddHotelForm = () => {
     address: "",
   });
 
-  const [imagePreview, setImagePreview] = useState([]);
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormValues((prevValues) => ({
@@ -30,68 +32,71 @@ const AddHotelForm = () => {
     }));
   };
 
-  const [singlefile, setsingleFile] = useState();
+  const [files, setFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
-  const selectsingleimg = (e) => {
-    setsingleFile(e.target.files[0]);
-  };
+  // const handleFileInputChange = (event) => {
+  //   setFiles([...event.target.files]);
+  // };
+
   const onSelectFile = (event) => {
     // Get the selected files from the input element
-    const selectedFiles = event.target.files;
+    setFiles([...event.target.files]);
 
+    // Get the selected files from the input element
+    const selectedFiles = event.target.files;
     // Convert the FileList object to an Array
     const selectedFilesArray = Array.from(selectedFiles);
-
     // Map over the array of files and return a new array of objects of the desired shape
     let imagesArray = selectedFilesArray.map((file) => {
       return URL.createObjectURL(file);
     });
 
-    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-
-    // FOR BUG IN CHROME
-    event.target.value = "";
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      photos: [...prevValues.photos, ...imagesArray],
+    }));
   };
-
-  // Function to remove an image from the array of images
   function deleteHandler(image) {
-    setSelectedImages(selectedImages.filter((e) => e !== image));
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      photos: formValues.photos.filter((e) => e !== image),
+    }));
     URL.revokeObjectURL(image);
   }
 
-  const dispatch = useDispatch();
-  const { userdata, titlefile } = useSelector((state) => state.setpropertyData);
-
-  const [user, setUser] = useState({
-    name: "",
-    city: "",
-    title: "",
-    type: "",
-    description: "",
-  });
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-
-    setUser({ ...user, [e.target.name]: value });
-  };
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    dispatch({
-      type: "setuserdata",
-      payload: user,
-    });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(formValues);
-    // Submit form data to API or perform other actions
-  };
-
   const { mode } = useSelector((state) => state.mode);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("name", formValues.name);
+    formData.append("title", formValues.title);
+    formData.append("rating", formValues.rating);
+    formData.append("description", formValues.desc);
+    formData.append("city", formValues.city);
+    formData.append("country", formValues.country);
+    formData.append("address", formValues.address);
+
+    // Append each photo in the photos array to the FormData object
+    for (let i = 0; i < files.length; i++) {
+      formData.append("photos", files[i]);
+    }
+    const url = "http://localhost:5000/hotels/addhotel";
+
+    const options = {
+      method: "POST",
+      body: formData,
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className={`container  ${IsMobile ? "" : "w-50"} `}>
@@ -113,7 +118,7 @@ const AddHotelForm = () => {
               id="validationCustom01"
               value={formValues.name}
               required
-              onchange={handleInputChange}
+              onChange={handleInputChange}
             />
           </div>
           <div className="col-md-6">
@@ -129,7 +134,7 @@ const AddHotelForm = () => {
               name="title"
               value={formValues.title}
               required
-              onchange={handleInputChange}
+              onChange={handleInputChange}
             />
           </div>
         </div>
@@ -147,15 +152,22 @@ const AddHotelForm = () => {
               name="rating"
               value={formValues.rating}
               required
-              onchange={handleInputChange}
+              onChange={handleInputChange}
             />
           </div>
           <div className="row">
-            <label htmlFor="" className={`labels mt-2 text-${mode === "light" ? "dark" : "light"}`}>Upload Images</label>
+            <label
+              htmlFor=""
+              className={`labels mt-2 text-${
+                mode === "light" ? "dark" : "light"
+              }`}
+            >
+              Upload Images
+            </label>
             <div className="col-md-12 col-sm-4">
               <div className="image-selector">
-                {selectedImages &&
-                  selectedImages.map((image, index) => {
+                {formValues.photos &&
+                  formValues.photos.map((image, index) => {
                     return (
                       <div key={image} className={`image-preview mx-1 my-1`}>
                         <img
@@ -205,12 +217,13 @@ const AddHotelForm = () => {
               selectedImages.length < 10 ? "d-none" : ""
             } text-center my-3`}
           >
-            {selectedImages.length > 0 &&
-              (selectedImages.length > 10 ? (
+            {formValues.photos.length > 0 &&
+              (formValues.photos.length > 10 ? (
                 <p className="text-danger">
                   You can't upload more than 10 images! <br />
                   <span>
-                    please delete <b> {selectedImages.length - 10} </b> of them
+                    please delete <b> {formValues.photos.length - 10} </b> of
+                    them
                   </span>
                 </p>
               ) : (
@@ -218,11 +231,11 @@ const AddHotelForm = () => {
                   <button
                     className={`btn btn-primary btn-md`}
                     onClick={() => {
-                      console.log(selectedImages);
+                      console.log(formValues.photos);
                     }}
                   >
-                    UPLOAD {selectedImages.length} IMAGE
-                    {selectedImages.length === 1 ? "" : "S"}
+                    UPLOAD {formValues.photos.length} IMAGE
+                    {formValues.photos.length === 1 ? "" : "S"}
                   </button>
                 </div>
               ))}
@@ -239,7 +252,7 @@ const AddHotelForm = () => {
               value={formValues.desc}
               name="desc"
               required
-              onchange={handleInputChange}
+              onChange={handleInputChange}
             />
           </div>
 
@@ -256,7 +269,7 @@ const AddHotelForm = () => {
               value={formValues.address}
               name="address"
               required
-              onchange={handleInputChange}
+              onChange={handleInputChange}
             />
           </div>
         </div>
@@ -274,7 +287,7 @@ const AddHotelForm = () => {
               value={formValues.country}
               name="country"
               required
-              onchange={handleInputChange}
+              onChange={handleInputChange}
             />
           </div>
           <div className="col-md-6">
@@ -290,12 +303,19 @@ const AddHotelForm = () => {
               value={formValues.city}
               name="city"
               required
-              onchange={handleInputChange}
+              onChange={handleInputChange}
             />
           </div>
         </div>
         <div className="mt-5 text-center">
-          <button className="btn btn-primary btn-md profile-button mb-4" type="submit">
+          <button
+            className="btn btn-primary btn-md profile-button mb-4"
+            type="submit"
+            disabled={
+              formValues.photos.length > 10 && formValues.photos.length < 3
+            }
+            onClick={handleSubmit}
+          >
             Add Hotel
           </button>
         </div>
