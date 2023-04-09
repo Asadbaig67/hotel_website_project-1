@@ -63,6 +63,7 @@ const AddHotelForm = () => {
       photos: formValues.photos.filter((e) => e !== image),
     }));
     URL.revokeObjectURL(image);
+    setFiles((prevFiles) => prevFiles.filter((e) => e !== image));
   }
 
   const { mode } = useSelector((state) => state.mode);

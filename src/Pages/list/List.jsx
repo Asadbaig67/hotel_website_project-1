@@ -6,6 +6,7 @@ import Card from "../../Components/Card/Card";
 import Dates from "../../Components/date/Date";
 import Footer from "../../Components/footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 const List = () => {
   const dispatch = useDispatch();
@@ -78,13 +79,10 @@ const List = () => {
         method: "GET",
         // credentials: "include",
       });
-      const { hoteldata } = await response.json();
-
-      if (hoteldata.length === 0) {
-        alert("No Hotel Found");
-      } else {
-        dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
-      }
+      // const hoteldata = await axios.get(url);
+      const hoteldata = await response.json();
+      console.log(hoteldata);
+      dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
     } catch (error) {
       console.log("You get The Error ", error);
     }
@@ -104,12 +102,13 @@ const List = () => {
   // };
 
   // console.log(cityHotelAndParking, c, dates, options);
-  getHotels();
 
   const { hotelData } = useSelector((state) => state.getHotelsfrombackend);
-  console.log(hotelData);
+  // console.log(hotelData);
 
-  useEffect(() => {}, [city, dates, options]);
+  useEffect(() => {
+    getHotels();
+  }, [city, dates, options]);
 
   return (
     <div className="container-fluid w-100">
@@ -227,13 +226,10 @@ const List = () => {
             </button>
           </div>
           <div className={`col-8 ${style.listResult}`}>
-            {loading ? (
+            {!hotelData ? (
               <h1>Loading Data Please Hold</h1>
             ) : (
               <>
-                {/* {hotel_data.map((item) => (
-                  <Card item={item} key={item._id} />
-                ))} */}
                 {activePath === "hotel" &&
                   hotelData.map((item) => <Card item={item} key={item._id} />)}
                 {activePath === "hotelAndParking" &&

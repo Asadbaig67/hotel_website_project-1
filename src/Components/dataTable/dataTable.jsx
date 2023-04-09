@@ -166,7 +166,7 @@ const DataTable = ({ url, path }) => {
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={list}
-        columns={header.concat(viewColumn, deleteColumn, approveColumn)}
+        columns={header.concat(viewColumn, deleteColumn)}
         initialState={{
           pagination: {
             paginationModel: {

@@ -18,6 +18,7 @@ import Roomcard from "./Components/RoomCard/Roomcard";
 import ParkingList from "./Pages/ParkingList/ParkingList";
 import HotelAndParking from "./Pages/HotelAndParking/HotelAndParking";
 import Reactmaps from "./Components/Map/reactMaps";
+import Loader from "./Components/Loader/Loader";
 
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Profile from "./Pages/Profile/Profile";
@@ -34,7 +35,7 @@ function App() {
 
   return (
     <>
-      {/* <Routes>
+      <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/forgetpassword" element={<Forgetpass />} />
@@ -46,6 +47,7 @@ function App() {
         <Route path="/addHotel" element={<HotelForm />} />
         <Route path="/addRoom" element={<RoomForm />} />
         <Route path="/parking" element={<Parking />} />
+        <Route path="/loader" element={<Loader />} />
         <Route path="/ParkingList" element={<ParkingList />} />
         <Route path="/HotelAndParking" element={<HotelAndParking />} />
         <Route path="/HotelAndParkingList" element={<List />} />
@@ -53,10 +55,14 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/listproperty" element={<Listing />} />
         <Route path="/roomcard" element={<Roomcard />} />
+        <Route path="/hotelform" element={<AddHotelForm />} />
+        <Route path="/parkingform" element={<AddParkingForm />} />
+        <Route path="/parkingform" element={<AddParkingForm />} />
+        <Route path="/hotelparkingform" element={<AddHotelParkingForm />} />
 
-      </Routes> */}
+      </Routes>
 
-      <Routes>
+      {/* <Routes>
 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
@@ -80,7 +86,7 @@ function App() {
         <Route path="/roomform" element={<AddRoomForm />} />
         <Route path="/hotelbooking" element={<HotelBooking />} />
 
-      </Routes>
+      </Routes> */}
 
     </>
   );
