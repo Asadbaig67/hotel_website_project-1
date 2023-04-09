@@ -12,50 +12,91 @@ const AddParkingForm = () => {
   const [formValues, setFormValues] = useState({
     name: "",
     title: "",
-    total_slots: "",
-    booked_slots: "",
-    desc: "",
+    total_slots: 0,
+    booked_slots: 0,
+    description: "",
     photos: [],
     city: "",
+    price: 0,
     country: "",
     address: "",
   });
 
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
     setFormValues({
       ...formValues,
       [event.target.name]: value,
     });
   };
 
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [files, setFiles] = useState([]);
 
   const onSelectFile = (event) => {
+    // Get the selected files and also previous file
+    setFiles((prevFiles) => [...prevFiles, ...event.target.files]);
     // Get the selected files from the input element
     const selectedFiles = event.target.files;
 
     // Convert the FileList object to an Array
     const selectedFilesArray = Array.from(selectedFiles);
-
     // Map over the array of files and return a new array of objects of the desired shape
     let imagesArray = selectedFilesArray.map((file) => {
       return URL.createObjectURL(file);
     });
-
-    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-
-    // FOR BUG IN CHROME
-    event.target.value = "";
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      photos: [...prevValues.photos, ...imagesArray],
+    }));
   };
 
   // Function to remove an image from the array of images
   function deleteHandler(image) {
-    setSelectedImages(selectedImages.filter((e) => e !== image));
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      photos: formValues.photos.filter((e) => e !== image),
+    }));
     URL.revokeObjectURL(image);
+    // Also delete from files array
+    // setFiles((prevFiles) => {
+    //   return prevFiles.filter((file) => file !== image);
+    // });
   }
 
   const { mode } = useSelector((state) => state.mode);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("name", formValues.name);
+    formData.append("title", formValues.title);
+    formData.append("total_slots", formValues.total_slots);
+    formData.append("booked_slots", formValues.booked_slots);
+    formData.append("description", formValues.description);
+    formData.append("price", formValues.price);
+    formData.append("city", formValues.city);
+    formData.append("country", formValues.country);
+    formData.append("address", formValues.address);
+
+    // Append each photo in the photos array to the FormData object
+    for (let i = 0; i < files.length; i++) {
+      formData.append("photos", files[i]);
+    }
+    const url = "http://localhost:5000/parking/addparking";
+
+    const options = {
+      method: "POST",
+      body: formData,
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className={`container  ${IsMobile ? "" : "w-50"} `}>
@@ -134,90 +175,6 @@ const AddParkingForm = () => {
           </div>
         </div>
         <div className="row">
-          <div className="row">
-            <label
-              htmlFor=""
-              className={`labels mt-2 text-${
-                mode === "light" ? "dark" : "light"
-              }`}
-            >
-              Upload Images
-            </label>
-            <div className="col-md-12 col-sm-4">
-              <div className="image-selector">
-                {selectedImages &&
-                  selectedImages.map((image, index) => {
-                    return (
-                      <div key={image} className={`image-preview mx-1 my-1`}>
-                        <img
-                          className="preview-image"
-                          src={image}
-                          alt="upload"
-                        />
-                        <div className="image-overlay d-flex flex-row justify-content-between">
-                          <p className="image-number text-light ms-1">
-                            {index + 1}
-                          </p>
-                          <IconButton
-                            aria-label="delete"
-                            size="small"
-                            className="delete-button"
-                          >
-                            <DeleteIcon
-                              className="text-light me-1"
-                              onClick={() => deleteHandler(image)}
-                              fontSize="small"
-                            />
-                          </IconButton>
-                        </div>
-                      </div>
-                    );
-                  })}
-                <IconButton
-                  color="secondary"
-                  aria-label="upload picture"
-                  component="label"
-                  className="add-button"
-                >
-                  <input
-                    hidden
-                    onChange={onSelectFile}
-                    accept="image/png , image/jpeg"
-                    type="file"
-                    multiple
-                  />
-                  <AddPhotoAlternateIcon />
-                </IconButton>
-              </div>
-            </div>
-          </div>
-          <div
-            className={`container ${
-              selectedImages.length < 10 ? "d-none" : ""
-            } text-center my-3`}
-          >
-            {selectedImages.length > 0 &&
-              (selectedImages.length > 10 ? (
-                <p className="text-danger">
-                  You can't upload more than 10 images! <br />
-                  <span>
-                    please delete <b> {selectedImages.length - 10} </b> of them
-                  </span>
-                </p>
-              ) : (
-                <div className="">
-                  <button
-                    className={`btn btn-primary btn-md`}
-                    onClick={() => {
-                      console.log(selectedImages);
-                    }}
-                  >
-                    UPLOAD {selectedImages.length} IMAGE
-                    {selectedImages.length === 1 ? "" : "S"}
-                  </button>
-                </div>
-              ))}
-          </div>
           <div className="col-md-12 mt-2">
             <label
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
@@ -227,14 +184,14 @@ const AddParkingForm = () => {
             <textarea
               className="form-control"
               placeholder="description"
-              value={formValues.desc}
-              name="desc"
+              value={formValues.description}
+              name="description"
               required
               onChange={handleInputChange}
             />
           </div>
 
-          <div className="col-md-12 mt-2">
+          <div className="col-md-6 mt-2">
             <label
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
             >
@@ -246,6 +203,22 @@ const AddParkingForm = () => {
               placeholder="Area"
               value={formValues.address}
               name="address"
+              required
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="col-md-6 mt-2">
+            <label
+              className={`labels text-${mode === "light" ? "dark" : "light"}`}
+            >
+              Price
+            </label>
+            <input
+              type="Number"
+              className="form-control"
+              placeholder="Price"
+              value={formValues.price}
+              name="price"
               required
               onChange={handleInputChange}
             />
@@ -285,10 +258,92 @@ const AddParkingForm = () => {
             />
           </div>
         </div>
+        <div className="row">
+          <label
+            htmlFor=""
+            className={`labels mt-2 text-${
+              mode === "light" ? "dark" : "light"
+            }`}
+          >
+            Upload Images
+          </label>
+          <div className="col-md-12 col-sm-4">
+            <div className="image-selector">
+              {formValues.photos &&
+                formValues.photos.map((image, index) => {
+                  return (
+                    <div key={image} className={`image-preview mx-1 my-1`}>
+                      <img className="preview-image" src={image} alt="upload" />
+                      <div className="image-overlay d-flex flex-row justify-content-between">
+                        <p className="image-number text-light ms-1">
+                          {index + 1}
+                        </p>
+                        <IconButton
+                          aria-label="delete"
+                          size="small"
+                          className="delete-button"
+                        >
+                          <DeleteIcon
+                            className="text-light me-1"
+                            onClick={() => deleteHandler(image)}
+                            fontSize="small"
+                          />
+                        </IconButton>
+                      </div>
+                    </div>
+                  );
+                })}
+              <IconButton
+                color="secondary"
+                aria-label="upload picture"
+                component="label"
+                className="add-button"
+              >
+                <input
+                  hidden
+                  onChange={onSelectFile}
+                  accept="image/png , image/jpeg"
+                  type="file"
+                  multiple
+                />
+                <AddPhotoAlternateIcon />
+              </IconButton>
+            </div>
+          </div>
+        </div>
+        <div
+          className={`container ${
+            formValues.photos.length < 7 ? "d-none" : ""
+          } text-center my-3`}
+        >
+          {formValues.photos.length > 0 &&
+            (formValues.photos.length > 7 ? (
+              <p className="text-danger">
+                You can't upload more than 7 images! <br />
+                <span>
+                  please delete <b> {formValues.photos.length - 7} </b> of them
+                </span>
+              </p>
+            ) : (
+              <div className="">
+                <button
+                  className={`btn btn-primary btn-md`}
+                  onClick={() => {
+                    console.log(formValues.photos);
+                  }}
+                >
+                  UPLOAD {formValues.photos.length} IMAGE
+                  {formValues.photos.length === 1 ? "" : "S"}
+                </button>
+              </div>
+            ))}
+        </div>
         <div className="mt-5 text-center">
           <button
             className="btn btn-primary btn-md profile-button mb-4"
             type="submit"
+            disabled={formValues.photos.length > 7}
+            onClick={handleSubmit}
           >
             Add Parking
           </button>

@@ -57,6 +57,7 @@ const Signin = () => {
       body: JSON.stringify({ email, password }),
     });
     const data = await response.json();
+    console.log(data);
     dispatch({ type: "SET_LOGGEDIN_USER", payload: data });
   };
 

@@ -13,13 +13,15 @@ const AddHotelParkingForm = () => {
     hotel_name: "",
     hotel_title: "",
     parking_name: "",
+    hotel_rating: 0,
     parking_title: "",
-    total_slots: "",
-    booked_slots: "",
-    hotel_desc: "",
-    parking_desc: "",
+    total_slots: 0,
     hotel_photos: [],
+    booked_slots: 0,
+    hotel_description: "",
+    parking_description: "",
     parking_photos: [],
+    price: 0,
     city: "",
     country: "",
     address: "",
@@ -33,6 +35,9 @@ const AddHotelParkingForm = () => {
     }));
   };
 
+  const [hotelimages, setHotelimages] = useState([]);
+  const [parkingimages, setParkingimages] = useState([]);
+
   const [selectedImages, setSelectedImages] = useState([]);
   const [parkingImages, setParkingImages] = useState([]);
 
@@ -43,7 +48,11 @@ const AddHotelParkingForm = () => {
       return URL.createObjectURL(file);
     });
     setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-    // event.target.value = "";
+    const newImages = [...hotelimages];
+    for (let i = 0; i < event.target.files.length; i++) {
+      newImages.push(event.target.files[i]);
+    }
+    setHotelimages(newImages);
   };
   const onParkingSelectFile = (event) => {
     const selectedFiles = event.target.files;
@@ -52,19 +61,69 @@ const AddHotelParkingForm = () => {
       return URL.createObjectURL(file);
     });
     setParkingImages((previousImages) => previousImages.concat(imagesArray));
-    // event.target.value = "";
+    const newImages = [...parkingimages];
+    for (let i = 0; i < event.target.files.length; i++) {
+      newImages.push(event.target.files[i]);
+    }
+    setParkingimages(newImages);
   };
 
   function deleteHandler(image) {
     setSelectedImages(selectedImages.filter((e) => e !== image));
     URL.revokeObjectURL(image);
+    const newImages = [...hotelimages];
+    newImages.splice(image, 1);
+    setHotelimages(newImages);
   }
   function deleteParkingHandler(image) {
-    setSelectedImages(parkingImages.filter((e) => e !== image));
+    setParkingImages(parkingImages.filter((e) => e !== image));
     URL.revokeObjectURL(image);
+    const newImages = [...parkingimages];
+    newImages.splice(image, 1);
+    setParkingimages(newImages);
   }
 
   const { mode } = useSelector((state) => state.mode);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("hotel_name", formValues.hotel_name);
+    formData.append("hotel_title", formValues.hotel_title);
+    formData.append("parking_name", formValues.parking_name);
+    formData.append("hotel_rating", formValues.hotel_rating);
+    formData.append("parking_title", formValues.parking_title);
+    formData.append("total_slots", formValues.total_slots);
+    formData.append("booked_slots", formValues.booked_slots);
+    formData.append("parking_description", formValues.parking_description);
+    formData.append("hotel_description", formValues.hotel_description);
+    formData.append("price", formValues.price);
+    formData.append("city", formValues.city);
+    formData.append("country", formValues.country);
+    formData.append("address", formValues.address);
+
+    // Append each photo in the photos array to the FormData object
+    for (let i = 0; i < hotelimages.length; i++) {
+      formData.append("hotel_photos", hotelimages[i]);
+    }
+    for (let i = 0; i < parkingimages.length; i++) {
+      formData.append("parking_photos", parkingimages[i]);
+    }
+    const url = "http://localhost:5000/hotelandparking/addhotelandparking";
+
+    const options = {
+      method: "POST",
+      body: formData,
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className={`container  ${IsMobile ? "" : "w-50"} `}>
@@ -81,10 +140,10 @@ const AddHotelParkingForm = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="Name"
-              name="name"
+              placeholder="Parking Name"
+              name="hotel_name"
               id="validationCustom01"
-              value={formValues.name}
+              value={formValues.hotel_name}
               required
               onChange={handleInputChange}
             />
@@ -98,9 +157,9 @@ const AddHotelParkingForm = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="title"
-              name="title"
-              value={formValues.title}
+              placeholder="Hotel Title"
+              name="hotel_title"
+              value={formValues.hotel_title}
               required
               onChange={handleInputChange}
             />
@@ -143,7 +202,7 @@ const AddHotelParkingForm = () => {
           </div>
         </div>
         <div className="row mt-2">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <label
               htmlFor="validationCustom01"
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
@@ -161,7 +220,7 @@ const AddHotelParkingForm = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <label
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
             >
@@ -173,6 +232,24 @@ const AddHotelParkingForm = () => {
               placeholder="Booked Slots"
               name="booked_slots"
               value={formValues.booked_slots}
+              required
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="col-md-4">
+            <label
+              htmlFor="validationCustom01"
+              className={`labels text-${mode === "light" ? "dark" : "light"}`}
+            >
+              Hotel Rating
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Rating"
+              name="hotel_rating"
+              id="validationCustom01"
+              value={formValues.hotel_rating}
               required
               onChange={handleInputChange}
             />
@@ -330,8 +407,7 @@ const AddHotelParkingForm = () => {
                   <p className="text-danger">
                     You can't upload more than 10 images! <br />
                     <span>
-                      please delete <b> {parkingImages.length - 10} </b> of
-                      them
+                      please delete <b> {parkingImages.length - 10} </b> of them
                     </span>
                   </p>
                 ) : (
@@ -349,7 +425,7 @@ const AddHotelParkingForm = () => {
                 ))}
             </div>
           </div>
-          <div className="col-md-12 mt-2">
+          <div className="col-md-6 mt-2">
             <label
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
             >
@@ -361,6 +437,22 @@ const AddHotelParkingForm = () => {
               placeholder="Area"
               value={formValues.address}
               name="address"
+              required
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="col-md-6 mt-2">
+            <label
+              className={`labels text-${mode === "light" ? "dark" : "light"}`}
+            >
+              Parking Price
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Price"
+              value={formValues.price}
+              name="price"
               required
               onChange={handleInputChange}
             />
@@ -408,8 +500,8 @@ const AddHotelParkingForm = () => {
             <textarea
               className="form-control"
               placeholder="description"
-              value={formValues.hotel_desc}
-              name="hotel_desc"
+              value={formValues.hotel_description}
+              name="hotel_description"
               required
               onChange={handleInputChange}
             />
@@ -423,8 +515,8 @@ const AddHotelParkingForm = () => {
             <textarea
               className="form-control"
               placeholder="description"
-              value={formValues.parking_desc}
-              name="parking_desc"
+              value={formValues.parking_description}
+              name="parking_description"
               required
               onChange={handleInputChange}
             />
@@ -434,6 +526,7 @@ const AddHotelParkingForm = () => {
           <button
             className="btn btn-primary btn-md profile-button mb-4"
             type="submit"
+            onClick={handleSubmit}
           >
             Add Hotel And Parking
           </button>

@@ -178,6 +178,7 @@ const DataTable = ({ url, path }) => {
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={list}
+
         columns={
           path === "hotelRequests" ||
           path === "parkingRequests" ||

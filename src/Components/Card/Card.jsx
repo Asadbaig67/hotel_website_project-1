@@ -63,7 +63,7 @@ const Card = (props) => {
   const setSelectedHotel = () => {
     dispatch({
       type: "setHotelData",
-      payload: props.item,
+      payload: hotel,
     });
     // console.log(props.item);
     activePath === "hotel"
