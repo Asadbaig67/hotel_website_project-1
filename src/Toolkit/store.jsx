@@ -33,6 +33,9 @@ import { PasswordResetToken } from "./reducer/passResetToken";
 import { parkingDataReducer } from "./reducer/parkingData_Backend";
 import { hotelDataReducer } from "./reducer/hotelData_Backend";
 import { setHeader } from "./reducer/DataTableHeader";
+import { disable } from "./reducer/DropdownFilter";
+import { filter_type } from "./reducer/filterType";
+import { filter_name } from "./reducer/filterName";
 
 const store = configureStore({
   reducer: {
@@ -71,6 +74,9 @@ const store = configureStore({
     getParkingsfrombackend: parkingDataReducer,
     getHotelsfrombackend: hotelDataReducer,
     setHeader: setHeader,
+    disable: disable,
+    filter_type: filter_type,
+    filter_name: filter_name,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
