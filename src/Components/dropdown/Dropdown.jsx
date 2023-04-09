@@ -54,9 +54,6 @@ const Dropdown = (props) => {
               label: city,
             }))
       }
-      onClick={() => {
-        dispatch({ type: "ALERTCITY", payload: false });
-      }}
       onChange={(value) => {
         if (name === "cityHotel") {
           dispatch({

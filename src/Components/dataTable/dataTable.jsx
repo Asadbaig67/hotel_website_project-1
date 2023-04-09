@@ -7,7 +7,8 @@ import axios from "axios";
 const DataTable = ({ url, path }) => {
   const { header } = useSelector((state) => state.setHeader);
   const dispatch = useDispatch();
-  // const {view}=useSelector((state)=>state.view)
+  const { filterName } = useSelector((state) => state.filter_name);
+  const { filterType } = useSelector((state) => state.filter_type);
   const useFetch = (url) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -42,12 +43,24 @@ const DataTable = ({ url, path }) => {
   };
 
   const { data, loading, error } = useFetch(url);
+  let filteredData = data;
 
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    setList(data);
-  }, [data]);
+    if (filterName && filterType) {
+      if (filterType === "City") {
+        filteredData = data.filter((item) => item.city === filterName);
+      } else if (filterType === "Hotel Name") {
+        filteredData = data.filter((item) => item.name === filterName);
+      } else if (filterType === "Parking Name") {
+        filteredData = data.filter((item) => item.name === filterName);
+      } else if (filterType === "Hotel And Parking Name") {
+        filteredData = data.filter((item) => item.hotel_name === filterName);
+      }
+    }
+    setList(filteredData);
+  }, [filterType, filterName, filteredData]);
 
   const handleDelete = async (id) => {
     let data;
@@ -165,7 +178,13 @@ const DataTable = ({ url, path }) => {
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={list}
-        columns={header.concat(viewColumn, deleteColumn, approveColumn)}
+        columns={
+          path === "hotelRequests" ||
+          path === "parkingRequests" ||
+          path === "hotelAndParkingRequests"
+            ? header.concat(viewColumn, deleteColumn, approveColumn)
+            : header.concat(viewColumn, deleteColumn)
+        }
         initialState={{
           pagination: {
             paginationModel: {
