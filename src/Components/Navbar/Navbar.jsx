@@ -284,22 +284,24 @@ const Navbar = ({ list }) => {
       ? navigate("/HotelAndParkingList")
       : navigate(`/ParkingList`);
 
-    try {
-      const url = `http://localhost:5000/parking/search?city=${cityParking}&vehicles=${c}`;
-      const response = await fetch(url, {
-        method: "GET",
-        // credentials: "include",
-      });
-      const { parkingList } = await response.json();
-      if (parkingList) {
-        dispatch({
-          type: "SET_PARKING_DATA",
-          payload: parkingList,
+    if (path === "/parking") {
+      try {
+        const url = `http://localhost:5000/parking/search?city=${cityParking}&vehicles=${c}`;
+        const response = await fetch(url, {
+          method: "GET",
+          // credentials: "include",
         });
+        const { parkingList } = await response.json();
+        if (parkingList) {
+          dispatch({
+            type: "SET_PARKING_DATA",
+            payload: parkingList,
+          });
+        }
+        console.log(parkingList);
+      } catch (error) {
+        console.log("You get The Error ", error);
       }
-      console.log(parkingList);
-    } catch (error) {
-      console.log("You get The Error ", error);
     }
   };
 
@@ -415,6 +417,9 @@ const Navbar = ({ list }) => {
       }
     });
   }, []);
+
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  console.log(loggedinUser);
 
   useEffect(() => {
     window.scrollTo(0, 0);

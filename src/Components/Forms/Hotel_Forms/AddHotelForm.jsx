@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { FormDataEncoder } from "form-data-encoder";
 
 // import form-data-encoder from 'form-data-encoder';
-import "./addhotel.css";
+import style from "./addhotel.module.css";
 
 const AddHotelForm = () => {
   const IsMobile = useMediaQuery("(max-width:450px)");
@@ -166,24 +166,31 @@ const AddHotelForm = () => {
               Upload Images
             </label>
             <div className="col-md-12 col-sm-4">
-              <div className="image-selector">
+              <div className={style.image_selector}>
                 {formValues.photos &&
                   formValues.photos.map((image, index) => {
                     return (
-                      <div key={image} className={`image-preview mx-1 my-1`}>
+                      <div
+                        key={image}
+                        className={`${style.image_preview} mx-1 my-1`}
+                      >
                         <img
-                          className="preview-image"
+                          className={style.preview_image}
                           src={image}
                           alt="upload"
                         />
-                        <div className="image-overlay d-flex flex-row justify-content-between">
-                          <p className="image-number text-light ms-1">
+                        <div
+                          className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                        >
+                          <p
+                            className={`${style.image_number} text-light ms-1`}
+                          >
                             {index + 1}
                           </p>
                           <IconButton
                             aria-label="delete"
                             size="small"
-                            className="delete-button"
+                            className={style.delete_button}
                           >
                             <DeleteIcon
                               className="text-light me-1"
@@ -199,7 +206,7 @@ const AddHotelForm = () => {
                   color="secondary"
                   aria-label="upload picture"
                   component="label"
-                  className="add-button"
+                  className={style.add_button}
                 >
                   <input
                     hidden

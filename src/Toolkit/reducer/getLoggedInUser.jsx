@@ -1,14 +1,14 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: null,
+  loggedinUser: {},
 };
 
 export const SetLoggedInUser = createReducer(initialState, {
   SET_LOGGEDIN_USER: (state, action) => {
-    return { ...state, user: action.payload };
+    return { ...state, loggedinUser: action.payload };
   },
   GET_LOGGEDIN_USER: (state, action) => {
-    return state.user;
+    return state.loggedinUser;
   },
 });

@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 const Dropdown = (props) => {
   const dispatch = useDispatch();
   const citiesHotel = ["Lahore", "Karachi", "Islamabad", "Dubai"];
-  const citiesParking = ["Tokyo", "London", "Paris"];
-  const citiesHotelAndParking = ["London", "Tokyo", "Sydney"];
+  const citiesParking = ["Tokyo", "London", "Paris", "Lahore"];
+  const citiesHotelAndParking = ["London", "Tokyo", "Sydney", "Lahore"];
   const { name } = props;
   const { city } = useSelector((state) => state.searchCity);
   const { cityParking } = useSelector((state) => state.searchParkingCity);
