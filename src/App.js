@@ -58,11 +58,11 @@ function App() {
         <Route path="/hotelform" element={<AddHotelForm />} />
         <Route path="/parkingform" element={<AddParkingForm />} />
         <Route path="/parkingform" element={<AddParkingForm />} />
-        <Route path="/hotelparkingform" element={<AddHotelParkingForm />} />
+        {/* <Route path="/hotelparkingform" element={<AddHotelParkingForm />} /> */}
 
       </Routes>
 
-      {/* <Routes>
+      <Routes>
 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
@@ -86,7 +86,7 @@ function App() {
         <Route path="/roomform" element={<AddRoomForm />} />
         <Route path="/hotelbooking" element={<HotelBooking />} />
 
-      </Routes> */}
+      </Routes>
 
     </>
   );

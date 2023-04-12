@@ -4,7 +4,7 @@ import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
-import "../Hotel_Forms/addhotel.css";
+import style from "../Hotel_Forms/addhotel.module.css";
 
 const AddHotelParkingForm = () => {
   const IsMobile = useMediaQuery("(max-width:450px)");

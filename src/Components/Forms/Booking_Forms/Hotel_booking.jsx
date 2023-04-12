@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "@mui/material";
-import "../Hotel_Forms/addhotel.css";
+import style from "../Hotel_Forms/addhotel.module.css";
 
 const HotelBooking = () => {
   const IsMobile = useMediaQuery("(max-width:450px)");

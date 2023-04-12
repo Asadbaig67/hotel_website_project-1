@@ -1,20 +1,20 @@
-.image-selector {
+.image_selector {
   display: flex;
   flex-wrap: wrap;
 }
 
-.image-preview {
+.image_preview {
   position: relative;
   height: 100px;
   width: 100px;
 }
 
-.preview-image {
+.preview_image {
   object-fit: cover;
   border-radius: 5px;
 }
 
-.image-overlay {
+.image_overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -25,21 +25,21 @@
   transition: opacity 0.2s ease-in-out;
 }
 
-.image-preview:hover .image-overlay {
+.image_preview:hover .image_overlay {
   opacity: 1;
 }
 
-.image-number {
+.image_number {
   font-size: 12px;
 }
 
-.delete-button {
+.delete_button {
   position: absolute;
   top: 0px;
   right: 0px;
 }
 
-.add-button {
+.add_button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,6 +53,6 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.add-button:hover {
+.add_button:hover {
   background-color: #212529;
 }
