@@ -122,13 +122,9 @@ export default function Sidebar() {
                 >
                   Profile
                 </h3>
-                {view === "admin"
-                  ? sidebarProfile(SidebarDataAdminProfile)
-                  : view === "patner"
-                  ? sidebarProfile(SidebarDataPatnerProfile)
-                  : sidebarProfile(SidebarDataUserProfile)}
                 {view === "admin" ? (
                   <>
+                    {sidebarProfile(SidebarDataAdminProfile)}
                     <h3
                       className={`${style.nav__subtitle} text-${
                         mode === "dark" ? "light" : "dark"
@@ -138,7 +134,11 @@ export default function Sidebar() {
                     </h3>
                     {sidebarProfile(SidebarDataAdminProfilePending)}
                   </>
-                ) : null}
+                ) : view === "patner" ? (
+                  sidebarProfile(SidebarDataPatnerProfile)
+                ) : (
+                  sidebarProfile(SidebarDataUserProfile)
+                )}
               </div>
             </div>
           </div>

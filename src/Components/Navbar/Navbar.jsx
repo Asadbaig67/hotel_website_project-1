@@ -345,10 +345,12 @@ const Navbar = ({ list }) => {
         twinRoom: 0,
         familyRoom: 0,
       });
+
       dispatch({
         type: "SET_DATE",
         payload: [],
       });
+      
       dispatch({
         type: "SET_CITY",
         payload: "",
@@ -424,21 +426,6 @@ const Navbar = ({ list }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
-
-  // const location = window.location.pathname;
-  // const dispatch = useDispatch();
-  // if (location === "/") {
-  //   dispatch({
-  //     type: "sethoteldata",
-  //     payload: true,
-  //   });
-  // } else {
-  //   dispatch({
-  //     type: "sethoteldata",
-  //     payload: false,
-  //   });
-  // }
-  // const { c } = useSelector((state) => state.navOpen);
 
   return (
     <div className="w-100">
@@ -700,15 +687,7 @@ const Navbar = ({ list }) => {
                         {navSearch ? (
                           <fieldset className={`d-flex align-items-center`}>
                             <HotelIcon className=" me-2" />
-                            <Dropdown
-                              name="cityHotel"
-                              onClick={() => {
-                                dispatch({
-                                  type: "ALERTCITY",
-                                  payload: false,
-                                });
-                              }}
-                            />
+                            <Dropdown name="cityHotel" />
                           </fieldset>
                         ) : nav2 ? (
                           <fieldset className="d-flex align-items-center">
@@ -994,151 +973,6 @@ const Navbar = ({ list }) => {
                               </span>
                               {openOptions && (
                                 <div className={`shadow-lg ${style.options}`}>
-                                  {/* <div className={style.optionItem}>
-                                    <span className={style.optionText}>
-                                      Adult
-                                    </span>
-                                    <div className={style.optionCounter}>
-                                      <button
-                                        disabled={options.adult <= 1}
-                                        className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                                        onClick={() =>
-                                          handleOption("adult", "d")
-                                        }
-                                      >
-                                        <RemoveIcon />
-                                      </button>
-                                      <span
-                                        className={style.optionCounterNumber}
-                                      >
-                                        {options.adult}
-                                      </span>
-                                      <button
-                                        className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                                        onClick={() =>
-                                          handleOption("adult", "i")
-                                        }
-                                      >
-                                        <AddIcon />
-                                      </button>
-                                    </div>
-                                  </div>
-                                  <div className={style.optionItem}>
-                                    <span className={style.optionText}>
-                                      Children
-                                    </span>
-                                    <div className={style.optionCounter}>
-                                      <button
-                                        disabled={options.children <= 0}
-                                        className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                                        onClick={() =>
-                                          handleOption("children", "d")
-                                        }
-                                      >
-                                        <RemoveIcon />
-                                      </button>
-                                      <span
-                                        className={style.optionCounterNumber}
-                                      >
-                                        {options.children}
-                                      </span>
-                                      <button
-                                        className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                                        onClick={() =>
-                                          handleOption("children", "i")
-                                        }
-                                      >
-                                        <AddIcon />
-                                      </button>
-                                    </div>
-                                  </div>
-                                  <div className={style.optionItem}>
-                                    <span className={style.optionText}>
-                                      Single Room
-                                    </span>
-                                    <div className={style.optionCounter}>
-                                      <button
-                                        disabled={options.singleRoom <= 0}
-                                        className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                                        onClick={() =>
-                                          handleOption("singleRoom", "d")
-                                        }
-                                      >
-                                        <RemoveIcon />
-                                      </button>
-                                      <span
-                                        className={style.optionCounterNumber}
-                                      >
-                                        {options.singleRoom}
-                                      </span>
-                                      <button
-                                        className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                                        onClick={() =>
-                                          handleOption("singleRoom", "i")
-                                        }
-                                      >
-                                        <AddIcon />
-                                      </button>
-                                    </div>
-                                  </div>
-                                  <div className={style.optionItem}>
-                                    <span className={style.optionText}>
-                                      Twin Room
-                                    </span>
-                                    <div className={style.optionCounter}>
-                                      <button
-                                        disabled={options.twinRoom <= 0}
-                                        className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                                        onClick={() =>
-                                          handleOption("twinRoom", "d")
-                                        }
-                                      >
-                                        <RemoveIcon />
-                                      </button>
-                                      <span
-                                        className={style.optionCounterNumber}
-                                      >
-                                        {options.twinRoom}
-                                      </span>
-                                      <button
-                                        className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                                        onClick={() =>
-                                          handleOption("twinRoom", "i")
-                                        }
-                                      >
-                                        <AddIcon />
-                                      </button>
-                                    </div>
-                                  </div>
-                                  <div className={style.optionItem}>
-                                    <span className={style.optionText}>
-                                      Family Room
-                                    </span>
-                                    <div className={style.optionCounter}>
-                                      <button
-                                        disabled={options.familyRoom <= 0}
-                                        className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                                        onClick={() =>
-                                          handleOption("familyRoom", "d")
-                                        }
-                                      >
-                                        <RemoveIcon />
-                                      </button>
-                                      <span
-                                        className={style.optionCounterNumber}
-                                      >
-                                        {options.familyRoom}
-                                      </span>
-                                      <button
-                                        className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                                        onClick={() =>
-                                          handleOption("familyRoom", "i")
-                                        }
-                                      >
-                                        <AddIcon />
-                                      </button>
-                                    </div>
-                                  </div> */}
                                   <div className="row">
                                     <div className="ms-1 me-5 ms-2 col-md-4 ">
                                       <h5 className="text-start my-1">
