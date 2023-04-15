@@ -37,7 +37,9 @@ import { hotelParkongDataReducer } from "./reducer/hotelParking_backend";
 import { disable } from "./reducer/DropdownFilter";
 import { filter_type } from "./reducer/filterType";
 import { filter_name } from "./reducer/filterName";
-
+import { Featured_Hotel_Reducer } from "./reducer/setfeatured";
+import { Featured_Properties_Hotel_Reducer } from "./reducer/setFeaturedProperties";
+import { SetDateFocus } from "./reducer/datefocus";
 
 const store = configureStore({
   reducer: {
@@ -80,6 +82,9 @@ const store = configureStore({
     disable: disable,
     filter_type: filter_type,
     filter_name: filter_name,
+    getfeaturedhotel: Featured_Hotel_Reducer,
+    getFeaturedPropertiesHotel: Featured_Properties_Hotel_Reducer,
+    getFocus: SetDateFocus,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

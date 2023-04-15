@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import style from "./Sidebar.module.css";
 import Navbar from "../adminNavbar/Navbar";
+import { useDispatch } from "react-redux";
 import {
   SidebarDataAdminProfile,
   SidebarDataAdminProfilePending,
@@ -10,6 +11,7 @@ import {
 } from "../../Utilis/SidebarData";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+
 import CancelIcon from "@mui/icons-material/Cancel";
 // import { isLogin, logout } from "../utilis";
 
@@ -18,6 +20,7 @@ export default function Sidebar() {
   const { view } = useSelector((state) => state.view);
   const [confirmMessage, setConfirmMessage] = useState(false);
   const location = useLocation();
+  const dispatch = useDispatch();
   // const [logState, setLogState] = useState(isLogin());
 
   // const handleLogout = () => {
@@ -93,8 +96,7 @@ export default function Sidebar() {
           </div>
         </div>
       ) : null} */}
-
-      <header className={style.header}>
+      <header className={style.header} >
         <Navbar />
       </header>
       <div
@@ -142,7 +144,6 @@ export default function Sidebar() {
               </div>
             </div>
           </div>
-
           <div
             className={`${style.nav__link} ${style.nav__logout} text-${
               mode === "dark" ? "light" : "dark"
