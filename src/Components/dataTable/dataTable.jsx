@@ -5,7 +5,7 @@ import { useFetch } from "../../Utilis/Fetch";
 import { Box } from "@mui/material";
 import axios from "axios";
 
-const DataTable = ({ header, path }) => {
+const DataTable = ({ header, path, user }) => {
   // const { header } = useSelector((state) => state.setHeader);
   const { url } = useSelector((state) => state.setDataUrl);
   const dispatch = useDispatch();
@@ -34,19 +34,28 @@ const DataTable = ({ header, path }) => {
 
   const handleDelete = async (id) => {
     let data;
-    if (path === "hotels" || path === "hotelRequests") {
+    if (
+      path === "hotels" ||
+      path === "hotelRequests" ||
+      (path === "Property" && user.partner_type === "Hotel")
+    ) {
       data = await axios.delete(
         `http://localhost:5000/hotels/deletehotel/${id}`
       );
     } else if (path === "users") {
       data = await axios.delete(`http://localhost:5000/user/delete/${id}`);
-    } else if (path === "parkings" || path === "parkingRequests") {
+    } else if (
+      path === "parkings" ||
+      path === "parkingRequests" ||
+      (path === "Property" && user.partner_type === "Parking")
+    ) {
       data = await axios.delete(
         `http://localhost:5000/parking/deleteparking/${id}`
       );
     } else if (
       path === "HotelsAndParkings" ||
-      path === "hotelAndParkingRequests"
+      path === "hotelAndParkingRequests" ||
+      (path === "Property" && user.partner_type === "HotelAndParking")
     ) {
       data = await axios.delete(
         `http://localhost:5000/hotelandparking/deletehotelandparking/${id}`
@@ -57,17 +66,27 @@ const DataTable = ({ header, path }) => {
 
   const handleView = async (id) => {
     let data;
-    if (path === "hotels" || path === "hotelRequests") {
+    if (
+      path === "hotels" ||
+      path === "hotelRequests" ||
+      (path === "Property" && user.partner_type === "Hotel")
+    ) {
       data = await axios.get(`http://localhost:5000/hotels/gethotelbyid/${id}`);
     } else if (path === "users") {
       data = await axios.get(`http://localhost:5000/user/getuserbyid/${id}`);
-    } else if (path === "parkings" || path === "parkingRequests") {
+    } else if (
+      path === "parkings" ||
+      path === "parkingRequests" ||
+      (path === "Property" && user.partner_type === "Parking")
+    ) {
+      console.log(id);
       data = await axios.get(
         `http://localhost:5000/parking/getParkingById/${id}`
       );
     } else if (
       path === "HotelsAndParkings" ||
-      path === "hotelAndParkingRequests"
+      path === "hotelAndParkingRequests" ||
+      (path === "Property" && user.partner_type === "HotelAndParking")
     ) {
       data = await axios.get(
         `http://localhost:5000/hotelandparking/gethotelandparkingbyid/${id}`
