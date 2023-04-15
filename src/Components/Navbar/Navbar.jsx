@@ -29,10 +29,32 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import bgrmvblk from "../../images/bgrmvblk.png";
 import { useMediaQuery } from "@mui/material";
+import Box from "@mui/material/Box";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
 
 const Navbar = ({ list }) => {
-  // Popover Material UI Code
+  // Get Logged In User
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
 
+  // Dashboard Access And Logout
+  const [sidetooltip, setTooltip] = useState(null);
+  const openTooltip = Boolean(sidetooltip);
+  const handleonClick = (event) => {
+    setTooltip(event.currentTarget);
+  };
+  const handleonClose = () => {
+    setTooltip(null);
+  };
+
+  // Popover Material UI Code
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl1, setAnchorEl1] = useState(null);
 
@@ -147,7 +169,6 @@ const Navbar = ({ list }) => {
   }
 
   const handleOnSearch = async () => {
-
     dispatch({ type: "SET_FEATURED_DATA", payload: [] });
     setOpenOptions(false);
     if (path === "/") {
@@ -352,7 +373,7 @@ const Navbar = ({ list }) => {
         type: "SET_DATE",
         payload: [],
       });
-      
+
       dispatch({
         type: "SET_CITY",
         payload: "",
@@ -422,13 +443,11 @@ const Navbar = ({ list }) => {
     });
   }, []);
 
-  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
-  console.log(loggedinUser);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  console.log("User", loggedinUser);
   return (
     <div className="w-100">
       <header
@@ -514,48 +533,6 @@ const Navbar = ({ list }) => {
                       <li>
                         <NavLink to="/">
                           <span className={style.iconShow}>
-                            <Badge color="primary" badgeContent={100} max={999}>
-                              <MailIcon
-                                className={`${!list ? "text-dark" : ""}`}
-                                aria-describedby={id}
-                                variant="contained"
-                                onClick={handleClick}
-                              />
-                            </Badge>
-                            <Popover
-                              id={id}
-                              open={open}
-                              anchorEl={anchorEl}
-                              onClose={handleClose}
-                              anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "left",
-                              }}
-                            >
-                              <Typography sx={{ p: 2 }}>
-                                The content of the Popover.
-                                <h4>Hello World</h4>
-                              </Typography>
-                            </Popover>
-                          </span>
-                          <span className={style.iconHide}>
-                            <Button
-                              className={style.iconHide}
-                              sx={{ color: "#191a20" }}
-                              aria-describedby={id}
-                              // variant="contained"
-                              onClick={handleClick}
-                            >
-                              Messages
-                            </Button>
-                            {/* Messages */}
-                          </span>
-                        </NavLink>
-                      </li>
-
-                      <li>
-                        <NavLink to="/">
-                          <span className={style.iconShow}>
                             <Badge
                               color="primary"
                               badgeContent={1000}
@@ -603,12 +580,117 @@ const Navbar = ({ list }) => {
                       </li>
                       <li>
                         <NavLink to="/">
-                          <span className={style.iconShow}>
+                          {/* <span className={style.iconShow}>
                             <Avatar
                               alt="Remy Sharp"
                               src="/static/images/avatar/1.jpg"
                             />
-                          </span>
+                          </span> */}
+                          <React.Fragment>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                textAlign: "center",
+                              }}
+                            >
+                              <Tooltip title="Account settings">
+                                <IconButton
+                                  onClick={handleonClick}
+                                  size="small"
+                                  sx={{ ml: 2 }}
+                                  aria-controls={
+                                    open ? "account-menu" : undefined
+                                  }
+                                  aria-haspopup="true"
+                                  aria-expanded={open ? "true" : undefined}
+                                >
+                                  <Avatar sx={{ width: 32, height: 32 }}>
+                                    M
+                                  </Avatar>
+                                </IconButton>
+                              </Tooltip>
+                            </Box>
+                            <Menu
+                              anchorEl={sidetooltip}
+                              id="account-menu"
+                              open={openTooltip}
+                              onClose={handleonClose}
+                              onClick={handleonClose}
+                              PaperProps={{
+                                elevation: 0,
+                                sx: {
+                                  overflow: "visible",
+                                  filter:
+                                    "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                                  mt: 1.5,
+                                  "& .MuiAvatar-root": {
+                                    width: 32,
+                                    height: 32,
+                                    ml: -0.5,
+                                    mr: 1,
+                                  },
+                                  "&:before": {
+                                    content: '""',
+                                    display: "block",
+                                    position: "absolute",
+                                    top: 0,
+                                    right: 14,
+                                    width: 10,
+                                    height: 10,
+                                    bgcolor: "background.paper",
+                                    transform: "translateY(-50%) rotate(45deg)",
+                                    zIndex: 0,
+                                  },
+                                },
+                              }}
+                              transformOrigin={{
+                                horizontal: "right",
+                                vertical: "top",
+                              }}
+                              anchorOrigin={{
+                                horizontal: "right",
+                                vertical: "bottom",
+                              }}
+                            >
+                              <MenuItem onClick={handleonClose}>
+                                <Avatar /> Profile
+                              </MenuItem>
+                              <MenuItem onClick={handleonClose}>
+                                <Avatar /> My account
+                              </MenuItem>
+                              <Divider />
+                              <MenuItem onClick={handleonClose}>
+                                <ListItemIcon>
+                                  <PersonAdd fontSize="small" />
+                                </ListItemIcon>
+                                Add another account
+                              </MenuItem>
+                              <MenuItem onClick={handleonClose}>
+                                <ListItemIcon>
+                                  <Settings fontSize="small" />
+                                </ListItemIcon>
+                                Settings
+                              </MenuItem>
+                              <MenuItem onClick={handleonClose}>
+                                {!!loggedinUser ? (
+                                  <>
+                                    <ListItemIcon>
+                                      <Logout fontSize="small" />
+                                    </ListItemIcon>
+                                    <Link to="/">Logout</Link>
+                                  </>
+                                ) : (
+                                  <>
+                                    <ListItemIcon>
+                                      <Logout fontSize="small" />
+                                    </ListItemIcon>
+                                    <Link to="/signin">Signin</Link>
+                                  </>
+                                )}
+                              </MenuItem>
+                            </Menu>
+                          </React.Fragment>
                           <span className={style.iconHide}>Profile</span>
                         </NavLink>
                       </li>
@@ -636,9 +718,9 @@ const Navbar = ({ list }) => {
 
                   <li>
                     <span className={style.main_white_button}>
-                      <NavLink to="/listproperty">
+                      {/* <NavLink to="/listproperty">
                         <AddIcon /> Add Your Property
-                      </NavLink>
+                      </NavLink> */}
                     </span>
                   </li>
                 </ul>
