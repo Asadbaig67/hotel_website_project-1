@@ -83,16 +83,48 @@ const HotelsList = () => {
       });
       dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader });
     }
+  } else if (view === "partner") {
+    if (path === "Property") {
+      console.log(loggedinUser);
+      if (user.partner_type === "Hotel") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/hotels/gethotelbyonwerid/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: hotelsHeader });
+      } else if (user.partner_type === "Parking") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/parking/getParkingByOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: parkingHeader });
+      } else if (user.partner_type === "HotelAndParking") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/hotelandparking/gethotelandparkingbyownerid/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader });
+      }
+    } else if (path === "booking") {
+      if (user.partner_type === "Hotel") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/booking/getBookingHotelByOwnerId/${id}`,
+        });
+      } else if (user.partner_type === "Parking") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/booking/getBookingParkingByOwnerId/${id}`,
+        });
+      } else if (user.partner_type === "HotelAndParking") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/booking/getBookingHotelandParkingByOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHeader });
+      }
+    }
   }
-  // else if (view === "partner") {
-  //   if (path === "hotel") {
-  //     dispatch({
-  //       type: "SETURL",
-  //       payload: `http://localhost:5000/hotels/gethotelbyonwerid/${id}`,
-  //     });
-  //     dispatch({ type: "SETHEADER", payload: hotelsHeader });
-  //   }
-  // }
 
   const IsMedium = useMediaQuery("(max-width:1000px)");
   const IsMobile = useMediaQuery("(max-width:768px)");
@@ -133,17 +165,26 @@ const HotelsList = () => {
   ];
 
   const Addnew = () => {
-    if (path === "hotels" || path === "hotelRequests") {
+    if (
+      path === "hotels" ||
+      path === "hotelRequests" ||
+      (path === "Property" && user.partner_type === "Hotel")
+    ) {
       window.location.href = "/hotelform";
     } else if (path === "users") {
       window.location.href = "/adduser";
     } else if (path === "booking") {
       window.location.href = "/addbooking";
-    } else if (path === "parkings" || path === "parkingRequests") {
+    } else if (
+      path === "parkings" ||
+      path === "parkingRequests" ||
+      (path === "Property" && user.partner_type === "Parking")
+    ) {
       window.location.href = "/parkingform";
     } else if (
       path === "HotelsAndParkings" ||
-      path === "hotelAndParkingRequests"
+      path === "hotelAndParkingRequests" ||
+      (path === "Property" && user.partner_type === "HotelAndParking")
     ) {
       window.location.href = "/hotelparkingform";
     }
@@ -160,22 +201,44 @@ const HotelsList = () => {
         }}
       >
         <div className="col-md-11 d-flex align-items-end">
-          {path === "hotels" ? (
-            <h2 className="fs-1 mb-2 mt-4">Hotels</h2>
-          ) : path === "users" ? (
-            <h2 className="fs-1 mb-2 mt-4">Users</h2>
-          ) : path === "booking" ? (
-            <h2 className="fs-1 mb-2 mt-4">Bookings</h2>
-          ) : path === "parkings" ? (
-            <h2 className="fs-1 mb-2 mt-4">Parkings</h2>
-          ) : path === "HotelsAndParkings" ? (
-            <h2 className="fs-1 mb-2 mt-4">Hotels and Parkings</h2>
-          ) : path === "hotelRequests" ? (
-            <h2 className="fs-1 mb-2 mt-4">Pending Hotels</h2>
-          ) : path === "parkingRequests" ? (
-            <h2 className="fs-1 mb-2 mt-4">Pending Parkings</h2>
-          ) : path === "hotelAndParkingRequests" ? (
-            <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings</h2>
+          {view === "admin" ? (
+            path === "hotels" ? (
+              <h2 className="fs-1 mb-2 mt-4">Hotels</h2>
+            ) : path === "users" ? (
+              <h2 className="fs-1 mb-2 mt-4">Users</h2>
+            ) : path === "booking" ? (
+              <h2 className="fs-1 mb-2 mt-4">Bookings</h2>
+            ) : path === "parkings" ? (
+              <h2 className="fs-1 mb-2 mt-4">Parkings</h2>
+            ) : path === "HotelsAndParkings" ? (
+              <h2 className="fs-1 mb-2 mt-4">Hotels and Parkings</h2>
+            ) : path === "hotelRequests" ? (
+              <h2 className="fs-1 mb-2 mt-4">Pending Hotels</h2>
+            ) : path === "parkingRequests" ? (
+              <h2 className="fs-1 mb-2 mt-4">Pending Parkings</h2>
+            ) : path === "hotelAndParkingRequests" ? (
+              <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings</h2>
+            ) : null
+          ) : view === "partner" ? (
+            path === "Property" ? (
+              user.partner_type === "Hotel" ? (
+                <h2 className="fs-1 mb-2 mt-4">My Hotels</h2>
+              ) : user.partner_type === "Parking" ? (
+                <h2 className="fs-1 mb-2 mt-4">My Parkings</h2>
+              ) : user.partner_type === "HotelAndParking" ? (
+                <h2 className="fs-1 mb-2 mt-4">My Hotels and Parking</h2>
+              ) : null
+            ) : path === "booking" ? (
+              user.partner_type === "Hotel" ? (
+                <h2 className="fs-1 mb-2 mt-4">My Hotels Bookings</h2>
+              ) : user.partner_type === "Parking" ? (
+                <h2 className="fs-1 mb-2 mt-4">My Parkings Bookings</h2>
+              ) : user.partner_type === "HotelAndParking" ? (
+                <h2 className="fs-1 mb-2 mt-4">
+                  My Hotels and Parking Bookings
+                </h2>
+              ) : null
+            ) : null
           ) : null}
 
           {/* <div
@@ -240,7 +303,7 @@ const HotelsList = () => {
               </button>
             </div>
           </div>
-          <DataTable header={header} path={path} />
+          <DataTable header={header} path={path} user={user} />
         </div>
       </div>
     </>
