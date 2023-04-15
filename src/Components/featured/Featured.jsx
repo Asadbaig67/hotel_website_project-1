@@ -13,6 +13,7 @@ const Featured = () => {
   const HandleClick = async (city) => {
     if (activePath === "hotel") {
       try {
+        dispatch({ type: "SET_HOTEL_DATA", payload: [] });
         const response = await fetch(
           `http://localhost:5000/hotels/gethotelbycity/${city}`
         );
@@ -20,6 +21,7 @@ const Featured = () => {
           const data = await response.json();
           // console.log(data);
           dispatch({ type: "SET_FEATURED_DATA", payload: data });
+
           Navigate("/listhotel");
         } else {
           throw new Error("Request failed");
@@ -28,8 +30,8 @@ const Featured = () => {
         console.error(error);
       }
     } else if (activePath === "hotelAndParking") {
-      
       try {
+        dispatch({ type: "SET_HOTEL_DATA", payload: [] });
         const response = await fetch(
           `http://localhost:5000/hotelandparking/cityhotel/${city}`
         );
@@ -37,7 +39,8 @@ const Featured = () => {
           const data = await response.json();
           // console.log(data);
           dispatch({ type: "SET_FEATURED_DATA", payload: data });
-          Navigate("/listhotel");
+
+          Navigate("/HotelAndParkingList");
         } else {
           throw new Error("Request failed");
         }

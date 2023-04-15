@@ -102,7 +102,6 @@ function App() {
         <Route path="/hotelform" element={<AddHotelForm />} />
         <Route path="/parkingform" element={<AddParkingForm />} />
         <Route path="/parkingform" element={<AddParkingForm />} />
-        {/* <Route path="/hotelparkingform" element={<AddHotelParkingForm />} /> */}
         <Route path="/singleparking" element={<ParkingPropertyDetails property={property} />} />
 
       </Routes>

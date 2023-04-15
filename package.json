@@ -19,7 +19,6 @@
     "dotenv": "^16.0.3",
     "form-data-encoder": "^2.1.4",
     "gh-pages": "^5.0.0",
-    "google-maps-react": "^2.0.6",
     "jquery": "^3.6.3",
     "moment": "^2.29.4",
     "nodemailer": "^6.9.1",
@@ -29,6 +28,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.0",
     "react-scripts": "5.0.1",
+    "redux-persist": "^6.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

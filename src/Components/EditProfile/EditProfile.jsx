@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import "../css/signup.css";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
+import axios from "axios";
 import ImageUpload from "../ImageUpload/ImageUpload";
 
-export default function EditProfile() {
+export default function EditProfile({ profile }) {
   const { mode } = useSelector((state) => state.mode);
+  const { user } = profile;
   const dispatch = useDispatch();
   const { profileData } = useSelector((state) => state.dataProfile);
 
+  useEffect(() => {
+    dispatch({ type: "SETPROFILEDATA", payload: user });
+  }, [user]);
+
   const data = {
+    _id: profileData._id,
     image: profileData.image,
-    name: profileData.name,
-    surname: profileData.surname,
+    firstName: profileData.firstName,
+    lastName: profileData.lastName,
     mobile: profileData.mobile,
     addressLine1: profileData.addressLine1,
     addressLine2: profileData.addressLine2,
@@ -25,14 +32,21 @@ export default function EditProfile() {
     region: profileData.region,
   };
 
+  const handleSubmit = async (e) => {
+    try {
+      const res = await axios.patch(
+        `http://localhost:5000/user/update/${data._id}`,
+        data
+      );
+      dispatch({ type: "SET_LOGGEDIN_USER", payload: res.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
-      <form
-        className="needs-validation mx-4"
-        onSubmit={() => {
-          dispatch({ type: "SETPROFILEDATA", payload: data });
-        }}
-      >
+      <form className="needs-validation mx-4" onSubmit={handleSubmit}>
         <div className="row mt-2">
           <div className="col-md-12 row">
             <div className="col-md-5 d-flex justify-content-between px-3 pt-2">
@@ -58,10 +72,10 @@ export default function EditProfile() {
               className="form-control"
               placeholder="first name"
               id="validationCustom01"
-              value={profileData.name}
-              required
+              value={data.firstName}
+              //required
               onChange={(e) => {
-                data.name = e.target.value;
+                data.firstName = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
               }}
             />
@@ -76,10 +90,10 @@ export default function EditProfile() {
               type="text"
               className="form-control"
               placeholder="surname"
-              value={profileData.surname}
-              required
+              value={data.lastName}
+              //required
               onChange={(e) => {
-                data.surname = e.target.value;
+                data.lastName = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
               }}
             />
@@ -96,8 +110,8 @@ export default function EditProfile() {
               type="text"
               className="form-control"
               placeholder="enter phone number"
-              value={profileData.mobile}
-              required
+              value={data.mobile}
+              //required
               onChange={(e) => {
                 data.mobile = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
@@ -114,8 +128,8 @@ export default function EditProfile() {
               type="text"
               className="form-control"
               placeholder="enter address line 1"
-              value={profileData.addressLine1}
-              required
+              value={data.addressLine1}
+              //required
               onChange={(e) => {
                 data.addressLine1 = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
@@ -132,8 +146,8 @@ export default function EditProfile() {
               type="text"
               className="form-control"
               placeholder="enter address line 2"
-              value={profileData.addressLine2}
-              required
+              value={data.addressLine2}
+              //required
               onChange={(e) => {
                 data.addressLine2 = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
@@ -150,8 +164,8 @@ export default function EditProfile() {
               type="number"
               className="form-control"
               placeholder="Postal Code"
-              value={profileData.postalCode}
-              required
+              value={data.postalCode}
+              //required
               onChange={(e) => {
                 data.postalCode = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
@@ -168,8 +182,8 @@ export default function EditProfile() {
               type="text"
               className="form-control"
               placeholder="State"
-              value={profileData.state}
-              required
+              value={data.state}
+              //required
               onChange={(e) => {
                 data.state = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
@@ -186,8 +200,8 @@ export default function EditProfile() {
               type="text"
               className="form-control"
               placeholder="Area"
-              value={profileData.area}
-              required
+              value={data.area}
+              //required
               onChange={(e) => {
                 data.area = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
@@ -204,8 +218,8 @@ export default function EditProfile() {
               type="text"
               className="form-control"
               placeholder="enter email id"
-              value={profileData.email}
-              required
+              value={data.email}
+              //required
               onChange={(e) => {
                 data.email = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
@@ -222,8 +236,8 @@ export default function EditProfile() {
               type="text"
               className="form-control"
               placeholder="education"
-              value={profileData.education}
-              required
+              value={data.education}
+              //required
               onChange={(e) => {
                 data.education = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
@@ -242,8 +256,8 @@ export default function EditProfile() {
               type="text"
               className="form-control"
               placeholder="country"
-              value={profileData.country}
-              required
+              value={data.country}
+              //required
               onChange={(e) => {
                 data.country = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
@@ -260,8 +274,8 @@ export default function EditProfile() {
               type="text"
               className="form-control"
               placeholder="state"
-              value={profileData.region}
-              required
+              value={data.region}
+              //required
               onChange={(e) => {
                 data.region = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });

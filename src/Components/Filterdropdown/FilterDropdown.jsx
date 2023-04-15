@@ -1,18 +1,13 @@
 import React from "react";
 import { Select } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Dropdown = (props) => {
   const dispatch = useDispatch();
   const citiesHotel = ["Lahore", "Karachi", "Islamabad"];
   const citiesParking = ["Tokyo", "London", "Paris"];
-  const citiesHotelAndParking = ["London", "Tokyo", "Sydney"];
+  const citiesHotelAndParking = ["London", "Tokyo", "Sydney", "Dubai"];
   const { name } = props;
-  const { city } = useSelector((state) => state.searchCity);
-  const { cityParking } = useSelector((state) => state.searchParkingCity);
-  const { cityHotelAndParking } = useSelector(
-    (state) => state.searchHotelAndParkingCity
-  );
   return (
     <Select
       showSearch

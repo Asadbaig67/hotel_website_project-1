@@ -21,8 +21,6 @@ const List = () => {
   const checkin = dates[0];
   const checkout = dates[1];
 
-  console.log(city, dates, options);
-
   const { activePath } = useSelector((state) => state.activePath);
 
   if (window.scroll(0, 0)) {
@@ -75,6 +73,7 @@ const List = () => {
 
   const getHotels = async () => {
     try {
+      dispatch({ type: "SET_FEATURED_DATA", payload: [] });
       const url = `http://localhost:5000/hotels/search?city=${city}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleroom}&twinRoom=${twinroom}&familyRoom=${familyroom}`;
       const response = await fetch(url, {
         method: "GET",
@@ -82,7 +81,9 @@ const List = () => {
       });
       // const hoteldata = await axios.get(url);
       const hoteldata = await response.json();
-      // console.log(hoteldata);
+      // if (hoteldata.length > 0) {
+      //   dispatch({ type: "SET_FEATURED_DATA", payload: [] });
+      // }
       dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
     } catch (error) {
       console.log("You get The Error ", error);
@@ -90,6 +91,7 @@ const List = () => {
   };
   const getHotelAndParking = async () => {
     try {
+      dispatch({ type: "SET_FEATURED_DATA", payload: [] });
       // const url = `http://localhost:5000/hotelandparking/search?city=${cityHotelAndParking}&checkIn=2023-03-11T00:00:00.000Z&checkOut=2023-03-14T00:00:00.000Z&adult=4&children=2&singleRoom=1&twinRoom=1&familyRoom=1&vehicle=5`;
       const url = `http://localhost:5000/hotelandparking/search?city=${cityHotelAndParking}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleroom}&twinRoom=${twinroom}&familyRoom=${familyroom}&vehicles=${c}`;
       const response = await fetch(url, {
@@ -97,9 +99,11 @@ const List = () => {
         // credentials: "include",
       });
       const hotelparkingdata = await response.json();
-      // const { hotel } = hotelparkingdata;
       console.log(hotelparkingdata);
-      dispatch({ type: "SET_HOTEL_PARKING_DATA", payload: hotelparkingdata });
+      // if (hotelparkingdata.length > 0) {
+      //   dispatch({ type: "SET_FEATURED_DATA", payload: [] });
+      // }
+      dispatch({ type: "SET_HOTEL_DATA", payload: hotelparkingdata });
     } catch (error) {
       console.log("You get The Error ", error);
     }
@@ -110,12 +114,15 @@ const List = () => {
     (state) => state.getHotelParkingfrombackend
   );
   const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
-  
 
   useEffect(() => {
-    getHotels();
-    getHotelAndParking();
-  }, [city, dates, options]);
+    if (activePath === "hotel" && featured_hotel.length === 0) {
+      getHotels();
+    }
+    if (activePath === "hotelAndParking" && featured_hotel.length === 0) {
+      getHotelAndParking();
+    }
+  }, [activePath]);
 
   return (
     <div className="container-fluid w-100">
@@ -236,14 +243,8 @@ const List = () => {
             {activePath === "hotel" &&
               featured_hotel.length === 0 &&
               hotelData.length === 0 && <Loader />}
-            {/* {activePath === "hotel" &&
-              hotelData.length === 0 &&
-              featured_hotel.length === 0 && <Loader />} */}
-            {/* {activePath === "hotelAndParking" &&
-              featured_properties_hotel.length === 0 &&
-              hotelParkingData.length === 0 && <Loader />} */}
             {activePath === "hotelAndParking" &&
-              hotelParkingData.length === 0 &&
+              hotelData.length === 0 &&
               featured_hotel.length === 0 && <Loader />}
             {activePath === "hotel" && featured_hotel.length > 0 && (
               <>
@@ -255,7 +256,7 @@ const List = () => {
             {activePath === "hotel" && hotelData.length > 0 && (
               <>
                 {hotelData.map((item) => (
-                  <Card item={item} activePath={activePath} key={item._id} />
+                  <Card item={item} key={item._id} />
                 ))}
               </>
             )}
@@ -266,14 +267,14 @@ const List = () => {
                 ))}
               </>
             )}
-            {activePath === "hotelAndParking" &&
-              hotelParkingData.length > 0 && (
-                <>
-                  {hotelParkingData.map((item) => (
-                    <Card item={item} activePath={activePath} key={item._id} />
-                  ))}
-                </>
-              )}
+            {activePath === "hotelAndParking" && hotelData.length > 0 && (
+              <>
+                {/* {dispatch({ type: "SET_FEATURED_DATA", payload: [] })} */}
+                {hotelData.map((item) => (
+                  <Card item={item} key={item._id} />
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>

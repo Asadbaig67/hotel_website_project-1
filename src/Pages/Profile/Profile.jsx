@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./Profile.module.css";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+
+// import { Link } from "react-router-dom";
 import Sidebar from "../../Components/adminSidebar/Sidebar";
 import ProfileView from "../../Components/ProfileView/ProfileView";
 import EditProfile from "../../Components/EditProfile/EditProfile";
@@ -9,8 +11,8 @@ import ChangePassword from "../../Components/changePassword/changePassword";
 import { useMediaQuery } from "@mui/material";
 
 export default function Profile() {
+  const dispatch = useDispatch();
   const { mode } = useSelector((state) => state.mode);
-  const { profileData } = useSelector((state) => state.dataProfile);
   const [profile, viewProfile] = useState(true);
   const [editProfile, viewEditProfile] = useState(false);
   const [changePassword, viewChangePassword] = useState(false);
@@ -18,6 +20,8 @@ export default function Profile() {
   const isXtraSmall = useMediaQuery("(max-width: 300px)");
   const IsMedium = useMediaQuery("(max-width:1000px)");
 
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { user } = loggedinUser;
   const IsLargee = useMediaQuery("(max-width:1400px)");
   const IsMediumm = useMediaQuery("(max-width:1000px)");
   const IsSmalll = useMediaQuery("(max-width:768px)");
@@ -124,7 +128,7 @@ export default function Profile() {
               <img
                 style={{ width: "35%" }}
                 className="mt-5 rounded-circle"
-                src={profileData.image}
+                src={""}
                 alt=""
               />
               <h2
@@ -132,12 +136,12 @@ export default function Profile() {
                   mode === "light" ? "dark" : "light"
                 }`}
               >
-                {profileData.name}
+                {user.firstName + " " + user.lastName}
               </h2>
               <span
                 className={`text-${mode === "light" ? "black-50" : "white-50"}`}
               >
-                {profileData.type}
+                {user.account_type}
               </span>
             </div>
           </div>
@@ -230,11 +234,11 @@ export default function Profile() {
                 </div>
               </div>
               {profile ? (
-                <ProfileView />
+                <ProfileView profile={loggedinUser} />
               ) : editProfile ? (
-                <EditProfile />
+                <EditProfile profile={loggedinUser} />
               ) : changePassword ? (
-                <ChangePassword />
+                <ChangePassword profile={loggedinUser} />
               ) : null}
             </div>
           </div>

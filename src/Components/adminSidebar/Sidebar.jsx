@@ -136,7 +136,7 @@ export default function Sidebar() {
                     </h3>
                     {sidebarProfile(SidebarDataAdminProfilePending)}
                   </>
-                ) : view === "patner" ? (
+                ) : view === "partner" ? (
                   sidebarProfile(SidebarDataPatnerProfile)
                 ) : (
                   sidebarProfile(SidebarDataUserProfile)

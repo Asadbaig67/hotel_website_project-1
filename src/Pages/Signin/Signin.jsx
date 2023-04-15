@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -18,7 +18,6 @@ import { useDispatch, useSelector } from "react-redux";
 const Signin = () => {
   const theme = createTheme();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.getLoggedInUser);
 
   function Copyright(props) {
     return (
@@ -57,9 +56,11 @@ const Signin = () => {
       body: JSON.stringify({ email, password }),
     });
     const data = await response.json();
-    console.log(data);
     dispatch({ type: "SET_LOGGEDIN_USER", payload: data });
+    dispatch({ type: "SETVIEWTYPE", payload: data.user.account_type });
   };
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  console.log(loggedinUser);
 
   return (
     <ThemeProvider theme={theme}>
