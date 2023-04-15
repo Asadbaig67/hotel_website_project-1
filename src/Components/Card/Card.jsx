@@ -117,15 +117,21 @@ const Card = (props) => {
   //   }, 5000);
   // };
 
+  let src;
+  if (photos && photos[0]) {
+    src = photos[0];
+  } else if (hotel_photos && hotel_photos[0]) {
+    src = hotel_photos[0];
+  } else {
+    src = null;
+  }
+
   return (
     <div className="w-100 pe-2 rounded-2 mb-3">
       <div className="row">
         <div className="col-md-3 col-xl-3 col-sm-12">
           <div className="h-100 bg-image hover-zoom ripple rounded ripple-surface">
-            <img
-              src={photos ? photos[0] : hotel_photos[0]}
-              className="w-100 h-100"
-            />
+            <img src={src} className="w-100 h-100" />
             <Link to="/">
               <div className="hover-overlay">
                 <div

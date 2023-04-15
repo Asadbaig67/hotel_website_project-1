@@ -1,4 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
+import { combineReducers } from "redux";
 import { userLogin } from "./reducer/userLogin";
 import { setCard } from "./reducer/CardReducer";
 import { setContactData } from "./reducer/contactData";
@@ -33,63 +36,72 @@ import { PasswordResetToken } from "./reducer/passResetToken";
 import { parkingDataReducer } from "./reducer/parkingData_Backend";
 import { hotelDataReducer } from "./reducer/hotelData_Backend";
 import { setHeader } from "./reducer/DataTableHeader";
-import { hotelParkongDataReducer } from "./reducer/hotelParking_backend";
 import { disable } from "./reducer/DropdownFilter";
 import { filter_type } from "./reducer/filterType";
 import { filter_name } from "./reducer/filterName";
+import { setDataUrl } from "./reducer/setDataUrl";
 import { Featured_Hotel_Reducer } from "./reducer/setfeatured";
 import { Featured_Properties_Hotel_Reducer } from "./reducer/setFeaturedProperties";
 import { SetDateFocus } from "./reducer/datefocus";
+import { hotelParkongDataReducer } from "./reducer/hotelParking_backend";
 
-const store = configureStore({
-  reducer: {
-    // Add reducers here
-    user: userLogin,
-    setpropertyData: propertySetform,
-    setData: setContactData,
-    setCardData: setCard,
-    setHotelData: HotelForm,
-    setRoomData: RoomForm,
-    navOpen: nav,
-    searchDate: dateReducer,
-    searchCity: cityReducer,
-    searchOption: optionReducer,
-    searchParkingDate: parkingDateReducer,
-    searchVehicle: noOfVehicle,
-    searchParkingCity: cityParkingReducer,
-    searchHotelAndParkingCity: hotelAndParkingCity,
-    getStaticHotels: Hotel_Static_Data,
-    getSelectedHotel: Selected_Hotel,
-    getStaticroom: Room_Static_Data,
-    personAlert: alertPerson,
-    cityAlert: alertCity,
-    vehicleAlert: alertVehicle,
-    dateAlert: alertDate,
-    dateTimeAlert: alertDateTime,
-    activePath: activePath,
-    getStaticParking: Parking_Static_Data,
-    getStaicHotalParking: Hotel_Parking_Static_Data,
-    getSearchLocation: setSearchLoaction,
-    mode: mode,
-    view: view,
-    dataProfile: dataProfile,
-    getLoggedInUser: SetLoggedInUser,
-    getResetToken: PasswordResetToken,
-    getParkingsfrombackend: parkingDataReducer,
-    getHotelsfrombackend: hotelDataReducer,
-    getHotelParkingfrombackend: hotelParkongDataReducer,
-    setHeader: setHeader,
-    disable: disable,
-    filter_type: filter_type,
-    filter_name: filter_name,
-    getfeaturedhotel: Featured_Hotel_Reducer,
-    getFeaturedPropertiesHotel: Featured_Properties_Hotel_Reducer,
-    getFocus: SetDateFocus,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const reducer = combineReducers({
+  // Add reducers here
+  user: userLogin,
+  setpropertyData: propertySetform,
+  setData: setContactData,
+  setCardData: setCard,
+  setHotelData: HotelForm,
+  setRoomData: RoomForm,
+  navOpen: nav,
+  searchDate: dateReducer,
+  searchCity: cityReducer,
+  searchOption: optionReducer,
+  searchParkingDate: parkingDateReducer,
+  searchVehicle: noOfVehicle,
+  searchParkingCity: cityParkingReducer,
+  searchHotelAndParkingCity: hotelAndParkingCity,
+  getStaticHotels: Hotel_Static_Data,
+  getSelectedHotel: Selected_Hotel,
+  getStaticroom: Room_Static_Data,
+  personAlert: alertPerson,
+  cityAlert: alertCity,
+  vehicleAlert: alertVehicle,
+  dateAlert: alertDate,
+  dateTimeAlert: alertDateTime,
+  activePath: activePath,
+  getStaticParking: Parking_Static_Data,
+  getStaicHotalParking: Hotel_Parking_Static_Data,
+  getSearchLocation: setSearchLoaction,
+  mode: mode,
+  view: view,
+  dataProfile: dataProfile,
+  getLoggedInUser: SetLoggedInUser,
+  getResetToken: PasswordResetToken,
+  getParkingsfrombackend: parkingDataReducer,
+  getHotelsfrombackend: hotelDataReducer,
+  setHeader: setHeader,
+  disable: disable,
+  filter_type: filter_type,
+  filter_name: filter_name,
+  setDataUrl: setDataUrl,
+  getfeaturedhotel: Featured_Hotel_Reducer,
+  getFeaturedPropertiesHotel: Featured_Properties_Hotel_Reducer,
+  getFocus: SetDateFocus,
+  getHotelParkingfrombackend: hotelParkongDataReducer,
 });
 
+const persistedReducer = persistReducer(persistConfig, reducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
+});
+const persistor = persistStore(store);
+
 export default store;
+export { persistor };

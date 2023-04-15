@@ -1,50 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useSelector, useDispatch } from "react-redux";
+import { useFetch } from "../../Utilis/Fetch";
 import { Box } from "@mui/material";
 import axios from "axios";
 
-const DataTable = ({ url, path }) => {
-  const { header } = useSelector((state) => state.setHeader);
+const DataTable = ({ header, path }) => {
+  // const { header } = useSelector((state) => state.setHeader);
+  const { url } = useSelector((state) => state.setDataUrl);
   const dispatch = useDispatch();
   const { filterName } = useSelector((state) => state.filter_name);
   const { filterType } = useSelector((state) => state.filter_type);
-  const useFetch = (url) => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
-
-    useEffect(() => {
-      const fetchData = async () => {
-        setLoading(true);
-        try {
-          const res = await axios.get(url);
-          setData(res.data);
-        } catch (err) {
-          setError(err);
-        }
-        setLoading(false);
-      };
-      fetchData();
-    }, [url]);
-
-    // const reFetch = async () => {
-    //   setLoading(true);
-    //   try {
-    //     const res = await axios.get(url);
-    //     setData(res.data);
-    //   } catch (err) {
-    //     setError(err);
-    //   }
-    //   setLoading(false);
-    // };
-
-    return { data, loading, error };
-  };
 
   const { data, loading, error } = useFetch(url);
+  console.log(data);
   let filteredData = data;
-
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -178,7 +148,6 @@ const DataTable = ({ url, path }) => {
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={list}
-
         columns={
           path === "hotelRequests" ||
           path === "parkingRequests" ||

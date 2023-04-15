@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-const ProfileView = () => {
+const ProfileView = ({ profile }) => {
   const { mode } = useSelector((state) => state.mode);
-  const { profileData } = useSelector((state) => state.dataProfile);
+  const { user } = profile;
   return (
     <div className="mx-4 pb-4">
       <div className="row mt-2">
@@ -16,7 +16,7 @@ const ProfileView = () => {
             Name
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.name}</p>
+            <p className="mb-1 mt-2">{user.firstName}</p>
           </div>
         </div>
         <div className="col-md-6">
@@ -28,7 +28,7 @@ const ProfileView = () => {
             Surname
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.surname}</p>
+            <p className="mb-1 mt-2">{user.lastName}</p>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@ const ProfileView = () => {
             Mobile Number
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.mobile}</p>
+            <p className="mb-1 mt-2">{user.mobile}</p>
           </div>
         </div>
         <div className="col-md-12 mt-2">
@@ -54,7 +54,7 @@ const ProfileView = () => {
             Address Line 1
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.addressLine1}</p>
+            <p className="mb-1 mt-2">{user.addressLine1}</p>
           </div>
         </div>
         <div className="col-md-12 mt-2">
@@ -66,7 +66,7 @@ const ProfileView = () => {
             Address Line 2
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.addressLine2}</p>
+            <p className="mb-1 mt-2">{user.addressLine2}</p>
           </div>
         </div>
         <div className="col-md-12 mt-2">
@@ -78,7 +78,7 @@ const ProfileView = () => {
             Postcode
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.postalCode}</p>
+            <p className="mb-1 mt-2">{user.postalCode}</p>
           </div>
         </div>
         <div className="col-md-12 mt-2">
@@ -90,7 +90,7 @@ const ProfileView = () => {
             State
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.state}</p>
+            <p className="mb-1 mt-2">{user.state}</p>
           </div>
         </div>
         <div className="col-md-12 mt-2">
@@ -102,7 +102,7 @@ const ProfileView = () => {
             Area
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.area}</p>
+            <p className="mb-1 mt-2">{user.area}</p>
           </div>
         </div>
         <div className="col-md-12 mt-2">
@@ -114,7 +114,7 @@ const ProfileView = () => {
             Email ID
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.email}</p>
+            <p className="mb-1 mt-2">{user.email}</p>
           </div>
         </div>
         <div className="col-md-12 mt-2">
@@ -126,7 +126,7 @@ const ProfileView = () => {
             Education
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.education}</p>
+            <p className="mb-1 mt-2">{user.education}</p>
           </div>
         </div>
       </div>
@@ -140,7 +140,7 @@ const ProfileView = () => {
             Country
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.country}</p>
+            <p className="mb-1 mt-2">{user.country}</p>
           </div>
         </div>
         <div className="col-md-6">
@@ -152,7 +152,7 @@ const ProfileView = () => {
             State/Region
           </label>
           <div className="border-bottom mb-2">
-            <p className="mb-1 mt-2">{profileData.region}</p>
+            <p className="mb-1 mt-2">{user.region}</p>
           </div>
         </div>
       </div>

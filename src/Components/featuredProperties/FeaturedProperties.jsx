@@ -39,6 +39,7 @@ const FeaturedProperties = () => {
           const data = await response.json();
           // console.log(data);
           dispatch({ type: "SET_FEATURED_DATA", payload: data });
+          dispatch({ type: "SET_HOTEL_DATA", payload: [] });
           Navigate("/listhotel");
         } else {
           throw new Error("Request failed");
@@ -55,6 +56,7 @@ const FeaturedProperties = () => {
           const data = await response.json();
           // console.log(data);
           dispatch({ type: "SET_FEATURED_DATA", payload: data });
+          dispatch({ type: "SET_HOTEL_DATA", payload: [] });
           Navigate("/listhotel");
         } else {
           throw new Error("Request failed");

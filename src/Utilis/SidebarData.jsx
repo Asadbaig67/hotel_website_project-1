@@ -90,9 +90,9 @@ export const SidebarDataPatnerProfile = [
   },
   {
     key: 10,
-    title: "Hotel",
+    title: "My Property",
     icon: <HomeIcon />,
-    link: "/hotel",
+    link: "/Property",
   },
   {
     key: "12",

@@ -147,6 +147,8 @@ const Navbar = ({ list }) => {
   }
 
   const handleOnSearch = async () => {
+
+    dispatch({ type: "SET_FEATURED_DATA", payload: [] });
     setOpenOptions(false);
     if (path === "/") {
       dispatch({

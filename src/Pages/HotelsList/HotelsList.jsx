@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./HotelsList.module.css";
 import DataTable from "../../Components/dataTable/dataTable";
 import Sidebar from "../../Components/adminSidebar/Sidebar";
@@ -7,6 +7,7 @@ import DropdownFilter from "../../Components/dropdownFilter/Dropdown";
 import { useLocation } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
+// import axios from "axios";
 import {
   hotelsHeader,
   userHeader,
@@ -16,41 +17,82 @@ import {
 } from "../../Utilis/DataTableSource";
 
 const HotelsList = () => {
+  const { header } = useSelector((state) => state.setHeader);
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { user } = loggedinUser;
+  const id = user._id;
+  console.log(id);
   const IsSmalll = useMediaQuery("(max-width:768px)");
   const IsMobilee = useMediaQuery("(max-width:450px)");
 
   const dispatch = useDispatch();
   const location = useLocation();
   const { disable } = useSelector((state) => state.disable);
+  const { view } = useSelector((state) => state.view);
   const { disabled, name } = disable;
   const path = location.pathname.split("/")[1];
-  let url = "";
 
-  if (path === "hotels") {
-    url = "http://localhost:5000/hotels/getallhotels";
-    dispatch({ type: "SETHEADER", payload: hotelsHeader });
-  } else if (path === "users") {
-    url = "http://localhost:5000/user/getall";
-    dispatch({ type: "SETHEADER", payload: userHeader });
-  } else if (path === "booking") {
-    url = "http://localhost:5000/booking/getBooking";
-    dispatch({ type: "SETHEADER", payload: bookingHeader });
-  } else if (path === "parkings") {
-    url = "http://localhost:5000/parking/getallparkings";
-    dispatch({ type: "SETHEADER", payload: parkingHeader });
-  } else if (path === "HotelsAndParkings") {
-    url = "http://localhost:5000/hotelandparking/getallhotelandparkings";
-    dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader });
-  } else if (path === "hotelRequests") {
-    url = "http://localhost:5000/hotels/getPendinghotels";
-    dispatch({ type: "SETHEADER", payload: hotelsHeader });
-  } else if (path === "parkingRequests") {
-    url = "http://localhost:5000/parking/getpendingparkings";
-    dispatch({ type: "SETHEADER", payload: parkingHeader });
-  } else if (path === "hotelAndParkingRequests") {
-    url = "http://localhost:5000/hotelandparking/getPendinghotelandparkings";
-    dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader });
+  if (view === "admin") {
+    if (path === "hotels") {
+      dispatch({
+        type: "SETURL",
+        payload: "http://localhost:5000/hotels/getallhotels",
+      });
+      dispatch({ type: "SETHEADER", payload: hotelsHeader });
+    } else if (path === "users") {
+      dispatch({
+        type: "SETURL",
+        payload: "http://localhost:5000/user/getall",
+      });
+      dispatch({ type: "SETHEADER", payload: userHeader });
+    } else if (path === "booking") {
+      dispatch({
+        type: "SETURL",
+        payload: "http://localhost:5000/booking/getBooking",
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHeader });
+    } else if (path === "parkings") {
+      dispatch({
+        type: "SETURL",
+        payload: "http://localhost:5000/parking/getallparkings",
+      });
+      dispatch({ type: "SETHEADER", payload: parkingHeader });
+    } else if (path === "HotelsAndParkings") {
+      dispatch({
+        type: "SETURL",
+        payload: "http://localhost:5000/hotelandparking/getallhotelandparkings",
+      });
+      dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader });
+    } else if (path === "hotelRequests") {
+      dispatch({
+        type: "SETURL",
+        payload: "http://localhost:5000/hotels/getPendinghotels",
+      });
+      dispatch({ type: "SETHEADER", payload: hotelsHeader });
+    } else if (path === "parkingRequests") {
+      dispatch({
+        type: "SETURL",
+        payload: "http://localhost:5000/parking/getpendingparkings",
+      });
+      dispatch({ type: "SETHEADER", payload: parkingHeader });
+    } else if (path === "hotelAndParkingRequests") {
+      dispatch({
+        type: "SETURL",
+        payload:
+          "http://localhost:5000/hotelandparking/getPendinghotelandparkings",
+      });
+      dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader });
+    }
   }
+  // else if (view === "partner") {
+  //   if (path === "hotel") {
+  //     dispatch({
+  //       type: "SETURL",
+  //       payload: `http://localhost:5000/hotels/gethotelbyonwerid/${id}`,
+  //     });
+  //     dispatch({ type: "SETHEADER", payload: hotelsHeader });
+  //   }
+  // }
 
   const IsMedium = useMediaQuery("(max-width:1000px)");
   const IsMobile = useMediaQuery("(max-width:768px)");
@@ -135,7 +177,8 @@ const HotelsList = () => {
           ) : path === "hotelAndParkingRequests" ? (
             <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings</h2>
           ) : null}
-          <div
+
+          {/* <div
             style={{ width: "37%" }}
             className="d-flex ms-auto mb-2 p-2 me-4 bg-white rounded-5 shadow align-items-center"
           >
@@ -181,30 +224,8 @@ const HotelsList = () => {
                 }
               />
             </div>
-          </div>
+          </div> */}
         </div>
-        {/* filters */}
-        {/* <div className="col-md-11 row justify-content-around my-3">
-          <div className="col-md-12">
-            <h2 className="fs-4 my-2">Filters</h2>
-          </div>
-          <div className={`col-md-2 ${IsMobile ? "my-2" : ""}`}>
-            <Dropdown placeholder={"Filter by city"} name={"FilterByCity"} />
-          </div>
-          <div className={`col-md-2 ${IsMobile ? "my-2" : ""}`}>
-            <Dropdown placeholder={"Filter by city"} name={"FilterByCity"} />
-          </div>
-          <div className={`col-md-2 ${IsMobile ? "my-2" : ""}`}>
-            <Dropdown placeholder={"Filter by city"} name={"FilterByCity"} />
-          </div>
-          <div className={`col-md-2 ${IsMobile ? "my-2" : ""}`}>
-            <Dropdown placeholder={"Filter by city"} name={"FilterByCity"} />
-          </div>
-          <div className={`col-md-2 ${IsMobile ? "my-2" : ""}`}>
-            <Dropdown placeholder={"Filter by city"} name={"FilterByCity"} />
-          </div>
-        </div> */}
-
         {/* results */}
         <div className="col-md-11">
           <div className="col-md-12">
@@ -219,7 +240,7 @@ const HotelsList = () => {
               </button>
             </div>
           </div>
-          <DataTable url={url} path={path} />
+          <DataTable header={header} path={path} />
         </div>
       </div>
     </>
