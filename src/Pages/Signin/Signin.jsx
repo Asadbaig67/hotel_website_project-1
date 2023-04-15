@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import {
   Avatar,
   Button,
   CssBaseline,
   TextField,
-  // Link,
   Grid,
   Box,
   Typography,
@@ -17,7 +17,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Signin = () => {
   const theme = createTheme();
+  const Navigate = useNavigate();
   const dispatch = useDispatch();
+
 
   function Copyright(props) {
     return (
@@ -58,6 +60,9 @@ const Signin = () => {
     const data = await response.json();
     dispatch({ type: "SET_LOGGEDIN_USER", payload: data });
     dispatch({ type: "SETVIEWTYPE", payload: data.user.account_type });
+    if (response.status === 200) {
+      Navigate("/");
+    }
   };
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   console.log(loggedinUser);

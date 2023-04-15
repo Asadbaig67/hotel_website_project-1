@@ -16,6 +16,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import Stack from "@mui/material/Stack";
+import Collapse from "@mui/material/Collapse";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Changepassword = () => {
   const Navigate = useNavigate();
@@ -23,6 +28,11 @@ const Changepassword = () => {
   const dispatch = useDispatch();
   const { userWithToken } = useSelector((state) => state.getResetToken);
   const email = userWithToken.email;
+
+  const [alertOn, setAlertOn] = useState(false);
+  const [alertErrorOn, setAlertErrorOn] = useState(false);
+  const [open, setOpen] = useState(true);
+  const [openError, setOpenError] = useState(true);
 
   function Copyright(props) {
     return (
@@ -69,100 +79,162 @@ const Changepassword = () => {
       body: JSON.stringify({ email, newpassword, cnewpassword }),
     });
     const data = await response.json();
-    if (data) Navigate("/Signin");
+
+    if (data) {
+      setTimeout(() => {
+        setAlertOn(true);
+      }, 2000);
+      Navigate("/Signin");
+    }
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Set New Password
-          </Typography>
-          <small className="text-center my-5 text-muted">
-            To reset your password, enter your email below and submit. An email
-            will be sent to you with instructions about how to complete the
-            process.
-          </small>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="newpassword"
-              label="New Password"
-              value={newpassword}
-              onChange={handlePasswordChange}
-              type={showPassword ? "text" : "password"}
-              id="password"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={toggleShowPassword} edge="end">
-                      {showPassword ? (
-                        <VisibilityIcon />
-                      ) : (
-                        <VisibilityOffIcon />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="cnewpassword"
-              label="Confirm New Password"
-              value={cnewpassword}
-              onChange={handleCpasswordChange}
-              type="password"
-              id="cpassword"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={toggleShowCPassword} edge="end">
-                      {showCPassword ? (
-                        <VisibilityIcon />
-                      ) : (
-                        <VisibilityOffIcon />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              //   autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onSubmit={handleSubmit}
+    <>
+      {alertErrorOn && (
+        <Collapse in={openError}>
+          <Stack sx={{ width: "100%" }} spacing={1}>
+            <Alert
+              severity="info"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
             >
-              Change Password
-            </Button>
+              <AlertTitle>Error</AlertTitle>
+              <strong>
+                Your password could not be updated due to some error. Please
+                Retry!.
+              </strong>
+            </Alert>
+          </Stack>
+        </Collapse>
+      )}
+      {alertOn && (
+        <Collapse in={open}>
+          <Stack sx={{ width: "100%" }} spacing={1}>
+            <Alert
+              severity="info"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+            >
+              <AlertTitle>Success !</AlertTitle>
+              <strong>
+                Password Updated Successfully! You are being redirected to
+                Signin Page
+              </strong>
+            </Alert>
+          </Stack>
+        </Collapse>
+      )}
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Set New Password
+            </Typography>
+            <small className="text-center my-5 text-muted">
+              To reset your password, enter your email below and submit. An
+              email will be sent to you with instructions about how to complete
+              the process.
+            </small>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="newpassword"
+                label="New Password"
+                value={newpassword}
+                onChange={handlePasswordChange}
+                type={showPassword ? "text" : "password"}
+                id="password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={toggleShowPassword} edge="end">
+                        {showPassword ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="cnewpassword"
+                label="Confirm New Password"
+                value={cnewpassword}
+                onChange={handleCpasswordChange}
+                type="password"
+                id="cpassword"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={toggleShowCPassword} edge="end">
+                        {showCPassword ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                //   autoComplete="current-password"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onSubmit={handleSubmit}
+              >
+                Change Password
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+        </Container>
+      </ThemeProvider>
+    </>
   );
 };
 export default Changepassword;
