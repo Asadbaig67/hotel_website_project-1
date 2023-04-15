@@ -16,6 +16,9 @@ import {
 } from "../../Utilis/DataTableSource";
 
 const HotelsList = () => {
+  const IsSmalll = useMediaQuery("(max-width:768px)");
+  const IsMobilee = useMediaQuery("(max-width:450px)");
+
   const dispatch = useDispatch();
   const location = useLocation();
   const { disable } = useSelector((state) => state.disable);
@@ -107,7 +110,13 @@ const HotelsList = () => {
   return (
     <>
       <Sidebar />
-      <div className={`row justify-content-center ${IsMedium ? "mt-5" : ""}`}>
+      <div
+        className={`row justify-content-center ${IsMedium ? "mt-5" : ""}`}
+        style={{
+          marginLeft: IsMedium ? "30px" : IsMobilee ? "45" : "20px",
+          marginTop: "77px",
+        }}
+      >
         <div className="col-md-11 d-flex align-items-end">
           {path === "hotels" ? (
             <h2 className="fs-1 mb-2 mt-4">Hotels</h2>

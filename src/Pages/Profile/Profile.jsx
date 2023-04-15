@@ -18,12 +18,93 @@ export default function Profile() {
   const isXtraSmall = useMediaQuery("(max-width: 300px)");
   const IsMedium = useMediaQuery("(max-width:1000px)");
 
+  const IsLargee = useMediaQuery("(max-width:1400px)");
+  const IsMediumm = useMediaQuery("(max-width:1000px)");
+  const IsSmalll = useMediaQuery("(max-width:768px)");
+  const IsMobilee = useMediaQuery("(max-width:450px)");
 
   return (
     <>
       <Sidebar />
-      <div className={`rounded ${mode === "dark" ? "bg-dark" : style.bg} ${IsMedium ? "mt-5" : ""}`}>
-        <div className="row">
+      <div
+        className={`rounded ${mode === "dark" ? "bg-dark" : style.bg} ${
+          IsMedium ? "mt-5" : ""
+        }`}
+      >
+        <div
+          className="row"
+          style={{
+            marginTop: IsLargee
+              ? "80px"
+              : IsMediumm
+              ? "100px"
+              : IsSmalll
+              ? "90px"
+              : IsMobilee
+              ? "30px"
+              : "80px",
+            marginLeft: IsLargee
+              ? "0px"
+              : IsMediumm
+              ? "80px"
+              : IsSmalll
+              ? "75px"
+              : "50px",
+            "@media only screen and (max-width: 912px)": {
+              marginTop: IsLargee
+                ? "80px"
+                : IsMediumm
+                ? "90px"
+                : IsSmalll
+                ? "80px"
+                : IsMobilee
+                ? "20px"
+                : "80px",
+              marginLeft: IsLargee
+                ? "90px"
+                : IsMediumm
+                ? "80px"
+                : IsSmalll
+                ? "75px"
+                : "90px",
+            },
+            "@media only screen and (max-width: 768px)": {
+              marginTop: IsLargee
+                ? "85px"
+                : IsMediumm
+                ? "95px"
+                : IsSmalll
+                ? "90px"
+                : IsMobilee
+                ? "30px"
+                : "85px",
+              marginLeft: IsLargee
+                ? "80px"
+                : IsMediumm
+                ? "90px"
+                : IsSmalll
+                ? "85px"
+                : "80px",
+            },
+            "@media only screen and (max-width: 576px)": {
+              marginTop: IsLargee
+                ? "75px"
+                : IsMediumm
+                ? "85px"
+                : IsSmalll
+                ? "80px"
+                : IsMobilee
+                ? "15px"
+                : "75px",
+              marginLeft: IsLargee
+                ? "30px"
+                : IsMediumm
+                ? "40px"
+                : IsSmalll
+                ? "35px" : "35px",
+            },
+          }}
+        >
           <div className="col-md-11 ms-auto mt-4">
             <h1
               className={`text-right fs-1 text-${
@@ -70,7 +151,9 @@ export default function Profile() {
               <div className="row text-center m-1 mt-4">
                 <div className="col-md-3 col-lg-3 col-4">
                   <p
-                    className={`${style.portion} ${isXtraSmall ? "fw-bold small" : "fs-5"}`}
+                    className={`${style.portion} ${
+                      isXtraSmall ? "fw-bold small" : "fs-5"
+                    }`}
                     // style={isXtraSmall && { fontSize: "14px" }}
                     onClick={() => {
                       viewProfile(true);
@@ -86,7 +169,9 @@ export default function Profile() {
                 </div>
                 <div className="col-md-4 col-lg-3 col-4">
                   <p
-                    className={`${style.portion} ${isXtraSmall ? "fw-bold small" : "fs-5"} `}
+                    className={`${style.portion} ${
+                      isXtraSmall ? "fw-bold small" : "fs-5"
+                    } `}
                     // style={isXtraSmall && { fontSize: "14px" }}
                     onClick={() => {
                       viewProfile(false);
@@ -102,7 +187,9 @@ export default function Profile() {
                 </div>
                 <div className="col-md-5 col-lg-3 col-4">
                   <p
-                    className={`${style.portion} ${isXtraSmall ? "fw-bold small" : "fs-5"}`}
+                    className={`${style.portion} ${
+                      isXtraSmall ? "fw-bold small" : "fs-5"
+                    }`}
                     // style={isXtraSmall && { fontSize: "14px" }}
                     onClick={() => {
                       viewProfile(false);

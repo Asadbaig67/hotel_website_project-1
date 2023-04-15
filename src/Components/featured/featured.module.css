@@ -1,11 +1,15 @@
 .featured {
   width: 100%;
-  max-width: 1024px;
+  max-width: 1024px !important;
   display: flex;
   justify-content: space-between;
   gap: 20px;
   z-index: 1;
   margin-bottom: 10px;
+}
+
+.cursor{
+  cursor: pointer;
 }
 
 .featuredItem {

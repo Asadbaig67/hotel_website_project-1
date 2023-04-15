@@ -6,7 +6,7 @@ const Dropdown = (props) => {
   const dispatch = useDispatch();
   const citiesHotel = ["Lahore", "Karachi", "Islamabad", "Dubai"];
   const citiesParking = ["Tokyo", "London", "Paris", "Lahore"];
-  const citiesHotelAndParking = ["London", "Tokyo", "Sydney", "Lahore"];
+  const citiesHotelAndParking = ["London", "Tokyo", "Sydney", "Lahore","Dubai"];
   const { name } = props;
   const { city } = useSelector((state) => state.searchCity);
   const { cityParking } = useSelector((state) => state.searchParkingCity);

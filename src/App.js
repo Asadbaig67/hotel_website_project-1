@@ -29,8 +29,52 @@ import AddParkingForm from "./Components/Forms/Parking_Forms/Addparkingform";
 import AddHotelParkingForm from "./Components/Forms/Hotel&Parking_Forms/Hotel_ParkingForm";
 import AddRoomForm from "./Components/Forms/Room_Forms/AddRoom";
 import HotelBooking from './Components/Forms/Booking_Forms/Hotel_booking'
+import ParkingPropertyDetails from "./Pages/singleParking/Singleparking";
 
 function App() {
+
+  const property = {
+    id: 1,
+    name: "Example Property",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in quam a odio tristique interdum. Fusce efficitur nunc vitae augue euismod pretium.",
+    rating: 4.5,
+    totalRatings: 10,
+    features: ["24/7 Security", "Valet Parking", "Electric Vehicle Charging"],
+    prices: [
+      {
+        id: 1,
+        description: "Hourly Rate",
+        amount: 5.0
+      },
+      {
+        id: 2,
+        description: "Daily Rate",
+        amount: 25.0
+      },
+      {
+        id: 3,
+        description: "Weekly Rate",
+        amount: 100.0
+      }
+    ],
+    pictures: [
+      {
+        id: 1,
+        url: "http://localhost:5000/uploads/ParkingImages/parking1.jpg",
+        alt: "Example Picture 1"
+      },
+      {
+        id: 2,
+        url: "http://localhost:5000/uploads/ParkingImages/parking2.jpg",
+        alt: "Example Picture 2"
+      },
+      {
+        id: 3,
+        url: "https://picsum.photos/300/200",
+        alt: "Example Picture 3"
+      }
+    ]
+  };
 
 
   return (
@@ -59,6 +103,7 @@ function App() {
         <Route path="/parkingform" element={<AddParkingForm />} />
         <Route path="/parkingform" element={<AddParkingForm />} />
         {/* <Route path="/hotelparkingform" element={<AddHotelParkingForm />} /> */}
+        <Route path="/singleparking" element={<ParkingPropertyDetails property={property} />} />
 
       </Routes>
 
@@ -66,7 +111,6 @@ function App() {
 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
-
         <Route path="/hotels" element={<HotelsList />} />
         <Route path="/users" element={<HotelsList />} />
         <Route path="/booking" element={<HotelsList />} />

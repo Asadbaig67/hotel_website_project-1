@@ -266,13 +266,13 @@ const AddHotelParkingForm = () => {
               Upload Hotel Images
             </label>
             <div className="col-md-12 col-sm-4">
-              <div className="image-selector">
+              {/* <div className="image-selector">
                 {selectedImages &&
                   selectedImages.map((image, index) => {
                     return (
-                      <div key={image} className={`image-preview mx-1 my-1`}>
+                      <div key={image} className={`${style.image_preview} mx-1 my-1`}>
                         <img
-                          className="preview-image"
+                          className={style.preview_image}
                           src={image}
                           alt="upload"
                         />
@@ -300,6 +300,58 @@ const AddHotelParkingForm = () => {
                   aria-label="upload picture"
                   component="label"
                   className="add-button"
+                >
+                  <input
+                    hidden
+                    onChange={onSelectFile}
+                    accept="image/png , image/jpeg"
+                    type="file"
+                    multiple
+                  />
+                  <AddPhotoAlternateIcon />
+                </IconButton>
+              </div> */}
+              <div className={style.image_selector}>
+                {selectedImages &&
+                  selectedImages.map((image, index) => {
+                    return (
+                      <div
+                        key={image}
+                        className={`${style.image_preview} mx-1 my-1`}
+                      >
+                        <img
+                          className={style.preview_image}
+                          src={image}
+                          alt="upload"
+                        />
+                        <div
+                          className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                        >
+                          <p
+                            className={`${style.image_number} text-light ms-1`}
+                          >
+                            {index + 1}
+                          </p>
+                          <IconButton
+                            aria-label="delete"
+                            size="small"
+                            className={style.delete_button}
+                          >
+                            <DeleteIcon
+                              className="text-light me-1"
+                              onClick={() => deleteHandler(image)}
+                              fontSize="small"
+                            />
+                          </IconButton>
+                        </div>
+                      </div>
+                    );
+                  })}
+                <IconButton
+                  color="secondary"
+                  aria-label="upload picture"
+                  component="label"
+                  className={style.add_button}
                 >
                   <input
                     hidden
@@ -351,7 +403,7 @@ const AddHotelParkingForm = () => {
               Upload Parking Images
             </label>
             <div className="col-md-12 col-sm-4">
-              <div className="image-selector">
+              {/* <div className="image-selector">
                 {parkingImages &&
                   parkingImages.map((image, index) => {
                     return (
@@ -385,6 +437,58 @@ const AddHotelParkingForm = () => {
                   aria-label="upload picture"
                   component="label"
                   className="add-button"
+                >
+                  <input
+                    hidden
+                    onChange={onParkingSelectFile}
+                    accept="image/png , image/jpeg"
+                    type="file"
+                    multiple
+                  />
+                  <AddPhotoAlternateIcon />
+                </IconButton>
+              </div> */}
+              <div className={style.image_selector}>
+                {parkingImages &&
+                  parkingImages.map((image, index) => {
+                    return (
+                      <div
+                        key={image}
+                        className={`${style.image_preview} mx-1 my-1`}
+                      >
+                        <img
+                          className={style.preview_image}
+                          src={image}
+                          alt="upload"
+                        />
+                        <div
+                          className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                        >
+                          <p
+                            className={`${style.image_number} text-light ms-1`}
+                          >
+                            {index + 1}
+                          </p>
+                          <IconButton
+                            aria-label="delete"
+                            size="small"
+                            className={style.delete_button}
+                          >
+                            <DeleteIcon
+                              className="text-light me-1"
+                              onClick={() => deleteParkingHandler(image)}
+                              fontSize="small"
+                            />
+                          </IconButton>
+                        </div>
+                      </div>
+                    );
+                  })}
+                <IconButton
+                  color="secondary"
+                  aria-label="upload picture"
+                  component="label"
+                  className={style.add_button}
                 >
                   <input
                     hidden

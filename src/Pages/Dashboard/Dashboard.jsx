@@ -11,8 +11,10 @@ import { Link } from "react-router-dom";
 export default function Dashboard() {
   const { mode } = useSelector((state) => state.mode);
   const { view } = useSelector((state) => state.view);
+  const IsLarge = useMediaQuery("(max-width:1400px)");
   const IsMedium = useMediaQuery("(max-width:1000px)");
-
+  const IsSmall = useMediaQuery("(max-width:768px)");
+  const IsMobile = useMediaQuery("(max-width:450px)");
 
   const card = (argument) => {
     return argument.map((element) => {
@@ -35,7 +37,22 @@ export default function Dashboard() {
   return (
     <>
       <Sidebar />
-      <div className={`bg-${mode === "light" ? "light" : "dark"} ${IsMedium ? "mt-5" : ""}`}>
+      <div
+        className={`bg-${mode === "light" ? "light" : "dark"} ${
+          IsMedium ? "mt-5" : ""
+        }`}
+        style={{
+          marginTop: IsLarge
+            ? "80px"
+            : IsMedium
+            ? "100px"
+            : IsSmall
+            ? "120px"
+            : IsMobile
+            ? "200px"
+            : "80px",
+        }}
+      >
         <div className={`bg-success w-100`}>
           <div className="d-flex align-items-center py-4 text-light">
             <ArrowForwardIosIcon className={style.header_icon} />

@@ -9,28 +9,42 @@ import StarIcon from "@mui/icons-material/Star";
 const Card = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const price = 200;
-  // const {
-  //   name,
-  //   rating,
-  //   description,
-  //   country,
-  //   pic,
-  //   price,
-  //   hotel_name,
-  //   hotel_rating,
-  //   hotel_description,
-  //   hotel_photo,
-  //   parking_total_slots,
-  //   parking_booked_slots,
-  //   hotel_city,
-  //   hotel_country,
-  // } = props.item;
-
-  const { hotel, rooms } = props.item;
-  const { name, rating, description, country, city, photos } = hotel;
-
+  const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
   const { activePath } = useSelector((state) => state.activePath);
+  console.log(activePath);
+  let name,
+    rating,
+    country,
+    city,
+    photos,
+    hotel_photos,
+    hotel_city,
+    hotel_country,
+    hotel_name,
+    hotel_rating,
+    parking_total_slots,
+    parking_booked_slots;
+
+  if (activePath === "hotel") {
+    const { hotel } = props.item;
+    name = hotel.name;
+    rating = hotel.rating;
+    country = hotel.country;
+    city = hotel.city;
+    photos = hotel.photos;
+  } else if (activePath === "hotelAndParking") {
+    const { hotel } = props.item;
+    hotel_name = hotel.hotel_name;
+    hotel_rating = hotel.hotel_rating;
+    hotel_country = hotel.hotel_country;
+    hotel_city = hotel.hotel_city;
+    hotel_photos = hotel.hotel_photos;
+    parking_total_slots = hotel.parking_total_slots;
+    parking_booked_slots = hotel.parking_booked_slots;
+  }
+
   const { cardData } = useSelector((state) => state.setCardData);
   const { options } = useSelector((state) => state.searchOption);
   // const { city } = useSelector((state) => state.searchCity);
@@ -56,10 +70,13 @@ const Card = (props) => {
     5: "Excellent+",
   };
 
+  const { dateFocus } = useSelector((state) => state.getFocus);
+  console.log(dateFocus);
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
 
+  const { hotel } = props.item;
   const setSelectedHotel = () => {
     dispatch({
       type: "setHotelData",
@@ -105,7 +122,10 @@ const Card = (props) => {
       <div className="row">
         <div className="col-md-3 col-xl-3 col-sm-12">
           <div className="h-100 bg-image hover-zoom ripple rounded ripple-surface">
-            <img src={photos[0]} className="w-100 h-100" />
+            <img
+              src={photos ? photos[0] : hotel_photos[0]}
+              className="w-100 h-100"
+            />
             <Link to="/">
               <div className="hover-overlay">
                 <div
@@ -120,7 +140,9 @@ const Card = (props) => {
         </div>
         <div className="col-md-6 col-xl-6 col-sm-12 py-1 px-2">
           <div className="d-flex flex-row justify-content-between">
-            <h5 className="my-xl-0 my-md-0 my-sm-2 flex-grow-1">{name}</h5>
+            <h5 className="my-xl-0 my-md-0 my-sm-2 flex-grow-1">
+              {name ? name : hotel_name}
+            </h5>
             <Box
               className="justify-content-end"
               sx={{
@@ -131,7 +153,7 @@ const Card = (props) => {
             >
               <Rating
                 name="hover-feedback"
-                value={rating}
+                value={rating ? rating : hotel_rating}
                 precision={0.5}
                 getLabelText={getLabelText}
                 // onChange={(event, newValue) => {
@@ -158,12 +180,13 @@ const Card = (props) => {
                 to="/"
                 className="text-primary fs-8 fw-bold my-0 mx-md-0 mx-0"
               >
-                {city}
+                {city ? city : hotel_city}
               </Link>
             </span>
             <span>
               <div to="/" className="fs-8 fw-light my-0 mx-1">
-                {country}
+                {country ? country : hotel_country}
+                {/* {hotel_country ? hotel_country : "Bangladesh"} */}
               </div>
             </span>
           </div>
@@ -213,41 +236,71 @@ const Card = (props) => {
           className={`col-md-3 col-xl-3 col-sm-12 border-start border-3 pb-2 ${style.border_sm_start_none}`}
         >
           <div className="d-flex flex-column h-100 justify-content-end">
-            <small className="fs-6 text-end fw-light text-muted">
-              2 nights
-            </small>
-            <small className="fs-6 text-end fw-light text-muted">
-              {options.adult} adults, {options.children} children
-            </small>
-            <div className="d-flex ms-auto flex-row align-items-center">
-              <h4 className="fw-bold mx-1 fs-4">
-                {options.singleRoom + options.twinRoom + options.familyRoom > 1
-                  ? price *
-                    (options.singleRoom + options.twinRoom + options.familyRoom)
-                  : price}
-                $
-              </h4>
-              <span className="text-danger">
-                <s>{options.room > 1 ? price * options.room : price + 50}$</s>
-              </span>
-            </div>
-            <small className="text-muted text-end fs-7 fw-light">
-              +{options.room > 1 ? price * options.room : price + 20}$ Tax and
-              charges
-            </small>
+            {featured_hotel.length > 0 ? (
+              ""
+            ) : (
+              <>
+                <small className="fs-6 text-end fw-light text-muted">
+                  2 nights
+                </small>
+                <small className="fs-6 text-end fw-light text-muted">
+                  {options.adult} adults, {options.children} children
+                </small>
+                <div className="d-flex ms-auto flex-row align-items-center">
+                  <h4 className="fw-bold mx-1 fs-4">
+                    {options.singleRoom +
+                      options.twinRoom +
+                      options.familyRoom >
+                    1
+                      ? price *
+                        (options.singleRoom +
+                          options.twinRoom +
+                          options.familyRoom)
+                      : price}
+                    $
+                  </h4>
+                  <span className="text-danger">
+                    <s>
+                      {options.room > 1 ? price * options.room : price + 50}$
+                    </s>
+                  </span>
+                </div>
+                <small className="text-muted text-end fs-7 fw-light">
+                  +{options.room > 1 ? price * options.room : price + 20}$ Tax
+                  and charges
+                </small>
+              </>
+            )}
+
             <div className="d-flex flex-column mt-2">
-              <button
-                className="btn btn-primary text-uppercase btn-md"
-                type="button"
-                onClick={setSelectedHotel}
-              >
-                {/* See Availability
-                 */}
-                Book room
-                {options.singleRoom + options.twinRoom + options.familyRoom > 1
-                  ? "s"
-                  : ""}
-              </button>
+              {featured_hotel.length > 0 ? (
+                <button
+                  className="btn btn-primary text-uppercase btn-md"
+                  type="button"
+                  // onClick={setSelectedHotel}
+                  onClick={() => dispatch({ type: "SET_FOCUS", payload: true })}
+                >
+                  Show Prices
+                </button>
+              ) : (
+                <>
+                  <button
+                    className="btn btn-primary text-uppercase btn-md"
+                    type="button"
+                    onClick={setSelectedHotel}
+                  >
+                    {/* See Availability
+                     */}
+                    Book room
+                    {options.singleRoom +
+                      options.twinRoom +
+                      options.familyRoom >
+                    1
+                      ? "s"
+                      : ""}
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

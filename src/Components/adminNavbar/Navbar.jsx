@@ -3,6 +3,7 @@ import "./navbar.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../images/white-logo.png";
+import MenuIcon from "@mui/icons-material/Menu";
 
 export default function Navbar() {
   const { mode } = useSelector((state) => state.mode);
@@ -27,8 +28,6 @@ export default function Navbar() {
           </Link>
         </div>
 
-        
-
         <div
           style={{ width: "35%" }}
           className="d-flex align-items-center justify-content-around"
@@ -48,7 +47,7 @@ export default function Navbar() {
                   className="rounded-circle border border-2 me-1"
                   alt="..."
                 />
-                <span style={{ fontSize: "12px" }}>name name name</span>
+                <span style={{ fontSize: "12px" }}>Username</span>
               </a>
               <ul className={`dropdown-menu bg-${mode}`}>
                 <li>
