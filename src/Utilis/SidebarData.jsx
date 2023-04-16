@@ -108,6 +108,21 @@ export const SidebarDataPatnerProfile = [
   // },
 ];
 
+export const SidebarDataPatnerProfilePending = [
+  {
+    key: 11,
+    title: "Pending Property",
+    icon: <PendingIcon />,
+    link: "/PropertyRequests",
+  },
+  {
+    key: 12,
+    title: "Pending Bookings",
+    icon: <PendingIcon />,
+    link: "/bookingRequests",
+  },
+];
+
 //For User
 export const SidebarDataUserProfile = [
   {
