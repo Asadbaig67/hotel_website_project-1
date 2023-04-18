@@ -4,13 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 // import { Navigate } from "react-router-dom";
 import axios from "axios";
 import ImageUpload from "../ImageUpload/ImageUpload";
+import { useNavigate } from "react-router-dom";
 
 export default function EditProfile({ profile }) {
   const { mode } = useSelector((state) => state.mode);
   const { user } = profile;
   const dispatch = useDispatch();
   const { profileData } = useSelector((state) => state.dataProfile);
-
+  const Navigate = useNavigate();
   useEffect(() => {
     dispatch({ type: "SETPROFILEDATA", payload: user });
   }, [user]);
@@ -33,12 +34,18 @@ export default function EditProfile({ profile }) {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const res = await axios.patch(
         `http://localhost:5000/user/update/${data._id}`,
-        data
+        data,
+        { new: true }
       );
       dispatch({ type: "SET_LOGGEDIN_USER", payload: res.data });
+      if (res.status === 200) {
+        console.log(res.status);
+        Navigate("/profile");
+      }
     } catch (error) {
       console.log(error);
     }

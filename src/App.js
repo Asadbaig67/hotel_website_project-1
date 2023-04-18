@@ -79,7 +79,7 @@ function App() {
 
   return (
     <>
-      <Routes>
+      {/* <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/forgetpassword" element={<Forgetpass />} />
@@ -104,7 +104,7 @@ function App() {
         <Route path="/parkingform" element={<AddParkingForm />} />
         <Route path="/singleparking" element={<ParkingPropertyDetails property={property} />} />
 
-      </Routes>
+      </Routes> */}
 
       <Routes>
 
