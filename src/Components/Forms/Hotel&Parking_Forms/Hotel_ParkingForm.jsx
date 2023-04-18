@@ -84,10 +84,12 @@ const AddHotelParkingForm = () => {
   }
 
   const { mode } = useSelector((state) => state.mode);
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
+    formData.append("ownerId", loggedinUser.user._id);
     formData.append("hotel_name", formValues.hotel_name);
     formData.append("hotel_title", formValues.hotel_title);
     formData.append("parking_name", formValues.parking_name);
