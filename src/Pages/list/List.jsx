@@ -8,13 +8,13 @@ import Footer from "../../Components/footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 import axios from "axios";
+import Dropdown from "../../Components/dropdown/Dropdown";
 
 const List = () => {
   const dispatch = useDispatch();
   const { city } = useSelector((state) => state.searchCity);
   const { dates } = useSelector((state) => state.searchDate);
   const { options } = useSelector((state) => state.searchOption);
-  // const { hotel_data } = useSelector((state) => state.getStaticHotels);
   const { c } = useSelector((state) => state.searchVehicle);
 
   const { adult, children, familyroom, singleroom, twinroom } = options;
@@ -69,6 +69,7 @@ const List = () => {
 
   const handleClick = () => {
     // reFetch();
+    activePath === "hotel" ? getHotels() : getHotelAndParking();
   };
 
   const getHotels = async () => {
@@ -81,9 +82,6 @@ const List = () => {
       });
       // const hoteldata = await axios.get(url);
       const hoteldata = await response.json();
-      // if (hoteldata.length > 0) {
-      //   dispatch({ type: "SET_FEATURED_DATA", payload: [] });
-      // }
       dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
     } catch (error) {
       console.log("You get The Error ", error);
@@ -100,9 +98,6 @@ const List = () => {
       });
       const hotelparkingdata = await response.json();
       console.log(hotelparkingdata);
-      // if (hotelparkingdata.length > 0) {
-      //   dispatch({ type: "SET_FEATURED_DATA", payload: [] });
-      // }
       dispatch({ type: "SET_HOTEL_DATA", payload: hotelparkingdata });
     } catch (error) {
       console.log("You get The Error ", error);
@@ -110,9 +105,6 @@ const List = () => {
   };
 
   const { hotelData } = useSelector((state) => state.getHotelsfrombackend);
-  const { hotelParkingData } = useSelector(
-    (state) => state.getHotelParkingfrombackend
-  );
   const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
 
   useEffect(() => {
@@ -133,10 +125,14 @@ const List = () => {
             <h1 className={style.lsTitle}>Search</h1>
             <div className={style.lsItem}>
               <label style={{ color: "white" }}>Destination</label>
-              <input
+              {/* <input
                 placeholder={city === "" ? cityHotelAndParking : city}
                 type="text"
-              />
+                onChange={(e) =>
+                  dispatch({ type: "SET_CITY", payload: e.target.value })
+                }
+              /> */}
+              <Dropdown name="cityHotel" />
             </div>
             <div className={style.lsItem}>
               <label style={{ color: "white" }}>Check-in Date</label>
