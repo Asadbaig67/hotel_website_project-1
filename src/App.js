@@ -106,10 +106,8 @@ function App() {
         <Route path="/skeleton" element={<Featured_skeleton />} />
         <Route path="/singleparking" element={<ParkingPropertyDetails property={property} />} />
 
-      </Routes>
-
-      <Routes>
-
+        {/* Admin Routes */}
+        
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/hotels" element={<HotelsList />} />

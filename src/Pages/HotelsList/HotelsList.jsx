@@ -147,41 +147,41 @@ const HotelsList = () => {
 
   const IsMedium = useMediaQuery("(max-width:1000px)");
   const IsMobile = useMediaQuery("(max-width:768px)");
-  const option = ["City"];
+  // const option = ["City"];
 
-  const cityOption = [
-    "Lahore",
-    "Karachi",
-    "Islamabad",
-    "Dubai",
-    "Tokyo",
-    "London",
-    "Paris",
-  ];
-  const hotelOption = [
-    "Karachi",
-    "Islamabad",
-    "Dubai",
-    "Tokyo",
-    "London",
-    "Paris",
-  ];
-  const parkingOption = [
-    "Lahore",
-    "Islamabad",
-    "Dubai",
-    "Tokyo",
-    "London",
-    "Paris",
-  ];
-  const hotelParkingOption = [
-    "Lahore",
-    "Karachi",
-    "Dubai",
-    "Tokyo",
-    "London",
-    "Paris",
-  ];
+  // const cityOption = [
+  //   "Lahore",
+  //   "Karachi",
+  //   "Islamabad",
+  //   "Dubai",
+  //   "Tokyo",
+  //   "London",
+  //   "Paris",
+  // ];
+  // const hotelOption = [
+  //   "Karachi",
+  //   "Islamabad",
+  //   "Dubai",
+  //   "Tokyo",
+  //   "London",
+  //   "Paris",
+  // ];
+  // const parkingOption = [
+  //   "Lahore",
+  //   "Islamabad",
+  //   "Dubai",
+  //   "Tokyo",
+  //   "London",
+  //   "Paris",
+  // ];
+  // const hotelParkingOption = [
+  //   "Lahore",
+  //   "Karachi",
+  //   "Dubai",
+  //   "Tokyo",
+  //   "London",
+  //   "Paris",
+  // ];
 
   const Addnew = () => {
     if (
