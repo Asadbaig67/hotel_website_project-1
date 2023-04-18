@@ -7,12 +7,12 @@ const Loader = () => {
     <div className="container-fluid" style={{ overflowX: "hidden" }}>
       <div
         className="d-flex flex-column align-items-center justify-content-center"
-        style={{ height: "100vh" }}
+        style={{ height: "50vh" }}
       >
         <img
           src={logo}
           className="mb-3"
-          style={{ height: "135px", width: "135px" }}
+          style={{ height: "100px", width: "100px" }}
           alt=""
         />
         <div className={style.loader}></div>

@@ -30,6 +30,7 @@ import AddHotelParkingForm from "./Components/Forms/Hotel&Parking_Forms/Hotel_Pa
 import AddRoomForm from "./Components/Forms/Room_Forms/AddRoom";
 import HotelBooking from './Components/Forms/Booking_Forms/Hotel_booking'
 import ParkingPropertyDetails from "./Pages/singleParking/Singleparking";
+import Featured_skeleton from "./Components/Skeletons/Featured_skeleton";
 
 function App() {
 
@@ -102,6 +103,7 @@ function App() {
         <Route path="/hotelform" element={<AddHotelForm />} />
         <Route path="/parkingform" element={<AddParkingForm />} />
         <Route path="/parkingform" element={<AddParkingForm />} />
+        <Route path="/skeleton" element={<Featured_skeleton />} />
         <Route path="/singleparking" element={<ParkingPropertyDetails property={property} />} />
 
       </Routes> */}
