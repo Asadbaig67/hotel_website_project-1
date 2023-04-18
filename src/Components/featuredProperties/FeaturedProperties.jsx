@@ -82,7 +82,7 @@ const FeaturedProperties = () => {
   console.log("featured_hotel", featured_hotel);
   useEffect(() => {
     HandleClick();
-    dispatch({ type: "SET_FEATURED_DATA", payload: [] });
+    // dispatch({ type: "SET_FEATURED_DATA", payload: [] });
   }, [activePath]);
 
   return (
