@@ -5,42 +5,35 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 
-function Media(props) {
-  const { loading = false } = props;
-
-  return (
-    <Grid container wrap="nowrap">
-      <Box sx={{ width: 210, marginRight: 2, my: 5 }}>
-        <Skeleton
-          sx={{ ms: 2 }}
-          variant="rectangular"
-          width={230}
-          height={270}
-        />
-        {/* <Box sx={{ pt: 0.5 }}> */}
-        <div className="mt-1">
-          <Skeleton />
-          <Skeleton width="70%" />
-          <Skeleton />
-          <Skeleton width="70%" />
-        </div>
-        {/* </Box> */}
-      </Box>
-    </Grid>
-  );
-}
-
-Media.propTypes = {
-  loading: PropTypes.bool,
-};
-
 const Featured_skeleton = () => {
+  const data = [1, 2, 3, 3];
+
   return (
-    <div>
-      <Box sx={{ overflow: "hidden" }}>
-        <Media loading />
-        {/* <Media /> */}
-      </Box>
+    <div className="container-fluid ">
+      <div className="row mx-auto justify-content-center">
+        {data.map((item) => {
+          return (
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12 my-2">
+              <Skeleton
+                sx={{ ms: 2 }}
+                variant="rectangular"
+                width={240}
+                height={272}
+              />
+              <Skeleton width={130} className="mt-1" />
+              <div className="d-flex flex-row">
+                <Skeleton width="100px" />
+                <Skeleton width="50px" className="ms-2" />
+              </div>
+              <Skeleton width={240} className="mt-1" />
+              <Skeleton width={240} className="" />
+              <div className="">
+                <Skeleton width={240} height={70} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

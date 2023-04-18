@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import Featured_skeleton from "../Skeletons/Featured_skeleton";
 const FeaturedProperties = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
@@ -78,8 +79,10 @@ const FeaturedProperties = () => {
 
   const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
 
+  console.log("featured_hotel", featured_hotel);
   useEffect(() => {
     HandleClick();
+    dispatch({ type: "SET_FEATURED_DATA", payload: [] });
   }, [activePath]);
 
   return (
@@ -190,16 +193,7 @@ const FeaturedProperties = () => {
                 </div>
               );
             })}
-          {featured_hotel.length === 0 && (
-            <div className="col-12 d-flex flex-column justify-content-center mx-auto">
-              <h3>Loading...</h3>
-              <div className="d-flex flex-column justify-content-center">
-                <div className="w-100 text-center">
-                  <Loader />
-                </div>
-              </div>
-            </div>
-          )}
+          {featured_hotel.length === 0 && <Featured_skeleton />}
         </div>
       </div>
     </>
