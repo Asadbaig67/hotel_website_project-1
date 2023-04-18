@@ -27,6 +27,11 @@ const getCheckOutDate = async (params) => {
   return data;
 };
 
+const getBookingDate = async (params) => {
+  const data = new Date(params.row.bookingDate).toDateString();
+  return data;
+};
+
 export const userHeader = [
   { field: "_id", headerName: "ID", width: 100 },
   { field: "firstName", headerName: "First Name", width: 130 },
@@ -71,8 +76,8 @@ export const bookingHeader = [
   { field: "_id", headerName: "ID", width: 100 },
   { field: "Booking_type", headerName: "Booking Type", width: 100 },
   {
-    field: "hotelId",
-    headerName: "Hotel Name",
+    field: "hotelId || parkingId || HotelAndParkingId",
+    headerName: "Name",
     width: 130,
     valueGetter: getHotelName,
   },
@@ -97,3 +102,107 @@ export const bookingHeader = [
   { field: "totalPrice", headerName: "Total Price", width: 130 },
 ];
 
+export const bookingHotelHeader = [
+  { field: "_id", headerName: "Serial number", width: 120 },
+  {
+    field: "hotelId",
+    headerName: "Hotel Name",
+    width: 130,
+    valueGetter: getHotelName,
+  },
+  {
+    field: "userId",
+    headerName: "User Name",
+    width: 130,
+    valueGetter: getUserName,
+  },
+  {
+    field: "checkIn",
+    headerName: "Check In",
+    width: 130,
+    valueGetter: getCheckInDate,
+  },
+  {
+    field: "checkOut",
+    headerName: "Check Out",
+    width: 130,
+    valueGetter: getCheckOutDate,
+  },
+  {
+    field: "createdAt",
+    headerName: "Booking Date",
+    width: 130,
+    valueGetter: getBookingDate,
+  },
+  { field: "total_price", headerName: "Total Price", width: 130 },
+];
+
+export const bookingParkingHeader = [
+  { field: "_id", headerName: "Serial number", width: 120 },
+  {
+    field: "parkingId",
+    headerName: "Hotel Name",
+    width: 130,
+    valueGetter: getHotelName,
+  },
+  {
+    field: "userId",
+    headerName: "User Name",
+    width: 130,
+    valueGetter: getUserName,
+  },
+  {
+    field: "checkIn",
+    headerName: "Check In",
+    width: 130,
+    valueGetter: getCheckInDate,
+  },
+  {
+    field: "checkOut",
+    headerName: "Check Out",
+    width: 130,
+    valueGetter: getCheckOutDate,
+  },
+  {
+    field: "createdAt",
+    headerName: "Booking Date",
+    width: 130,
+    valueGetter: getBookingDate,
+  },
+  { field: "total_price", headerName: "Total Price", width: 130 },
+];
+
+export const bookingHotelAndParkingHeader = [
+  { field: "_id", headerName: "Serial number", width: 120 },
+  {
+    field: "HotelandParkingId",
+    headerName: "Name",
+    width: 130,
+    valueGetter: getHotelName,
+  },
+  {
+    field: "userId",
+    headerName: "User Name",
+    width: 130,
+    valueGetter: getUserName,
+  },
+  {
+    field: "checkIn",
+    headerName: "Check In",
+    width: 130,
+    valueGetter: getCheckInDate,
+  },
+  {
+    field: "checkOut",
+    headerName: "Check Out",
+    width: 130,
+    valueGetter: getCheckOutDate,
+  },
+  {
+    field: "createdAt",
+    headerName: "Booking Date",
+    width: 130,
+    valueGetter: getBookingDate,
+  },
+  { field: "total_price", headerName: "Total Price", width: 130 },
+];

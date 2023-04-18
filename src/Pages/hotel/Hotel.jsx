@@ -34,7 +34,6 @@ const Hotel = () => {
   const { room_data } = useSelector((state) => state.getStaticroom);
   // console.log(city, dates, options);
   const { selected_hotel } = useSelector((state) => state.getSelectedHotel);
-  console.log("Data At Hotel Page",selected_hotel);
   // if (selected_hotel) {
   //   console.log(selected_hotel);
   // }

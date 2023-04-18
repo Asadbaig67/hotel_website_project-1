@@ -14,6 +14,9 @@ import {
   bookingHeader,
   parkingHeader,
   hotelAndParkingHeader,
+  bookingHotelHeader,
+  bookingParkingHeader,
+  bookingHotelAndParkingHeader
 } from "../../Utilis/DataTableSource";
 
 const HotelsList = () => {
@@ -130,17 +133,19 @@ const HotelsList = () => {
           type: "SETURL",
           payload: `http://localhost:5000/booking/getBookingHotelByOwnerId/${id}`,
         });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader });
       } else if (user.partner_type === "Parking") {
         dispatch({
           type: "SETURL",
           payload: `http://localhost:5000/booking/getBookingParkingByOwnerId/${id}`,
         });
+        dispatch({ type: "SETHEADER", payload: bookingParkingHeader });
       } else if (user.partner_type === "HotelAndParking") {
         dispatch({
           type: "SETURL",
           payload: `http://localhost:5000/booking/getBookingHotelandParkingByOwnerId/${id}`,
         });
-        dispatch({ type: "SETHEADER", payload: bookingHeader });
+        dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader });
       }
     }
   }

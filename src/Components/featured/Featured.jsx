@@ -50,7 +50,6 @@ const Featured = () => {
     }
   };
 
-  console.log(activePath);
 
   return (
     <div>

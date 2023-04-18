@@ -321,7 +321,7 @@ const Navbar = ({ list }) => {
             payload: parkingList,
           });
         }
-        console.log(parkingList);
+        // console.log(parkingList);
       } catch (error) {
         console.log("You get The Error ", error);
       }
@@ -329,7 +329,7 @@ const Navbar = ({ list }) => {
   };
 
   useEffect(() => {
-    console.log(cityParking, c, datesParking);
+    // console.log(cityParking, c, datesParking);
     if (path === "/" || path === "/listHotel" || path === "/singleHotel") {
       dispatch({
         type: "activePath",

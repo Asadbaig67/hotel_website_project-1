@@ -63,6 +63,14 @@ const DataTable = ({ header, path, user }) => {
       data = await axios.delete(
         `http://localhost:5000/hotelandparking/deletehotelandparking/${id}`
       );
+    } else if (
+      path === "bookings" ||
+      path === "booking" ||
+      path === "bookingRequests"
+    ) {
+      data = await axios.delete(
+        `http://localhost:5000/booking/deletebooking/${id}`
+      );
     }
     if (data) setList(list.filter((item) => item._id !== id));
   };
@@ -96,6 +104,14 @@ const DataTable = ({ header, path, user }) => {
     ) {
       data = await axios.get(
         `http://localhost:5000/hotelandparking/gethotelandparkingbyid/${id}`
+      );
+    } else if (
+      path === "bookings" ||
+      path === "booking" ||
+      path === "bookingRequests"
+    ) {
+      data = await axios.get(
+        `http://localhost:5000/booking/getBooking/${id}`
       );
     }
     console.log(data);
