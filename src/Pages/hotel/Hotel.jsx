@@ -34,6 +34,7 @@ const Hotel = () => {
   const { room_data } = useSelector((state) => state.getStaticroom);
   // console.log(city, dates, options);
   const { selected_hotel } = useSelector((state) => state.getSelectedHotel);
+  console.log("Data At Hotel Page",selected_hotel);
   // if (selected_hotel) {
   //   console.log(selected_hotel);
   // }
@@ -200,11 +201,13 @@ const Hotel = () => {
             <div className="row p-1">
               <div className="col-md-9">
                 <h1 className="hotelTitle">
-                  {selected_hotel.name
-                    ? selected_hotel.name
-                    : selected_hotel.hotel_name
+                  {selected_hotel
                     ? selected_hotel.hotel_name
-                    : data.name}
+                      ? selected_hotel.hotel_name
+                      : selected_hotel.name
+                      ? selected_hotel.name
+                      : data.name
+                    : "Hotel Pod Roza"}
                   {/* {selected_hotel.hotel_name
                 ? selected_hotel.hotel_name
                 : data.name} */}
@@ -212,11 +215,18 @@ const Hotel = () => {
                 <div className="hotelAddress my-1">
                   <LocationOnIcon className="fs-6" />
                   <span className="">
-                    {selected_hotel.country
+                    {selected_hotel
+                      ? selected_hotel.hotel_country
+                        ? selected_hotel.hotel_country
+                        : selected_hotel.country
+                        ? selected_hotel.country
+                        : data.country
+                      : "Dubai"}
+                    {/* {selected_hotel.country
                       ? selected_hotel.country
                       : selected_hotel.hotel_country
                       ? selected_hotel.hotel_country
-                      : data.address}
+                      : data.address} */}
                   </span>
                   <span className="text-primary fw-bold">
                     {selected_hotel.city
@@ -224,6 +234,13 @@ const Hotel = () => {
                       : selected_hotel.hotel_city
                       ? selected_hotel.hotel_city
                       : ""}
+                    {selected_hotel
+                      ? selected_hotel.hotel_city
+                        ? selected_hotel.hotel_city
+                        : selected_hotel.city
+                        ? selected_hotel.city
+                        : data.city
+                      : "Dubai"}
                   </span>
                 </div>
                 <span className="hotelDistance my-1">
@@ -502,10 +519,24 @@ const Hotel = () => {
               </div> */}
               <div className="hotelDetailsTexts">
                 <h1 className="hotelTitle">
-                  {selected_hotel ? selected_hotel.name : data.title}
+                  {/* {selected_hotel ? selected_hotel.name : data.title} */}
+                  {selected_hotel
+                    ? selected_hotel.hotel_name
+                      ? selected_hotel.hotel_name
+                      : selected_hotel.name
+                      ? selected_hotel.name
+                      : data.name
+                    : null}
                 </h1>
                 <p className="hotelDesc text-dark fs-6 fw-light">
                   {selected_hotel ? selected_hotel.description : data.desc}
+                  {selected_hotel
+                    ? selected_hotel.hotel_description
+                      ? selected_hotel.hotel_description
+                      : selected_hotel.description
+                      ? selected_hotel.description
+                      : data.name
+                    : null}
                 </p>
                 <div>
                   <h5 className="my-3">Most popular facilities</h5>

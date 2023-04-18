@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Button,
@@ -27,6 +27,8 @@ const Forgetpass = () => {
   const { user } = useSelector((state) => state.getLoggedInUser);
   const [alertOn, setAlertOn] = useState(false);
   const [open, setOpen] = useState(true);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("info");
   function Copyright(props) {
     return (
       <Typography
@@ -49,7 +51,6 @@ const Forgetpass = () => {
   };
 
   const handleSubmit = async (event) => {
-    setAlertOn(true);
     event.preventDefault();
     const response = await fetch("http://localhost:5000/otp/sendotp", {
       method: "POST",
@@ -58,13 +59,38 @@ const Forgetpass = () => {
       },
       body: JSON.stringify({ email }),
     });
-    const data = await response.json();
-    if (data) {
+    if (response.status === 404) {
+      setAlertMessage("Email Not Exist");
+      setAlertType("error");
+      setAlertOn(true);
+    } else if (response.status === 409) {
+      setAlertMessage(
+        "Email Already Sent To Your Email! Please Check Your Email Inbox!"
+      );
+      setAlertOn(true);
+    } else if (response.status === 500) {
+      setAlertType("error");
+      setAlertMessage("Server Error");
+      setAlertOn(true);
+    } else if (response.status === 200) {
+      setAlertType("info");
+      setAlertMessage(
+        "Please check your email inbox for a link to complete the reset!"
+      );
+      setAlertOn(true);
+      const data = await response.json();
       dispatch({ type: "SET_USER_TOKEN", payload: data.user });
-      setAlertOn(false);
+      // setTimeout(() => {
+      //   setAlertOn(false);
+      // }, 5000);
     }
-    Navigate("/otpverify");
   };
+
+  useEffect(() => {
+    if (alertMessage && alertType) {
+      setAlertOn(true);
+    }
+  }, [alertMessage, alertType]);
 
   return (
     <>
@@ -72,7 +98,15 @@ const Forgetpass = () => {
         <Collapse in={open}>
           <Stack sx={{ width: "100%" }} spacing={1}>
             <Alert
-              severity="info"
+              sx={{
+                borderRadius: "9999px", // make the alert appear as a pill shape
+                transition: "transform 0.3s ease-in-out", // add a transition effect
+                transform: open ? "scale(1)" : "scale(0.7)", // scale the alert based on the open state
+                mt: 2,
+                ml: 2,
+                mr: 2,
+              }}
+              severity={alertType}
               action={
                 <IconButton
                   aria-label="close"
@@ -81,15 +115,14 @@ const Forgetpass = () => {
                   onClick={() => {
                     setOpen(false);
                   }}
+                  sx={{ mt: 1.5 }}
                 >
                   <CloseIcon fontSize="inherit" />
                 </IconButton>
               }
             >
               <AlertTitle>Reset Password</AlertTitle>
-              <strong>
-                Password Reset OTP is sent to your given email please verify!
-              </strong>
+              <strong>{alertMessage}!</strong>
             </Alert>
           </Stack>
         </Collapse>
@@ -140,6 +173,7 @@ const Forgetpass = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 onSubmit={handleSubmit}
+                // disabled={}
               >
                 Verify Email
               </Button>
