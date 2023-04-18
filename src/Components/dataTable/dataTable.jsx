@@ -37,7 +37,8 @@ const DataTable = ({ header, path, user }) => {
     if (
       path === "hotels" ||
       path === "hotelRequests" ||
-      (path === "Property" && user.partner_type === "Hotel")
+      (path === "Property" && user.partner_type === "Hotel") ||
+      (path === "PropertyRequests" && user.partner_type === "Hotel")
     ) {
       data = await axios.delete(
         `http://localhost:5000/hotels/deletehotel/${id}`
@@ -47,7 +48,8 @@ const DataTable = ({ header, path, user }) => {
     } else if (
       path === "parkings" ||
       path === "parkingRequests" ||
-      (path === "Property" && user.partner_type === "Parking")
+      (path === "Property" && user.partner_type === "Parking") ||
+      (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
       data = await axios.delete(
         `http://localhost:5000/parking/deleteparking/${id}`
@@ -55,7 +57,8 @@ const DataTable = ({ header, path, user }) => {
     } else if (
       path === "HotelsAndParkings" ||
       path === "hotelAndParkingRequests" ||
-      (path === "Property" && user.partner_type === "HotelAndParking")
+      (path === "Property" && user.partner_type === "HotelAndParking") ||
+      (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
       data = await axios.delete(
         `http://localhost:5000/hotelandparking/deletehotelandparking/${id}`
@@ -69,7 +72,8 @@ const DataTable = ({ header, path, user }) => {
     if (
       path === "hotels" ||
       path === "hotelRequests" ||
-      (path === "Property" && user.partner_type === "Hotel")
+      (path === "Property" && user.partner_type === "Hotel") ||
+      (path === "PropertyRequests" && user.partner_type === "Hotel")
     ) {
       data = await axios.get(`http://localhost:5000/hotels/gethotelbyid/${id}`);
     } else if (path === "users") {
@@ -77,7 +81,8 @@ const DataTable = ({ header, path, user }) => {
     } else if (
       path === "parkings" ||
       path === "parkingRequests" ||
-      (path === "Property" && user.partner_type === "Parking")
+      (path === "Property" && user.partner_type === "Parking") ||
+      (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
       console.log(id);
       data = await axios.get(
@@ -86,7 +91,8 @@ const DataTable = ({ header, path, user }) => {
     } else if (
       path === "HotelsAndParkings" ||
       path === "hotelAndParkingRequests" ||
-      (path === "Property" && user.partner_type === "HotelAndParking")
+      (path === "Property" && user.partner_type === "HotelAndParking") ||
+      (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
       data = await axios.get(
         `http://localhost:5000/hotelandparking/gethotelandparkingbyid/${id}`

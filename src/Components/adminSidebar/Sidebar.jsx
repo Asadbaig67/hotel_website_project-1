@@ -6,6 +6,7 @@ import {
   SidebarDataAdminProfile,
   SidebarDataAdminProfilePending,
   SidebarDataPatnerProfile,
+  SidebarDataPatnerProfilePending,
   SidebarDataUserProfile,
   SidebarDataLogout,
 } from "../../Utilis/SidebarData";
@@ -96,7 +97,7 @@ export default function Sidebar() {
           </div>
         </div>
       ) : null} */}
-      <header className={style.header} >
+      <header className={style.header}>
         <Navbar />
       </header>
       <div
@@ -137,7 +138,17 @@ export default function Sidebar() {
                     {sidebarProfile(SidebarDataAdminProfilePending)}
                   </>
                 ) : view === "partner" ? (
-                  sidebarProfile(SidebarDataPatnerProfile)
+                  <>
+                    {sidebarProfile(SidebarDataPatnerProfile)}
+                    <h3
+                      className={`${style.nav__subtitle} text-${
+                        mode === "dark" ? "light" : "dark"
+                      }`}
+                    >
+                      Pending Approvals
+                    </h3>
+                    {sidebarProfile(SidebarDataPatnerProfilePending)}
+                  </>
                 ) : (
                   sidebarProfile(SidebarDataUserProfile)
                 )}
@@ -150,6 +161,7 @@ export default function Sidebar() {
             }`}
             onClick={() => {
               setConfirmMessage(true);
+              dispatch({ type: "SET_LOGGEDIN_USER", payload: {} });
             }}
           >
             {SidebarDataLogout.map((element) => {

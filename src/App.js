@@ -121,6 +121,8 @@ function App() {
         <Route path="/HotelsAndParkings" element={<HotelsList />} />
         <Route path="/parkings" element={<HotelsList />} />
         <Route path="/property" element={<HotelsList />} />
+        <Route path="/PropertyRequests" element={<HotelsList />} />
+        <Route path="/bookingRequests" element={<HotelsList />} />
         <Route path="/profiledata" element={<ProfileDataForm />} />
         <Route path="/maps" element={<Reactmaps />} />
         <Route path="/hotelform" element={<AddHotelForm />} />

@@ -85,23 +85,42 @@ const HotelsList = () => {
     }
   } else if (view === "partner") {
     if (path === "Property") {
-      console.log(loggedinUser);
       if (user.partner_type === "Hotel") {
         dispatch({
           type: "SETURL",
-          payload: `http://localhost:5000/hotels/gethotelbyonwerid/${id}`,
+          payload: `http://localhost:5000/hotels/getApprovedhotelbyonwerid/${id}`,
         });
         dispatch({ type: "SETHEADER", payload: hotelsHeader });
       } else if (user.partner_type === "Parking") {
         dispatch({
           type: "SETURL",
-          payload: `http://localhost:5000/parking/getParkingByOwnerId/${id}`,
+          payload: `http://localhost:5000/parking/getApprovedParkingByOwnerId/${id}`,
         });
         dispatch({ type: "SETHEADER", payload: parkingHeader });
       } else if (user.partner_type === "HotelAndParking") {
         dispatch({
           type: "SETURL",
-          payload: `http://localhost:5000/hotelandparking/gethotelandparkingbyownerid/${id}`,
+          payload: `http://localhost:5000/hotelandparking/getApprovedhotelandparkingbyownerid/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader });
+      }
+    } else if (path === "PropertyRequests") {
+      if (user.partner_type === "Hotel") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/hotels/getUnapprovedhotelbyonwerid/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: hotelsHeader });
+      } else if (user.partner_type === "Parking") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/parking/getUnapprovedParkingByOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: parkingHeader });
+      } else if (user.partner_type === "HotelAndParking") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/hotelandparking/getUnapprovedhotelandparkingbyownerid/${id}`,
         });
         dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader });
       }
@@ -168,7 +187,8 @@ const HotelsList = () => {
     if (
       path === "hotels" ||
       path === "hotelRequests" ||
-      (path === "Property" && user.partner_type === "Hotel")
+      (path === "Property" && user.partner_type === "Hotel") ||
+      (path === "PropertyRequests" && user.partner_type === "Hotel")
     ) {
       window.location.href = "/hotelform";
     } else if (path === "users") {
@@ -178,13 +198,15 @@ const HotelsList = () => {
     } else if (
       path === "parkings" ||
       path === "parkingRequests" ||
-      (path === "Property" && user.partner_type === "Parking")
+      (path === "Property" && user.partner_type === "Parking") ||
+      (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
       window.location.href = "/parkingform";
     } else if (
       path === "HotelsAndParkings" ||
       path === "hotelAndParkingRequests" ||
-      (path === "Property" && user.partner_type === "HotelAndParking")
+      (path === "Property" && user.partner_type === "HotelAndParking") ||
+      (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
       window.location.href = "/hotelparkingform";
     }
@@ -237,6 +259,14 @@ const HotelsList = () => {
                 <h2 className="fs-1 mb-2 mt-4">
                   My Hotels and Parking Bookings
                 </h2>
+              ) : null
+            ) : path === "PropertyRequests" ? (
+              user.partner_type === "Hotel" ? (
+                <h2 className="fs-1 mb-2 mt-4">Pending Hotels</h2>
+              ) : user.partner_type === "Parking" ? (
+                <h2 className="fs-1 mb-2 mt-4">Pending Parkings</h2>
+              ) : user.partner_type === "HotelAndParking" ? (
+                <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings</h2>
               ) : null
             ) : null
           ) : null}
