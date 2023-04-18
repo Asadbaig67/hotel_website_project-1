@@ -1,8 +1,8 @@
 .loader {
   display: block;
-  --height-of-loader: 4px;
+  --height-of-loader: 2px;
   --loader-color: #0071e2;
-  width: 130px;
+  width: 100px;
   height: var(--height-of-loader);
   border-radius: 30px;
   background-color: rgba(0, 0, 0, 0.2);

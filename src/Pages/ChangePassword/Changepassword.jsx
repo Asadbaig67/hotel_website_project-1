@@ -33,6 +33,10 @@ const Changepassword = () => {
   const [alertErrorOn, setAlertErrorOn] = useState(false);
   const [open, setOpen] = useState(true);
   const [openError, setOpenError] = useState(true);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertTitle, setAlertTitle] = useState("Success!");
+
+  const [alertType, setAlertType] = useState("info");
 
   function Copyright(props) {
     return (
@@ -79,49 +83,48 @@ const Changepassword = () => {
       body: JSON.stringify({ email, newpassword, cnewpassword }),
     });
     const data = await response.json();
-
+    if (response.status === 401) {
+      setAlertType("error");
+      setAlertTitle("Failed!");
+      setAlertMessage("Verification Failed, Please Retry!");
+      setAlertOn(true);
+    }
+    if (!response.ok) {
+      setAlertType("error");
+      setAlertTitle("Failed!");
+      setAlertMessage("Cannot Reset Password!");
+    }
     if (data) {
+      setAlertType("info");
+      setAlertTitle("Password Update Success!");
+      setAlertMessage(
+        "Password Updated Successfully! You are being redirected to Signin Page"
+      );
+      setAlertOn(true);
+      // setTimeout(() => {
+      //   setAlertOn(true);
+      // }, 2000);
       setTimeout(() => {
-        setAlertOn(true);
-      }, 2000);
-      Navigate("/Signin");
+        Navigate("/Signin");
+      }, 5000);
     }
   };
 
   return (
     <>
-      {alertErrorOn && (
-        <Collapse in={openError}>
-          <Stack sx={{ width: "100%" }} spacing={1}>
-            <Alert
-              severity="info"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-            >
-              <AlertTitle>Error</AlertTitle>
-              <strong>
-                Your password could not be updated due to some error. Please
-                Retry!.
-              </strong>
-            </Alert>
-          </Stack>
-        </Collapse>
-      )}
       {alertOn && (
         <Collapse in={open}>
           <Stack sx={{ width: "100%" }} spacing={1}>
             <Alert
-              severity="info"
+              sx={{
+                borderRadius: "9999px", // make the alert appear as a pill shape
+                transition: "transform 0.3s ease-in-out", // add a transition effect
+                transform: open ? "scale(1)" : "scale(0.7)", // scale the alert based on the open state
+                mt: 2,
+                ml: 2,
+                mr: 2,
+              }}
+              severity={alertType}
               action={
                 <IconButton
                   aria-label="close"
@@ -130,16 +133,14 @@ const Changepassword = () => {
                   onClick={() => {
                     setOpen(false);
                   }}
+                  sx={{ mt: 1.5 }}
                 >
                   <CloseIcon fontSize="inherit" />
                 </IconButton>
               }
             >
-              <AlertTitle>Success !</AlertTitle>
-              <strong>
-                Password Updated Successfully! You are being redirected to
-                Signin Page
-              </strong>
+              <AlertTitle>{alertTitle}</AlertTitle>
+              <strong>{alertMessage}!</strong>
             </Alert>
           </Stack>
         </Collapse>
