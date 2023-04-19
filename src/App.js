@@ -107,7 +107,7 @@ function App() {
         <Route path="/singleparking" element={<ParkingPropertyDetails property={property} />} />
 
         {/* Admin Routes */}
-        
+
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/hotels" element={<HotelsList />} />
@@ -121,6 +121,12 @@ function App() {
         <Route path="/property" element={<HotelsList />} />
         <Route path="/PropertyRequests" element={<HotelsList />} />
         <Route path="/bookingRequests" element={<HotelsList />} />
+        <Route path="/hotelbookings" element={<HotelsList />} />
+        <Route path="/parkingbookings" element={<HotelsList />} />
+        <Route path="/hotelandparkingbookings" element={<HotelsList />} />
+        <Route path="/upcominghotelbookings" element={<HotelsList />} />
+        <Route path="/upcomingparkingbookings" element={<HotelsList />} />
+        <Route path="/upcominghotelandparkingbookings" element={<HotelsList />} />
         <Route path="/profiledata" element={<ProfileDataForm />} />
         <Route path="/maps" element={<Reactmaps />} />
         <Route path="/hotelform" element={<AddHotelForm />} />

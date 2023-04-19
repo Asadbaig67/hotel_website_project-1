@@ -2,12 +2,10 @@ import style from "./list.module.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import Card from "../../Components/Card/Card";
-// import useFetch from "../../hooks/useFetch";
 import Dates from "../../Components/date/Date";
 import Footer from "../../Components/footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
-import axios from "axios";
 import Dropdown from "../../Components/dropdown/Dropdown";
 
 const List = () => {
@@ -97,7 +95,6 @@ const List = () => {
         // credentials: "include",
       });
       const hotelparkingdata = await response.json();
-      console.log(hotelparkingdata);
       dispatch({ type: "SET_HOTEL_DATA", payload: hotelparkingdata });
     } catch (error) {
       console.log("You get The Error ", error);

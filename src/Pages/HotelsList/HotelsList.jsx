@@ -14,6 +14,9 @@ import {
   bookingHeader,
   parkingHeader,
   hotelAndParkingHeader,
+  bookingHotelHeader,
+  bookingParkingHeader,
+  bookingHotelAndParkingHeader,
 } from "../../Utilis/DataTableSource";
 
 const HotelsList = () => {
@@ -130,18 +133,58 @@ const HotelsList = () => {
           type: "SETURL",
           payload: `http://localhost:5000/booking/getBookingHotelByOwnerId/${id}`,
         });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader });
       } else if (user.partner_type === "Parking") {
         dispatch({
           type: "SETURL",
           payload: `http://localhost:5000/booking/getBookingParkingByOwnerId/${id}`,
         });
+        dispatch({ type: "SETHEADER", payload: bookingParkingHeader });
       } else if (user.partner_type === "HotelAndParking") {
         dispatch({
           type: "SETURL",
           payload: `http://localhost:5000/booking/getBookingHotelandParkingByOwnerId/${id}`,
         });
-        dispatch({ type: "SETHEADER", payload: bookingHeader });
+        dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader });
       }
+    }
+  } else if (view === "user") {
+    if (path === "hotelbookings") {
+      dispatch({
+        type: "SETURL",
+        payload: `http://localhost:5000/booking/getPreviousBookingHotelByUserId/${id}`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHotelHeader });
+    } else if (path === "parkingbookings") {
+      dispatch({
+        type: "SETURL",
+        payload: `http://localhost:5000/booking/getPreviousBookingParkingByUserId/${id}`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingParkingHeader });
+    } else if (path === "hotelandparkingbookings") {
+      dispatch({
+        type: "SETURL",
+        payload: `http://localhost:5000/booking/getPreviousBookingHotelandParkingByUserId/${id}`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader });
+    } else if (path === "upcominghotelbookings") {
+      dispatch({
+        type: "SETURL",
+        payload: `http://localhost:5000/booking/getUpcomingBookingHotelByUserId/${id}`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHotelHeader });
+    } else if (path === "upcomingparkingbookings") {
+      dispatch({
+        type: "SETURL",
+        payload: `http://localhost:5000/booking/getUpcomingBookingParkingByUserId/${id}`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingParkingHeader });
+    } else if (path === "upcominghotelandparkingbookings") {
+      dispatch({
+        type: "SETURL",
+        payload: `http://localhost:5000/booking/getUpcomingBookingHotelandParkingByUserId/${id}`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader });
     }
   }
 
@@ -268,6 +311,20 @@ const HotelsList = () => {
               ) : user.partner_type === "HotelAndParking" ? (
                 <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings</h2>
               ) : null
+            ) : null
+          ) : view === "user" ? (
+            path === "hotelbookings" ? (
+              <h2 className="fs-1 mb-2 mt-4">My Hotel Bookings</h2>
+            ) : path === "parkingbookings" ? (
+              <h2 className="fs-1 mb-2 mt-4">My Parking Bookings</h2>
+            ) : path === "hotelandparkingbookings" ? (
+              <h2 className="fs-1 mb-2 mt-4">My Hotel and Parking Bookings</h2>
+            ) : path === "upcominghotelbookings" ? (
+              <h2 className="fs-1 mb-2 mt-4">Upcoming Hotel Bookings</h2>
+            ) : path === "upcomingparkingbookings" ? (
+              <h2 className="fs-1 mb-2 mt-4">Upcoming Parking Bookings</h2>
+            ) : path === "upcominghotelandparkingbookings" ? (
+              <h2 className="fs-1 mb-2 mt-4">Upcoming Hotel and Parking Bookings</h2>
             ) : null
           ) : null}
 
