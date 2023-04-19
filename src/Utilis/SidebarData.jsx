@@ -132,14 +132,49 @@ export const SidebarDataUserProfile = [
     link: "/dashboard",
   },
   { key: 14, title: "Profile", icon: <AccountCircleIcon />, link: "/profile" },
-  {
-    key: 15,
-    title: "My Bookings",
-    icon: <BusinessCenterIcon />,
-    link: "/booking",
-  },
 ];
 
+export const SidebarDataUserBooking = [
+  {
+    key: 15,
+    title: "Hotels",
+    icon: <BusinessCenterIcon />,
+    link: "/hotelbookings",
+  },
+  {
+    key: 16,
+    title: "Parkings",
+    icon: <BusinessCenterIcon />,
+    link: "/parkingbookings",
+  },
+  {
+    key: 17,
+    title: "Hotels and Parkings",
+    icon: <BusinessCenterIcon />,
+    link: "/hotelandparkingbookings",
+  },
+]
+
+export const SidebarDataUserUpcomingBooking = [
+  {
+    key: 15,
+    title: "Hotels",
+    icon: <BusinessCenterIcon />,
+    link: "/upcominghotelbookings",
+  },
+  {
+    key: 16,
+    title: "Parkings",
+    icon: <BusinessCenterIcon />,
+    link: "/upcomingparkingbookings",
+  },
+  {
+    key: 17,
+    title: "Hotels and Parkings",
+    icon: <BusinessCenterIcon />,
+    link: "/upcominghotelandparkingbookings",
+  },
+]
 //For All
 export const SidebarDataLogout = [
   {

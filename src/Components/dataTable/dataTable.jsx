@@ -66,7 +66,10 @@ const DataTable = ({ header, path, user }) => {
     } else if (
       path === "bookings" ||
       path === "booking" ||
-      path === "bookingRequests"
+      path === "bookingRequests" ||
+      path === "hotelbookings" ||
+      path === "parkingbookings" ||
+      path === "hotelandparkingbookings"
     ) {
       data = await axios.delete(
         `http://localhost:5000/booking/deletebooking/${id}`
@@ -108,11 +111,12 @@ const DataTable = ({ header, path, user }) => {
     } else if (
       path === "bookings" ||
       path === "booking" ||
-      path === "bookingRequests"
+      path === "bookingRequests" ||
+      path === "hotelbookings" ||
+      path === "parkingbookings" ||
+      path === "hotelandparkingbookings"
     ) {
-      data = await axios.get(
-        `http://localhost:5000/booking/getBooking/${id}`
-      );
+      data = await axios.get(`http://localhost:5000/booking/getBooking/${id}`);
     }
     console.log(data);
   };

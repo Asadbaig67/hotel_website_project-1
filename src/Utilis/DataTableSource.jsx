@@ -141,7 +141,7 @@ export const bookingParkingHeader = [
   { field: "_id", headerName: "Serial number", width: 120 },
   {
     field: "parkingId",
-    headerName: "Hotel Name",
+    headerName: "Parking Name",
     width: 130,
     valueGetter: getHotelName,
   },

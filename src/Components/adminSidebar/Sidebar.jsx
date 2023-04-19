@@ -9,6 +9,8 @@ import {
   SidebarDataPatnerProfilePending,
   SidebarDataUserProfile,
   SidebarDataLogout,
+  SidebarDataUserBooking,
+  SidebarDataUserUpcomingBooking,
 } from "../../Utilis/SidebarData";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
@@ -150,7 +152,25 @@ export default function Sidebar() {
                     {sidebarProfile(SidebarDataPatnerProfilePending)}
                   </>
                 ) : (
-                  sidebarProfile(SidebarDataUserProfile)
+                  <>
+                    {sidebarProfile(SidebarDataUserProfile)}
+                    <h3
+                      className={`${style.nav__subtitle} text-${
+                        mode === "dark" ? "light" : "dark"
+                      }`}
+                    >
+                      My Bookings
+                    </h3>
+                    {sidebarProfile(SidebarDataUserBooking)}
+                    <h3
+                      className={`${style.nav__subtitle} text-${
+                        mode === "dark" ? "light" : "dark"
+                      }`}
+                    >
+                      Upcoming Bookings
+                    </h3>
+                    {sidebarProfile(SidebarDataUserUpcomingBooking)}
+                  </>
                 )}
               </div>
             </div>
