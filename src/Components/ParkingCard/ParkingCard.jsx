@@ -1,6 +1,11 @@
 import React from "react";
 import image from "../../images/listing-01.jpg";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 const ParkingCard = (props) => {
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
   const {
     // name,
     // description,
@@ -20,6 +25,13 @@ const ParkingCard = (props) => {
     desc: "Some quick example text to build on the card title and make up the bulk of the card's content.",
     price: "$100",
   };
+
+  const HandleClick = () => {
+    dispatch({ type: "SET_SELECTED_PARKING", payload: props.data });
+    Navigate("/singleparking");
+    console.log("clicked");
+  };
+
   return (
     <>
       <div className="card my-3 shadow mx-4">
@@ -98,7 +110,9 @@ const ParkingCard = (props) => {
         </div>
 
         <div className="card-body">
-          <button className="btn btn-primary btn-block">Book Now</button>
+          <button className="btn btn-primary btn-block" onClick={HandleClick}>
+            Book Now
+          </button>
         </div>
       </div>
     </>

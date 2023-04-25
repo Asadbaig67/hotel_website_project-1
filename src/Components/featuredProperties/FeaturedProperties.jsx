@@ -6,7 +6,7 @@ import { useMediaQuery } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Featured_skeleton from "../Skeletons/Featured_skeleton";
 const FeaturedProperties = () => {
   const dispatch = useDispatch();
@@ -25,6 +25,7 @@ const FeaturedProperties = () => {
     5: "Excellent+",
   };
 
+  const [featuredData, setfeaturedData] = useState([]);
   const { activePath } = useSelector((state) => state.activePath);
 
   const HandleClick = async (city) => {
@@ -35,8 +36,9 @@ const FeaturedProperties = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
-          dispatch({ type: "SET_FEATURED_DATA", payload: data });
+          // console.log(data);
+          // dispatch({ type: "SET_FEATURED_DATA", payload: data });
+          setfeaturedData(data);
           // Navigate("/singleHotel");
         } else {
           throw new Error("Request failed");
@@ -51,7 +53,8 @@ const FeaturedProperties = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          dispatch({ type: "SET_FEATURED_DATA", payload: data });
+          // dispatch({ type: "SET_FEATURED_DATA", payload: data });
+          setfeaturedData(data);
         } else {
           throw new Error("Request failed");
         }
@@ -62,7 +65,7 @@ const FeaturedProperties = () => {
   };
 
   const setHotelData = (hotel) => {
-    console.log("data inside Sethoteldata function", hotel);
+    // console.log("data inside Sethoteldata function", hotel);
     // dispatch({ type: "SET_SELECTED_HOTEL", payload: hotel });
     dispatch({
       type: "setHotelData",
@@ -77,9 +80,21 @@ const FeaturedProperties = () => {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
 
-  const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
+  // const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
+  // featured_hotel.forEach((hotel) => {
+  //   if (
+  //     !hotel.photos &&
+  //     !hotel.photos.length > 0 &&
+  //     !hotel.hotel_photos
+  //     !hotel.hotel_photos.length > 0
+  //   ) {
+  //     dispatch({ type: "SET_FEATURED_DATA", payload: [] });
+  //   }
+  //   console.log("hotel", hotel.photos);
+  //   console.log("hotel and parking", hotel.hotel_photos);
+  // });
 
-  console.log("featured_hotel", featured_hotel);
+  // console.log("featured_hotel", featured_hotel);
   useEffect(() => {
     HandleClick();
     // dispatch({ type: "SET_FEATURED_DATA", payload: [] });
@@ -90,7 +105,7 @@ const FeaturedProperties = () => {
       <div className={`container-fluid ${style.fp}`}>
         <div className="row">
           {activePath === "hotel" &&
-            featured_hotel.map((hotel) => {
+            featuredData.map((hotel) => {
               return (
                 <div className={`col-lg-3 col-md-6 col-sm-6 col-12 my-2 `}>
                   <img
@@ -139,8 +154,8 @@ const FeaturedProperties = () => {
               );
             })}
           {activePath === "hotelAndParking" &&
-            featured_hotel.length > 0 &&
-            featured_hotel.map((hotel) => {
+            featuredData.length > 0 &&
+            featuredData.map((hotel) => {
               return (
                 <div className={`col-lg-3 col-md-6 col-sm-6 col-12 my-2 `}>
                   <img
@@ -193,7 +208,7 @@ const FeaturedProperties = () => {
                 </div>
               );
             })}
-          {featured_hotel.length === 0 && <Featured_skeleton />}
+          {featuredData.length === 0 && <Featured_skeleton />}
         </div>
       </div>
     </>
