@@ -13,7 +13,11 @@ const Card = (props) => {
   const price = 200;
   const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
   const { activePath } = useSelector((state) => state.activePath);
-  console.log(activePath);
+  const { options } = useSelector((state) => state.searchOption);
+
+  let roomPrices = [];
+  let obj = {};
+
   let name,
     rating,
     country,
@@ -25,9 +29,35 @@ const Card = (props) => {
     hotel_name,
     hotel_rating,
     parking_total_slots,
-    parking_booked_slots;
+    parking_booked_slots,
+    Total_Price = 0,
+    SingleRoomPrice = 0,
+    TwinRoomPrice = 0,
+    FamilyRoomPrice = 0;
 
   if (activePath === "hotel") {
+    if (props.item.rooms) {
+      const { rooms } = props.item;
+      console.log(rooms);
+      rooms.forEach((element) => {
+        let { room } = element;
+        if (options.singleRoom !== 0 && room.type === "Single") {
+          Total_Price += options.singleRoom * room.price;
+          SingleRoomPrice = options.singleRoom * room.price;
+        }
+        if (options.twinRoom !== 0 && room.type === "Twin") {
+          Total_Price += options.twinRoom * room.price;
+          TwinRoomPrice = options.twinRoom * room.price;
+        }
+        if (options.familyRoom !== 0 && room.type === "Family") {
+          Total_Price += options.familyRoom * room.price;
+          FamilyRoomPrice = options.familyRoom * room.price;
+        }
+        // obj.type = room.type;
+        // obj.price = room.price;
+        // roomPrices.push(obj);
+      });
+    }
     const { hotel } = props.item;
     name = hotel.name;
     rating = hotel.rating;
@@ -35,6 +65,29 @@ const Card = (props) => {
     city = hotel.city;
     photos = hotel.photos;
   } else if (activePath === "hotelAndParking") {
+    if (props.item.rooms) {
+      const { rooms } = props.item;
+      console.log(rooms);
+      rooms.forEach((element) => {
+        let { room } = element;
+        if (options.singleRoom !== 0 && room.type === "Single") {
+          Total_Price += options.singleRoom * room.price;
+          SingleRoomPrice = options.singleRoom * room.price;
+        }
+        if (options.twinRoom !== 0 && room.type === "Twin") {
+          Total_Price += options.twinRoom * room.price;
+          TwinRoomPrice = options.twinRoom * room.price;
+        }
+        if (options.familyRoom !== 0 && room.type === "Family") {
+          Total_Price += options.familyRoom * room.price;
+          FamilyRoomPrice = options.familyRoom * room.price;
+        }
+        // obj.type = room.type;
+        // obj.price = room.price;
+        // roomPrices.push(obj);
+      });
+    }
+
     const { hotel } = props.item;
     hotel_name = hotel.hotel_name;
     hotel_rating = hotel.hotel_rating;
@@ -46,9 +99,41 @@ const Card = (props) => {
   }
 
   const { cardData } = useSelector((state) => state.setCardData);
-  const { options } = useSelector((state) => state.searchOption);
+  // const { options } = useSelector((state) => state.searchOption);
   // const { city } = useSelector((state) => state.searchCity);
   const { dates } = useSelector((state) => state.searchDate);
+
+  // Calculating Nights From Dates
+  // let startingDate = dates[0];
+  // const [startday, startmonth, startyear] = startingDate.split("-").map(Number);
+  // startingDate = new Date(startyear, startmonth - 1, startday); // Note: month is 0-indexed in JavaScript
+  // let endingDate = dates[1];
+  // const [endday, endmonth, endyear] = endingDate.split("-").map(Number);
+  // endingDate = new Date(endyear, endmonth - 1, endday); // Note: month is 0-indexed in JavaScript
+  // const timeDiff = Math.abs(endingDate.getTime() - startingDate.getTime());
+  // nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  // console.log(nights);
+
+  // console.log(dates);
+
+  let nights = 0;
+  if (dates && dates.length === 2) {
+    let startingDate = dates[0];
+    const [startday, startmonth, startyear] = startingDate
+      .split("-")
+      .map(Number);
+    startingDate = new Date(startyear, startmonth - 1, startday); // Note: month is 0-indexed in JavaScript
+    let endingDate = dates[1];
+    const [endday, endmonth, endyear] = endingDate.split("-").map(Number);
+    endingDate = new Date(endyear, endmonth - 1, endday); // Note: month is 0-indexed in JavaScript
+    const timeDiff = Math.abs(endingDate.getTime() - startingDate.getTime());
+    nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    console.log(nights);
+
+    console.log(dates);
+  }
+
+  // console.log(nights);
 
   // const [value, setValue] = useState(3);
   // const [hover, setHover] = useState(5);
@@ -77,12 +162,28 @@ const Card = (props) => {
   }
 
   const { hotel } = props.item;
+  console.log("card Page" + nights);
+
   const setSelectedHotel = () => {
-    dispatch({
-      type: "setHotelData",
-      payload: hotel,
-    });
-    // console.log(props.item);
+    if (featured_hotel.length > 0) {
+      dispatch({
+        type: "setHotelData",
+        payload: hotel,
+      });
+    } else {
+      let updatedHotel = {
+        ...hotel,
+        Total_Price,
+        SingleRoomPrice,
+        TwinRoomPrice,
+        FamilyRoomPrice,
+        Nights: nights,
+      };
+      dispatch({
+        type: "setHotelData",
+        payload: updatedHotel,
+      });
+    }
     activePath === "hotel"
       ? navigate("/singleHotel")
       : navigate("/singleHotelAndParking");
@@ -247,14 +348,14 @@ const Card = (props) => {
             ) : (
               <>
                 <small className="fs-6 text-end fw-light text-muted">
-                  2 nights
+                  {nights && nights} nights
                 </small>
                 <small className="fs-6 text-end fw-light text-muted">
                   {options.adult} adults, {options.children} children
                 </small>
                 <div className="d-flex ms-auto flex-row align-items-center">
                   <h4 className="fw-bold mx-1 fs-4">
-                    {options.singleRoom +
+                    {/* {options.singleRoom +
                       options.twinRoom +
                       options.familyRoom >
                     1
@@ -262,12 +363,14 @@ const Card = (props) => {
                         (options.singleRoom +
                           options.twinRoom +
                           options.familyRoom)
-                      : price}
-                    $
+                      : price} */}
+                    ${Total_Price && Total_Price}
                   </h4>
                   <span className="text-danger">
                     <s>
-                      {options.room > 1 ? price * options.room : price + 50}$
+                      {/* {options.room > 1 ? price * options.room : price + 50}$
+                       */}
+                      ${Total_Price && Total_Price + 2000}
                     </s>
                   </span>
                 </div>
