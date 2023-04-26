@@ -31,6 +31,7 @@ import AddRoomForm from "./Components/Forms/Room_Forms/AddRoom";
 import HotelBooking from './Components/Forms/Booking_Forms/Hotel_booking'
 import ParkingPropertyDetails from "./Pages/singleParking/Singleparking";
 import Featured_skeleton from "./Components/Skeletons/Featured_skeleton";
+import Viewbookings from "./Pages/BookingDetails/Viewbookings";
 
 function App() {
 
@@ -61,12 +62,13 @@ function App() {
     pictures: [
       {
         id: 1,
-        url: "http://localhost:5000/uploads/ParkingImages/parking1.jpg",
+        url: "https://picsum.photos/300/200",
         alt: "Example Picture 1"
       },
       {
         id: 2,
-        url: "http://localhost:5000/uploads/ParkingImages/parking2.jpg",
+        // url: "http://localhost:5000/uploads/ParkingImages/parking2.jpg",
+        url: "https://picsum.photos/300/200",
         alt: "Example Picture 2"
       },
       {
@@ -105,6 +107,7 @@ function App() {
         <Route path="/parkingform" element={<AddParkingForm />} />
         <Route path="/skeleton" element={<Featured_skeleton />} />
         <Route path="/singleparking" element={<ParkingPropertyDetails property={property} />} />
+        <Route path="/bookingdetails" element={<Viewbookings />} />
 
         {/* Admin Routes */}
 

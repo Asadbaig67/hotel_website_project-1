@@ -20,23 +20,29 @@ import { useMediaQuery } from "@mui/material";
 
 // import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 // import { SearchContext } from "../../context/SearchContext";
 // import { AuthContext } from "../../context/AuthContext";
 // import Reserve from "../../components/reserve/Reserve";
 
 const Hotel = () => {
   // const location = useLocation();
-
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
   // const { city } = useSelector((state) => state.searchCity);
   // const { dates } = useSelector((state) => state.searchDate);
-  // const { options } = useSelector((state) => state.searchOption);
+  const { options } = useSelector((state) => state.searchOption);
+  const { c } = useSelector((state) => state.searchVehicle);
+  console.log(options);
   const { room_data } = useSelector((state) => state.getStaticroom);
-  // console.log(city, dates, options);
+  const { activePath } = useSelector((state) => state.activePath);
+  console.log("Selected Option are =", options);
   const { selected_hotel } = useSelector((state) => state.getSelectedHotel);
-  // if (selected_hotel) {
-  //   console.log(selected_hotel);
-  // }
+
+  if (selected_hotel) {
+    console.log("Selected Hotel =", selected_hotel);
+    console.log(selected_hotel.TwinRoomPrice);
+  }
 
   // const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
@@ -60,7 +66,12 @@ const Hotel = () => {
   // Calculating available parking slots
   let availableParkingSlots =
     selected_hotel.parking_total_slots - selected_hotel.parking_booked_slots;
+  let parkingPrice = 0;
+  if (activePath === "hotelAndParking") {
+    parkingPrice = selected_hotel.parking_price * c;
+  }
 
+  console.log("Parking Price =", parkingPrice);
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
@@ -150,6 +161,16 @@ const Hotel = () => {
       : setLimit(data.facilities.length);
   };
 
+  const HandleBook = () => {
+    // set BookedSelction data
+    // const updatedHotel = { ...selected_hotel };
+    dispatch({
+      type: "SET_BOOKED_PROPERTY",
+      payload: selected_hotel,
+    });
+    Navigate("/bookingdetails");
+  };
+
   // To disable scroll when modal is open
   useEffect(() => {
     const disableScroll = () => {
@@ -162,6 +183,8 @@ const Hotel = () => {
     window.addEventListener("scroll", disableScroll);
     return () => window.removeEventListener("scroll", disableScroll);
   }, [open]);
+
+  console.log("Hotel Page" + selected_hotel.Nights);
 
   return (
     <div style={{ overflow: "hidden" }}>
@@ -186,6 +209,7 @@ const Hotel = () => {
                 />
                 <img
                   src={data.photos[slideNumber]}
+                  style={{ objectFit: "cover" }}
                   alt=""
                   className="sliderImg"
                 />
@@ -207,9 +231,6 @@ const Hotel = () => {
                       ? selected_hotel.name
                       : data.name
                     : "Hotel Pod Roza"}
-                  {/* {selected_hotel.hotel_name
-                ? selected_hotel.hotel_name
-                : data.name} */}
                 </h1>
                 <div className="hotelAddress my-1">
                   <LocationOnIcon className="fs-6" />
@@ -221,18 +242,13 @@ const Hotel = () => {
                         ? selected_hotel.country
                         : data.country
                       : "Dubai"}
-                    {/* {selected_hotel.country
-                      ? selected_hotel.country
-                      : selected_hotel.hotel_country
-                      ? selected_hotel.hotel_country
-                      : data.address} */}
                   </span>
                   <span className="text-primary fw-bold">
-                    {selected_hotel.city
+                    {/* {selected_hotel.city
                       ? selected_hotel.city
                       : selected_hotel.hotel_city
                       ? selected_hotel.hotel_city
-                      : ""}
+                      : ""} */}
                     {selected_hotel
                       ? selected_hotel.hotel_city
                         ? selected_hotel.hotel_city
@@ -255,6 +271,7 @@ const Hotel = () => {
                   className={`btn btn-primary ${
                     isXtraSmallScreen ? "my-1" : ""
                   }`}
+                  onClick={HandleBook}
                 >
                   Reserve or Book Now!
                 </button>
@@ -382,20 +399,48 @@ const Hotel = () => {
                   <div className="row">
                     <div className="col-12 mb-3">
                       <div className="fw-bold">
-                        8 ×{" "}
-                        <a href="/" className="fw-bold">
-                          King Room
-                        </a>
+                        <div className="">
+                          {options.singleRoom > 0 && (
+                            <>
+                              {" "}
+                              {options.singleRoom}x{" "}
+                              <span className="text-primary fw-bold">
+                                {" "}
+                                Single Room{" "}
+                              </span>
+                            </>
+                          )}
+                          {options.twinRoom > 0 && (
+                            <>
+                              {" "}
+                              {options.twinRoom}x{" "}
+                              <span className="text-primary fw-bold">
+                                {" "}
+                                Twin Room{" "}
+                              </span>
+                            </>
+                          )}
+                          {options.familyRoom > 0 && (
+                            <>
+                              {" "}
+                              {options.familyRoom}x{" "}
+                              <span className="text-primary fw-bold">
+                                {" "}
+                                Family Room{" "}
+                              </span>
+                            </>
+                          )}
+                        </div>
                       </div>
                       <div className="d-flex align-items-center">
                         <div>
-                          Price for:{" "}
+                          Price for: {options.adult}x
                           <span className="mx-1">
                             <i className="fas fa-user"></i>
                           </span>
-                          <span className="mx-1">
+                          {/* <span className="mx-1">
                             <i className="fas fa-user"></i>
-                          </span>
+                          </span> */}
                         </div>
                       </div>
                       <div>
@@ -425,38 +470,91 @@ const Hotel = () => {
                 >
                   <div className="d-flex flex-column align-items-start">
                     <div className="fw-bold fs-5">
-                      $
-                      {selected_hotel.price
-                        ? selected_hotel.price + 20
-                        : data.price}
+                      {selected_hotel.SingleRoomPrice &&
+                        selected_hotel.SingleRoomPrice !== 0 && (
+                          <>
+                            <small>
+                              Single Room Price = $
+                              {selected_hotel.SingleRoomPrice}
+                            </small>
+                            <br />
+                          </>
+                        )}
+                      {selected_hotel.TwinRoomPrice &&
+                        selected_hotel.TwinRoomPrice > 0 && (
+                          <>
+                            <small>
+                              Twin Room Price = ${selected_hotel.TwinRoomPrice}
+                            </small>
+                            <br />
+                          </>
+                        )}
+                      {selected_hotel.FamilyRoomPrice &&
+                        selected_hotel.FamilyRoomPrice > 0 && (
+                          <small>
+                            Family Room Price = $
+                            {selected_hotel.FamilyRoomPrice}
+                          </small>
+                        )}
+
+                      {selected_hotel.StandardPrice &&
+                        selected_hotel.StandardPrice !== 0 && (
+                          <small>
+                            Standard Price = ${selected_hotel.StandardPrice}
+                          </small>
+                        )}
                     </div>
-                    <div className="mt-2" style={{ fontSize: "12px" }}>
+                    {/* <div className="mt-2" style={{ fontSize: "12px" }}>
                       Includes taxes and fees
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className={`col-md-4 ${isXtraSmallScreen ? "mt-0" : ""}`}>
                   <div className="d-flex flex-column align-items-start">
                     <div className="mt-3" style={{ fontSize: "12px" }}>
-                      8 nights, 13 adults, 3 children
+                      {selected_hotel.Nights} nights, {options.adult} adults,{" "}
+                      {options.children} children
                     </div>
                     <div className="fw-bold fs-5">
-                      $
+                      {/* $
                       {selected_hotel.price
                         ? selected_hotel.price + 20
-                        : data.price}
+                        : data.price} */}
+                      {selected_hotel.Total_Price && (
+                        <small>
+                          Total Price = $
+                          {selected_hotel.parking_price
+                            ? selected_hotel.Total_Price +
+                              220 +
+                              selected_hotel.parking_price * c
+                            : selected_hotel.Total_Price + 220}
+                        </small>
+                      )}
+
+                      {selected_hotel.StandardPrice && (
+                        <small>
+                          Total Price = ${selected_hotel.StandardPrice + 220}
+                        </small>
+                      )}
                     </div>
                     <div className="mt-2" style={{ fontSize: "12px" }}>
-                      Includes taxes and fees
+                      Includes 220 taxes and fees
                     </div>
-                    {availableParkingSlots ? (
-                      <div className="mt-2" style={{ fontSize: "12px" }}>
-                        Extra 5$ for parking
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                    <button className="btn btn-primary btn-block mt-3 mb-2">
+                    {availableParkingSlots &&
+                      activePath === "hotelAndParking" &&
+                      !selected_hotel.StandardPrice && (
+                        <div className="mt-2" style={{ fontSize: "12px" }}>
+                          Extra{" "}
+                          {/* {selected_hotel.parking_price
+                            ? selected_hotel.parking_price * c
+                            : ""} */}
+                          {parkingPrice}$ for parking
+                        </div>
+                      )}
+                    <button
+                      className="btn btn-primary btn-block mt-3 mb-2"
+                      onClick={HandleBook}
+                    >
                       Reserve your selection
                     </button>
                     <div className="mt-2" style={{ fontSize: "12px" }}>
@@ -590,7 +688,9 @@ const Hotel = () => {
                 </h2>
                 <button onClick={handleClick}>Reserve or Book Now!</button> */}
                 <div className="fw-bold">Property Highlights</div>
-                <div className="fw-bold">Perfect for an 8-night stay!</div>
+                <div className="fw-bold">
+                  Perfect for an {selected_hotel.Nights}-night stay!
+                </div>
                 <div style={{ fontSize: "12px" }}>
                   <ul>
                     <li className="mb-1 d-flex">
@@ -631,9 +731,11 @@ const Hotel = () => {
                     properties.
                   </div>
                 </div>
-                <button className="btn btn-primary">
-                  Reserve for 13 adults,3 children{" "}
-                  <small className="fw-light">(for pkr 4,162,112)</small>
+                <button className="btn btn-primary" onClick={HandleBook}>
+                  Reserve for {options.adult} adults,{options.children} children{" "}
+                  <small className="fw-light">
+                    (for pkr {selected_hotel.Total_Price})
+                  </small>
                 </button>
               </div>
             </div>

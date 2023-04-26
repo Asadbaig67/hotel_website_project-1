@@ -321,8 +321,8 @@ const Navbar = ({ list }) => {
             payload: parkingList,
           });
         }
-        // console.log(parkingList);
-      } catch (error) {
+        console.log(parkingList);
+      } catch (error) { 
         console.log("You get The Error ", error);
       }
     }
