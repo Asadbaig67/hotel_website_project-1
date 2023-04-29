@@ -36,19 +36,18 @@ const ViewBookings = () => {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
 
-  const roomType = "Deluxe Room";
+  // const roomType = "Deluxe Room";
   const roomPrice = 150;
-  const parkingBooked = true;
+  // const parkingBooked = true;
   const parkingPrice = 20;
   const additionalCharges = true;
   const additionalChargesDescription = "Room Service";
-  const additionalChargesPrice = 0;
+  const additionalChargesPrice = 20;
   const taxDescription = "Tax (10%)";
-  const taxPrice = (roomPrice + parkingPrice + additionalChargesPrice) * 0.1;
-  const totalPrice =
-    roomPrice + parkingPrice + additionalChargesPrice + taxPrice;
-  const Startdate = new Date(dates[0]);
-  const Enddate = new Date(dates[1]);
+  const taxPrice = 200;
+  // const totalPrice = roomPrice + parkingPrice + additionalChargesPrice + taxPrice;
+  // const Startdate = new Date(dates[0]);
+  // const Enddate = new Date(dates[1]);
 
   let src;
   if (booked_property.photos && booked_property.photos[0]) {
@@ -127,7 +126,7 @@ const ViewBookings = () => {
                 <div className="card shadow-0 border rounded-3">
                   <div className="card-body">
                     <div className="row text-center">
-                      <h1 className="mb-3 fw-bold bg-info rounded-3 p-3 text-dark">
+                      <h1 className="mb-3 fw-bold d-inline bg-info rounded-3 p-3 text-dark">
                         Hotel Details
                       </h1>
                     </div>
@@ -244,11 +243,12 @@ const ViewBookings = () => {
                           {booked_property.description}
                           {booked_property
                             ? booked_property.description
-                              ? booked_property.description
+                              ? booked_property.description.slice(0, 320) +
+                                `...`
                               : booked_property.hotel_description
                               ? booked_property.hotel_description.slice(
                                   0,
-                                  200
+                                  320
                                 ) + `...`
                               : "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint veritatis quod aut dolor quae nihil inventore harum expedita nobis nisi."
                             : "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint veritatis quod aut dolor quae nihil inventore harum expedita nobis nisi."}
@@ -326,7 +326,7 @@ const ViewBookings = () => {
                 <div className="card border rounded-3 shadow">
                   <div className="card-body">
                     <div className="row text-center mb-4">
-                      <h1 className="mb-0 fw-bold bg-warning rounded-3 p-3 text-dark">
+                      <h1 className="mb-0 fw-bold d-inline bg-warning rounded-3 p-3 text-dark">
                         Your Price Summary
                       </h1>
                     </div>
@@ -427,14 +427,18 @@ const ViewBookings = () => {
                               </span>
                               <br />
                               <small className="text-dark">
-                                +PKR ${taxPrice} taxes and charges
+                                +PKR ${taxPrice + additionalChargesPrice} taxes
+                                and charges
                               </small>
                             </div>
                           </div>
                         </div>
                         <div className="text-end">
-                          <button className="btn btn-primary btn-lg fw-bold text-dark px-5 ">
-                            Pay PKR
+                          <button
+                            className="btn mt-3 btn-primary btn-lg fw-bold text-light fs-5 "
+                            // onClick={HandleBooking}
+                          >
+                            Book For PKR
                             {booked_property.parking_price
                               ? booked_property.Total_Price +
                                 220 +

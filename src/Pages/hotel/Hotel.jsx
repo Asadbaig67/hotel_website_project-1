@@ -481,21 +481,20 @@ const Hotel = () => {
                           </>
                         )}
                       {selected_hotel.TwinRoomPrice &&
-                        selected_hotel.TwinRoomPrice > 0 && (
-                          <>
-                            <small>
-                              Twin Room Price = ${selected_hotel.TwinRoomPrice}
-                            </small>
-                            <br />
-                          </>
-                        )}
-                      {selected_hotel.FamilyRoomPrice &&
-                        selected_hotel.FamilyRoomPrice > 0 && (
+                      selected_hotel.TwinRoomPrice > 0 ? (
+                        <>
                           <small>
-                            Family Room Price = $
-                            {selected_hotel.FamilyRoomPrice}
+                            Twin Room Price = ${selected_hotel.TwinRoomPrice}
                           </small>
-                        )}
+                          <br />
+                        </>
+                      ) : null}
+                      {selected_hotel.FamilyRoomPrice &&
+                      selected_hotel.FamilyRoomPrice > 0 ? (
+                        <small>
+                          Family Room Price = ${selected_hotel.FamilyRoomPrice}
+                        </small>
+                      ) : null}
 
                       {selected_hotel.StandardPrice &&
                         selected_hotel.StandardPrice !== 0 && (
@@ -541,16 +540,16 @@ const Hotel = () => {
                       Includes 220 taxes and fees
                     </div>
                     {availableParkingSlots &&
-                      activePath === "hotelAndParking" &&
-                      !selected_hotel.StandardPrice && (
-                        <div className="mt-2" style={{ fontSize: "12px" }}>
-                          Extra{" "}
-                          {/* {selected_hotel.parking_price
+                    activePath === "hotelAndParking" &&
+                    !selected_hotel.StandardPrice ? (
+                      <div className="mt-2" style={{ fontSize: "12px" }}>
+                        Extra{" "}
+                        {/* {selected_hotel.parking_price
                             ? selected_hotel.parking_price * c
                             : ""} */}
-                          {parkingPrice}$ for parking
-                        </div>
-                      )}
+                        {parkingPrice}$ for parking
+                      </div>
+                    ) : null}
                     <button
                       className="btn btn-primary btn-block mt-3 mb-2"
                       onClick={HandleBook}

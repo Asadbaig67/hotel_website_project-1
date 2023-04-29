@@ -64,10 +64,12 @@ const AddParkingForm = () => {
   }
 
   const { mode } = useSelector((state) => state.mode);
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
+    formData.append("ownerId", loggedinUser.user._id);
     formData.append("name", formValues.name);
     formData.append("title", formValues.title);
     formData.append("total_slots", formValues.total_slots);
