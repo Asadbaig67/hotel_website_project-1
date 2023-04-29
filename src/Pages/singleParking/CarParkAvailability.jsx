@@ -81,21 +81,40 @@ import React from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import "./carPark.css";
 
-const CarParkAvailability = () => {
+const CarParkAvailability = (props) => {
+  let dates = props.dates;
+
+  const entryExitDates = dates.map((dateString) => {
+    const [dateStringWithoutTime, time] = dateString.split(" ");
+    const [day, month, year] = dateStringWithoutTime.split("-");
+    const date = new Date(`${month}-${day}-${year}`);
+    return date;
+  });
+
+  const entryDate = entryExitDates[0];
+  const exitDate = entryExitDates[1];
+
+  const entryDateString = entryDate.toDateString();
+  const exitDateString = exitDate.toDateString();
+
+  const entryTime = entryDate.toLocaleTimeString([], {
+    hour12: true,
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const exitTime = exitDate.toLocaleTimeString([], {
+    hour12: true,
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  console.log("Props Are =", props);
   const carParkData = [
     {
       title: "Standard pass",
-      hourlyPrice: "5 €/h",
+      hourlyPrice: `${props.price} €/h`,
       dailyPrice: "25 €/day",
       weeklyPrice: "100 €/week",
-      entry: {
-        date: "Fr, 15 Apr",
-        time: "14:00",
-      },
-      exit: {
-        date: "Sa, 16 Apr",
-        time: "14:00",
-      },
       vehicle: "SUV - Maximum height 2.30m",
       available: false,
     },
@@ -108,8 +127,6 @@ const CarParkAvailability = () => {
         hourlyPrice,
         dailyPrice,
         weeklyPrice,
-        entry: { date: entryDate, time: entryTime },
-        exit: { date: exitDate, time: exitTime },
         vehicle,
         available,
       } = data;
@@ -133,13 +150,15 @@ const CarParkAvailability = () => {
             <div className="col-6 d-flex align-content-center flex-wrap with-divider">
               <span className="card-label w-100">Car park entrance</span>
               <span>
-                {entryDate} <strong className="strong-hour">{entryTime}</strong>
+                {entryDateString}{" "}
+                <strong className="strong-hour">{entryTime}</strong>
               </span>
             </div>
             <div className="col-6 d-flex align-content-center flex-wrap">
               <span className="card-label w-100">Leave car park</span>
               <span>
-                {exitDate} <strong className="strong-hour">{exitTime}</strong>
+                {exitDateString}{" "}
+                <strong className="strong-hour">{exitTime}</strong>
               </span>
             </div>
             <div className="col-12 divider-top d-flex align-content-center flex-wrap">

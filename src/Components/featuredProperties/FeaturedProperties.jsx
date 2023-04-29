@@ -151,6 +151,98 @@ const FeaturedProperties = () => {
                     </button>
                   </div>
                 </div>
+                // <div
+                //   className={`col-lg-3 col-md-6 col-sm-6 col-12 my-2 mx-auto`}
+                // >
+                //   <img
+                //     src={
+                //       hotel.photos && hotel.photos.length > 0
+                //         ? hotel.photos[0]
+                //         : null
+                //     }
+                //     alt=""
+                //     className={` ${style.fpImg} rounded-2`}
+                //   />
+                //   <h5 className={`${style.fpName} mt-2`}>{hotel.name}</h5>
+                //   <div className="d-flex justify-content-start align-items-center">
+                //     <Rating
+                //       name="hover-feedback"
+                //       value={hotel.rating}
+                //       precision={0.5}
+                //       emptyIcon={
+                //         <StarIcon
+                //           style={{ opacity: 0.55 }}
+                //           fontSize="inherit"
+                //         />
+                //       }
+                //     />
+                //     <small className={`${style.fpCity} ms-2 mb-2 text-muted`}>
+                //       {hotel.city}
+                //     </small>
+                //   </div>
+                //   <small className={`${style.fpPrice}`}>
+                //     {hotel.description
+                //       ? hotel.description.slice(0, 60)
+                //       : "No Description"}
+                //     ...
+                //   </small>
+                //   <div className={style.fpRating}>
+                //     <button
+                //       className={`btn btn-primary mt-2 ${
+                //         isXtraSmallScreen ? "btn-sm" : "btn-md"
+                //       } btn-block`}
+                //       onClick={() => setHotelData(hotel)}
+                //     >
+                //       Explore Property
+                //     </button>
+                //   </div>
+                // </div>
+                // <div
+                //   className={`col-lg-3 col-md-6 col-sm-6 col-12 my-2 mx-auto`}
+                // >
+                //   <img
+                //     src={
+                //       hotel.photos && hotel.photos.length > 0
+                //         ? hotel.photos[0]
+                //         : null
+                //     }
+                //     alt=""
+                //     className={` ${style.fpImg} rounded-2`}
+                //   />
+                //   <h5 className={`${style.fpName} mt-2`}>{hotel.name}</h5>
+                //   <div className="d-flex justify-content-start align-items-center">
+                //     <Rating
+                //       name="hover-feedback"
+                //       value={hotel.rating}
+                //       precision={0.5}
+                //       emptyIcon={
+                //         <StarIcon
+                //           style={{ opacity: 0.55 }}
+                //           fontSize="inherit"
+                //         />
+                //       }
+                //     />
+                //     <small className={`${style.fpCity} ms-2 mb-2 text-muted`}>
+                //       {hotel.city}
+                //     </small>
+                //   </div>
+                //   <small className={`${style.fpPrice}`}>
+                //     {hotel.description
+                //       ? hotel.description.slice(0, 60)
+                //       : "No Description"}
+                //     ...
+                //   </small>
+                //   <div className={style.fpRating}>
+                //     <button
+                //       className={`btn btn-primary mt-2 ${
+                //         isXtraSmallScreen ? "btn-sm" : "btn-md"
+                //       } btn-block`}
+                //       onClick={() => setHotelData(hotel)}
+                //     >
+                //       Explore Property
+                //     </button>
+                //   </div>
+                // </div>
               );
             })}
           {activePath === "hotelAndParking" &&
