@@ -24,9 +24,9 @@ const Home = (props) => {
       const url = `http://localhost:5000/user/login`;
       const response = await fetch(url, {
         method: "GET",
-        credentials: "include", 
+        credentials: "include",
       });
-      const data = await response.json(); 
+      const data = await response.json();
       console.log(data.user);
       setUser(data.user);
     } catch (error) {

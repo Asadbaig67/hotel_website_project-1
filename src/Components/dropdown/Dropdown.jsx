@@ -4,11 +4,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 const Dropdown = (props) => {
+  const GetHotelCities = async () => {
+    const response = await fetch("http://localhost:8000/api/hotel/cities");
+    const result = await response.json();
+    console.log(result);
+  };
+
+  const getHotelAndParkingCities = async () => {
+    const response = await fetch(
+      "http://localhost:8000/api/hotelandparking/cities"
+    );
+    const result = await response.json();
+    console.log(result);
+  };
+
+  const GetParkingCities = async () => {
+    const response = await fetch("http://localhost:8000/api/parking/cities");
+    const result = await response.json();
+    console.log(result);
+  };
+
   const location = useLocation();
   const path = location.pathname.split("/")[1];
   const dispatch = useDispatch();
   const citiesHotel = ["Lahore", "Karachi", "Islamabad", "Dubai"];
-  const citiesParking = ["Tokyo", "London", "Paris", "Lahore"];
+  const citiesParking = ["Tokyo", "London", "Paris", "Lahore", "New York"];
   const citiesHotelAndParking = [
     "London",
     "Tokyo",

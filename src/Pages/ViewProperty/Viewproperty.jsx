@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/footer/Footer";
-import styles from "./ParkingPropertyDetails.module.css";
-import CarParkAvailability from "./CarParkAvailability";
+import styles from "./viewProperty.module.css";
 import RestoreIcon from "@mui/icons-material/Restore";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import Box from "@mui/material/Box";
@@ -13,9 +12,57 @@ import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import { useSelector } from "react-redux";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Tooltip from "@mui/material/Tooltip";
+import { DataGrid } from "@mui/x-data-grid";
 
-function ParkingPropertyDetails({ property }) {
+const Viewproperty = ({ property }) => {
+  // Data Grid
+  const columns = [
+    { field: "id", headerName: "ID", width: 90 },
+    {
+      field: "firstName",
+      headerName: "First name",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "lastName",
+      headerName: "Last name",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "age",
+      headerName: "Age",
+      type: "number",
+      width: 110,
+      editable: true,
+    },
+    {
+      field: "fullName",
+      headerName: "Full name",
+      description: "This column has a value getter and is not sortable.",
+      sortable: false,
+      width: 160,
+      valueGetter: (params) =>
+        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    },
+  ];
+
+  const rows = [
+    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
+    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
+    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
+    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
+    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
+    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
+    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
+    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
+    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+  ];
+  // Data Grid
+
   const { booked_property } = useSelector((state) => state.getBookedDetails);
+
   // Data The User Selected From Card
   const { selected_parking } = useSelector((state) => state.getSelectedParking);
   console.log(
@@ -55,7 +102,7 @@ function ParkingPropertyDetails({ property }) {
             <h2 className={`${styles.property_name} mb-2`}>
               {selected_parking.parking.name}
             </h2>
-            <button className="btn btn-primary btn-lg ">Book Now</button>
+            {/* <button className="btn btn-primary btn-lg ">Book Now</button> */}
           </div>
           <div className={styles.property_ratings}>
             <Box
@@ -234,20 +281,6 @@ function ParkingPropertyDetails({ property }) {
           </div>
         </div>
 
-        <div className="mb-3">
-          {<CarParkAvailability dates={datesParking} price={price} />}
-        </div>
-        {/* <div className={styles.property_prices}>
-        <h3>Prices:</h3>
-        <ul className={styles.prices_list}>
-          {property.prices.map((price) => (
-            <li key={price.id} className={styles.price_item}>
-              {price.description}: ${price.amount}
-            </li>
-          ))}
-        </ul>
-      </div> */}
-
         <div className={`mb-2 ${styles.property_pictures}`}>
           <h3 className="my-3">Pictures:</h3>
           {selected_parking.parking.photos.map((picture) => (
@@ -266,29 +299,48 @@ function ParkingPropertyDetails({ property }) {
           ))}
         </div>
         <div className="mb-2">
-          <h3 className="fw-bold text-dark fs-5 my-4">How to get there?</h3>
-          <div className="border border-2 border-dark  p-3 rounded-3 mb-2">
-            <div className="d-flex justify-content-between">
-              <div>
-                <span className="text-uppercase text-dark fw-bold">
-                  CAR PARK HOURS
-                </span>
-                <br />
-                <small className="text-uppercase">Open 24 hours a day</small>
-              </div>
-              <div className="col-auto pl-0 ml-auto d-flex align-items-center">
-                <span className="card-price text-dark px-2 py-1 rounded-2 bg-secondary fw-bold fs-4">
-                  {selected_parking.parking.price} €/h
-                  <CheckCircleIcon className="text-success mx-1" />
-                </span>
-              </div>
-            </div>
+          <div className=" my-3">
+            <h3 className="fw-bold fs-5 my-3 text-dark my-2">
+              All Rooms And Deatils
+            </h3>
+            <Box sx={{ height: 400, width: "100%" }}>
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                initialState={{
+                  pagination: {
+                    paginationModel: {
+                      pageSize: 5,
+                    },
+                  },
+                }}
+                pageSizeOptions={[5]}
+                checkboxSelection
+                disableRowSelectionOnClick
+              />
+            </Box>
           </div>
-        </div>
-        <div className="my-4">
-          <Link to={`/booking/${property.id}`}>
-            <button className="btn my-2 btn-primary btn-lg ">Book Now</button>
-          </Link>
+          <div className="my-3 ">
+            <h3 className="fw-bold fs-5 my-3 text-dark my-2">
+              ALl Bookings Details
+            </h3>
+            <Box sx={{ height: 400, width: "100%" }}>
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                initialState={{
+                  pagination: {
+                    paginationModel: {
+                      pageSize: 5,
+                    },
+                  },
+                }}
+                pageSizeOptions={[5]}
+                checkboxSelection
+                disableRowSelectionOnClick
+              />
+            </Box>
+          </div>
         </div>
       </div>
       <div>
@@ -296,6 +348,6 @@ function ParkingPropertyDetails({ property }) {
       </div>
     </>
   );
-}
+};
 
-export default ParkingPropertyDetails;
+export default Viewproperty;
