@@ -12,6 +12,7 @@ import style from "./addhotel.module.css";
 
 const AddHotelForm = () => {
   const IsMobile = useMediaQuery("(max-width:450px)");
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -78,6 +79,7 @@ const AddHotelForm = () => {
     formData.append("city", formValues.city);
     formData.append("country", formValues.country);
     formData.append("address", formValues.address);
+    formData.append("ownerId", loggedinUser.user._id);
 
     // Append each photo in the photos array to the FormData object
     for (let i = 0; i < files.length; i++) {
