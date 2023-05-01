@@ -222,7 +222,7 @@ export default function Dashboard() {
                   path={path}
                   user={user}
                   type={"hotel"}
-                  url={`http://localhost:5000/OperatingProperty/getHotelOperatingCity`}
+                  url={`http://localhost:5000/OperatingProperty/getHotelOperatingCityObj`}
                 />
               </div>
               <div className="col-md-5">
@@ -231,7 +231,7 @@ export default function Dashboard() {
                   path={path}
                   user={user}
                   type={"parking"}
-                  url={`http://localhost:5000/OperatingProperty/getParkingOperatingCity`}
+                  url={`http://localhost:5000/OperatingProperty/getParkingOperatingCityObj`}
                 />
               </div>
               <div className="col-md-5">
@@ -242,7 +242,7 @@ export default function Dashboard() {
                   path={path}
                   user={user}
                   type={"hotelAndParking"}
-                  url={`http://localhost:5000/OperatingProperty/getHotelAndParkingOperatingCity`}
+                  url={`http://localhost:5000/OperatingProperty/getHotelAndParkingOperatingCityObj`}
                 />
               </div>
             </div>

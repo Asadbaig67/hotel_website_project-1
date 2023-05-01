@@ -46,8 +46,6 @@ const getBookingDate = async (params) => {
   return data;
 };
 
-const getCities = async (params) => {};
-
 export const userHeader = [
   { field: "_id", headerName: "ID", width: 100 },
   { field: "firstName", headerName: "First Name", width: 130 },
