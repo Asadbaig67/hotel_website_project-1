@@ -97,14 +97,14 @@ export default function Dashboard() {
         }}
       >
         <div className="col-md-10 ms-auto mt-4">
-            <h1
-              className={`text-right fs-1 text-${
-                mode === "light" ? "dark" : "light"
-              }`}
-            >
-              Dashboard
-            </h1>
-          </div>
+          <h1
+            className={`text-right fs-1 text-${
+              mode === "light" ? "dark" : "light"
+            }`}
+          >
+            Dashboard
+          </h1>
+        </div>
 
         <div className={`row justify-content-center mt-4`}>
           {view === "admin"
@@ -116,138 +116,139 @@ export default function Dashboard() {
       </div>
 
       {/* Add operating cities */}
-
-      <div>
+      {view === "admin" && (
         <div>
-          <div className="container pb-3">
-            <div className="row justify-content-center flex align-items-end">
-              <div className="col-md-10">
-                <h1 className="fs-1 fw-bold">Add Cities</h1>
-                <p>Grow up your business by adding new operating cities</p>
+          <div>
+            <div className="container pb-3">
+              <div className="row justify-content-center flex align-items-end">
+                <div className="col-md-10">
+                  <h1 className="fs-1 fw-bold">Add Cities</h1>
+                  <p>Grow up your business by adding new operating cities</p>
+                </div>
+                <div className="col-md-3 mt-3">
+                  <input
+                    type="text"
+                    className="w-100 btn-outline-dark rounded-5"
+                    placeholder="Enter city name"
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      console.log(name);
+                    }}
+                  />
+                </div>
+                <div className="col-md-2">
+                  <button
+                    disabled={
+                      !addHotelOperatingCity &&
+                      !addParkingOperatingCity &&
+                      !addHotelAndParkingOperatingCity
+                    }
+                    className="btn btn-dark rounded-5 w-100"
+                    onClick={handleClick}
+                  >
+                    Add Operating City
+                  </button>
+                </div>
+                <div className="row mt-2 justify-content-center">
+                  <div className="col-md-1">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="flexCheckDefault1"
+                        onClick={() => {
+                          setaddHotelOperatingCity(!addHotelOperatingCity);
+                        }}
+                      />
+                      <label
+                        className="form-check-label fs-6"
+                        htmlFor="flexCheckDefault1"
+                      >
+                        Hotel
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-md-1">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="flexCheckDefault2"
+                        onClick={() => {
+                          setaddParkingOperatingCity(!addParkingOperatingCity);
+                        }}
+                      />
+                      <label
+                        className="form-check-label fs-6"
+                        htmlFor="flexCheckDefault2"
+                      >
+                        Parking
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="flexCheckDefault3"
+                        onClick={() => {
+                          setaddHotelAndParkingOperatingCity(
+                            !addHotelAndParkingOperatingCity
+                          );
+                        }}
+                      />
+                      <label
+                        className="form-check-label fs-6"
+                        htmlFor="flexCheckDefault3"
+                      >
+                        Hotel And Parking
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="col-md-3 mt-3">
-                <input
-                  type="text"
-                  className="w-100 btn-outline-dark rounded-5"
-                  placeholder="Enter city name"
-                  onChange={(e) => {
-                    setName(e.target.value);
-                    console.log(name);
-                  }}
+            </div>
+          </div>
+
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-md-5">
+                <h1 className="fw-semibold my-2">Operating Hotels cities</h1>
+                <DashboardDataTable
+                  path={path}
+                  user={user}
+                  type={"hotel"}
+                  url={`http://localhost:5000/OperatingProperty/getHotelOperatingCity`}
                 />
               </div>
-              <div className="col-md-2">
-                <button
-                  disabled={
-                    !addHotelOperatingCity &&
-                    !addParkingOperatingCity &&
-                    !addHotelAndParkingOperatingCity
-                  }
-                  className="btn btn-dark rounded-5 w-100"
-                  onClick={handleClick}
-                >
-                  Add Operating City
-                </button>
+              <div className="col-md-5">
+                <h1 className="fw-semibold my-2">Operating Parking cities</h1>
+                <DashboardDataTable
+                  path={path}
+                  user={user}
+                  type={"parking"}
+                  url={`http://localhost:5000/OperatingProperty/getParkingOperatingCity`}
+                />
               </div>
-              <div className="row mt-2 justify-content-center">
-                <div className="col-md-1">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault1"
-                      onClick={() => {
-                        setaddHotelOperatingCity(!addHotelOperatingCity);
-                      }}
-                    />
-                    <label
-                      className="form-check-label fs-6"
-                      htmlFor="flexCheckDefault1"
-                    >
-                      Hotel
-                    </label>
-                  </div>
-                </div>
-                <div className="col-md-1">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault2"
-                      onClick={() => {
-                        setaddParkingOperatingCity(!addParkingOperatingCity);
-                      }}
-                    />
-                    <label
-                      className="form-check-label fs-6"
-                      htmlFor="flexCheckDefault2"
-                    >
-                      Parking
-                    </label>
-                  </div>
-                </div>
-                <div className="col-md-3">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault3"
-                      onClick={() => {
-                        setaddHotelAndParkingOperatingCity(
-                          !addHotelAndParkingOperatingCity
-                        );
-                      }}
-                    />
-                    <label
-                      className="form-check-label fs-6"
-                      htmlFor="flexCheckDefault3"
-                    >
-                      Hotel And Parking
-                    </label>
-                  </div>
-                </div>
+              <div className="col-md-5">
+                <h1 className="fw-semibold my-2">
+                  Operating Hotel and Parking cities
+                </h1>
+                <DashboardDataTable
+                  path={path}
+                  user={user}
+                  type={"hotelAndParking"}
+                  url={`http://localhost:5000/OperatingProperty/getHotelAndParkingOperatingCity`}
+                />
               </div>
             </div>
           </div>
         </div>
-
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-md-5">
-              <h1 className="fw-semibold my-2">Operating Hotels cities</h1>
-              <DashboardDataTable
-                path={path}
-                user={user}
-                type={"hotel"}
-                url={`http://localhost:5000/OperatingProperty/getHotelOperatingCity`}
-              />
-            </div>
-            <div className="col-md-5">
-              <h1 className="fw-semibold my-2">Operating Parking cities</h1>
-              <DashboardDataTable
-                path={path}
-                user={user}
-                type={"parking"}
-                url={`http://localhost:5000/OperatingProperty/getParkingOperatingCity`}
-              />
-            </div>
-            <div className="col-md-5">
-              <h1 className="fw-semibold my-2">
-                Operating Hotel and Parking cities
-              </h1>
-              <DashboardDataTable
-                path={path}
-                user={user}
-                type={"hotelAndParking"}
-                url={`http://localhost:5000/OperatingProperty/getHotelAndParkingOperatingCity`}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </>
   );
 }
