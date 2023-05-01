@@ -41,7 +41,7 @@ const Hotel = () => {
 
   if (selected_hotel) {
     console.log("Selected Hotel =", selected_hotel);
-    console.log(selected_hotel.TwinRoomPrice);
+    console.log("Selected Hotel Rooms =", selected_hotel.Rooms);
   }
 
   // const id = location.pathname.split("/")[2];

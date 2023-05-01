@@ -16,6 +16,7 @@ import Tooltip from "@mui/material/Tooltip";
 
 function ParkingPropertyDetails({ property }) {
   const { booked_property } = useSelector((state) => state.getBookedDetails);
+  const { c } = useSelector((state) => state.searchVehicle);
   // Data The User Selected From Card
   const { selected_parking } = useSelector((state) => state.getSelectedParking);
   console.log(
@@ -26,6 +27,47 @@ function ParkingPropertyDetails({ property }) {
   // Parking Dates
   const datesParking = useSelector((state) => state.searchParkingDate.dates);
   const price = selected_parking.parking.price;
+  // Data for Api request
+  // User Id Data
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const userId = loggedinUser.user._id;
+  // Hotel Id Data
+  const parkingId = selected_parking.parking._id;
+  // Dates Data
+
+  const [checkInDay, checkInMonth, checkInYear, checkInTime] =
+    datesParking[0].split(/-|\s|:/);
+  const checkInDateFormatted = `${checkInMonth}-${checkInDay}-${checkInYear} ${checkInTime}:00`;
+  let checkIn = new Date(checkInDateFormatted);
+
+  const [checkOutDay, checkOutMonth, checkOutYear, checkOutTime] =
+    datesParking[1].split(/-|\s|:/);
+  const checkOutDateFormatted = `${checkOutMonth}-${checkOutDay}-${checkOutYear} ${checkOutTime}:00`;
+  let checkOut = new Date(checkOutDateFormatted);
+
+  // console.log("Nyc Date", checkInDateFormatted);
+  // console.log("Nyc date", checkOutDateFormatted);
+
+  checkIn = checkIn.toISOString();
+  checkOut = checkOut.toISOString();
+
+  // const checkIn = datesParking[0];
+  // const checkOut = datesParking[1];
+  // Parking Object
+
+  let parking = {
+    Total_slots: c,
+    Parking_price: selected_parking.parking.price,
+  };
+
+  parking = JSON.stringify(parking);
+  // console.log("parking object = ", selected_parking);
+
+  console.log("parking object to send backedn = ", parking);
+  console.log("parking id = ", parkingId);
+  console.log("user id = ", userId);
+  console.log("check in = ", checkIn);
+  console.log("check out = ", checkOut);
 
   const labels = {
     0.5: "Useless",
@@ -44,6 +86,27 @@ function ParkingPropertyDetails({ property }) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
 
+  const HandleBooking = async () => {
+    // Api Request
+    const parkingURL = `http://localhost:5000/booking/addParkingBooking?userId=${userId}&parkingId=${parkingId}&checkIn=${checkInDateFormatted}&checkOut=${checkOutDateFormatted}&parking=${parking}`;
+    const requestOptions = {
+      method: "POST",
+    };
+    try {
+      const response = await fetch(parkingURL, requestOptions);
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        alert("Booking Successful");
+      } else {
+        alert("Booking Failed");
+      }
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -55,7 +118,9 @@ function ParkingPropertyDetails({ property }) {
             <h2 className={`${styles.property_name} mb-2`}>
               {selected_parking.parking.name}
             </h2>
-            <button className="btn btn-primary btn-lg ">Book Now</button>
+            <button className="btn btn-primary btn-lg " onClick={HandleBooking}>
+              Book Now
+            </button>
           </div>
           <div className={styles.property_ratings}>
             <Box
@@ -287,7 +352,12 @@ function ParkingPropertyDetails({ property }) {
         </div>
         <div className="my-4">
           <Link to={`/booking/${property.id}`}>
-            <button className="btn my-2 btn-primary btn-lg ">Book Now</button>
+            <button
+              className="btn my-2 btn-primary btn-lg "
+              onClick={HandleBooking}
+            >
+              Book Now
+            </button>
           </Link>
         </div>
       </div>
