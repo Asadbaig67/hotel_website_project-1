@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/footer/Footer";
 import family1 from "../../images/family1.jpg";
@@ -27,6 +27,7 @@ const ViewBookings = () => {
   const { options } = useSelector((state) => state.searchOption);
   console.log(options);
   const { booked_property } = useSelector((state) => state.getBookedDetails);
+  console.log("Booked Rooms Array =", booked_property.Rooms);
   const { dates } = useSelector((state) => state.searchDate);
   const datesParking = useSelector((state) => state.searchParkingDate.dates);
   const { c } = useSelector((state) => state.searchVehicle);
@@ -57,8 +58,185 @@ const ViewBookings = () => {
   } else {
     src = null;
   }
+  const singleRoomsArray = [];
+  const twinRoomsArray = [];
+  const familyRoomsArray = [];
+  const Rooms = booked_property.Rooms;
+  console.log("Rooms =", Rooms);
+  let room, room_no;
 
-  console.log("Booked Page" + booked_property.Nights);
+  if (options.singleRoom > 0) {
+    for (let i = 0; i < Rooms.length; i++) {
+      room = Rooms[i].room;
+      room_no = Rooms[i].room_no;
+      if (room.type === "Single") {
+        for (let j = 0; j < room_no.length; j++) {
+          if (j < options.singleRoom) {
+            let roomObj = {
+              ...room_no[j],
+              RoomId: room._id,
+              Room_price: room.price,
+            };
+            singleRoomsArray.push(roomObj);
+          } else {
+            break;
+          }
+        }
+      }
+    }
+  }
+  if (options.twinRoom > 0) {
+    for (let i = 0; i < Rooms.length; i++) {
+      room = Rooms[i].room;
+      room_no = Rooms[i].room_no;
+      if (room.type === "Twin") {
+        for (let j = 0; j < room_no.length; j++) {
+          if (j < options.twinRoom) {
+            let roomObj = {
+              ...room_no[j],
+              RoomId: room._id,
+              Room_price: room.price,
+            };
+            twinRoomsArray.push(roomObj);
+          } else {
+            break;
+          }
+        }
+      }
+    }
+  }
+  if (options.familyRoom > 0) {
+    for (let i = 0; i < Rooms.length; i++) {
+      room = Rooms[i].room;
+      room_no = Rooms[i].room_no;
+      if (room.type === "Family") {
+        for (let j = 0; j < room_no.length; j++) {
+          if (j < options.familyRoom) {
+            let roomObj = {
+              ...room_no[j],
+              RoomId: room._id,
+              Room_price: room.price,
+            };
+            familyRoomsArray.push(roomObj);
+          } else {
+            break;
+          }
+        }
+      }
+    }
+  }
+  console.log("Single Room =", options.singleRoom);
+  console.log("Single Rooms Array =", singleRoomsArray);
+  console.log("Twin Room =", options.twinRoom);
+  console.log("Twin Rooms Array =", twinRoomsArray);
+  console.log("Family Room =", options.familyRoom);
+  console.log("Family Rooms Array =", familyRoomsArray);
+
+  // User Id Data
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const userId = loggedinUser.user._id;
+  // Hotel Id Data
+  const hotelId = booked_property._id;
+  // Dates Data
+  // const checkIn = new Date(dates[0]).toISOString();
+  // const checkOut = new Date(dates[1]).toISOString();
+  const checkIn = dates[0];
+  const checkOut = dates[1];
+  // Room Details
+  let roomArray = [];
+  let tempObj = {};
+
+  // Let Parking data
+  let parking = {};
+
+  if (options.singleRoom > 0) {
+    singleRoomsArray.map((room) => {
+      tempObj = {
+        RoomId: room.RoomId,
+        Room_no: room.number,
+        Room_price: room.Room_price,
+      };
+      roomArray.push(tempObj);
+    });
+  }
+  if (options.twinRoom > 0) {
+    twinRoomsArray.map((room) => {
+      tempObj = {
+        RoomId: room.RoomId,
+        Room_no: room.number,
+        Room_price: room.Room_price,
+      };
+      roomArray.push(tempObj);
+    });
+  }
+  if (options.familyRoom > 0) {
+    familyRoomsArray.map((room) => {
+      tempObj = {
+        RoomId: room.RoomId,
+        Room_no: room.number,
+        Room_price: room.Room_price,
+      };
+      roomArray.push(tempObj);
+    });
+  }
+
+  console.log("User Id =", userId);
+  console.log("Hotel Id =", hotelId);
+  console.log("Check In =", checkIn);
+  console.log("Check Out =", checkOut);
+  console.log("Room Array =", roomArray);
+  console.log("Room Array befor stringinfied=", roomArray);
+  roomArray = JSON.stringify(roomArray);
+  console.log("Room Array stringinfied=", roomArray);
+
+  if (booked_property.parking_name) {
+    parking = {
+      Total_slots: c,
+      Parking_price: booked_property.parking_price,
+    };
+    parking = JSON.stringify(parking);
+  }
+
+  const HandleBooking = async () => {
+    // Api Request
+    if (!booked_property.parking_name) {
+      const hotelURL = `http://localhost:5000/booking/addBooking?userId=${userId}&hotelId=${hotelId}&room=${roomArray}&checkIn=${checkIn}&checkOut=${checkOut}`;
+      const requestOptions = {
+        method: "POST",
+      };
+      try {
+        const response = await fetch(hotelURL, requestOptions);
+        const data = await response.json();
+        console.log(data);
+        if (response.ok) {
+          alert("Booking Successful");
+        } else {
+          alert("Booking Failed");
+        }
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      const hotelandparkingURL = `http://localhost:5000/booking/addHotelAndParkingBooking?userId=${userId}&HotelAndParkingId=${hotelId}&room=${roomArray}&checkIn=${checkIn}&checkOut=${checkOut}&parking=${parking}`;
+      const requestOptions = {
+        method: "POST",
+      };
+      try {
+        const response = await fetch(hotelandparkingURL, requestOptions);
+        const data = await response.json();
+        console.log(data);
+        if (response.ok) {
+          alert("Booking Successful");
+        } else {
+          alert("Booking Failed");
+        }
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <>
@@ -261,6 +439,132 @@ const ViewBookings = () => {
             </div>
           </div>
         </div>
+        <div className="row justify-content-center">
+          <div className="col-md-12">
+            <div className="card border rounded-3 shadow">
+              <div className="card-body">
+                <div className="row mb-4">
+                  <div className="col-12 text-center">
+                    <h1 className="bg-warning rounded-3 py-3 text-dark">
+                      Room To Be Booked
+                    </h1>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="row mb-3">
+                      {options.singleRoom > 0 && (
+                        <>
+                          <div className="col-md-4">
+                            <h5>Twin Rooms:</h5>
+                          </div>
+                          <div className="col-md-8 justify-content-end">
+                            <span className="fw-bold">
+                              {singleRoomsArray.map(
+                                (room, index) =>
+                                  `Room No: ${room.number}${
+                                    index === singleRoomsArray.length - 1
+                                      ? ""
+                                      : ", "
+                                  }`
+                              )}
+                            </span>
+                          </div>
+                        </>
+                      )}
+                      {/* <div className="col-md-4">
+                        <h5>Single Rooms:</h5>
+                      </div>
+                      <div className="col-md-8 justify-content-end">
+                        <span className="fw-bold">
+                          {singleRooms.map(
+                            (roomNo, index) =>
+                              `Room No: ${roomNo}${
+                                index === singleRooms.length - 1 ? "" : ", "
+                              }`
+                          )}
+                        </span>
+                      </div> */}
+                    </div>
+                    <div className="row mb-3">
+                      {options.twinRoom > 0 ? (
+                        <>
+                          <div className="col-md-4">
+                            <h5>Twin Rooms:</h5>
+                          </div>
+                          <div className="col-md-8 justify-content-end">
+                            <span className="fw-bold">
+                              {twinRoomsArray.map(
+                                (room, index) =>
+                                  `Room No: ${room.number}${
+                                    index === twinRoomsArray.length - 1
+                                      ? ""
+                                      : ", "
+                                  }`
+                              )}
+                            </span>
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                      {/* <div className="col-md-4">
+                        <h5>Twin Rooms:</h5>
+                      </div>
+                      <div className="col-md-8">
+                        <span className="fw-bold">
+                          {twinRooms.map(
+                            (roomNo, index) =>
+                              `Room No: ${roomNo}${
+                                index === twinRooms.length - 1 ? "" : ", "
+                              }`
+                          )}
+                        </span>
+                      </div> */}
+                    </div>
+                    <div className="row mb-3">
+                      {options.familyRoom > 0 ? (
+                        <>
+                          <div className="col-md-4">
+                            <h5>Family Rooms:</h5>
+                          </div>
+                          <div className="col-md-8 justify-content-end">
+                            <span className="fw-bold">
+                              {familyRoomsArray.map(
+                                (room, index) =>
+                                  `Room No: ${room.number}${
+                                    index === familyRoomsArray.length - 1
+                                      ? ""
+                                      : ", "
+                                  }`
+                              )}
+                            </span>
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                      {/* <div className="col-md-4">
+                        <h5>Family Rooms:</h5>
+                      </div>
+                      <div className="col-md-8">
+                        <span className="fw-bold">
+                          {familyRooms.map(
+                            (roomNo, index) =>
+                              `Room No: ${roomNo}${
+                                index === familyRooms.length - 1 ? "" : ", "
+                              }`
+                          )}
+                        </span>
+                      </div> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="row">
           <div className="">
             <div className="py-2">
@@ -436,7 +740,7 @@ const ViewBookings = () => {
                         <div className="text-end">
                           <button
                             className="btn mt-3 btn-primary btn-lg fw-bold text-light fs-5 "
-                            // onClick={HandleBooking}
+                            onClick={HandleBooking}
                           >
                             Book For PKR
                             {booked_property.parking_price

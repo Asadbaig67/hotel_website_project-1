@@ -103,19 +103,6 @@ const Card = (props) => {
   // const { city } = useSelector((state) => state.searchCity);
   const { dates } = useSelector((state) => state.searchDate);
 
-  // Calculating Nights From Dates
-  // let startingDate = dates[0];
-  // const [startday, startmonth, startyear] = startingDate.split("-").map(Number);
-  // startingDate = new Date(startyear, startmonth - 1, startday); // Note: month is 0-indexed in JavaScript
-  // let endingDate = dates[1];
-  // const [endday, endmonth, endyear] = endingDate.split("-").map(Number);
-  // endingDate = new Date(endyear, endmonth - 1, endday); // Note: month is 0-indexed in JavaScript
-  // const timeDiff = Math.abs(endingDate.getTime() - startingDate.getTime());
-  // nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
-  // console.log(nights);
-
-  // console.log(dates);
-
   let nights = 0;
   if (dates && dates.length === 2) {
     let startingDate = dates[0];
@@ -161,8 +148,9 @@ const Card = (props) => {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
 
-  const { hotel } = props.item;
-  console.log("card Page" + nights);
+  const { hotel, rooms } = props.item;
+  // console.log("card Page" + nights);
+
 
   const setSelectedHotel = () => {
     if (featured_hotel.length > 0) {
@@ -178,6 +166,7 @@ const Card = (props) => {
         TwinRoomPrice,
         FamilyRoomPrice,
         Nights: nights,
+        Rooms: rooms,
       };
       dispatch({
         type: "setHotelData",
