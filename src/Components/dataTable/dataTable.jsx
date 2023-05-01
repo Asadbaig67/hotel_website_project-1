@@ -1,36 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useSelector, useDispatch } from "react-redux";
 import { useFetch } from "../../Utilis/Fetch";
 import { Box } from "@mui/material";
 import axios from "axios";
 
-const DataTable = ({ header, path, user }) => {
-  // const { header } = useSelector((state) => state.setHeader);
+const DataTable = ({ path, user }) => {
+  const { header } = useSelector((state) => state.setHeader);
   const { url } = useSelector((state) => state.setDataUrl);
   const dispatch = useDispatch();
-  const { filterName } = useSelector((state) => state.filter_name);
-  const { filterType } = useSelector((state) => state.filter_type);
-
   const { data, loading, error } = useFetch(url);
-  console.log(data);
   let filteredData = data;
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    if (filterName && filterType) {
-      if (filterType === "City") {
-        filteredData = data.filter((item) => item.city === filterName);
-      } else if (filterType === "Hotel Name") {
-        filteredData = data.filter((item) => item.name === filterName);
-      } else if (filterType === "Parking Name") {
-        filteredData = data.filter((item) => item.name === filterName);
-      } else if (filterType === "Hotel And Parking Name") {
-        filteredData = data.filter((item) => item.hotel_name === filterName);
-      }
-    }
     setList(filteredData);
-  }, [filterType, filterName, filteredData]);
+  }, [filteredData]);
 
   const handleDelete = async (id) => {
     let data;
@@ -200,6 +185,9 @@ const DataTable = ({ header, path, user }) => {
             ? header.concat(viewColumn, deleteColumn, approveColumn)
             : header.concat(viewColumn, deleteColumn)
         }
+        slots={{
+          toolbar: GridToolbar,
+        }}
         initialState={{
           pagination: {
             paginationModel: {
@@ -208,7 +196,7 @@ const DataTable = ({ header, path, user }) => {
           },
         }}
         pageSizeOptions={[5]}
-        checkboxSelection
+        // checkboxSelection
         disableRowSelectionOnClick
         getRowId={(row) => row._id}
         loading={loading}

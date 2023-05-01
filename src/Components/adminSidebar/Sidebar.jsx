@@ -14,9 +14,7 @@ import {
 } from "../../Utilis/SidebarData";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-
 import CancelIcon from "@mui/icons-material/Cancel";
-// import { isLogin, logout } from "../utilis";
 
 export default function Sidebar() {
   const { mode } = useSelector((state) => state.mode);
@@ -114,8 +112,7 @@ export default function Sidebar() {
                 mode === "dark" ? "light" : "dark"
               }`}
             >
-              <i className={`bx bxs-disc ${style.nav__icon}`}></i>
-              <span className={style.nav__logo__name}>MIOS</span>
+              <span className={style.nav__logo__name}>DESALIS</span>
             </Link>
 
             <div className={style.nav__list}>

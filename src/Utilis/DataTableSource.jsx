@@ -1,10 +1,23 @@
 import axios from "axios";
 
 const getHotelName = async (params) => {
-  const hotel = await axios.get(
-    `http://localhost:5000/hotels/gethotelbyid/${params.row.hotelId}`
-  );
-  const data = hotel.data.name;
+  let hotel, data;
+  if (params.row.Booking_type === "hotel") {
+    hotel = await axios.get(
+      `http://localhost:5000/hotels/gethotelbyid/${params.row.hotelId}`
+    );
+    data = hotel.data.name;
+  } else if (params.row.Booking_type === "parking") {
+    hotel = await axios.get(
+      `http://localhost:5000/parking/getparkingbyid/${params.row.parkingId}`
+    );
+    data = await hotel.data.name;
+  } else if (params.row.Booking_type === "hotelandparking") {
+    hotel = await axios.get(
+      `http://localhost:5000/hotelandparking/gethotelandparkingbyid/${params.row.HotelAndParkingId}`
+    );
+    data = await hotel.data.hotel_name;
+  }
   return data;
 };
 
@@ -12,9 +25,10 @@ const getUserName = async (params) => {
   const user = await axios.get(
     `http://localhost:5000/user/getuserbyid/${params.row.userId}`
   );
-  return "Hassaan";
-  // const data = `${user.data.firstName || ""} ${user.data.lastName || ""}`;
-  // return data;
+  const data = `${user.data.user.firstName || ""} ${
+    user.data.user.lastName || ""
+  }`;
+  return data;
 };
 
 const getCheckInDate = async (params) => {
@@ -99,7 +113,7 @@ export const bookingHeader = [
     width: 130,
     valueGetter: getCheckOutDate,
   },
-  { field: "totalPrice", headerName: "Total Price", width: 130 },
+  { field: "total_price", headerName: "Total Price", width: 130 },
 ];
 
 export const bookingHotelHeader = [

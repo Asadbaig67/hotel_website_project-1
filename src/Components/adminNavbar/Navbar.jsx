@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../images/white-logo.png";
 import MenuIcon from "@mui/icons-material/Menu";
+import bgrmvblk from "../../images/bgrmvblk.png";
 
 export default function Navbar() {
   const { mode } = useSelector((state) => state.mode);
@@ -22,9 +23,13 @@ export default function Navbar() {
             className={`navbar-brand fs-2 mx-3 text-${
               mode === "light" ? "dark" : "light"
             }`}
-            to="/"
+            to="/dashboard"
           >
-            Navbar
+            <img
+              alt="logo"
+              style={{ width: "15%", height: "15%" }}
+              src={bgrmvblk}
+            />
           </Link>
         </div>
 

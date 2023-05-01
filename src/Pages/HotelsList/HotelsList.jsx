@@ -3,7 +3,7 @@ import style from "./HotelsList.module.css";
 import DataTable from "../../Components/dataTable/dataTable";
 import Sidebar from "../../Components/adminSidebar/Sidebar";
 // import Dropdown from "../../Components/Filterdropdown/FilterDropdown";
-import DropdownFilter from "../../Components/dropdownFilter/Dropdown";
+// import DropdownFilter from "../../Components/dropdownFilter/Dropdown";
 import { useLocation } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,15 +24,14 @@ const HotelsList = () => {
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
   const id = user._id;
-  console.log(id);
   const IsSmalll = useMediaQuery("(max-width:768px)");
   const IsMobilee = useMediaQuery("(max-width:450px)");
 
   const dispatch = useDispatch();
   const location = useLocation();
-  const { disable } = useSelector((state) => state.disable);
+  // const { disable } = useSelector((state) => state.disable);
+  // const { disabled, name } = disable;
   const { view } = useSelector((state) => state.view);
-  const { disabled, name } = disable;
   const path = location.pathname.split("/")[1];
 
   if (view === "admin") {
@@ -324,7 +323,9 @@ const HotelsList = () => {
             ) : path === "upcomingparkingbookings" ? (
               <h2 className="fs-1 mb-2 mt-4">Upcoming Parking Bookings</h2>
             ) : path === "upcominghotelandparkingbookings" ? (
-              <h2 className="fs-1 mb-2 mt-4">Upcoming Hotel and Parking Bookings</h2>
+              <h2 className="fs-1 mb-2 mt-4">
+                Upcoming Hotel and Parking Bookings
+              </h2>
             ) : null
           ) : null}
 
@@ -390,7 +391,7 @@ const HotelsList = () => {
               </button>
             </div>
           </div>
-          <DataTable header={header} path={path} user={user} />
+          <DataTable path={path} user={user} />
         </div>
       </div>
     </>

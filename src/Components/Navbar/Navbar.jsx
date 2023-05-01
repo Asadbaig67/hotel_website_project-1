@@ -447,7 +447,6 @@ const Navbar = ({ list }) => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  console.log("User", loggedinUser);
   return (
     <div className="w-100">
       <header
