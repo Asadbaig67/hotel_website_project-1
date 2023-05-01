@@ -46,6 +46,8 @@ const getBookingDate = async (params) => {
   return data;
 };
 
+const getCities = async (params) => {};
+
 export const userHeader = [
   { field: "_id", headerName: "ID", width: 100 },
   { field: "firstName", headerName: "First Name", width: 130 },
@@ -219,4 +221,10 @@ export const bookingHotelAndParkingHeader = [
     valueGetter: getBookingDate,
   },
   { field: "total_price", headerName: "Total Price", width: 130 },
+];
+
+export const dashboardOperatingCityHeader = [
+  { field: "_id", headerName: "ID", width: 100 },
+  { field: "city", headerName: "Name", width: 130 },
+  { field: "createdAt", headerName: "Created at", width: 130 },
 ];

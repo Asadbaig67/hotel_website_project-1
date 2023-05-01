@@ -122,6 +122,24 @@ const DataTable = ({ path, user }) => {
     if (data) setList(list.filter((item) => item._id !== id));
   };
 
+  const handleCancelBooking = async (id) => {
+    let data;
+    if (path === "upcominghotelbookings") {
+      data = await axios.put(
+        `http://localhost:5000/booking/cancelHotelReservation/${id}`
+      );
+    } else if (path === "upcomingparkingbookings") {
+      data = await axios.put(
+        `http://localhost:5000/booking/cancelParkingReservation/${id}`
+      );
+    } else if (path === "upcominghotelandparkingbookings") {
+      data = await axios.put(
+        `http://localhost:5000/booking/cancelHotelAndParkingReservation/${id}`
+      );
+    }
+    if (data) setList(list.filter((item) => item._id !== id));
+  };
+
   const deleteColumn = [
     {
       field: "delete",
@@ -174,6 +192,24 @@ const DataTable = ({ path, user }) => {
     },
   ];
 
+  const cancelBookingColumn = [
+    {
+      field: "cancelBooking",
+      headerName: "",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <button
+            className="btn btn-danger"
+            onClick={() => handleCancelBooking(params.row._id)}
+          >
+            Cancel Booking
+          </button>
+        );
+      },
+    },
+  ];
+
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
@@ -183,6 +219,10 @@ const DataTable = ({ path, user }) => {
           path === "parkingRequests" ||
           path === "hotelAndParkingRequests"
             ? header.concat(viewColumn, deleteColumn, approveColumn)
+            : path === "upcominghotelbookings" ||
+              path === "upcomingparkingbookings" ||
+              path === "upcominghotelandparkingbookings"
+            ? header.concat(viewColumn, cancelBookingColumn)
             : header.concat(viewColumn, deleteColumn)
         }
         slots={{

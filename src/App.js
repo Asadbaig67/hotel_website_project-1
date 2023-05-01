@@ -515,6 +515,7 @@ function App() {
         <Route path="/hotels" element={<HotelsList />} />
         <Route path="/users" element={<HotelsList />} />
         <Route path="/booking" element={<HotelsList />} />
+        <Route path="/cancelbooking" element={<HotelsList />} />
         <Route path="/hotelRequests" element={<HotelsList />} />
         <Route path="/parkingRequests" element={<HotelsList />} />
         <Route path="/hotelAndParkingRequests" element={<HotelsList />} />
