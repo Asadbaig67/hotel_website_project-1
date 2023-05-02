@@ -505,7 +505,7 @@ function App() {
         <Route path="/skeleton" element={<Featured_skeleton />} />
         <Route path="/singleparking" element={<ParkingPropertyDetails property={property} />} />
         <Route path="/bookingdetails" element={<Viewbookings />} />
-        <Route path="/booking" element={<RoomBooking rooms={rooms} />} />
+        {/* <Route path="/booking" element={<RoomBooking rooms={rooms} />} /> */}
         <Route path="/viewproperty" element={<Viewproperty property={property} />} />
 
         {/* Admin Routes */}

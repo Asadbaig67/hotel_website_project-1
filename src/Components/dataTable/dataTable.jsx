@@ -125,15 +125,15 @@ const DataTable = ({ path, user }) => {
   const handleCancelBooking = async (id) => {
     let data;
     if (path === "upcominghotelbookings") {
-      data = await axios.put(
+      data = await axios.delete(
         `http://localhost:5000/booking/cancelHotelReservation/${id}`
       );
     } else if (path === "upcomingparkingbookings") {
-      data = await axios.put(
+      data = await axios.delete(
         `http://localhost:5000/booking/cancelParkingReservation/${id}`
       );
     } else if (path === "upcominghotelandparkingbookings") {
-      data = await axios.put(
+      data = await axios.delete(
         `http://localhost:5000/booking/cancelHotelAndParkingReservation/${id}`
       );
     }
@@ -196,7 +196,7 @@ const DataTable = ({ path, user }) => {
     {
       field: "cancelBooking",
       headerName: "",
-      width: 100,
+      width: 170,
       renderCell: (params) => {
         return (
           <button
