@@ -456,7 +456,7 @@ const ViewBookings = () => {
                       {options.singleRoom > 0 && (
                         <>
                           <div className="col-md-4">
-                            <h5>Twin Rooms:</h5>
+                            <h5>Single Rooms:</h5>
                           </div>
                           <div className="col-md-8 justify-content-end">
                             <span className="fw-bold">
