@@ -1,47 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const Dropdown = (props) => {
-  const GetHotelCities = async () => {
-    const response = await fetch("http://localhost:8000/api/hotel/cities");
-    const result = await response.json();
-    console.log(result);
-  };
-
-  const getHotelAndParkingCities = async () => {
-    const response = await fetch(
-      "http://localhost:8000/api/hotelandparking/cities"
-    );
-    const result = await response.json();
-    console.log(result);
-  };
-
-  const GetParkingCities = async () => {
-    const response = await fetch("http://localhost:8000/api/parking/cities");
-    const result = await response.json();
-    console.log(result);
-  };
-
   const location = useLocation();
   const path = location.pathname.split("/")[1];
-  const dispatch = useDispatch();
-  const citiesHotel = ["Lahore", "Karachi", "Islamabad", "Dubai"];
-  const citiesParking = ["Tokyo", "London", "Paris", "Lahore", "New York"];
-  const citiesHotelAndParking = [
-    "London",
-    "Tokyo",
-    "Sydney",
-    "Lahore",
-    "Dubai",
-  ];
-  const { name } = props;
-  const { city } = useSelector((state) => state.searchCity);
-  const { cityParking } = useSelector((state) => state.searchParkingCity);
-  const { cityHotelAndParking } = useSelector(
-    (state) => state.searchHotelAndParkingCity
+
+  const { hotelOperatingCity } = useSelector(
+    (state) => state.hotelOperatingCities
   );
+  const { parkingOperatingCity } = useSelector(
+    (state) => state.parkingOperatingCities
+  );
+  const { hotelAndParkingOperatingCity } = useSelector(
+    (state) => state.hotelAndParkingOperatingCities
+  );
+
+  const dispatch = useDispatch();
+
+  const { name } = props;
+
+  useEffect(() => {
+    const GetHotelCities = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/OperatingProperty/getHotelOperatingCity"
+      );
+      dispatch({ type: "SET_HOTEL_CITY", payload: response.data });
+      console.log(response.data);
+    };
+
+    const getParkingCities = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/OperatingProperty/getParkingOperatingCity"
+      );
+      dispatch({ type: "SET_PARKING_CITY", payload: response.data });
+      console.log(response.data);
+    };
+
+    const GetHotelAndParkingCities = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/OperatingProperty/getHotelAndParkingOperatingCity"
+      );
+      dispatch({ type: "SET_HOTEL_AND_PARKING_CITY", payload: response.data });
+      console.log(response.data);
+    };
+    GetHotelCities();
+    getParkingCities();
+    GetHotelAndParkingCities();
+  }, [path]);
+
   return (
     <Select
       showSearch
@@ -62,16 +71,16 @@ const Dropdown = (props) => {
       }
       options={
         name === "cityHotel"
-          ? citiesHotel.map((city) => ({
+          ? hotelOperatingCity.map((city) => ({
               value: city,
               label: city,
             }))
           : name === "cityParking"
-          ? citiesParking.map((city) => ({
+          ? parkingOperatingCity.map((city) => ({
               value: city,
               label: city,
             }))
-          : citiesHotelAndParking.map((city) => ({
+          : hotelAndParkingOperatingCity.map((city) => ({
               value: city,
               label: city,
             }))

@@ -146,6 +146,26 @@ const HotelsList = () => {
         });
         dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader });
       }
+    } else if (path === "cancelbooking") {
+      if (user.partner_type === "Hotel") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/booking/getBookingHotelByOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader });
+      } else if (user.partner_type === "Parking") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/booking/getBookingParkingByOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingParkingHeader });
+      } else if (user.partner_type === "HotelAndParking") {
+        dispatch({
+          type: "SETURL",
+          payload: `http://localhost:5000/booking/getBookingHotelandParkingByOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader });
+      }
     }
   } else if (view === "user") {
     if (path === "hotelbookings") {

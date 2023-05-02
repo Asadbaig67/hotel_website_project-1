@@ -100,6 +100,13 @@ export const SidebarDataPatnerProfile = [
     icon: <BusinessCenterIcon />,
     link: "/booking",
   },
+  {
+    key: "13",
+    title: "Canceled Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/cancelbooking",
+  },
+
   // {
   //   key: 10,
   //   title: "Uploads",
