@@ -505,7 +505,7 @@ function App() {
         <Route path="/skeleton" element={<Featured_skeleton />} />
         <Route path="/singleparking" element={<ParkingPropertyDetails property={property} />} />
         <Route path="/bookingdetails" element={<Viewbookings />} />
-        <Route path="/booking" element={<RoomBooking rooms={rooms} />} />
+        {/* <Route path="/booking" element={<RoomBooking rooms={rooms} />} /> */}
         <Route path="/viewproperty" element={<Viewproperty property={property} />} />
 
         {/* Admin Routes */}
@@ -515,6 +515,7 @@ function App() {
         <Route path="/hotels" element={<HotelsList />} />
         <Route path="/users" element={<HotelsList />} />
         <Route path="/booking" element={<HotelsList />} />
+        <Route path="/cancelbooking" element={<HotelsList />} />
         <Route path="/hotelRequests" element={<HotelsList />} />
         <Route path="/parkingRequests" element={<HotelsList />} />
         <Route path="/hotelAndParkingRequests" element={<HotelsList />} />

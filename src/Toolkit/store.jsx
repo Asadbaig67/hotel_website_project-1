@@ -46,6 +46,10 @@ import { SetDateFocus } from "./reducer/datefocus";
 import { hotelParkongDataReducer } from "./reducer/hotelParking_backend";
 import { Set_booked_property } from "./reducer/bookedDetails";
 import { Set_Selected_Parking } from "./reducer/setSelectedParking";
+import { hotelOperatingCities } from "./reducer/setHotelOperatingCities";
+import { parkingOperatingCities } from "./reducer/setParkingOperatingCities";
+import { hotelAndParkingOperatingCities } from "./reducer/setHotelAndParkingOperatingCities";
+
 
 const persistConfig = {
   key: "root",
@@ -98,6 +102,9 @@ const reducer = combineReducers({
   getHotelParkingfrombackend: hotelParkongDataReducer,
   getBookedDetails: Set_booked_property,
   getSelectedParking: Set_Selected_Parking,
+  hotelOperatingCities: hotelOperatingCities,
+  parkingOperatingCities: parkingOperatingCities,
+  hotelAndParkingOperatingCities: hotelAndParkingOperatingCities,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

@@ -220,3 +220,9 @@ export const bookingHotelAndParkingHeader = [
   },
   { field: "total_price", headerName: "Total Price", width: 130 },
 ];
+
+export const dashboardOperatingCityHeader = [
+  { field: "_id", headerName: "ID", width: 100 },
+  { field: "city", headerName: "Name", width: 130 },
+  { field: "createdAt", headerName: "Created at", width: 130 },
+];
