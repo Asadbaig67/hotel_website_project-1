@@ -3,108 +3,124 @@ import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
+import DeleteIcon from "@mui/icons-material/Delete";
+import style from "../Hotel_Forms/addhotel.module.css";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 
-import style from "../Hotel_Forms/addhotel.module.css";
-
-const AddHotelParkingForm = () => {
+const UpdateParking = () => {
   //Alerts Code
   const [alertOn, setAlertOn] = useState(false);
   const [open, setOpen] = useState(true);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("info");
-
   const IsMobile = useMediaQuery("(max-width:450px)");
 
-  const [formValues, setFormValues] = useState({
-    hotel_name: "",
-    hotel_title: "",
-    parking_name: "",
-    hotel_rating: 0,
-    parking_title: "",
-    total_slots: 0,
-    hotel_photos: [],
-    booked_slots: 0,
-    hotel_description: "",
-    parking_description: "",
-    parking_photos: [],
-    price: 0,
-    city: "",
-    country: "",
-    address: "",
-  });
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
+  const defaultFormValues = {
+    Facilities: [
+      "Covered Parking",
+      "Valet Parking",
+      "Self-Parking",
+      "Handicap Parking",
+      "Electric Vehicle Charging Stations",
+      "24-hour Surveillance Cameras",
+      "Bicycle Parking",
+      "Free Parking",
+      "Paid Parking",
+      "Parking Garage",
+    ],
+    _id: "64490a8d6aea5caf2f8c5c49",
+    name: "Shopping Mall Parking",
+    title: "Convenient Parking Near the Mall",
+    total_slots: 50,
+    booked_slots: 1,
+    description:
+      "This parking space is located just steps away from the biggest shopping mall in town and is perfect for shoppers who want to park their car safely and conveniently.",
+    price: 50,
+    photos: [
+      "http://localhost:5000/uploads/ParkingImages/parking13.jpg",
+      "http://localhost:5000/uploads/ParkingImages/parking14.jpg",
+      "http://localhost:5000/uploads/ParkingImages/parking16.jpg",
+    ],
+    city: "New York",
+    country: "USA",
+    address: "456 Airport Rd",
   };
 
-  const [hotelimages, setHotelimages] = useState([]);
-  const [parkingimages, setParkingimages] = useState([]);
+  const [formValues, setFormValues] = useState(defaultFormValues);
+
+  const handleInputChange = (event) => {
+    const { value } = event.target;
+    setFormValues({
+      ...formValues,
+      [event.target.name]: value,
+    });
+  };
+
+  // const [files, setFiles] = useState([]);
+  const [parkingImages, setParkingImages] = useState([]);
 
   const onSelectFile = (event) => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
-    let ArrayObj = selectedFilesArray.map((file) => {
-      return { file: file, blobURL: URL.createObjectURL(file) };
+    let blobImagesArray = selectedFilesArray.map((file) => {
+      return { file: file, blobUrl: URL.createObjectURL(file) };
     });
-    let dummyArray = [...hotelimages];
-    ArrayObj.forEach((newImageObj) => {
-      dummyArray.push(newImageObj);
-    });
-    setHotelimages(dummyArray);
-  };
-  const onParkingSelectFile = (event) => {
-    const selectedFiles = event.target.files;
-    const selectedFilesArray = Array.from(selectedFiles);
-    let ArrayObj = selectedFilesArray.map((file) => {
-      return { file: file, blobURL: URL.createObjectURL(file) };
-    });
-    let dummyArray = [...parkingimages];
-    ArrayObj.forEach((newImagrObj) => {
-      dummyArray.push(newImagrObj);
-    });
-    setParkingimages(dummyArray);
+    const dummyImages = [...parkingImages];
+    for (let i = 0; i < blobImagesArray.length; i++) {
+      dummyImages.push(blobImagesArray[i]);
+    }
+    setParkingImages(dummyImages);
   };
 
-  function deleteHandler(imageObj) {
-    setHotelimages((prevImages) => {
-      return prevImages.filter((image) => image !== imageObj);
-    });
-  }
-  function deleteParkingHandler(imageObj) {
-    setParkingimages((prevImages) => {
-      return prevImages.filter((image) => image !== imageObj);
-    });
+  // Delete Available Images from backend
+  const DeleteImages = async (image) => {
+    alert(
+      `Are you Sure You Want to Delete This Image? It will be permanently deleted from the Server!`
+    );
+
+    let url = `http://localhost:5000/parking/deleteparkingimage/${defaultFormValues._id}`;
+    const data = { link: image.blobUrl }; // Request body data as an object
+    const options = {
+      method: "DELETE", // Replace with the desired HTTP method (e.g., POST, PUT, DELETE)
+      headers: {
+        "Content-Type": "application/json", // Specify the content type as JSON
+      },
+      body: JSON.stringify(data), // Convert the data object to a JSON string
+    };
+
+    const response = await fetch(url, options);
+    const Responsedata = await response.json();
+    console.log(Responsedata);
+  };
+
+  // Function to remove an image from the array of images
+  function deleteHandler(image) {
+    setParkingImages((prevImages) =>
+      prevImages.filter((Imageblob) => Imageblob !== image)
+    );
+
+    URL.revokeObjectURL(image);
   }
 
   // Add Features Code
-  const defaultFeatures = [
-    "Luxurious Rooms and Suites",
-    "Multiple Restaurants and Cafes",
-    "24-hour Room Service",
-    "Fitness Center",
-    "Spa and Wellness Center",
-    "Outdoor Swimming Pool",
-    "Business Center",
-    "Conference and Event Spaces",
-    "Concierge Services",
+  const defaultParkingFacilities = [
+    "Covered Parking",
     "Valet Parking",
     "Self-Parking",
-    "Laundry and Dry Cleaning Services",
-    "Complimentary Wi-Fi",
-    "24-hour Front Desk and Security",
+    "Handicap Parking",
+    "Electric Vehicle Charging Stations",
+    "24-hour Surveillance Cameras",
+    "Bicycle Parking",
+    "Free Parking",
+    "Paid Parking",
+    "Parking Garage",
   ];
-  const [features, setFeatures] = useState([...defaultFeatures]);
+  const [features, setFeatures] = useState([...formValues.Facilities]);
   const [newFeature, setNewFeature] = useState("");
 
   const handleAddFeature = (event) => {
@@ -126,16 +142,11 @@ const AddHotelParkingForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("ownerId", loggedinUser.user._id);
-    formData.append("hotel_name", formValues.hotel_name);
-    formData.append("hotel_title", formValues.hotel_title);
-    formData.append("parking_name", formValues.parking_name);
-    formData.append("hotel_rating", formValues.hotel_rating);
-    formData.append("parking_title", formValues.parking_title);
+    formData.append("name", formValues.name);
+    formData.append("title", formValues.title);
     formData.append("total_slots", formValues.total_slots);
     formData.append("booked_slots", formValues.booked_slots);
-    formData.append("parking_description", formValues.parking_description);
-    formData.append("hotel_description", formValues.hotel_description);
+    formData.append("description", formValues.description);
     formData.append("price", formValues.price);
     formData.append("city", formValues.city);
     formData.append("country", formValues.country);
@@ -145,16 +156,13 @@ const AddHotelParkingForm = () => {
     }
 
     // Append each photo in the photos array to the FormData object
-    for (let i = 0; i < hotelimages.length; i++) {
-      formData.append("hotel_photos", hotelimages[i].file);
+    for (let i = 0; i < parkingImages.length; i++) {
+      formData.append("photos", parkingImages[i].file);
     }
-    for (let i = 0; i < parkingimages.length; i++) {
-      formData.append("parking_photos", parkingimages[i].file);
-    }
-    const url = "http://localhost:5000/hotelandparking/addhotelandparking";
+    const url = `http://localhost:5000/parking/updateparkingdata/${formValues._id}`;
 
     const options = {
-      method: "POST",
+      method: "PATCH",
       body: formData,
     };
 
@@ -163,7 +171,7 @@ const AddHotelParkingForm = () => {
       if (response.status === 200) {
         setAlertOn(true);
         setAlertType("success");
-        setAlertMessage("Hotel And Parking Added Successfully");
+        setAlertMessage("Parking Added Successfully");
         setTimeout(() => {
           setOpen(false);
         }, 7000);
@@ -182,7 +190,8 @@ const AddHotelParkingForm = () => {
     }
   };
 
-  console.log(features);
+  console.log("Form Values", formValues);
+  console.log("Original State Array", parkingImages);
 
   return (
     <>
@@ -214,51 +223,15 @@ const AddHotelParkingForm = () => {
                 </IconButton>
               }
             >
-              <AlertTitle>Add Hotel And Parking</AlertTitle>
+              <AlertTitle>Parking</AlertTitle>
               <strong>{alertMessage}!</strong>
             </Alert>
           </Stack>
         </Collapse>
       )}
       <div className={`container  ${IsMobile ? "" : "w-50"} `}>
-        <h1 className="text-center fw-bold">Add Hotel And Parking Form</h1>
+        <h1 className="text-center fw-bold">Update Parking Form</h1>
         <form className="needs-validation mx-4">
-          <div className="row mt-2">
-            <div className="col-md-6">
-              <label
-                htmlFor="validationCustom01"
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Hotel Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Parking Name"
-                name="hotel_name"
-                id="validationCustom01"
-                value={formValues.hotel_name}
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-6">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Hotel Title
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Hotel Title"
-                name="hotel_title"
-                value={formValues.hotel_title}
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
           <div className="row mt-2">
             <div className="col-md-6">
               <label
@@ -270,10 +243,10 @@ const AddHotelParkingForm = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Parking Name"
-                name="parking_name"
+                placeholder="Name"
+                name="name"
                 id="validationCustom01"
-                value={formValues.parking_name}
+                value={formValues.name}
                 required
                 onChange={handleInputChange}
               />
@@ -287,16 +260,16 @@ const AddHotelParkingForm = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Parking Title"
-                name="parking_title"
-                value={formValues.parking_title}
+                placeholder="title"
+                name="title"
+                value={formValues.title}
                 required
                 onChange={handleInputChange}
               />
             </div>
           </div>
           <div className="row mt-2">
-            <div className="col-md-4">
+            <div className="col-md-6">
               <label
                 htmlFor="validationCustom01"
                 className={`labels text-${mode === "light" ? "dark" : "light"}`}
@@ -314,7 +287,7 @@ const AddHotelParkingForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="col-md-4">
+            <div className="col-md-6">
               <label
                 className={`labels text-${mode === "light" ? "dark" : "light"}`}
               >
@@ -330,26 +303,24 @@ const AddHotelParkingForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="col-md-4">
+          </div>
+          <div className="row">
+            <div className="col-md-12 mt-2">
               <label
-                htmlFor="validationCustom01"
                 className={`labels text-${mode === "light" ? "dark" : "light"}`}
               >
-                Hotel Rating
+                Description
               </label>
-              <input
-                type="text"
+              <textarea
                 className="form-control"
-                placeholder="Rating"
-                name="hotel_rating"
-                id="validationCustom01"
-                value={formValues.hotel_rating}
+                placeholder="description"
+                value={formValues.description}
+                name="description"
                 required
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="row">
+
             <div className="col-md-6 mt-2">
               <label
                 className={`labels text-${mode === "light" ? "dark" : "light"}`}
@@ -370,10 +341,10 @@ const AddHotelParkingForm = () => {
               <label
                 className={`labels text-${mode === "light" ? "dark" : "light"}`}
               >
-                Parking Price
+                Price
               </label>
               <input
-                type="number"
+                type="Number"
                 className="form-control"
                 placeholder="Price"
                 value={formValues.price}
@@ -416,36 +387,6 @@ const AddHotelParkingForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="col-md-12 mt-2">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Hotel Description
-              </label>
-              <textarea
-                className="form-control"
-                placeholder="description"
-                value={formValues.hotel_description}
-                name="hotel_description"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-12 mt-2">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Parking Description
-              </label>
-              <textarea
-                className="form-control"
-                placeholder="description"
-                value={formValues.parking_description}
-                name="parking_description"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
           </div>
           <div className="row">
             <label
@@ -454,21 +395,24 @@ const AddHotelParkingForm = () => {
                 mode === "light" ? "dark" : "light"
               }`}
             >
-              Upload Hotel Images
+              Available Images
             </label>
-            <small>Please select 3-7 images only </small>
+            <small className="text-muted">
+              {" "}
+              Please select 3-7 images only{" "}
+            </small>
             <div className="col-md-12 col-sm-4">
-              <div className={style.image_selector}>
-                {hotelimages &&
-                  hotelimages.map((imageObj, index) => {
+              <div className={`${style.image_selector}`}>
+                {formValues.photos &&
+                  formValues.photos.map((image, index) => {
                     return (
                       <div
-                        key={index}
+                        key={image}
                         className={`${style.image_preview} mx-1 my-1`}
                       >
                         <img
-                          className={style.preview_image}
-                          src={imageObj.blobURL}
+                          className={`${style.preview_image}`}
+                          src={image}
                           alt="upload"
                         />
                         <div
@@ -482,7 +426,60 @@ const AddHotelParkingForm = () => {
                           <IconButton
                             aria-label="delete"
                             size="small"
-                            className={style.delete_button}
+                            className={`${style.delete_button}`}
+                          >
+                            <DeleteIcon
+                              className="text-light me-1"
+                              onClick={() => DeleteImages(image)}
+                              fontSize="small"
+                            />
+                          </IconButton>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <label
+              htmlFor=""
+              className={`labels mt-2 text-${
+                mode === "light" ? "dark" : "light"
+              }`}
+            >
+              Upload Images
+            </label>
+            <small className="text-muted">
+              {" "}
+              Please select 3-7 images only{" "}
+            </small>
+            <div className="col-md-12 col-sm-4">
+              <div className={`${style.image_selector}`}>
+                {parkingImages &&
+                  parkingImages.map((imageObj, index) => {
+                    return (
+                      <div
+                        key={imageObj.blobUrl}
+                        className={`${style.image_preview} mx-1 my-1`}
+                      >
+                        <img
+                          className={`${style.preview_image}`}
+                          src={imageObj.blobUrl}
+                          alt="upload"
+                        />
+                        <div
+                          className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                        >
+                          <p
+                            className={`${style.image_number} text-light ms-1`}
+                          >
+                            {index + 1}
+                          </p>
+                          <IconButton
+                            aria-label="delete"
+                            size="small"
+                            className={`${style.delete_button}`}
                           >
                             <DeleteIcon
                               className="text-light me-1"
@@ -498,7 +495,7 @@ const AddHotelParkingForm = () => {
                   color="secondary"
                   aria-label="upload picture"
                   component="label"
-                  className={style.add_button}
+                  className={`${style.add_button}`}
                 >
                   <input
                     hidden
@@ -512,74 +509,9 @@ const AddHotelParkingForm = () => {
               </div>
             </div>
           </div>
-          <div className="row">
-            <label
-              htmlFor=""
-              className={`labels mt-2 text-${
-                mode === "light" ? "dark" : "light"
-              }`}
-            >
-              Upload Parking Images
-            </label>
-            <small>Please select 3-7 images only </small>
-            <div className="col-md-12 col-sm-4">
-              <div className={style.image_selector}>
-                {parkingimages &&
-                  parkingimages.map((imageObj, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className={`${style.image_preview} mx-1 my-1`}
-                      >
-                        <img
-                          className={style.preview_image}
-                          src={imageObj.blobURL}
-                          alt="upload"
-                        />
-                        <div
-                          className={`${style.image_overlay} d-flex flex-row justify-content-between`}
-                        >
-                          <p
-                            className={`${style.image_number} text-light ms-1`}
-                          >
-                            {index + 1}
-                          </p>
-                          <IconButton
-                            aria-label="delete"
-                            size="small"
-                            className={style.delete_button}
-                          >
-                            <DeleteIcon
-                              className="text-light me-1"
-                              onClick={() => deleteParkingHandler(imageObj)}
-                              fontSize="small"
-                            />
-                          </IconButton>
-                        </div>
-                      </div>
-                    );
-                  })}
-                <IconButton
-                  color="secondary"
-                  aria-label="upload picture"
-                  component="label"
-                  className={style.add_button}
-                >
-                  <input
-                    hidden
-                    onChange={onParkingSelectFile}
-                    accept="image/png , image/jpeg"
-                    type="file"
-                    multiple
-                  />
-                  <AddPhotoAlternateIcon />
-                </IconButton>
-              </div>
-            </div>
-          </div>
           <div className="mt-3">
             <div className="form-group">
-              <label htmlFor="feature">Hotel And Parking Feature</label>
+              <label htmlFor="feature">Parking Feature</label>
               <input
                 type="text"
                 className="form-control"
@@ -618,15 +550,10 @@ const AddHotelParkingForm = () => {
             <button
               className="btn btn-primary btn-lg profile-button mb-4"
               type="submit"
-              disabled={
-                hotelimages.length < 3 ||
-                hotelimages.length > 7 ||
-                parkingimages.length < 3 ||
-                parkingimages.length > 7
-              }
+              // disabled={files.length > 7 || files.length < 3}
               onClick={handleSubmit}
             >
-              Add Hotel And Parking
+              Add Parking
             </button>
           </div>
         </form>
@@ -635,4 +562,4 @@ const AddHotelParkingForm = () => {
   );
 };
 
-export default AddHotelParkingForm;
+export default UpdateParking;

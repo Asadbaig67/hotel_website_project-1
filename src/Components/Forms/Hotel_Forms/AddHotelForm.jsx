@@ -11,9 +11,6 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
-// import { FormDataEncoder } from "form-data-encoder";
-
-// import form-data-encoder from 'form-data-encoder';
 import style from "./addhotel.module.css";
 
 const AddHotelForm = () => {
@@ -45,61 +42,30 @@ const AddHotelForm = () => {
     }));
   };
 
-  const [files, setFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
-  // const handleFileInputChange = (event) => {
-  //   setFiles([...event.target.files]);
-  // };
-
   const onSelectFile = (event) => {
-    // Get the selected files from the input element
-    const newImages = [...files];
-    for (let i = 0; i < event.target.files.length; i++) {
-      newImages.push(event.target.files[i]);
-    }
-    setFiles(newImages);
-    // Get the selected files from the input element
+    
     const selectedFiles = event.target.files;
-    // Convert the FileList object to an Array
     const selectedFilesArray = Array.from(selectedFiles);
-    // Map over the array of files and return a new array of objects of the desired shape
-    let imagesArray = selectedFilesArray.map((file) => {
-      return URL.createObjectURL(file);
+    let imagesArrayObj = selectedFilesArray.map((file) => {
+      return { file: file, bolbURL: URL.createObjectURL(file) };
     });
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      photos: [...prevValues.photos, ...imagesArray],
-    }));
+    let dummyArray = [...selectedImages];
+    imagesArrayObj.forEach((newImage) => {
+      dummyArray.push(newImage);
+    });
+    setSelectedImages(dummyArray);
+    
   };
-  function deleteHandler(image) {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      photos: formValues.photos.filter((e) => e !== image),
-    }));
-    URL.revokeObjectURL(image);
-    const newImages = [...files];
-    newImages.splice(image, 1);
-    setFiles(newImages);
-    // setFiles((prevFiles) => prevFiles.filter((e) => e !== image));
+  function deleteHandler(imageObj) {
+    
+    setSelectedImages((prevImages) => {
+      return prevImages.filter((image) => image !== imageObj);
+    });
+    
   }
 
-  // const defaultFeatures = [
-  //   "Luxurious Rooms and Suites",
-  //   "Multiple Restaurants and Cafes",
-  //   "24-hour Room Service",
-  //   "Fitness Center",
-  //   "Spa and Wellness Center",
-  //   "Outdoor Swimming Pool",
-  //   "Business Center",
-  //   "Conference and Event Spaces",
-  //   "Concierge Services",
-  //   "Valet Parking",
-  //   "Self-Parking",
-  //   "Laundry and Dry Cleaning Services",
-  //   "Complimentary Wi-Fi",
-  //   "24-hour Front Desk and Security",
-  // ];
   const defaultFeatures = [
     "Luxurious Rooms and Suites",
     "Multiple Restaurants and Cafes",
@@ -165,14 +131,13 @@ const AddHotelForm = () => {
     formData.append("country", formValues.country);
     formData.append("address", formValues.address);
     formData.append("ownerId", loggedinUser.user._id);
-    // formData.append("facilities", features);
     for (let i = 0; i < features.length; i++) {
       formData.append("facilities", features[i]);
     }
 
     // Append each photo in the photos array to the FormData object
-    for (let i = 0; i < files.length; i++) {
-      formData.append("photos", files[i]);
+    for (let i = 0; i < selectedImages.length; i++) {
+      formData.append("photos", selectedImages[i].file);
     }
     const url = "http://localhost:5000/hotels/addhotel";
 
@@ -205,7 +170,7 @@ const AddHotelForm = () => {
     }
   };
 
-  console.log(files);
+  console.log("Selected Images Are ", selectedImages);
 
   return (
     <>
@@ -299,34 +264,6 @@ const AddHotelForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <div
-              className={`container ${
-                selectedImages.length < 10 ? "d-none" : ""
-              } text-center my-3`}
-            >
-              {formValues.photos.length > 0 &&
-                (formValues.photos.length > 10 ? (
-                  <p className="text-danger">
-                    You can't upload more than 10 images! <br />
-                    <span>
-                      please delete <b> {formValues.photos.length - 10} </b> of
-                      them
-                    </span>
-                  </p>
-                ) : (
-                  <div className="">
-                    <button
-                      className={`btn btn-primary btn-md`}
-                      onClick={() => {
-                        console.log(formValues.photos);
-                      }}
-                    >
-                      UPLOAD {formValues.photos.length} IMAGE
-                      {formValues.photos.length === 1 ? "" : "S"}
-                    </button>
-                  </div>
-                ))}
-            </div>
             <div className="col-md-12 mt-2">
               <label
                 className={`labels text-${mode === "light" ? "dark" : "light"}`}
@@ -406,16 +343,16 @@ const AddHotelForm = () => {
             <small>Please select 3-7 images only </small>
             <div className="col-md-12 col-sm-4">
               <div className={style.image_selector}>
-                {formValues.photos &&
-                  formValues.photos.map((image, index) => {
+                {selectedImages &&
+                  selectedImages.map((imageObj, index) => {
                     return (
                       <div
-                        key={image}
+                        key={imageObj.bolbURL}
                         className={`${style.image_preview} mx-1 my-1`}
                       >
                         <img
                           className={style.preview_image}
-                          src={image}
+                          src={imageObj.bolbURL}
                           alt="upload"
                         />
                         <div
@@ -433,8 +370,8 @@ const AddHotelForm = () => {
                           >
                             <DeleteIcon
                               className="text-light me-1"
-                              onClick={() => deleteHandler(image)}
                               fontSize="small"
+                              onClick={() => deleteHandler(imageObj)}
                             />
                           </IconButton>
                         </div>
@@ -501,7 +438,7 @@ const AddHotelForm = () => {
             <button
               className="btn btn-primary btn-lg profile-button mb-4"
               type="submit"
-              disabled={files.length < 3 || files.length > 7}
+              disabled={selectedImages.length < 3 || selectedImages.length > 7}
               onClick={handleSubmit}
             >
               Add Hotel

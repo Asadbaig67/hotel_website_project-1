@@ -329,6 +329,26 @@ const Navbar = ({ list }) => {
     }
   };
 
+  const HandleLogout = async () => {
+    let url = "http://localhost:5000/user/userlogout";
+    let options = {
+      method: "GET",
+    };
+    const response = await fetch(url, options);
+    if (response.ok) {
+      dispatch({ type: "SET_LOGGEDIN_USER", payload: null });
+      navigate("/");
+    }
+  };
+  const HandleRedirectDashboard = () => {
+    dispatch({ type: "SET_REDIRECT_ROUTE", payload: "dashboard" });
+    // navigate("/signin");
+  };
+  const HandleRedirectSignin = () => {
+    dispatch({ type: "SET_REDIRECT_ROUTE", payload: "/" });
+    // navigate("/signin");
+  };
+
   useEffect(() => {
     // console.log(cityParking, c, datesParking);
     if (path === "/" || path === "/listHotel" || path === "/singleHotel") {
@@ -444,11 +464,11 @@ const Navbar = ({ list }) => {
     });
   }, []);
 
+  console.log("User", loggedinUser);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
-
-  
 
   return (
     <div className="w-100">
@@ -532,7 +552,7 @@ const Navbar = ({ list }) => {
                   </li>
                   {user ? (
                     <>
-                      <li>
+                      {/* <li>
                         <NavLink to="/">
                           <span className={style.iconShow}>
                             <Badge
@@ -579,7 +599,7 @@ const Navbar = ({ list }) => {
                             </Button>
                           </span>
                         </NavLink>
-                      </li>
+                      </li> */}
                       <li>
                         <NavLink to="/">
                           {/* <span className={style.iconShow}>
@@ -596,7 +616,7 @@ const Navbar = ({ list }) => {
                                 textAlign: "center",
                               }}
                             >
-                              <Tooltip title="Account settings">
+                              <Tooltip title="Account">
                                 <IconButton
                                   onClick={handleonClick}
                                   size="small"
@@ -655,14 +675,24 @@ const Navbar = ({ list }) => {
                                 vertical: "bottom",
                               }}
                             >
+                              {/* <MenuItem onClick={handleonClose}>
+                                <Avatar /> Dashboard
+                              </MenuItem> */}
                               <MenuItem onClick={handleonClose}>
-                                <Avatar /> Profile
-                              </MenuItem>
-                              <MenuItem onClick={handleonClose}>
-                                <Avatar /> My account
+                                <Avatar />{" "}
+                                <Link
+                                  className="text-dark"
+                                  // to={HandleRedirectDashboard}
+                                  // to="/signin"
+                                  to={loggedinUser ? "/dashboard" : "/signin"}
+                                  onClick={HandleRedirectDashboard}
+                                  // to={loggedinUser ? "/dashboard" : "/signin"}
+                                >
+                                  My Dashboard
+                                </Link>
                               </MenuItem>
                               <Divider />
-                              <MenuItem onClick={handleonClose}>
+                              {/* <MenuItem onClick={handleonClose}>
                                 <ListItemIcon>
                                   <PersonAdd fontSize="small" />
                                 </ListItemIcon>
@@ -673,21 +703,34 @@ const Navbar = ({ list }) => {
                                   <Settings fontSize="small" />
                                 </ListItemIcon>
                                 Settings
-                              </MenuItem>
+                              </MenuItem> */}
                               <MenuItem onClick={handleonClose}>
-                                {!!loggedinUser ? (
+                                {loggedinUser ? (
                                   <>
                                     <ListItemIcon>
                                       <Logout fontSize="small" />
                                     </ListItemIcon>
-                                    <Link to="/">Logout</Link>
+                                    <Link
+                                      to="/"
+                                      className="text-dark"
+                                      onClick={HandleLogout}
+                                    >
+                                      Logout
+                                    </Link>
                                   </>
                                 ) : (
                                   <>
                                     <ListItemIcon>
                                       <Logout fontSize="small" />
                                     </ListItemIcon>
-                                    <Link to="/signin">Signin</Link>
+                                    {/* to={HandleRedirectSignin} */}
+                                    <Link
+                                      to="/signin"
+                                      onClick={HandleRedirectSignin}
+                                      className="text-dark"
+                                    >
+                                      Sign-in
+                                    </Link>
                                   </>
                                 )}
                               </MenuItem>
