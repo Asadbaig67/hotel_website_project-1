@@ -1,14 +1,17 @@
 import React from "react";
 import "./navbar.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../images/white-logo.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import bgrmvblk from "../../images/bgrmvblk.png";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const { mode } = useSelector((state) => state.mode);
   const dispatch = useDispatch();
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { user } = loggedinUser;
 
   return (
     <>
@@ -52,28 +55,28 @@ export default function Navbar() {
                   className="rounded-circle border border-2 me-1"
                   alt="..."
                 />
-                <span style={{ fontSize: "12px" }}>Username</span>
+                <span style={{ fontSize: "12px" }}>{user.firstName}</span>
               </a>
               <ul className={`dropdown-menu bg-${mode}`}>
                 <li>
-                  <a
+                  <Link
                     className={`dropdown-item text-${
                       mode === "light" ? "dark" : "light"
                     }`}
-                    href="#"
+                    to={`/profile`}
                   >
                     Profile
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     className={`dropdown-item text-${
                       mode === "light" ? "dark" : "light"
                     }`}
-                    href="#"
+                    to={`/profile`}
                   >
                     Account settings
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <hr className="dropdown-divider" />
@@ -83,15 +86,19 @@ export default function Navbar() {
                     className={`dropdown-item text-${
                       mode === "light" ? "dark" : "light"
                     }`}
-                    href="#"
+                    onClick={() => {
+                      navigate("/signin");
+                      localStorage.clear();
+                      dispatch({ type: "SET_LOGGEDIN_USER", payload: {} });
+                    }}
                   >
-                    Sign out
+                    Log out
                   </a>
                 </li>
               </ul>
             </li>
           </div>
-          <div className="form-check form-switch w-50">
+          {/* <div className="form-check form-switch w-50">
             <input
               className="form-check-input"
               type="checkbox"
@@ -110,7 +117,7 @@ export default function Navbar() {
             >
               Dark mode
             </label>
-          </div>
+          </div> */}
         </div>
       </nav>
     </>

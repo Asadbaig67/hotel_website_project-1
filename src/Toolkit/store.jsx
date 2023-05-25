@@ -49,7 +49,7 @@ import { Set_Selected_Parking } from "./reducer/setSelectedParking";
 import { hotelOperatingCities } from "./reducer/setHotelOperatingCities";
 import { parkingOperatingCities } from "./reducer/setParkingOperatingCities";
 import { hotelAndParkingOperatingCities } from "./reducer/setHotelAndParkingOperatingCities";
-
+import { featuredCityCount } from "./reducer/featuredCityCount";
 
 const persistConfig = {
   key: "root",
@@ -99,6 +99,9 @@ const reducer = combineReducers({
   getfeaturedhotel: Featured_Hotel_Reducer,
   getFeaturedPropertiesHotel: Featured_Properties_Hotel_Reducer,
   getFocus: SetDateFocus,
+
+  featuredCityCount: featuredCityCount,
+  
   getHotelParkingfrombackend: hotelParkongDataReducer,
   getBookedDetails: Set_booked_property,
   getSelectedParking: Set_Selected_Parking,

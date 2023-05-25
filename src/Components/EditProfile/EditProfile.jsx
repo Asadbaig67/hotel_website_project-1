@@ -125,7 +125,7 @@ export default function EditProfile({ profile }) {
               }}
             />
           </div>
-          <div className="col-md-12 mt-2">
+          {/* <div className="col-md-12 mt-2">
             <label
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
             >
@@ -214,7 +214,7 @@ export default function EditProfile({ profile }) {
                 dispatch({ type: "SETPROFILEDATA", payload: data });
               }}
             />
-          </div>
+          </div> */}
           <div className="col-md-12 mt-2">
             <label
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
@@ -233,7 +233,7 @@ export default function EditProfile({ profile }) {
               }}
             />
           </div>
-          <div className="col-md-12 mt-2">
+          {/* <div className="col-md-12 mt-2">
             <label
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
             >
@@ -250,9 +250,9 @@ export default function EditProfile({ profile }) {
                 dispatch({ type: "SETPROFILEDATA", payload: data });
               }}
             />
-          </div>
+          </div> */}
         </div>
-        <div className="row mt-3">
+        {/* <div className="row mt-3">
           <div className="col-md-6">
             <label
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
@@ -289,7 +289,7 @@ export default function EditProfile({ profile }) {
               }}
             />
           </div>
-        </div>
+        </div> */}
         <div className="mt-5 text-center">
           <button className="btn btn-primary profile-button mb-4" type="submit">
             Save Profile
