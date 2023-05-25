@@ -27,6 +27,9 @@ import ProfileDataForm from "./Components/Forms/Profile_Data_Form/profileDataFor
 import AddHotelForm from "./Components/Forms/Hotel_Forms/AddHotelForm";
 import AddParkingForm from "./Components/Forms/Parking_Forms/Addparkingform";
 import AddHotelParkingForm from "./Components/Forms/Hotel&Parking_Forms/Hotel_ParkingForm";
+import UpdateHotel from "./Components/Forms/Hotel_Forms/UpdateHotelForm";
+import UpdateHotelAndParking from "./Components/Forms/Hotel&Parking_Forms/UpdateHotel_Parking";
+import UpdateParking from "./Components/Forms/Parking_Forms/Update_Parking";
 import AddRoomForm from "./Components/Forms/Room_Forms/AddRoom";
 import HotelBooking from './Components/Forms/Booking_Forms/Hotel_booking'
 import ParkingPropertyDetails from "./Pages/singleParking/Singleparking";
@@ -537,6 +540,9 @@ function App() {
         <Route path="/hotelparkingform" element={<AddHotelParkingForm />} />
         <Route path="/roomform" element={<AddRoomForm />} />
         <Route path="/hotelbooking" element={<HotelBooking />} />
+        <Route path="/updatehotel" element={<UpdateHotel />} />
+        <Route path="/updatehotelandparking" element={<UpdateHotelAndParking />} />
+        <Route path="/updateparking" element={<UpdateParking />} />
 
       </Routes>
 

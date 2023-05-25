@@ -49,7 +49,7 @@ import { Set_Selected_Parking } from "./reducer/setSelectedParking";
 import { hotelOperatingCities } from "./reducer/setHotelOperatingCities";
 import { parkingOperatingCities } from "./reducer/setParkingOperatingCities";
 import { hotelAndParkingOperatingCities } from "./reducer/setHotelAndParkingOperatingCities";
-
+import { Redirect_Route } from "./reducer/setRedirectRoute";
 
 const persistConfig = {
   key: "root",
@@ -105,6 +105,7 @@ const reducer = combineReducers({
   hotelOperatingCities: hotelOperatingCities,
   parkingOperatingCities: parkingOperatingCities,
   hotelAndParkingOperatingCities: hotelAndParkingOperatingCities,
+  getRedirectRoute: Redirect_Route,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

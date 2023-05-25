@@ -41,37 +41,29 @@ const AddParkingForm = () => {
     });
   };
 
-  const [files, setFiles] = useState([]);
+  const [parkingImages, setParkingImages] = useState([]);
 
   const onSelectFile = (event) => {
-    // Get the selected files and also previous file
-    setFiles((prevFiles) => [...prevFiles, ...event.target.files]);
-    // Get the selected files from the input element
     const selectedFiles = event.target.files;
-
-    // Convert the FileList object to an Array
     const selectedFilesArray = Array.from(selectedFiles);
-    // Map over the array of files and return a new array of objects of the desired shape
-    let imagesArray = selectedFilesArray.map((file) => {
-      return URL.createObjectURL(file);
+    let blobImagesArray = selectedFilesArray.map((file) => {
+      return { file: file, blobUrl: URL.createObjectURL(file) };
     });
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      photos: [...prevValues.photos, ...imagesArray],
-    }));
+    const dummyImages = [...parkingImages];
+    for (let i = 0; i < blobImagesArray.length; i++) {
+      dummyImages.push(blobImagesArray[i]);
+    }
+    setParkingImages(dummyImages);
+    
   };
 
   // Function to remove an image from the array of images
   function deleteHandler(image) {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      photos: formValues.photos.filter((e) => e !== image),
-    }));
+    setParkingImages((prevImages) => {
+      return prevImages.filter((Imageblob) => Imageblob !== image);
+    });
     URL.revokeObjectURL(image);
-    // Also delete from files array
-    // setFiles((prevFiles) => {
-    //   return prevFiles.filter((file) => file !== image);
-    // });
+    
   }
 
   // Add Features Code
@@ -124,8 +116,8 @@ const AddParkingForm = () => {
     }
 
     // Append each photo in the photos array to the FormData object
-    for (let i = 0; i < files.length; i++) {
-      formData.append("photos", files[i]);
+    for (let i = 0; i < parkingImages.length; i++) {
+      formData.append("photos", parkingImages[i].file);
     }
     const url = "http://localhost:5000/parking/addparking";
 
@@ -362,7 +354,7 @@ const AddParkingForm = () => {
                 mode === "light" ? "dark" : "light"
               }`}
             >
-              Upload Images
+              Upload Parking Images
             </label>
             <small className="text-muted">
               {" "}
@@ -370,16 +362,16 @@ const AddParkingForm = () => {
             </small>
             <div className="col-md-12 col-sm-4">
               <div className={`${style.image_selector}`}>
-                {formValues.photos &&
-                  formValues.photos.map((image, index) => {
+                {parkingImages &&
+                  parkingImages.map((imageObj, index) => {
                     return (
                       <div
-                        key={image}
+                        key={index}
                         className={`${style.image_preview} mx-1 my-1`}
                       >
                         <img
                           className={`${style.preview_image}`}
-                          src={image}
+                          src={imageObj.blobUrl}
                           alt="upload"
                         />
                         <div
@@ -397,7 +389,7 @@ const AddParkingForm = () => {
                           >
                             <DeleteIcon
                               className="text-light me-1"
-                              onClick={() => deleteHandler(image)}
+                              onClick={() => deleteHandler(imageObj)}
                               fontSize="small"
                             />
                           </IconButton>
@@ -423,33 +415,7 @@ const AddParkingForm = () => {
               </div>
             </div>
           </div>
-          {/* <div
-          className={`container ${
-            formValues.photos.length < 7 ? "d-none" : ""
-          } text-center my-3`}
-        >
-          {formValues.photos.length > 0 &&
-            (formValues.photos.length > 7 ? (
-              <p className="text-danger">
-                You can't upload more than 7 images! <br />
-                <span>
-                  please delete <b> {formValues.photos.length - 7} </b> of them
-                </span>
-              </p>
-            ) : (
-              <div className="">
-                <button
-                  className={`btn btn-primary btn-md`}
-                  onClick={() => {
-                    console.log(formValues.photos);
-                  }}
-                >
-                  UPLOAD {formValues.photos.length} IMAGE
-                  {formValues.photos.length === 1 ? "" : "S"}
-                </button>
-              </div>
-            ))}
-        </div> */}
+          
           <div className="mt-3">
             <div className="form-group">
               <label htmlFor="feature">Parking Feature</label>
@@ -491,7 +457,7 @@ const AddParkingForm = () => {
             <button
               className="btn btn-primary btn-lg profile-button mb-4"
               type="submit"
-              disabled={files.length > 7 || files.length < 3}
+              disabled={parkingImages.length > 7 || parkingImages.length < 3}
               onClick={handleSubmit}
             >
               Add Parking
