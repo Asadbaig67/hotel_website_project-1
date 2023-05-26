@@ -106,11 +106,11 @@ const Viewproperty = () => {
       } catch (error) {
         if (error.response && error.response.status === 404) {
           // Handle the 404 error or skip the iteration
-          // console.log(`Room ${room} not found. Skipping...`);
+          console.log(`Room ${room} not found. Skipping...`);
           return null; // Skip current iteration
         } else {
           // Handle other errors
-          // console.error(`Error fetching room ${room}:`, error);
+          console.error(`Error fetching room ${room}:`, error);
           throw error; // or return null, depending on your needs
         }
       }
@@ -388,7 +388,8 @@ const Viewproperty = () => {
         </div>
         <div className="mb-2">
           {(user.account_type === "admin" && path === "parkings") ||
-          (user.account_type === "admin" && path === "parkingRequests") ? (
+          (user.account_type === "admin" && path === "parkingRequests") ||
+          (user.partner_type === "Parking" && path === "Property") ? (
             <div className=" my-3">
               <h3 className="fw-bold fs-5 my-3 text-dark my-2">
                 All Parking Details
