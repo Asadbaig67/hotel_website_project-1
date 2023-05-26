@@ -71,8 +71,8 @@ const Viewproperty = ({ property }) => {
   );
 
   // Parking Dates
-  const datesParking = useSelector((state) => state.searchParkingDate.dates);
-  const price = selected_parking.parking.price;
+  // const datesParking = useSelector((state) => state.searchParkingDate.dates);
+  // const price = selected_parking.parking.price;
 
   const labels = {
     0.5: "Useless",
@@ -90,6 +90,8 @@ const Viewproperty = ({ property }) => {
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
+
+  console.log("booked_property = ", selected_parking);
 
   return (
     <>

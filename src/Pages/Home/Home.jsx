@@ -27,16 +27,21 @@ const Home = (props) => {
         credentials: "include",
       });
       const data = await response.json();
-      console.log(data.user);
-      setUser(data.user);
+      console.log(data);
+      setUser(data);
     } catch (error) {
       console.log("You get The Error ", error);
     }
   };
 
+  
+
   return (
     <div>
       <Navbar list={true} />
+      {/* <div>
+        <button onClick={getUser}>get User</button>
+      </div> */}
       <div className={`${style.homeContainer} container`}>
         <h1
           className={`${style.homeTitle} fw-bold ${

@@ -42,6 +42,22 @@ import Logout from "@mui/icons-material/Logout";
 import axios from "axios";
 
 const Navbar = ({ list }) => {
+  // get logged in user from database
+
+  const GetUserFromBacked = async () => {
+    const url = "http://localhost:5000/user/protected";
+    const options = {
+      method: "GET",
+      headers: {
+        withCredentials: true,
+      },
+    };
+    const response = await fetch(url, options);
+    const { user } = await response.json();
+    console.log("Bai mil hi nhi rha user", user);
+    dispatch({ type: "SET_LOGGEDIN_USER", payload: user });
+  };
+
   // Get Logged In User
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
 
@@ -720,10 +736,10 @@ const Navbar = ({ list }) => {
                                   </>
                                 ) : (
                                   <>
+                                    {/* to={HandleRedirectSignin} */}
                                     <ListItemIcon>
                                       <Logout fontSize="small" />
                                     </ListItemIcon>
-                                    {/* to={HandleRedirectSignin} */}
                                     <Link
                                       to="/signin"
                                       onClick={HandleRedirectSignin}

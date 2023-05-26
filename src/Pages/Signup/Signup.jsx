@@ -11,7 +11,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import GoogleIcon from "@mui/icons-material/Google";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
@@ -20,6 +19,8 @@ import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import Googlelogo from "../Signin/googlelogo.png";
+import { useDispatch } from "react-redux";
 
 function Copyright(props) {
   return (
@@ -38,6 +39,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -47,7 +49,33 @@ export default function SignUp() {
   const [alertOn, setAlertOn] = useState(false);
   const [open, setOpen] = useState(true);
 
-  const googleAuth = () => {
+  const googleAuth = async () => {
+    // const url = `http://localhost:5000/user/google`;
+    // const options = {
+    //   method: "GET",
+    //   headers: {
+    //     withCredentials: true,
+    //     // "Content-Type": "application/json",
+    //   },
+    // };
+
+    // try {
+    //   const response = await fetch(url, options);
+    //   if (response.ok) {
+    //     const { user } = await response.json();
+    //     // Dispatch action to set the logged-in user
+    //     dispatch({ type: "SET_LOGGEDIN_USER", payload: user });
+
+    //     console.log("User:", user);
+    //   } else {
+    //     // Handle error case
+    //     console.error("Authentication failed:", response.statusText);
+    //   }
+    // } catch (error) {
+    //   // Handle network or other errors
+    //   console.error("Error during authentication:", error);
+    // }
+
     window.open(`http://localhost:5000/user/google`);
   };
 
@@ -221,22 +249,36 @@ export default function SignUp() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link to="/signin">
-                    Already have an account? Sign in
-                  </Link>
+                  <Link to="/signin">Already have an account? Sign in</Link>
                 </Grid>
               </Grid>
               <Button
                 type="submit"
                 fullWidth
-                variant="contained"
-                size="large"
-                color="success"
+                variant="outlined"
+                size="larger"
+                // color="secondary"
                 onClick={googleAuth}
-                sx={{ mt: 3, mb: 2, pt: 1, pb: 1 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  pt: 1,
+                  pb: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "start",
+                }} // Added display and alignItems properties
               >
-                <GoogleIcon className="text-start" sx={{ me: 4 }} />
-                Continue with Google
+                <img
+                  src={Googlelogo}
+                  style={{
+                    objectFit: "cover",
+                    height: "35px",
+                    width: "35px",
+                  }}
+                  alt=""
+                />
+                <span className="mx-auto">Continue with Google</span>{" "}
               </Button>
             </Box>
           </Box>
