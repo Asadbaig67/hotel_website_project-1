@@ -322,7 +322,7 @@ const Navbar = ({ list }) => {
             payload: parkingList,
           });
         }
-        console.log(parkingList);
+        // console.log(parkingList);
       } catch (error) {
         console.log("You get The Error ", error);
       }
@@ -464,7 +464,7 @@ const Navbar = ({ list }) => {
     });
   }, []);
 
-  console.log("User", loggedinUser);
+  // console.log("User", loggedinUser);
 
   useEffect(() => {
     window.scrollTo(0, 0);

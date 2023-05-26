@@ -45,7 +45,7 @@ const ProfileView = ({ profile }) => {
             <p className="mb-1 mt-2">{user.mobile}</p>
           </div>
         </div>
-        <div className="col-md-12 mt-2">
+        {/* <div className="col-md-12 mt-2">
           <label
             className={`fw-semibold labels text-${
               mode === "light" ? "dark" : "light"
@@ -104,7 +104,7 @@ const ProfileView = ({ profile }) => {
           <div className="border-bottom mb-2">
             <p className="mb-1 mt-2">{user.area}</p>
           </div>
-        </div>
+        </div> */}
         <div className="col-md-12 mt-2">
           <label
             className={`fw-semibold labels text-${
@@ -117,7 +117,7 @@ const ProfileView = ({ profile }) => {
             <p className="mb-1 mt-2">{user.email}</p>
           </div>
         </div>
-        <div className="col-md-12 mt-2">
+        {/* <div className="col-md-12 mt-2">
           <label
             className={`fw-semibold labels text-${
               mode === "light" ? "dark" : "light"
@@ -128,9 +128,9 @@ const ProfileView = ({ profile }) => {
           <div className="border-bottom mb-2">
             <p className="mb-1 mt-2">{user.education}</p>
           </div>
-        </div>
+        </div> */}
       </div>
-      <div className="row">
+      {/* <div className="row">
         <div className="col-md-6">
           <label
             className={`fw-semibold labels text-${
@@ -155,7 +155,7 @@ const ProfileView = ({ profile }) => {
             <p className="mb-1 mt-2">{user.region}</p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

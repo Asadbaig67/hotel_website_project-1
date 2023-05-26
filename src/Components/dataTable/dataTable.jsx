@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useFetch } from "../../Utilis/Fetch";
 import { Box } from "@mui/material";
 import axios from "axios";
 
 const DataTable = ({ path, user }) => {
+  const navigate = useNavigate();
   const { header } = useSelector((state) => state.setHeader);
   const { url } = useSelector((state) => state.setDataUrl);
   const dispatch = useDispatch();
@@ -103,7 +105,12 @@ const DataTable = ({ path, user }) => {
     ) {
       data = await axios.get(`http://localhost:5000/booking/getBooking/${id}`);
     }
-    console.log(data);
+    if (data) {
+      navigate("/viewproperty", {
+        state: { data: data.data, user: user, path: path },
+      });
+    }
+    // console.log(data);
   };
 
   const handleApprove = async (id) => {

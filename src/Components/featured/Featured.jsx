@@ -3,12 +3,56 @@ import style from "./featured.module.css";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useEffect } from "react";
 
 const Featured = () => {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
+  const { cityCount } = useSelector((state) => state.featuredCityCount);
+  const cityCountObj = {
+    Lahore: cityCount.lahore,
+    Islamabad: cityCount.islamabad,
+    London: cityCount.london,
+    Sydney: cityCount.sydney,
+    Dubai: cityCount.dubai,
+  };
 
   const { activePath } = useSelector((state) => state.activePath);
+
+  const getCityCount = async (city) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/hotels/getcountofapprovedhotelbycity/${city}`
+      );
+      if (response.status === 200) {
+        return response.data.count;
+      }
+      return 0;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const data = async () => {
+      const lahoreCount = await getCityCount("Lahore");
+      const islamabadCount = await getCityCount("Islamabad");
+      const londonCount = await getCityCount("London");
+      const sydneyCount = await getCityCount("Sydney");
+      const dubaiCount = await getCityCount("Dubai");
+      dispatch({
+        type: "FEATURED_CITY_COUNT",
+        payload: {
+          lahore: lahoreCount,
+          islamabad: islamabadCount,
+          london: londonCount,
+          sydney: sydneyCount,
+          dubai: dubaiCount,
+        },
+      });
+    };
+    data();
+  }, []);
 
   const HandleClick = async (city) => {
     if (activePath === "hotel") {
@@ -19,7 +63,6 @@ const Featured = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          // console.log(data);
           dispatch({ type: "SET_FEATURED_DATA", payload: data });
 
           Navigate("/listhotel");
@@ -37,7 +80,6 @@ const Featured = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          // console.log(data);
           dispatch({ type: "SET_FEATURED_DATA", payload: data });
 
           Navigate("/HotelAndParkingList");
@@ -50,7 +92,6 @@ const Featured = () => {
     }
   };
 
-
   return (
     <div>
       <div className={style.featured}>
@@ -62,8 +103,10 @@ const Featured = () => {
             onClick={() => HandleClick("Lahore")}
           />
           <div className={style.featuredTitles}>
-            <h1 className={style.text_shadow}>Berlin</h1>
-            <h2 className={style.text_shadow}>properties</h2>
+            <h1 className={style.text_shadow}>Lahore</h1>
+            <h2 className={style.text_shadow}>
+              {cityCountObj.Lahore} properties
+            </h2>
           </div>
         </div>
         <div className={style.featuredItem}>
@@ -74,8 +117,8 @@ const Featured = () => {
             onClick={() => HandleClick("Lahore")}
           />
           <div className={style.featuredTitles}>
-            <h1 className={style.text_shadow}>Madrid</h1>
-            <h2 className={style.text_shadow}>properties</h2>
+            <h1 className={style.text_shadow}>Islamabad</h1>
+            <h2 className={style.text_shadow}>{cityCountObj.Islamabad} properties</h2>
           </div>
         </div>
       </div>
@@ -90,7 +133,7 @@ const Featured = () => {
             />
             <div className={style.featuredTitles}>
               <h1 className={style.text_shadow}>London</h1>
-              <h2 className={style.text_shadow}>properties</h2>
+              <h2 className={style.text_shadow}>{cityCountObj.London} properties</h2>
             </div>
           </div>
 
@@ -103,7 +146,7 @@ const Featured = () => {
             />
             <div className={style.featuredTitles}>
               <h1 className={style.text_shadow}>Sydney</h1>
-              <h2 className={style.text_shadow}>properties</h2>
+              <h2 className={style.text_shadow}>{cityCountObj.Sydney} properties</h2>
             </div>
           </div>
           <div className={style.featuredItem}>
@@ -111,11 +154,11 @@ const Featured = () => {
               src="https://cf.bstatic.com/xdata/images/city/max500/689422.webp?k=2595c93e7e067b9ba95f90713f80ba6e5fa88a66e6e55600bd27a5128808fdf2&o="
               alt=""
               className={`featuredImg ${style.cursor}`}
-              onClick={() => HandleClick("Japan")}
+              onClick={() => HandleClick("Dubai")}
             />
             <div className={style.featuredTitles}>
-              <h1 className={style.text_shadow}>Japan</h1>
-              <h2 className={style.text_shadow}>123 properties</h2>
+              <h1 className={style.text_shadow}>Dubai</h1>
+              <h2 className={style.text_shadow}>{cityCountObj.Dubai} properties</h2>
             </div>
           </div>
         </>

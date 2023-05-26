@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "./Profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import userImg from "../../images/user.png";
 
 // import { Link } from "react-router-dom";
 import Sidebar from "../../Components/adminSidebar/Sidebar";
@@ -105,7 +106,8 @@ export default function Profile() {
                 : IsMediumm
                 ? "40px"
                 : IsSmalll
-                ? "35px" : "35px",
+                ? "35px"
+                : "35px",
             },
           }}
         >
@@ -128,7 +130,7 @@ export default function Profile() {
               <img
                 style={{ width: "35%" }}
                 className="mt-5 rounded-circle"
-                src={""}
+                src={user.profilePic ? user.profilePic : userImg}
                 alt=""
               />
               <h2

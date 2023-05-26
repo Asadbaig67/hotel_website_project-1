@@ -226,3 +226,74 @@ export const dashboardOperatingCityHeader = [
   { field: "city", headerName: "Name", width: 130 },
   { field: "createdAt", headerName: "Created at", width: 130 },
 ];
+
+export const roomHeader = [
+  { field: "_id", headerName: "ID", width: 90 },
+  {
+    field: "type",
+    headerName: "Room Type",
+    width: 150,
+  },
+  {
+    field: "price",
+    headerName: "Price",
+    type: "number",
+    width: 110,
+  },
+  {
+    field: "room_no",
+    headerName: "Total Rooms",
+    width: 110,
+    valueGetter: (params) => {
+      return params.row.room_no.length;
+    },
+  },
+  {
+    field: "room",
+    headerName: "Booked Rooms",
+    type: "number",
+    width: 110,
+    valueGetter: (params) => {
+      let count = params.row.room_no.length;
+      if (params.row.room_no.unavailableDates === 0) count--;
+      return count;
+    },
+  },
+];
+
+export const parkingDetailHeader = [
+  { field: "_id", headerName: "ID", width: 90 },
+  {
+    field: "name",
+    headerName: "Parking Name",
+    width: 150,
+  },
+  {
+    field: "city",
+    headerName: "City",
+    width: 150,
+  },
+  {
+    field: "total_slots",
+    headerName: "Total slots",
+    width: 150,
+  },
+  {
+    field: "",
+    headerName: "Available slots",
+    width: 150,
+    valueGetter: (params) => {
+      return params.row.total_slots - params.row.booked_slots;
+    }
+  },
+  {
+    field: "booked_slots",
+    headerName: "Booked slots",
+    width: 150,
+  },
+  {
+    field: "approved",
+    headerName: "Approved",
+    width: 150,
+  }
+]
