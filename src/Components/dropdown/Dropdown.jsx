@@ -28,7 +28,7 @@ const Dropdown = (props) => {
         "http://localhost:5000/OperatingProperty/getHotelOperatingCity"
       );
       dispatch({ type: "SET_HOTEL_CITY", payload: response.data });
-      console.log(response.data);
+      // console.log(response.data);
     };
 
     const getParkingCities = async () => {
@@ -36,7 +36,7 @@ const Dropdown = (props) => {
         "http://localhost:5000/OperatingProperty/getParkingOperatingCity"
       );
       dispatch({ type: "SET_PARKING_CITY", payload: response.data });
-      console.log(response.data);
+      // console.log(response.data);
     };
 
     const GetHotelAndParkingCities = async () => {
@@ -44,7 +44,7 @@ const Dropdown = (props) => {
         "http://localhost:5000/OperatingProperty/getHotelAndParkingOperatingCity"
       );
       dispatch({ type: "SET_HOTEL_AND_PARKING_CITY", payload: response.data });
-      console.log(response.data);
+      // console.log(response.data);
     };
     GetHotelCities();
     getParkingCities();

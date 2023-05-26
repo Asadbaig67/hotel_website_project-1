@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Avatar,
@@ -30,6 +30,7 @@ const Signin = () => {
   const [buffer, setBuffer] = React.useState(10);
 
   const progressRef = React.useRef(() => {});
+  
   useEffect(() => {
     progressRef.current = () => {
       if (progress > 100) {
@@ -53,6 +54,7 @@ const Signin = () => {
   //     clearInterval(timer);
   //   };
   // }, []);
+
   // code for loader top
   const theme = createTheme();
   const Navigate = useNavigate();
@@ -75,7 +77,7 @@ const Signin = () => {
 
   const { activePath } = useSelector((state) => state.activePath);
   const { redirectRoute } = useSelector((state) => state.getRedirectRoute);
-  console.log("Redirect Route", redirectRoute);
+  // console.log("Redirect Route", redirectRoute);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

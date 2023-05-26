@@ -31,7 +31,7 @@ import UpdateHotel from "./Components/Forms/Hotel_Forms/UpdateHotelForm";
 import UpdateHotelAndParking from "./Components/Forms/Hotel&Parking_Forms/UpdateHotel_Parking";
 import UpdateParking from "./Components/Forms/Parking_Forms/Update_Parking";
 import AddRoomForm from "./Components/Forms/Room_Forms/AddRoom";
-import HotelBooking from './Components/Forms/Booking_Forms/Hotel_booking'
+import HotelBooking from "./Components/Forms/Booking_Forms/Hotel_booking";
 import ParkingPropertyDetails from "./Pages/singleParking/Singleparking";
 import Featured_skeleton from "./Components/Skeletons/Featured_skeleton";
 import Viewbookings from "./Pages/BookingDetails/Viewbookings";
@@ -39,406 +39,258 @@ import RoomBooking from "./Pages/BookingDetails/Book";
 import Viewproperty from "./Pages/ViewProperty/Viewproperty";
 
 function App() {
-
   const rooms = [
     {
-      "room": {
-        available: true, "_id": "641834437bb7aa9aefa700da",
-        "type": "Single",
-        "price": 5000,
-        "description": "3 Hotel And Parking single room self-contained is a room usually only the bedroom that comes with personal toilet facilities and a small kitchenette along with the room. A lone single room consists of just a room. Communal bathroom and kitchen facilities are available for you and other members of the house",
-        "photos": [
-          ""
-        ],
-        "room_no": [
+      room: {
+        available: true,
+        _id: "641834437bb7aa9aefa700da",
+        type: "Single",
+        price: 5000,
+        description:
+          "3 Hotel And Parking single room self-contained is a room usually only the bedroom that comes with personal toilet facilities and a small kitchenette along with the room. A lone single room consists of just a room. Communal bathroom and kitchen facilities are available for you and other members of the house",
+        photos: [""],
+        room_no: [
           {
-            "number": 1,
-            "unavailableDates": [
-              [
-                "2023-03-06T00:00:00.000Z",
-                "2023-03-08T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-18T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b53d"
-          },
-          {
-            "number": 2,
-            "unavailableDates": [
-              [
-                "2023-03-06T00:00:00.000Z",
-                "2023-03-08T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-17T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b53e"
-          },
-          {
-            "number": 3,
-            "unavailableDates": [
-              [
-                "2023-03-07T00:00:00.000Z",
-                "2023-03-08T00:00:00.000Z"
-              ],
-              [
-                "2023-03-10T00:00:00.000Z",
-                "2023-03-12T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b53f"
-          },
-          {
-            "number": 4,
-            "unavailableDates": [
-              [
-                "2023-03-09T00:00:00.000Z",
-                "2023-03-11T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-17T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b540"
-          },
-          {
-            "number": 5,
-            "unavailableDates": [
-              [
-                "2023-03-11T00:00:00.000Z",
-                "2023-03-14T00:00:00.000Z"
-              ],
-              [
-                "2023-03-19T00:00:00.000Z",
-                "2023-03-20T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b541"
-          },
-          {
-            "number": 6,
-            "unavailableDates": [
-              [
-                "2023-03-06T00:00:00.000Z",
-                "2023-03-09T00:00:00.000Z"
-              ],
-              [
-                "2023-03-14T00:00:00.000Z",
-                "2023-03-16T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b542"
-          },
-          {
-            "number": 7,
-            "unavailableDates": [
-              [
-                "2023-03-10T00:00:00.000Z",
-                "2023-03-11T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-18T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b543"
-          }
-        ],
-        "__v": 0
-      },
-    },
-    {
-      "room": {
-        available: true, "_id": "640637fe0f7fe08711c7b53c",
-        "type": "Twin",
-        "price": 8000,
-        "description": "single room self-contained is a room usually only the bedroom that comes with personal toilet facilities and a small kitchenette along with the room. A lone single room consists of just a room. Communal bathroom and kitchen facilities are available for you and other members of the house",
-        "photos": [
-          ""
-        ],
-        "room_no": [
-          {
-            "number": 1,
-            "unavailableDates": [
-              [
-                "2023-03-06T00:00:00.000Z",
-                "2023-03-08T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-18T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b53d"
-          },
-          {
-            "number": 2,
-            "unavailableDates": [
-              [
-                "2023-03-06T00:00:00.000Z",
-                "2023-03-08T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-17T00:00:00.000Z"
-              ],
-              [
-                "2023-04-23T00:00:00.000Z",
-                "2023-04-25T00:00:00.000Z"
-              ],
-              [
-                "2023-04-23T00:00:00.000Z",
-                "2023-04-25T00:00:00.000Z"
-              ],
-              [
-                "2023-04-23T00:00:00.000Z",
-                "2023-04-25T00:00:00.000Z"
-              ],
-              [
-                "2023-04-23T00:00:00.000Z",
-                "2023-04-25T00:00:00.000Z"
-              ],
-              [
-                "2023-04-23T00:00:00.000Z",
-                "2023-04-25T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b53e"
-          },
-          {
-            "number": 3,
-            "unavailableDates": [
-              [
-                "2023-03-07T00:00:00.000Z",
-                "2023-03-08T00:00:00.000Z"
-              ],
-              [
-                "2023-03-10T00:00:00.000Z",
-                "2023-03-12T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-18T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b53f"
-          },
-          {
-            "number": 4,
-            "unavailableDates": [
-              [
-                "2023-03-09T00:00:00.000Z",
-                "2023-03-11T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-17T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b540"
-          },
-          {
-            "number": 5,
-            "unavailableDates": [
-              [
-                "2023-03-11T00:00:00.000Z",
-                "2023-03-14T00:00:00.000Z"
-              ],
-              [
-                "2023-03-19T00:00:00.000Z",
-                "2023-03-20T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b541"
-          },
-          {
-            "number": 6,
-            "unavailableDates": [
-              [
-                "2023-03-06T00:00:00.000Z",
-                "2023-03-09T00:00:00.000Z"
-              ],
-              [
-                "2023-03-14T00:00:00.000Z",
-                "2023-03-16T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b542"
-          },
-          {
-            "number": 7,
-            "unavailableDates": [
-              [
-                "2023-03-10T00:00:00.000Z",
-                "2023-03-11T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-18T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640637fe0f7fe08711c7b543"
-          }
-        ],
-        "__v": 0
-      },
-    },
-    {
-      "room": {
-        available: true, "_id": "640638100f7fe08711c7b545",
-        "type": "Family",
-        "price": 10000,
-        "description": "single room self-contained is a room usually only the bedroom that comes with personal toilet facilities and a small kitchenette along with the room. A lone single room consists of just a room. Communal bathroom and kitchen facilities are available for you and other members of the house",
-        "photos": [
-          ""
-        ],
-        "room_no": [
-          {
-            "number": 1,
-            "unavailableDates": [
-              [
-                "2023-03-06T00:00:00.000Z",
-                "2023-03-08T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-18T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-18T00:00:00.000Z"
-              ],
-              [
-                "2023-03-19T00:00:00.000Z",
-                "2023-03-20T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "644b452c34d08dbf0454d47d"
-          },
-          {
-            "number": 2,
-            "unavailableDates": [
-              [
-                "2023-03-06T00:00:00.000Z",
-                "2023-03-08T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-17T00:00:00.000Z"
-              ]
-            ],
-            available: true, "_id": "640638100f7fe08711c7b547"
-          },
-          {
-            "number": 3,
-            "unavailableDates": [
-              [
-                "2023-03-07T00:00:00.000Z",
-                "2023-03-08T00:00:00.000Z"
-              ],
-              [
-                "2023-03-10T00:00:00.000Z",
-                "2023-03-12T00:00:00.000Z"
-              ]
+            number: 1,
+            unavailableDates: [
+              ["2023-03-06T00:00:00.000Z", "2023-03-08T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-18T00:00:00.000Z"],
             ],
             available: true,
-            "_id": "640638100f7fe08711c7b548"
+            _id: "640637fe0f7fe08711c7b53d",
           },
           {
-            "number": 4,
-            "unavailableDates": [
-              [
-                "2023-03-09T00:00:00.000Z",
-                "2023-03-11T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-17T00:00:00.000Z"
-              ],
-              [
-                "2023-04-23T00:00:00.000Z",
-                "2023-04-25T00:00:00.000Z"
-              ],
-              [
-                "2023-04-23T00:00:00.000Z",
-                "2023-04-25T00:00:00.000Z"
-              ],
-              [
-                "2023-04-23T00:00:00.000Z",
-                "2023-04-25T00:00:00.000Z"
-              ],
-              [
-                "2023-04-23T00:00:00.000Z",
-                "2023-04-25T00:00:00.000Z"
-              ],
-              [
-                "2023-04-23T00:00:00.000Z",
-                "2023-04-25T00:00:00.000Z"
-              ]
+            number: 2,
+            unavailableDates: [
+              ["2023-03-06T00:00:00.000Z", "2023-03-08T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-17T00:00:00.000Z"],
             ],
-            available: true, "_id": "640638100f7fe08711c7b549"
+            available: true,
+            _id: "640637fe0f7fe08711c7b53e",
           },
           {
-            "number": 5,
-            "unavailableDates": [
-              [
-                "2023-03-11T00:00:00.000Z",
-                "2023-03-14T00:00:00.000Z"
-              ],
-              [
-                "2023-03-19T00:00:00.000Z",
-                "2023-03-20T00:00:00.000Z"
-              ]
+            number: 3,
+            unavailableDates: [
+              ["2023-03-07T00:00:00.000Z", "2023-03-08T00:00:00.000Z"],
+              ["2023-03-10T00:00:00.000Z", "2023-03-12T00:00:00.000Z"],
             ],
-            available: true, "_id": "640638100f7fe08711c7b54a"
+            available: true,
+            _id: "640637fe0f7fe08711c7b53f",
           },
           {
-            "number": 6,
-            "unavailableDates": [
-              [
-                "2023-03-06T00:00:00.000Z",
-                "2023-03-09T00:00:00.000Z"
-              ],
-              [
-                "2023-03-14T00:00:00.000Z",
-                "2023-03-16T00:00:00.000Z"
-              ]
+            number: 4,
+            unavailableDates: [
+              ["2023-03-09T00:00:00.000Z", "2023-03-11T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-17T00:00:00.000Z"],
             ],
-            available: true, "_id": "640638100f7fe08711c7b54b"
+            available: true,
+            _id: "640637fe0f7fe08711c7b540",
           },
           {
-            "number": 7,
-            "unavailableDates": [
-              [
-                "2023-03-10T00:00:00.000Z",
-                "2023-03-11T00:00:00.000Z"
-              ],
-              [
-                "2023-03-15T00:00:00.000Z",
-                "2023-03-18T00:00:00.000Z"
-              ],
-              [
-                "2023-03-20T00:00:00.000Z",
-                "2023-03-22T00:00:00.000Z"
-              ]
+            number: 5,
+            unavailableDates: [
+              ["2023-03-11T00:00:00.000Z", "2023-03-14T00:00:00.000Z"],
+              ["2023-03-19T00:00:00.000Z", "2023-03-20T00:00:00.000Z"],
             ],
-            available: true, "_id": "640638100f7fe08711c7b54c"
-          }
+            available: true,
+            _id: "640637fe0f7fe08711c7b541",
+          },
+          {
+            number: 6,
+            unavailableDates: [
+              ["2023-03-06T00:00:00.000Z", "2023-03-09T00:00:00.000Z"],
+              ["2023-03-14T00:00:00.000Z", "2023-03-16T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640637fe0f7fe08711c7b542",
+          },
+          {
+            number: 7,
+            unavailableDates: [
+              ["2023-03-10T00:00:00.000Z", "2023-03-11T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-18T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640637fe0f7fe08711c7b543",
+          },
         ],
-        "__v": 8
+        __v: 0,
       },
-    }
-  ]
+    },
+    {
+      room: {
+        available: true,
+        _id: "640637fe0f7fe08711c7b53c",
+        type: "Twin",
+        price: 8000,
+        description:
+          "single room self-contained is a room usually only the bedroom that comes with personal toilet facilities and a small kitchenette along with the room. A lone single room consists of just a room. Communal bathroom and kitchen facilities are available for you and other members of the house",
+        photos: [""],
+        room_no: [
+          {
+            number: 1,
+            unavailableDates: [
+              ["2023-03-06T00:00:00.000Z", "2023-03-08T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-18T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640637fe0f7fe08711c7b53d",
+          },
+          {
+            number: 2,
+            unavailableDates: [
+              ["2023-03-06T00:00:00.000Z", "2023-03-08T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-17T00:00:00.000Z"],
+              ["2023-04-23T00:00:00.000Z", "2023-04-25T00:00:00.000Z"],
+              ["2023-04-23T00:00:00.000Z", "2023-04-25T00:00:00.000Z"],
+              ["2023-04-23T00:00:00.000Z", "2023-04-25T00:00:00.000Z"],
+              ["2023-04-23T00:00:00.000Z", "2023-04-25T00:00:00.000Z"],
+              ["2023-04-23T00:00:00.000Z", "2023-04-25T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640637fe0f7fe08711c7b53e",
+          },
+          {
+            number: 3,
+            unavailableDates: [
+              ["2023-03-07T00:00:00.000Z", "2023-03-08T00:00:00.000Z"],
+              ["2023-03-10T00:00:00.000Z", "2023-03-12T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-18T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640637fe0f7fe08711c7b53f",
+          },
+          {
+            number: 4,
+            unavailableDates: [
+              ["2023-03-09T00:00:00.000Z", "2023-03-11T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-17T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640637fe0f7fe08711c7b540",
+          },
+          {
+            number: 5,
+            unavailableDates: [
+              ["2023-03-11T00:00:00.000Z", "2023-03-14T00:00:00.000Z"],
+              ["2023-03-19T00:00:00.000Z", "2023-03-20T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640637fe0f7fe08711c7b541",
+          },
+          {
+            number: 6,
+            unavailableDates: [
+              ["2023-03-06T00:00:00.000Z", "2023-03-09T00:00:00.000Z"],
+              ["2023-03-14T00:00:00.000Z", "2023-03-16T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640637fe0f7fe08711c7b542",
+          },
+          {
+            number: 7,
+            unavailableDates: [
+              ["2023-03-10T00:00:00.000Z", "2023-03-11T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-18T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640637fe0f7fe08711c7b543",
+          },
+        ],
+        __v: 0,
+      },
+    },
+    {
+      room: {
+        available: true,
+        _id: "640638100f7fe08711c7b545",
+        type: "Family",
+        price: 10000,
+        description:
+          "single room self-contained is a room usually only the bedroom that comes with personal toilet facilities and a small kitchenette along with the room. A lone single room consists of just a room. Communal bathroom and kitchen facilities are available for you and other members of the house",
+        photos: [""],
+        room_no: [
+          {
+            number: 1,
+            unavailableDates: [
+              ["2023-03-06T00:00:00.000Z", "2023-03-08T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-18T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-18T00:00:00.000Z"],
+              ["2023-03-19T00:00:00.000Z", "2023-03-20T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "644b452c34d08dbf0454d47d",
+          },
+          {
+            number: 2,
+            unavailableDates: [
+              ["2023-03-06T00:00:00.000Z", "2023-03-08T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-17T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640638100f7fe08711c7b547",
+          },
+          {
+            number: 3,
+            unavailableDates: [
+              ["2023-03-07T00:00:00.000Z", "2023-03-08T00:00:00.000Z"],
+              ["2023-03-10T00:00:00.000Z", "2023-03-12T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640638100f7fe08711c7b548",
+          },
+          {
+            number: 4,
+            unavailableDates: [
+              ["2023-03-09T00:00:00.000Z", "2023-03-11T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-17T00:00:00.000Z"],
+              ["2023-04-23T00:00:00.000Z", "2023-04-25T00:00:00.000Z"],
+              ["2023-04-23T00:00:00.000Z", "2023-04-25T00:00:00.000Z"],
+              ["2023-04-23T00:00:00.000Z", "2023-04-25T00:00:00.000Z"],
+              ["2023-04-23T00:00:00.000Z", "2023-04-25T00:00:00.000Z"],
+              ["2023-04-23T00:00:00.000Z", "2023-04-25T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640638100f7fe08711c7b549",
+          },
+          {
+            number: 5,
+            unavailableDates: [
+              ["2023-03-11T00:00:00.000Z", "2023-03-14T00:00:00.000Z"],
+              ["2023-03-19T00:00:00.000Z", "2023-03-20T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640638100f7fe08711c7b54a",
+          },
+          {
+            number: 6,
+            unavailableDates: [
+              ["2023-03-06T00:00:00.000Z", "2023-03-09T00:00:00.000Z"],
+              ["2023-03-14T00:00:00.000Z", "2023-03-16T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640638100f7fe08711c7b54b",
+          },
+          {
+            number: 7,
+            unavailableDates: [
+              ["2023-03-10T00:00:00.000Z", "2023-03-11T00:00:00.000Z"],
+              ["2023-03-15T00:00:00.000Z", "2023-03-18T00:00:00.000Z"],
+              ["2023-03-20T00:00:00.000Z", "2023-03-22T00:00:00.000Z"],
+            ],
+            available: true,
+            _id: "640638100f7fe08711c7b54c",
+          },
+        ],
+        __v: 8,
+      },
+    },
+  ];
   const property = {
     id: 1,
     name: "Example Property",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in quam a odio tristique interdum. Fusce efficitur nunc vitae augue euismod pretium.",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in quam a odio tristique interdum. Fusce efficitur nunc vitae augue euismod pretium.",
     rating: 4.5,
     totalRatings: 10,
     features: ["24/7 Security", "Valet Parking", "Electric Vehicle Charging"],
@@ -446,39 +298,38 @@ function App() {
       {
         id: 1,
         description: "Hourly Rate",
-        amount: 5.0
+        amount: 5.0,
       },
       {
         id: 2,
         description: "Daily Rate",
-        amount: 25.0
+        amount: 25.0,
       },
       {
         id: 3,
         description: "Weekly Rate",
-        amount: 100.0
-      }
+        amount: 100.0,
+      },
     ],
     pictures: [
       {
         id: 1,
         url: "https://picsum.photos/300/200",
-        alt: "Example Picture 1"
+        alt: "Example Picture 1",
       },
       {
         id: 2,
         // url: "http://localhost:5000/uploads/ParkingImages/parking2.jpg",
         url: "https://picsum.photos/300/200",
-        alt: "Example Picture 2"
+        alt: "Example Picture 2",
       },
       {
         id: 3,
         url: "https://picsum.photos/300/200",
-        alt: "Example Picture 3"
-      }
-    ]
+        alt: "Example Picture 3",
+      },
+    ],
   };
-
 
   return (
     <>
@@ -506,10 +357,13 @@ function App() {
         <Route path="/parkingform" element={<AddParkingForm />} />
         {/* <Route path="/parkingform" element={<AddParkingForm />} /> */}
         <Route path="/skeleton" element={<Featured_skeleton />} />
-        <Route path="/singleparking" element={<ParkingPropertyDetails property={property} />} />
+        <Route
+          path="/singleparking"
+          element={<ParkingPropertyDetails property={property} />}
+        />
         <Route path="/bookingdetails" element={<Viewbookings />} />
         {/* <Route path="/booking" element={<RoomBooking rooms={rooms} />} /> */}
-        <Route path="/viewproperty" element={<Viewproperty property={property} />} />
+        <Route path="/viewproperty" element={<Viewproperty />} />
 
         {/* Admin Routes */}
 
@@ -532,7 +386,10 @@ function App() {
         <Route path="/hotelandparkingbookings" element={<HotelsList />} />
         <Route path="/upcominghotelbookings" element={<HotelsList />} />
         <Route path="/upcomingparkingbookings" element={<HotelsList />} />
-        <Route path="/upcominghotelandparkingbookings" element={<HotelsList />} />
+        <Route
+          path="/upcominghotelandparkingbookings"
+          element={<HotelsList />}
+        />
         <Route path="/profiledata" element={<ProfileDataForm />} />
         <Route path="/maps" element={<Reactmaps />} />
         <Route path="/hotelform" element={<AddHotelForm />} />
@@ -541,11 +398,12 @@ function App() {
         <Route path="/roomform" element={<AddRoomForm />} />
         <Route path="/hotelbooking" element={<HotelBooking />} />
         <Route path="/updatehotel" element={<UpdateHotel />} />
-        <Route path="/updatehotelandparking" element={<UpdateHotelAndParking />} />
+        <Route
+          path="/updatehotelandparking"
+          element={<UpdateHotelAndParking />}
+        />
         <Route path="/updateparking" element={<UpdateParking />} />
-
       </Routes>
-
     </>
   );
 }

@@ -13,10 +13,11 @@ import {
   SidebarDataUserUpcomingBooking,
 } from "../../Utilis/SidebarData";
 import { useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   const { mode } = useSelector((state) => state.mode);
   const { view } = useSelector((state) => state.view);
   const [confirmMessage, setConfirmMessage] = useState(false);
@@ -178,6 +179,8 @@ export default function Sidebar() {
             }`}
             onClick={() => {
               setConfirmMessage(true);
+              navigate("/signin");
+              localStorage.clear();
               dispatch({ type: "SET_LOGGEDIN_USER", payload: {} });
             }}
           >
