@@ -14,13 +14,33 @@ import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import Tooltip from "@mui/material/Tooltip";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
-import { parkingDetailHeader, roomHeader } from "../../Utilis/DataTableSource";
+import {
+  parkingDetailHeader,
+  roomHeader,
+  bookingHotelAndParkingHeader,
+  bookingHotelHeader,
+  bookingParkingHeader,
+} from "../../Utilis/DataTableSource";
 
 const Viewproperty = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data, user, path } = location.state;
-  
+  const [header, setHeader] = useState([]);
+
+  useEffect(() => {
+    if (path === "hotels" || user.partner_type === "Hotel") {
+      setHeader(bookingHotelHeader);
+    } else if (path === "parkings" || user.partner_type === "Parking") {
+      setHeader(bookingParkingHeader);
+    } else if (
+      path === "HotelsAndParkings" ||
+      user.partner_type === "HotelAndParking"
+    ) {
+      setHeader(bookingHotelAndParkingHeader);
+    }
+  }, []);
+
   const handleUpdate = async (id) => {
     navigate("/updateRoom", { state: { id } });
   };
@@ -122,6 +142,34 @@ const Viewproperty = () => {
   useEffect(() => {
     fetchRooms();
   }, []);
+
+  const [booking, setBooking] = useState([]);
+
+  useEffect(() => {
+    const fetchBooking = async () => {
+      let bookings;
+      if (path === "hotels" || user.partner_type === "Hotel") {
+        bookings = await axios.get(
+          `http://localhost:5000/booking/getBookingByHotelId/${data._id}`
+        );
+      } else if (path === "parkings" || user.partner_type === "Parking") {
+        bookings = await axios.get(
+          `http://localhost:5000/booking/getBookingByParkingId/${data._id}`
+        );
+      } else if (
+        path === "HotelsAndParkings" ||
+        user.partner_type === "HotelAndParking"
+      ) {
+        bookings = await axios.get(
+          `http://localhost:5000/booking/getBookingByHotelAndParkingId/${data._id}`
+        );
+      }
+      console.log(bookings.data);
+      if (bookings) setBooking(bookings.data);
+    };
+    fetchBooking();
+  }, []);
+  console.log(booking);
 
   const labels = {
     0.5: "Useless",
@@ -442,8 +490,8 @@ const Viewproperty = () => {
             </h3>
             <Box sx={{ height: 400, width: "100%" }}>
               <DataGrid
-                rows={rooms}
-                columns={roomHeader}
+                rows={booking}
+                columns={header}
                 getRowId={(row) => row._id}
                 initialState={{
                   pagination: {
