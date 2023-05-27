@@ -74,18 +74,32 @@ const DataTable = ({ path, user }) => {
       (path === "PropertyRequests" && user.partner_type === "Hotel")
     ) {
       data = await axios.get(`http://localhost:5000/hotels/gethotelbyid/${id}`);
+      if (data) {
+        navigate("/viewproperty", {
+          state: { data: data.data, user: user, path: path },
+        });
+      }
     } else if (path === "users") {
       data = await axios.get(`http://localhost:5000/user/getuserbyid/${id}`);
+      if (data) {
+        navigate("/viewproperty", {
+          state: { data: data.data, user: user, path: path },
+        });
+      }
     } else if (
       path === "parkings" ||
       path === "parkingRequests" ||
       (path === "Property" && user.partner_type === "Parking") ||
       (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
-      console.log(id);
       data = await axios.get(
         `http://localhost:5000/parking/getParkingById/${id}`
       );
+      if (data) {
+        navigate("/viewproperty", {
+          state: { data: data.data, user: user, path: path },
+        });
+      }
     } else if (
       path === "HotelsAndParkings" ||
       path === "hotelAndParkingRequests" ||
@@ -95,6 +109,11 @@ const DataTable = ({ path, user }) => {
       data = await axios.get(
         `http://localhost:5000/hotelandparking/gethotelandparkingbyid/${id}`
       );
+      if (data) {
+        navigate("/viewproperty", {
+          state: { data: data.data, user: user, path: path },
+        });
+      }
     } else if (
       path === "bookings" ||
       path === "booking" ||
@@ -104,13 +123,12 @@ const DataTable = ({ path, user }) => {
       path === "hotelandparkingbookings"
     ) {
       data = await axios.get(`http://localhost:5000/booking/getBooking/${id}`);
+      if (data) {
+        navigate("/bookingdetails", {
+          state: { data: data.data, user: user, path: path },
+        });
+      }
     }
-    if (data) {
-      navigate("/viewproperty", {
-        state: { data: data.data, user: user, path: path },
-      });
-    }
-    // console.log(data);
   };
 
   const handleApprove = async (id) => {
