@@ -252,6 +252,7 @@ export default function SignUp() {
                   <Link to="/signin">Already have an account? Sign in</Link>
                 </Grid>
               </Grid>
+              <div className="text-center text-info my-2">OR</div>
               <Button
                 type="submit"
                 fullWidth
