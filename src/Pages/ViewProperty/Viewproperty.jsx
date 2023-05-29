@@ -534,7 +534,7 @@ const Viewproperty = () => {
         {/* Modal Code */}
         <div
           className="modal fade"
-          id="exampleModal1"
+          id="exampleModal"
           tabIndex="-1"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
@@ -634,7 +634,7 @@ const Viewproperty = () => {
                   type="button"
                   className="btn btn-unstyled"
                   data-bs-toggle="modal"
-                  data-bs-target="#exampleModal1"
+                  data-bs-target="#exampleModal"
                 >
                   <img
                     src={picture}
