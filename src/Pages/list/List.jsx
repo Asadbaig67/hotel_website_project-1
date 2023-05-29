@@ -104,6 +104,8 @@ const List = () => {
   const { hotelData } = useSelector((state) => state.getHotelsfrombackend);
   const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
 
+  console.log(featured_hotel);
+
   useEffect(() => {
     if (activePath === "hotel" && featured_hotel.length === 0) {
       getHotels();

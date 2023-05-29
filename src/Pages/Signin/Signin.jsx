@@ -11,14 +11,21 @@ import {
   Typography,
   Container,
 } from "@mui/material";
+import GoogleIcon from "@mui/icons-material/Google";
 import { Link } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import LinearProgress from "@mui/material/LinearProgress";
+import Googlelogo from "./googlelogo.png";
 
 const Signin = () => {
   // code for loader top
+
+  const googleAuth = () => {
+    window.open(`http://localhost:5000/user/google`);
+  };
+
   const [progress, setProgress] = React.useState(0);
   const [buffer, setBuffer] = React.useState(10);
 
@@ -105,7 +112,7 @@ const Signin = () => {
   //     }
   //   }
   // };
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -240,6 +247,35 @@ const Signin = () => {
                   <Link to="/signup">Don't have an account? Sign Up</Link>
                 </Grid>
               </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="outlined"
+                size="larger"
+                // color="secondary"
+                onClick={googleAuth}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  pt: 1,
+                  pb: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "start",
+                }} // Added display and alignItems properties
+              >
+                <img
+                  src={Googlelogo}
+                  style={{
+                    objectFit: "cover",
+                    height: "35px",
+                    width: "35px",
+                  }}
+                  alt=""
+                />
+                <span className="mx-auto">Continue with Google</span>{" "}
+                {/* Wrapped the text in a span element */}
+              </Button>
             </Box>
           </Box>
           <Copyright sx={{ mt: 8, mb: 4 }} />
