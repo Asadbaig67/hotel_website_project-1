@@ -6,23 +6,34 @@
 
 .listWrapper {
   width: 100%;
-  max-width: 90%;
+  /* max-width: 90%; */
   gap: 20px;
+  position: sticky;
+  top: 6vw;
 }
 
 .listSearch {
   background-color: #55A7F1;
   padding: 10px;
   border-radius: 10px;
-  position: sticky;
-  top: 6vw;
+  
   height: max-content;
 }
 
 .lsTitle {
   font-size: 20px;
   color: white;
-  margin-bottom: 10px;
+  margin-bottom: 10px;  
+}
+
+.filterTitle {
+  font-size: 20px;
+  /* color: white; */
+  margin-bottom: 8px;
+  /* margin-top: 8px; */
+  padding-top: 8px;
+  padding-bottom: 2px;
+  padding-left: 10px;
 }
 
 .lsItem {
@@ -32,8 +43,16 @@
   margin-bottom: 10px;
 }
 
-.lsItem>label {
-  font-size: 12px;
+.filterItem {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 10px;
+  margin-left: 15px;
+}
+
+.filterItem label {
+  font-size: 16px;
 }
 
 .lsItem>input {

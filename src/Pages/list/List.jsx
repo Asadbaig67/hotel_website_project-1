@@ -1,6 +1,6 @@
 import style from "./list.module.css";
 import Navbar from "../../Components/Navbar/Navbar";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Card from "../../Components/Card/Card";
 import Dates from "../../Components/date/Date";
 import Footer from "../../Components/footer/Footer";
@@ -47,11 +47,9 @@ const List = () => {
   if (hotel_parking_data) {
     filtered_hotel_parking = hotel_parking_data.filter(checkHotelParkingCity);
   }
-  console.log(filtered_hotel_parking);
   // For Hotel and parking
 
   const [option, setOption] = useState(options);
-  const loading = false;
   const [openDate, setOpenDate] = useState(false);
   // const [min, setMin] = useState(undefined);
   // const [max, setMax] = useState(undefined);
@@ -104,6 +102,45 @@ const List = () => {
   const { hotelData } = useSelector((state) => state.getHotelsfrombackend);
   const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
 
+  const [dataList, setDataList] = useState(hotelData);
+  const rating = [1, 2, 3, 4, 5];
+  let selectedRatings = [];
+
+  const handleOnChangeRating = (e) => {
+    const rating = parseInt(e.target.value);
+    if (selectedRatings.includes(rating)) {
+      selectedRatings = selectedRatings.filter((item) => item !== rating);
+    } else {
+      selectedRatings.push(rating);
+    }
+
+    console.log(selectedRatings);
+
+    if (selectedRatings.length === 0) {
+      setDataList(hotelData);
+    } else {
+      let filter = hotelData.filter((item) =>
+        selectedRatings.includes(item.hotel.rating)
+      );
+      setDataList(filter);
+    }
+  };
+
+  // useEffect(() => {
+  //   const filteredData = () => {
+  //     console.log(selectedRatings);
+  //     if (selectedRatings.length === 0) {
+  //       setDataList(hotelData);
+  //     } else {
+  //       const filter = hotelData.filter((item) =>
+  //         selectedRatings.includes(item.rating)
+  //       );
+  //       setDataList(filter);
+  //     }
+  //   };
+  //   filteredData();
+  // }, [selectedRatings, dataList]);
+
   useEffect(() => {
     if (activePath === "hotel" && featured_hotel.length === 0) {
       getHotels();
@@ -118,126 +155,196 @@ const List = () => {
       <Navbar list={false} className="w-100" />
       <div className={`${style.listContainer}`}>
         <div className={`row justify-content-around ${style.listWrapper}`}>
-          <div className={`col-3 ${style.listSearch}`}>
-            <h1 className={style.lsTitle}>Search</h1>
-            <div className={style.lsItem}>
-              <label style={{ color: "white" }}>Destination</label>
-              {/* <input
-                placeholder={city === "" ? cityHotelAndParking : city}
-                type="text"
-                onChange={(e) =>
-                  dispatch({ type: "SET_CITY", payload: e.target.value })
-                }
-              /> */}
-              <Dropdown name="cityHotel" />
+          <div className="col-3">
+            <div className={`${style.listSearch}`}>
+              <h1 className={style.lsTitle}>Search</h1>
+              <div className={style.lsItem}>
+                <label style={{ color: "white" }}>Destination</label>
+                {/* <input
+                  placeholder={city === "" ? cityHotelAndParking : city}
+                  type="text"
+                  onChange={(e) =>
+                    dispatch({ type: "SET_CITY", payload: e.target.value })
+                  }
+                /> */}
+                <Dropdown name="cityHotel" />
+              </div>
+              <div className={style.lsItem}>
+                <label style={{ color: "white" }}>Check-in Date</label>
+                <span
+                  style={{ fontSize: "15px" }}
+                  onClick={() => setOpenDate(!openDate)}
+                >
+                  {dates[0] ? `${dates[0]} to ${dates[1]}` : null}
+                </span>
+                {openDate && <Dates />}
+              </div>
+              <div className={style.lsItem}>
+                <label style={{ color: "white" }}>Options</label>
+                <div className={style.lsOptions}>
+                  {/* <div className={style.lsOptionItem}>
+                    <span className={style.lsOptionText}>
+                      Min price <small>per night</small>
+                    </span>
+                    <input
+                      type="number"
+                      onChange={(e) => setMin(e.target.value)}
+                      className={style.lsOptionInput}
+                    />
+                  </div>
+                  <div className={style.lsOptionItem}>
+                    <span className={style.lsOptionText}>
+                      Max price <small>per night</small>
+                    </span>
+                    <input
+                      type="number"
+                      onChange={(e) => setMax(e.target.value)}
+                      className={style.lsOptionInput}
+                    />
+                  </div> */}
+                  <div className={style.lsOptionItem}>
+                    <span className={style.lsOptionText}>Adult</span>
+                    <input
+                      type="number"
+                      min={1}
+                      className={style.lsOptionInput}
+                      placeholder={option.adult}
+                      onChange={(e) =>
+                        e.target.value < 1 || e.target.value === ""
+                          ? dispatch({
+                              type: "SET_OPTION",
+                              payload: { ...options, adult: 1 },
+                            })
+                          : dispatch({
+                              type: "SET_OPTION",
+                              payload: { ...options, adult: e.target.value },
+                            })
+                      }
+                    />
+                  </div>
+                  <div className={style.lsOptionItem}>
+                    <span className={style.lsOptionText}>Children</span>
+                    <input
+                      type="number"
+                      min={0}
+                      className={style.lsOptionInput}
+                      placeholder={options.children}
+                      onChange={(e) =>
+                        e.target.value < 1 || e.target.value === ""
+                          ? dispatch({
+                              type: "SET_OPTION",
+                              payload: { ...options, children: 1 },
+                            })
+                          : dispatch({
+                              type: "SET_OPTION",
+                              payload: { ...options, adult: e.target.value },
+                            })
+                      }
+                    />
+                  </div>
+                  <div className={style.lsOptionItem}>
+                    <span className={style.lsOptionText}>Room</span>
+                    <input
+                      type="number"
+                      min={1}
+                      className={style.lsOptionInput}
+                      placeholder={
+                        options.singleRoom +
+                        options.twinRoom +
+                        options.familyRoom
+                      }
+                      onChange={(e) =>
+                        e.target.value < 1 || e.target.value === ""
+                          ? dispatch({
+                              type: "SET_OPTION",
+                              payload: { ...options, SingleRoom: 1 },
+                            })
+                          : dispatch({
+                              type: "SET_OPTION",
+                              payload: { ...options, room: e.target.value },
+                            })
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              <button className="btn btn-primary " onClick={handleClick}>
+                Search
+              </button>
             </div>
-            <div className={style.lsItem}>
-              <label style={{ color: "white" }}>Check-in Date</label>
-              <span
-                style={{ fontSize: "15px" }}
-                onClick={() => setOpenDate(!openDate)}
+            <div className="border border-dark mt-5">
+              <h1
+                className={`border border-dark border-top-0 border-start-0 border-end-0 ${style.filterTitle}`}
               >
-                {dates[0] ? `${dates[0]} to ${dates[1]}` : null}
-              </span>
-              {openDate && <Dates />}
-            </div>
-            <div className={style.lsItem}>
-              <label style={{ color: "white" }}>Options</label>
-              <div className={style.lsOptions}>
-                {/* <div className={style.lsOptionItem}>
-                  <span className={style.lsOptionText}>
-                    Min price <small>per night</small>
-                  </span>
-                  <input
-                    type="number"
-                    onChange={(e) => setMin(e.target.value)}
-                    className={style.lsOptionInput}
-                  />
-                </div>
-                <div className={style.lsOptionItem}>
-                  <span className={style.lsOptionText}>
-                    Max price <small>per night</small>
-                  </span>
-                  <input
-                    type="number"
-                    onChange={(e) => setMax(e.target.value)}
-                    className={style.lsOptionInput}
-                  />
-                </div> */}
-                <div className={style.lsOptionItem}>
-                  <span className={style.lsOptionText}>Adult</span>
-                  <input
-                    type="number"
-                    min={1}
-                    className={style.lsOptionInput}
-                    placeholder={option.adult}
-                    onChange={(e) =>
-                      e.target.value < 1 || e.target.value === ""
-                        ? dispatch({
-                            type: "SET_OPTION",
-                            payload: { ...options, adult: 1 },
-                          })
-                        : dispatch({
-                            type: "SET_OPTION",
-                            payload: { ...options, adult: e.target.value },
-                          })
-                    }
-                  />
-                </div>
-                <div className={style.lsOptionItem}>
-                  <span className={style.lsOptionText}>Children</span>
-                  <input
-                    type="number"
-                    min={0}
-                    className={style.lsOptionInput}
-                    placeholder={options.children}
-                    onChange={(e) =>
-                      e.target.value < 1 || e.target.value === ""
-                        ? dispatch({
-                            type: "SET_OPTION",
-                            payload: { ...options, children: 1 },
-                          })
-                        : dispatch({
-                            type: "SET_OPTION",
-                            payload: { ...options, adult: e.target.value },
-                          })
-                    }
-                  />
-                </div>
-                <div className={style.lsOptionItem}>
-                  <span className={style.lsOptionText}>Room</span>
-                  <input
-                    type="number"
-                    min={1}
-                    className={style.lsOptionInput}
-                    placeholder={
-                      options.singleRoom + options.twinRoom + options.familyRoom
-                    }
-                    onChange={(e) =>
-                      e.target.value < 1 || e.target.value === ""
-                        ? dispatch({
-                            type: "SET_OPTION",
-                            payload: { ...options, SingleRoom: 1 },
-                          })
-                        : dispatch({
-                            type: "SET_OPTION",
-                            payload: { ...options, room: e.target.value },
-                          })
-                    }
-                  />
+                Filter
+              </h1>
+              <div className="row">
+                <div className="col-12">
+                  <div
+                    className={`border border-dark border-top-0 border-start-0 border-end-0 ${style.filterItem}`}
+                  >
+                    <h3 className={style.filterItemTitle}>Rating</h3>
+                    {rating.map((item) => {
+                      return (
+                        <div className="form-check" key={item}>
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            value={item}
+                            id={`flexCheckRating5${item}`}
+                            onChange={handleOnChangeRating}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor={`flexCheckRating5${item}`}
+                          >
+                            {item} Stars
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className={style.filterItem}>
+                    <h3 className={style.filterItemTitle}>Price</h3>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="flexRadioPrice"
+                        id="flexRadioDefault6"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexRadioDefault6"
+                      >
+                        Min to Max
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="flexRadioPrice"
+                        id="flexRadioDefault7"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexRadioDefault7"
+                      >
+                        Max to Min
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <button className="btn btn-primary " onClick={handleClick}>
-              Search
-            </button>
           </div>
           <div className={`col-8 ${style.listResult}`}>
             {activePath === "hotel" &&
               featured_hotel.length === 0 &&
-              hotelData.length === 0 && <Loader />}
+              dataList.length === 0 && <Loader />}
             {activePath === "hotelAndParking" &&
-              hotelData.length === 0 &&
+              dataList.length === 0 &&
               featured_hotel.length === 0 && <Loader />}
             {activePath === "hotel" && featured_hotel.length > 0 && (
               <>
@@ -246,9 +353,9 @@ const List = () => {
                 ))}
               </>
             )}
-            {activePath === "hotel" && hotelData.length > 0 && (
+            {activePath === "hotel" && dataList.length > 0 && (
               <>
-                {hotelData.map((item) => (
+                {dataList.map((item) => (
                   <Card item={item} key={item._id} />
                 ))}
               </>
@@ -260,10 +367,10 @@ const List = () => {
                 ))}
               </>
             )}
-            {activePath === "hotelAndParking" && hotelData.length > 0 && (
+            {activePath === "hotelAndParking" && dataList.length > 0 && (
               <>
                 {/* {dispatch({ type: "SET_FEATURED_DATA", payload: [] })} */}
-                {hotelData.map((item) => (
+                {dataList.map((item) => (
                   <Card item={item} key={item._id} />
                 ))}
               </>

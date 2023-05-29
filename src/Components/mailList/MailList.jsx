@@ -3,7 +3,6 @@ import { useMediaQuery } from "@mui/material";
 
 const MailList = () => {
   const isXtraSmallScreen = useMediaQuery("(max-width: 450px)");
-  console.log(isXtraSmallScreen);
   return (
     <div className={`mail mt-2 ${isXtraSmallScreen ? "align-items-center" : ""} `}>
       <h1 className={`text-start fs-4 text-uppercase`}>News Letter</h1>

@@ -38,7 +38,6 @@ const Card = (props) => {
   if (activePath === "hotel") {
     if (props.item.rooms) {
       const { rooms } = props.item;
-      console.log("Room Are Here", rooms);
       rooms.forEach((element) => {
         let { room } = element;
         if (options.singleRoom !== 0 && room.type === "Single") {
@@ -67,7 +66,6 @@ const Card = (props) => {
   } else if (activePath === "hotelAndParking") {
     if (props.item.rooms) {
       const { rooms } = props.item;
-      console.log("Room Are Here", rooms);
       rooms.forEach((element) => {
         let { room } = element;
         if (options.singleRoom !== 0 && room.type === "Single") {
@@ -115,9 +113,6 @@ const Card = (props) => {
     endingDate = new Date(endyear, endmonth - 1, endday); // Note: month is 0-indexed in JavaScript
     const timeDiff = Math.abs(endingDate.getTime() - startingDate.getTime());
     nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    console.log(nights);
-
-    console.log(dates);
   }
 
   // console.log(nights);
@@ -143,14 +138,12 @@ const Card = (props) => {
   };
 
   const { dateFocus } = useSelector((state) => state.getFocus);
-  console.log(dateFocus);
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
 
   const { hotel, rooms } = props.item;
   // console.log("card Page" + nights);
-
 
   const setSelectedHotel = () => {
     if (featured_hotel.length > 0) {
