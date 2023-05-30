@@ -103,6 +103,8 @@ const Card = (props) => {
 
   let nights = 0;
   if (dates && dates.length === 2) {
+    console.log("here is start date = ", dates[0]);
+    console.log("here is end date = ", dates[1]);
     let startingDate = dates[0];
     const [startday, startmonth, startyear] = startingDate
       .split("-")
@@ -113,6 +115,11 @@ const Card = (props) => {
     endingDate = new Date(endyear, endmonth - 1, endday); // Note: month is 0-indexed in JavaScript
     const timeDiff = Math.abs(endingDate.getTime() - startingDate.getTime());
     nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    console.log(nights);
+
+    // console.log(dates);
+    console.log("Corrected Start Date = ", startingDate);
+    console.log("Corrected End Date = ", endingDate);
   }
 
   // console.log(nights);

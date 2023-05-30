@@ -1,51 +1,5 @@
 import axios from "axios";
 
-const getHotelName = async (params) => {
-  let hotel, data;
-  if (params.row.Booking_type === "hotel") {
-    hotel = await axios.get(
-      `http://localhost:5000/hotels/gethotelbyid/${params.row.hotelId}`
-    );
-    data = hotel.data.name;
-  } else if (params.row.Booking_type === "parking") {
-    hotel = await axios.get(
-      `http://localhost:5000/parking/getparkingbyid/${params.row.parkingId}`
-    );
-    data = await hotel.data.name;
-  } else if (params.row.Booking_type === "hotelandparking") {
-    hotel = await axios.get(
-      `http://localhost:5000/hotelandparking/gethotelandparkingbyid/${params.row.HotelAndParkingId}`
-    );
-    data = await hotel.data.hotel_name;
-  }
-  return data;
-};
-
-const getUserName = async (params) => {
-  const user = await axios.get(
-    `http://localhost:5000/user/getuserbyid/${params.row.userId}`
-  );
-  const data = `${user.data.user.firstName || ""} ${
-    user.data.user.lastName || ""
-  }`;
-  return data;
-};
-
-const getCheckInDate = async (params) => {
-  const data = new Date(params.row.checkIn).toDateString();
-  return data;
-};
-
-const getCheckOutDate = async (params) => {
-  const data = new Date(params.row.checkOut).toDateString();
-  return data;
-};
-
-const getBookingDate = async (params) => {
-  const data = new Date(params.row.bookingDate).toDateString();
-  return data;
-};
-
 export const userHeader = [
   { field: "_id", headerName: "ID", width: 100 },
   { field: "firstName", headerName: "First Name", width: 130 },
@@ -90,28 +44,24 @@ export const bookingHeader = [
   { field: "_id", headerName: "ID", width: 100 },
   { field: "Booking_type", headerName: "Booking Type", width: 100 },
   {
-    field: "hotelId || parkingId || HotelAndParkingId",
+    field: "hotelName" || "parkingName" || "hotelAndParkingName",
     headerName: "Name",
     width: 130,
-    valueGetter: getHotelName,
   },
   {
-    field: "userId",
+    field: "userName",
     headerName: "User Name",
     width: 130,
-    valueGetter: getUserName,
   },
   {
     field: "checkIn",
     headerName: "Check In",
     width: 130,
-    valueGetter: getCheckInDate,
   },
   {
     field: "checkOut",
     headerName: "Check Out",
     width: 130,
-    valueGetter: getCheckOutDate,
   },
   { field: "total_price", headerName: "Total Price", width: 130 },
 ];
@@ -119,34 +69,29 @@ export const bookingHeader = [
 export const bookingHotelHeader = [
   { field: "_id", headerName: "Serial number", width: 120 },
   {
-    field: "hotelId",
+    field: "hotelName",
     headerName: "Hotel Name",
     width: 130,
-    valueGetter: getHotelName,
   },
   {
-    field: "userId",
+    field: "userName",
     headerName: "User Name",
     width: 130,
-    valueGetter: getUserName,
   },
   {
     field: "checkIn",
     headerName: "Check In",
     width: 130,
-    valueGetter: getCheckInDate,
   },
   {
     field: "checkOut",
     headerName: "Check Out",
     width: 130,
-    valueGetter: getCheckOutDate,
   },
   {
     field: "createdAt",
     headerName: "Booking Date",
     width: 130,
-    valueGetter: getBookingDate,
   },
   { field: "total_price", headerName: "Total Price", width: 130 },
 ];
@@ -154,34 +99,29 @@ export const bookingHotelHeader = [
 export const bookingParkingHeader = [
   { field: "_id", headerName: "Serial number", width: 120 },
   {
-    field: "parkingId",
+    field: "parkingName",
     headerName: "Parking Name",
     width: 130,
-    valueGetter: getHotelName,
   },
   {
-    field: "userId",
+    field: "userName",
     headerName: "User Name",
     width: 130,
-    valueGetter: getUserName,
   },
   {
     field: "checkIn",
     headerName: "Check In",
     width: 130,
-    valueGetter: getCheckInDate,
   },
   {
     field: "checkOut",
     headerName: "Check Out",
     width: 130,
-    valueGetter: getCheckOutDate,
   },
   {
     field: "createdAt",
     headerName: "Booking Date",
     width: 130,
-    valueGetter: getBookingDate,
   },
   { field: "total_price", headerName: "Total Price", width: 130 },
 ];
@@ -189,34 +129,29 @@ export const bookingParkingHeader = [
 export const bookingHotelAndParkingHeader = [
   { field: "_id", headerName: "Serial number", width: 120 },
   {
-    field: "HotelandParkingId",
+    field: "hotelAndParkingName",
     headerName: "Name",
     width: 130,
-    valueGetter: getHotelName,
   },
   {
-    field: "userId",
+    field: "userName",
     headerName: "User Name",
     width: 130,
-    valueGetter: getUserName,
   },
   {
     field: "checkIn",
     headerName: "Check In",
     width: 130,
-    valueGetter: getCheckInDate,
   },
   {
     field: "checkOut",
     headerName: "Check Out",
     width: 130,
-    valueGetter: getCheckOutDate,
   },
   {
     field: "createdAt",
     headerName: "Booking Date",
     width: 130,
-    valueGetter: getBookingDate,
   },
   { field: "total_price", headerName: "Total Price", width: 130 },
 ];
@@ -284,7 +219,7 @@ export const parkingDetailHeader = [
     width: 150,
     valueGetter: (params) => {
       return params.row.total_slots - params.row.booked_slots;
-    }
+    },
   },
   {
     field: "booked_slots",
@@ -295,5 +230,5 @@ export const parkingDetailHeader = [
     field: "approved",
     headerName: "Approved",
     width: 150,
-  }
-]
+  },
+];

@@ -37,6 +37,7 @@ import Featured_skeleton from "./Components/Skeletons/Featured_skeleton";
 import Viewbookings from "./Pages/BookingDetails/Viewbookings";
 import RoomBooking from "./Pages/BookingDetails/Book";
 import Viewproperty from "./Pages/ViewProperty/Viewproperty";
+import AdminBookings from "./Pages/BookingDetails/AdminBookings";
 
 function App() {
   const rooms = [
@@ -362,6 +363,7 @@ function App() {
           element={<ParkingPropertyDetails property={property} />}
         />
         <Route path="/bookingdetails" element={<Viewbookings />} />
+        <Route path="/viewbookingdetails" element={<AdminBookings />} />
         {/* <Route path="/booking" element={<RoomBooking rooms={rooms} />} /> */}
         <Route path="/viewproperty" element={<Viewproperty />} />
 

@@ -11,6 +11,7 @@ import StarIcon from "@mui/icons-material/Star";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 // import { useSelector } from "react-redux";
 // import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useMediaQuery } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
@@ -23,10 +24,35 @@ import {
 } from "../../Utilis/DataTableSource";
 
 const Viewproperty = () => {
+  const IsMobile = useMediaQuery("(max-width:450px)");
   const navigate = useNavigate();
   const location = useLocation();
   const { data, user, path } = location.state;
   const [header, setHeader] = useState([]);
+
+  const [roomdata, setRoomdata] = useState({});
+  const [newRooms, setNewRooms] = useState("");
+
+  const handlenewRoomChange = (event) => {
+    setNewRooms(event.target.value);
+  };
+
+  // const [formValues, setFormValues] = useState(roomdata);
+  const [formValues, setFormValues] = useState({
+    room_no: "",
+    type: "",
+    price: "",
+    description: "",
+  });
+
+  // Upload Images Code And Preview Code
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
 
   useEffect(() => {
     if (path === "hotels" || user.partner_type === "Hotel") {
@@ -41,8 +67,53 @@ const Viewproperty = () => {
     }
   }, []);
 
+  let roomsArray = newRooms.split(",");
+  roomsArray = roomsArray.map((room) => {
+    let num = parseInt(room.trim());
+    return isNaN(num) ? null : num;
+  });
+  roomsArray = roomsArray.filter((room) => {
+    return room !== null;
+  });
+
   const handleUpdate = async (id) => {
-    navigate("/updateRoom", { state: { id } });
+    // navigate("/updateRoom", { state: { id } });
+    const url = `http://localhost:5000/room/updateroom/${id}`;
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        price: formValues.price,
+        description: formValues.description,
+        roomNo: roomsArray,
+      }),
+    };
+    const response = await fetch(url, options);
+    if (response.ok) {
+      alert("Room Updated Successfully");
+      window.location.reload();
+    }
+  };
+
+  const handleRoomDelete = async (id, room) => {
+    // navigate("/updateRoom", { state: { id } });
+    const url = `http://localhost:5000/room/deleterooms/${id}`;
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        roomNo: room,
+      }),
+    };
+    const response = await fetch(url, options);
+    if (response.ok) {
+      alert("Room Deleted Successfully");
+      window.location.reload();
+    }
   };
 
   const handleDelete = async (id) => {
@@ -81,10 +152,18 @@ const Viewproperty = () => {
       headerName: "",
       width: 100,
       renderCell: (params) => {
+        const handleUpdateClick = () => {
+          setRoomdata(params.row);
+        };
+
         return (
           <button
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
             className="btn btn-info"
-            onClick={() => handleUpdate(params.row._id)}
+            // onClick={() => setRoomdata(params.row) handleUpdate(params.row._id)}
+            onClick={handleUpdateClick}
           >
             Update
           </button>
@@ -169,7 +248,6 @@ const Viewproperty = () => {
     };
     fetchBooking();
   }, []);
-  console.log(booking);
 
   const labels = {
     0.5: "Useless",
@@ -188,8 +266,154 @@ const Viewproperty = () => {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
 
+  useEffect(() => {
+    if (roomdata) {
+      setFormValues({
+        room_no: roomdata.room_no,
+        type: roomdata.type,
+        price: roomdata.price,
+        description: roomdata.description,
+      });
+    }
+  }, [roomdata]);
+
+  console.log("Formvalues are=", formValues);
+  console.log("New Room are = ", roomsArray);
+
   return (
     <>
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Update {roomdata.type} Room
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div className={`container  ${IsMobile ? "" : "w-100"} `}>
+                <form className="needs-validation mx-4">
+                  <div className="row mt-2">
+                    <div className="col-md-6">
+                      <label htmlFor="validationCustom01">Room Type</label>
+                      <select
+                        className="form-select"
+                        name="type"
+                        id="validationCustom01"
+                        value={formValues.type}
+                        required
+                        disabled
+                        onChange={handleInputChange}
+                      >
+                        <option value="">Select room type</option>
+                        <option value="Single">Single</option>
+                        <option value="Twin">Twin</option>
+                        <option value="Family">Family</option>
+                      </select>
+                    </div>
+                    <div className="col-md-6">
+                      <label>Room Price</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Price"
+                        name="price"
+                        value={formValues.price}
+                        // value={roomdata.price}
+                        required
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12 mt-2">
+                      <label>Description</label>
+                      <textarea
+                        className="form-control"
+                        placeholder="Description"
+                        value={formValues.description}
+                        name="description"
+                        style={{ height: "100px" }}
+                        required
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="col-md-12 mt-2">
+                      <label>Available Rooms</label>
+                      {formValues.room_no &&
+                        formValues.room_no.map((room) => (
+                          <div
+                            className="d-flex flex-row justify-content-between"
+                            key={room.number}
+                          >
+                            <div className="my-2 ">
+                              <h5>Room {room.number}</h5>
+                            </div>
+                            <div className="my-2">
+                              <button
+                                className="btn btn-info"
+                                onClick={() =>
+                                  handleRoomDelete(roomdata._id, room.number)
+                                }
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12 mt-2">
+                      <label>Add New Room</label>
+                      <small>
+                        Please give comma seperated list Ex.(44,55,101,78)
+                      </small>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Room No"
+                        name="room_no"
+                        value={newRooms}
+                        required
+                        onChange={handlenewRoomChange}
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                onClick={() => handleUpdate(roomdata._id)}
+                class="btn btn-lg btn-primary"
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div>
         <Navbar />
       </div>

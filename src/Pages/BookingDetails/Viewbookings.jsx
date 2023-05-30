@@ -152,6 +152,7 @@ const ViewBookings = () => {
   if (options.singleRoom > 0) {
     singleRoomsArray.map((room) => {
       tempObj = {
+        Room_type: "Single",
         RoomId: room.RoomId,
         Room_no: room.number,
         Room_price: room.Room_price,
@@ -162,6 +163,7 @@ const ViewBookings = () => {
   if (options.twinRoom > 0) {
     twinRoomsArray.map((room) => {
       tempObj = {
+        Room_type: "Twin",
         RoomId: room.RoomId,
         Room_no: room.number,
         Room_price: room.Room_price,
@@ -172,6 +174,7 @@ const ViewBookings = () => {
   if (options.familyRoom > 0) {
     familyRoomsArray.map((room) => {
       tempObj = {
+        Room_type: "Family",
         RoomId: room.RoomId,
         Room_no: room.number,
         Room_price: room.Room_price,
@@ -197,10 +200,26 @@ const ViewBookings = () => {
     parking = JSON.stringify(parking);
   }
 
+  let CorrectCheckIn = "";
+  let CorrectCheckOut = "";
+
+  if (dates && dates.length === 2) {
+    let startingDate = dates[0];
+    const [startday, startmonth, startyear] = startingDate
+      .split("-")
+      .map(Number);
+    CorrectCheckIn = startyear + "-" + startmonth + "-" + startday;
+    startingDate = new Date(startyear, startmonth - 1, startday); // Note: month is 0-indexed in JavaScript
+    let endingDate = dates[1];
+    const [endday, endmonth, endyear] = endingDate.split("-").map(Number);
+    CorrectCheckOut = endyear + "-" + endmonth + "-" + endday;
+    endingDate = new Date(endyear, endmonth - 1, endday); // Note: month is 0-indexed in JavaScript
+  }
+
   const HandleBooking = async () => {
     // Api Request
     if (!booked_property.parking_name) {
-      const hotelURL = `http://localhost:5000/booking/addBooking?userId=${userId}&hotelId=${hotelId}&room=${roomArray}&checkIn=${checkIn}&checkOut=${checkOut}`;
+      const hotelURL = `http://localhost:5000/booking/addBooking?userId=${userId}&hotelId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&adults=${options.adult}&children=${options.children}`;
       const requestOptions = {
         method: "POST",
       };

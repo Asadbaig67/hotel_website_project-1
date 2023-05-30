@@ -124,7 +124,7 @@ const DataTable = ({ path, user }) => {
     ) {
       data = await axios.get(`http://localhost:5000/booking/getBooking/${id}`);
       if (data) {
-        navigate("/bookingdetails", {
+        navigate("/viewbookingdetails", {
           state: { data: data.data, user: user, path: path },
         });
       }

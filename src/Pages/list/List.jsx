@@ -140,6 +140,7 @@ const List = () => {
   //   };
   //   filteredData();
   // }, [selectedRatings, dataList]);
+  console.log(featured_hotel);
 
   useEffect(() => {
     if (activePath === "hotel" && featured_hotel.length === 0) {
@@ -272,7 +273,7 @@ const List = () => {
                 Search
               </button>
             </div>
-            <div className="border border-dark mt-5">
+            {/* <div className="border border-dark mt-5">
               <h1
                 className={`border border-dark border-top-0 border-start-0 border-end-0 ${style.filterTitle}`}
               >
@@ -337,7 +338,7 @@ const List = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className={`col-8 ${style.listResult}`}>
             {activePath === "hotel" &&
