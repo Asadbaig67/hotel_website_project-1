@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100&family=Lato:wght@300&family=Montserrat:wght@300&family=Open+Sans:wght@300&family=Playfair+Display+SC&family=Smooch&family=Ubuntu:wght@300&display=swap');
-.custom {
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100&family=Lato:wght@300&family=Montserrat:wght@300&family=Open+Sans:wght@300&family=Playfair+Display+SC&family=Smooch&family=Ubuntu:wght@300&display=swap");
+/* .custom {
 
   height: 400px;
   font-family: 'playfair display sc', serif;
@@ -8,7 +8,8 @@
   align-items: center;
   background-image: url("./images/modal-bg.png");
   /* background-color: rgb(178, 194, 214); */
-}
+/* } 
+
 .custom_input{
   
     display: block;
@@ -18,8 +19,88 @@
     font-size: 16px;
     margin-bottom: 1px;
     border-bottom: 1px solid #333;
+} */
+/* .custom_input:focus {
+  border-bottom: 1px solid #282f35;
+  box-shadow: 0 1px 0 0 #282f35;
+} */
+.custom {
+  height: 400px;
+  font-family: "playfair display sc", serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./images/modal-bg.png");
+  /* background-color: rgb(178, 194, 214); */
 }
+
+.custom_input {
+  display: block;
+  outline: none;
+  border: none;
+  height: 2rem;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #333;
+  width: 100%;
+  padding: 0.5rem;
+}
+
 .custom_input:focus {
   border-bottom: 1px solid #282f35;
   box-shadow: 0 1px 0 0 #282f35;
+}
+
+.custom_label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.custom_button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.custom_button:hover {
+  background-color: #333;
+}
+
+.container {
+  max-width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
 }

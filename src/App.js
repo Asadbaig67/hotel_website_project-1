@@ -1,6 +1,7 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Contact from "./Pages/Contact/Contact";
+import About from "./Pages/About Us/About";
 import Home from "./Pages/Home/Home";
 import Listing from "./Pages/Property Listing/Listing";
 import Hotel from "./Pages/hotel/Hotel";
@@ -352,6 +353,7 @@ function App() {
         <Route path="/HotelAndParkingList" element={<List />} />
         <Route path="/singleHotelAndParking" element={<Hotel />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
         <Route path="/listproperty" element={<Listing />} />
         <Route path="/roomcard" element={<Roomcard />} />
         <Route path="/hotelform" element={<AddHotelForm />} />
