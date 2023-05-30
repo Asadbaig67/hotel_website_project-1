@@ -38,7 +38,6 @@ const Card = (props) => {
   if (activePath === "hotel") {
     if (props.item.rooms) {
       const { rooms } = props.item;
-      console.log("Room Are Here", rooms);
       rooms.forEach((element) => {
         let { room } = element;
         if (options.singleRoom !== 0 && room.type === "Single") {
@@ -67,7 +66,6 @@ const Card = (props) => {
   } else if (activePath === "hotelAndParking") {
     if (props.item.rooms) {
       const { rooms } = props.item;
-      console.log("Room Are Here", rooms);
       rooms.forEach((element) => {
         let { room } = element;
         if (options.singleRoom !== 0 && room.type === "Single") {
@@ -147,7 +145,6 @@ const Card = (props) => {
   };
 
   const { dateFocus } = useSelector((state) => state.getFocus);
-  console.log(dateFocus);
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
