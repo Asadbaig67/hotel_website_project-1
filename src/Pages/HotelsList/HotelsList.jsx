@@ -170,19 +170,19 @@ const HotelsList = () => {
       if (user.partner_type === "Hotel") {
         dispatch({
           type: "SETURL",
-          payload: `http://localhost:5000/booking/getBookingHotelByOwnerId/${id}`,
+          payload: `http://localhost:5000/booking/getUpcommingBookingsByHotelOwnerId/${id}`,
         });
         dispatch({ type: "SETHEADER", payload: bookingHotelHeader });
       } else if (user.partner_type === "Parking") {
         dispatch({
           type: "SETURL",
-          payload: `http://localhost:5000/booking/getBookingParkingByOwnerId/${id}`,
+          payload: `http://localhost:5000/booking/getUpcommingBookingsByParkingOwnerId/${id}`,
         });
         dispatch({ type: "SETHEADER", payload: bookingParkingHeader });
       } else if (user.partner_type === "HotelAndParking") {
         dispatch({
           type: "SETURL",
-          payload: `http://localhost:5000/booking/getBookingHotelandParkingByOwnerId/${id}`,
+          payload: `http://localhost:5000/booking/getUpcommingBookingsByHotelparkingOwnerId/${id}`,
         });
         dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader });
       }
@@ -350,6 +350,14 @@ const HotelsList = () => {
               ) : user.partner_type === "HotelAndParking" ? (
                 <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings</h2>
               ) : null
+            ) : path === "bookingRequests" ? (
+              user.partner_type === "Hotel" ? (
+                <h2 className="fs-1 mb-2 mt-4">Pending Hotel Bookings</h2>
+              ) : user.partner_type === "Parking" ? (
+                <h2 className="fs-1 mb-2 mt-4">Pending Parkings Bookings</h2>
+              ) : user.partner_type === "HotelAndParking" ? (
+                <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings Bookings</h2>
+              ) : null
             ) : null
           ) : view === "user" ? (
             path === "hotelbookings" ? (
@@ -416,6 +424,7 @@ const HotelsList = () => {
               />
             </div>
           </div> */}
+          
         </div>
         {/* results */}
         <div className="col-md-11">
