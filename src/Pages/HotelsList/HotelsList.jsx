@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import style from "./HotelsList.module.css";
+import { Box } from "@mui/material";
 import DataTable from "../../Components/dataTable/dataTable";
 import Sidebar from "../../Components/adminSidebar/Sidebar";
 // import Dropdown from "../../Components/Filterdropdown/FilterDropdown";
@@ -7,7 +7,9 @@ import Sidebar from "../../Components/adminSidebar/Sidebar";
 import { useLocation } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-// import axios from "axios";
+import DatagridHeader from "../../Components/DatagridHeader/DatagridHeader";
+import Topbar from "../../Components/Topbar/Topbar";
+import SidebarAdmin from "../../Components/AdminDashboardSidebar/AdminDashboardSidebar";
 import {
   hotelsHeader,
   userHeader,
@@ -20,7 +22,6 @@ import {
 } from "../../Utilis/DataTableSource";
 
 const HotelsList = () => {
-  const { header } = useSelector((state) => state.setHeader);
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
   const id = user._id;
@@ -296,151 +297,184 @@ const HotelsList = () => {
 
   return (
     <>
-      <Sidebar />
-      <div
-        className={`row justify-content-center ${IsMedium ? "mt-5" : ""}`}
-        style={{
-          marginLeft: IsMedium ? "30px" : IsMobilee ? "45" : "20px",
-          marginTop: "77px",
-        }}
-      >
-        <div className="col-md-11 d-flex align-items-end">
-          {view === "admin" ? (
-            path === "hotels" ? (
-              <h2 className="fs-1 mb-2 mt-4">Hotels</h2>
-            ) : path === "users" ? (
-              <h2 className="fs-1 mb-2 mt-4">Users</h2>
-            ) : path === "booking" ? (
-              <h2 className="fs-1 mb-2 mt-4">Bookings</h2>
-            ) : path === "parkings" ? (
-              <h2 className="fs-1 mb-2 mt-4">Parkings</h2>
-            ) : path === "HotelsAndParkings" ? (
-              <h2 className="fs-1 mb-2 mt-4">Hotels and Parkings</h2>
-            ) : path === "hotelRequests" ? (
-              <h2 className="fs-1 mb-2 mt-4">Pending Hotels</h2>
-            ) : path === "parkingRequests" ? (
-              <h2 className="fs-1 mb-2 mt-4">Pending Parkings</h2>
-            ) : path === "hotelAndParkingRequests" ? (
-              <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings</h2>
-            ) : null
-          ) : view === "partner" ? (
-            path === "Property" ? (
-              user.partner_type === "Hotel" ? (
-                <h2 className="fs-1 mb-2 mt-4">My Hotels</h2>
-              ) : user.partner_type === "Parking" ? (
-                <h2 className="fs-1 mb-2 mt-4">My Parkings</h2>
-              ) : user.partner_type === "HotelAndParking" ? (
-                <h2 className="fs-1 mb-2 mt-4">My Hotels and Parking</h2>
-              ) : null
-            ) : path === "booking" ? (
-              user.partner_type === "Hotel" ? (
-                <h2 className="fs-1 mb-2 mt-4">My Hotels Bookings</h2>
-              ) : user.partner_type === "Parking" ? (
-                <h2 className="fs-1 mb-2 mt-4">My Parkings Bookings</h2>
-              ) : user.partner_type === "HotelAndParking" ? (
-                <h2 className="fs-1 mb-2 mt-4">
-                  My Hotels and Parking Bookings
-                </h2>
-              ) : null
-            ) : path === "PropertyRequests" ? (
-              user.partner_type === "Hotel" ? (
-                <h2 className="fs-1 mb-2 mt-4">Pending Hotels</h2>
-              ) : user.partner_type === "Parking" ? (
-                <h2 className="fs-1 mb-2 mt-4">Pending Parkings</h2>
-              ) : user.partner_type === "HotelAndParking" ? (
-                <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings</h2>
-              ) : null
-            ) : path === "bookingRequests" ? (
-              user.partner_type === "Hotel" ? (
-                <h2 className="fs-1 mb-2 mt-4">Pending Hotel Bookings</h2>
-              ) : user.partner_type === "Parking" ? (
-                <h2 className="fs-1 mb-2 mt-4">Pending Parkings Bookings</h2>
-              ) : user.partner_type === "HotelAndParking" ? (
-                <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings Bookings</h2>
-              ) : null
-            ) : null
-          ) : view === "user" ? (
-            path === "hotelbookings" ? (
-              <h2 className="fs-1 mb-2 mt-4">My Hotel Bookings</h2>
-            ) : path === "parkingbookings" ? (
-              <h2 className="fs-1 mb-2 mt-4">My Parking Bookings</h2>
-            ) : path === "hotelandparkingbookings" ? (
-              <h2 className="fs-1 mb-2 mt-4">My Hotel and Parking Bookings</h2>
-            ) : path === "upcominghotelbookings" ? (
-              <h2 className="fs-1 mb-2 mt-4">Upcoming Hotel Bookings</h2>
-            ) : path === "upcomingparkingbookings" ? (
-              <h2 className="fs-1 mb-2 mt-4">Upcoming Parking Bookings</h2>
-            ) : path === "upcominghotelandparkingbookings" ? (
-              <h2 className="fs-1 mb-2 mt-4">
-                Upcoming Hotel and Parking Bookings
-              </h2>
-            ) : null
-          ) : null}
+    <Topbar />
 
-          {/* <div
-            style={{ width: "37%" }}
-            className="d-flex ms-auto mb-2 p-2 me-4 bg-white rounded-5 shadow align-items-center"
-          >
-            <div style={{ width: "58%" }}>
-              <DropdownFilter
-                placeholder={`Filter by type`}
-                dropdown={"subtype"}
-                disable={disabled}
-                options={
-                  name === "City"
-                    ? cityOption.sort()
-                    : name === "Hotel Name"
-                    ? hotelOption.sort()
-                    : name === "Parking Name"
-                    ? parkingOption.sort()
-                    : name === "Hotel And Parking Name"
-                    ? hotelParkingOption.sort()
-                    : option
-                }
-              />
-            </div>
-            <div style={{ width: "40%" }} className="ms-auto">
-              <DropdownFilter
-                placeholder={"Filter type"}
-                disable={false}
-                dropdown={"type"}
-                options={
-                  path === "hotels" || path === "hotelRequests"
-                    ? [...option, "Hotel Name"]
-                    : path === "parkings" || path === "parkingRequests"
-                    ? [...option, "Parking Name"]
-                    : path === "HotelsAndParkings" ||
-                      path === "hotelAndParkingRequests"
-                    ? [...option, "Hotel And Parking Name"]
-                    : path === "booking"
-                    ? [
-                        ...option,
-                        "Hotel Name",
-                        "Parking Name",
-                        "Hotel And Parking Name",
-                      ]
-                    : option
-                }
-              />
-            </div>
-          </div> */}
-          
-        </div>
-        {/* results */}
-        <div className="col-md-11">
-          <div className="col-md-12">
-            <div className="d-flex me-2 mb-3 align-items-end">
-              <h2 className="fs-4 my-0">Results</h2>
-
-              <button
-                className="btn btn-primary fw-bold ms-auto me-3 "
-                onClick={Addnew}
-              >
-                Add new
-              </button>
-            </div>
+      <div className="d-flex flex-row">
+        <SidebarAdmin />
+        <div
+          className={`row justify-content-center`}
+          // style={{
+          //   marginLeft: IsMedium ? "30px" : IsMobilee ? "45" : "20px",
+          //   marginTop: "77px",
+          // }}
+        >
+          <div className="col-md-11">
+            {view === "admin" ? (
+              path === "hotels" ? (
+                // <h2 className="fs-1 mb-2 mt-4">Hotels</h2>
+                <DatagridHeader title="Hotels" subtitle="Results" />
+              ) : path === "users" ? (
+                // <h2 className="fs-1 mb-2 mt-4">Users</h2>
+                <DatagridHeader title="Users" subtitle="Results" />
+              ) : path === "booking" ? (
+                // <h2 className="fs-1 mb-2 mt-4">Bookings</h2>
+                <DatagridHeader title="Bookings" subtitle="Results" />
+              ) : path === "parkings" ? (
+                // <h2 className="fs-1 mb-2 mt-4">Parkings</h2>
+                <DatagridHeader title="Parkings" subtitle="Results" />
+              ) : path === "HotelsAndParkings" ? (
+                // <h2 className="fs-1 mb-2 mt-4">Hotels and Parkings</h2>
+                <DatagridHeader title="Hotel and Parkings" subtitle="Results" />
+              ) : path === "hotelRequests" ? (
+                // <h2 className="fs-1 mb-2 mt-4">Pending Hotels</h2>
+                <DatagridHeader title="Pending Hotels" subtitle="Results" />
+              ) : path === "parkingRequests" ? (
+                // <h2 className="fs-1 mb-2 mt-4">Pending Parkings</h2>
+                <DatagridHeader title="Pending Parkings" subtitle="Results" />
+              ) : path === "hotelAndParkingRequests" ? (
+                // <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings</h2>
+                <DatagridHeader title="Pending Hotel and Parkings" subtitle="Results" />
+              ) : null
+            ) : view === "partner" ? (
+              path === "Property" ? (
+                user.partner_type === "Hotel" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">My Hotels</h2>
+                  <DatagridHeader title="My Hotels" subtitle="Results" />
+                ) : user.partner_type === "Parking" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">My Parkings</h2>
+                  <DatagridHeader title="My Parkings" subtitle="Results" />
+                ) : user.partner_type === "HotelAndParking" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">My Hotels and Parking</h2>
+                  <DatagridHeader title="My Hotel and Parkings" subtitle="Results" />
+                ) : null
+              ) : path === "booking" ? (
+                user.partner_type === "Hotel" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">My Hotels Bookings</h2>
+                  <DatagridHeader title="My Hotels Bookings" subtitle="Results" />
+                ) : user.partner_type === "Parking" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">My Parkings Bookings</h2>
+                  <DatagridHeader title="My Parkings Bookings" subtitle="Results" />
+                ) : user.partner_type === "HotelAndParking" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">
+                  //   My Hotels and Parking Bookings
+                  // </h2>
+                  <DatagridHeader title="My Hotel and Parkings Bookings" subtitle="Results" />
+                ) : null
+              ) : path === "PropertyRequests" ? (
+                user.partner_type === "Hotel" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">Pending Hotels</h2>
+                  <DatagridHeader title="Pending Hotels" subtitle="Results" />
+                ) : user.partner_type === "Parking" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">Pending Parkings</h2>
+                  <DatagridHeader title="Pending Parkings" subtitle="Results" />
+                ) : user.partner_type === "HotelAndParking" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">Pending Hotels And Parkings</h2>
+                  <DatagridHeader title="Pending Hotel and Parkings" subtitle="Results" />
+                ) : null
+              ) : path === "bookingRequests" ? (
+                user.partner_type === "Hotel" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">Pending Hotel Bookings</h2>
+                  <DatagridHeader title="Pending Hotel Bookings" subtitle="Results" />
+                ) : user.partner_type === "Parking" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">Pending Parkings Bookings</h2>
+                  <DatagridHeader title="Pending Parkings Bookings" subtitle="Results" />
+                ) : user.partner_type === "HotelAndParking" ? (
+                  // <h2 className="fs-1 mb-2 mt-4">
+                  //   Pending Hotels And Parkings Bookings
+                  // </h2>
+                  <DatagridHeader title="Pending Hotels And Parkings Bookings" subtitle="Results" />
+                ) : null
+              ) : null
+            ) : view === "user" ? (
+              path === "hotelbookings" ? (
+                // <h2 className="fs-1 mb-2 mt-4">My Hotel Bookings</h2>
+                <DatagridHeader title="My Hotel Bookings" subtitle="Results" />
+              ) : path === "parkingbookings" ? (
+                // <h2 className="fs-1 mb-2 mt-4">My Parking Bookings</h2>
+                <DatagridHeader title="My Parkings Bookings" subtitle="Results" />
+              ) : path === "hotelandparkingbookings" ? (
+                // <h2 className="fs-1 mb-2 mt-4">My Hotel and Parking Bookings</h2>
+                <DatagridHeader title="My Hotel and Parkings Bookings" subtitle="Results" />
+              ) : path === "upcominghotelbookings" ? (
+                // <h2 className="fs-1 mb-2 mt-4">Upcoming Hotel Bookings</h2>
+                <DatagridHeader title="Upcoming Hotel Bookings" subtitle="Results" />
+              ) : path === "upcomingparkingbookings" ? (
+                // <h2 className="fs-1 mb-2 mt-4">Upcoming Parking Bookings</h2>
+                <DatagridHeader title="Upcoming Parkings Bookings" subtitle="Results" />
+              ) : path === "upcominghotelandparkingbookings" ? (
+                // <h2 className="fs-1 mb-2 mt-4">
+                //   Upcoming Hotel and Parking Bookings
+                // </h2>
+                <DatagridHeader title="Upcoming Hotel and Parkings Bookings" subtitle="Results" />
+              ) : null
+            ) : null}
+        
+            {/* <div
+              style={{ width: "37%" }}
+              className="d-flex ms-auto mb-2 p-2 me-4 bg-white rounded-5 shadow align-items-center"
+            >
+              <div style={{ width: "58%" }}>
+                <DropdownFilter
+                  placeholder={`Filter by type`}
+                  dropdown={"subtype"}
+                  disable={disabled}
+                  options={
+                    name === "City"
+                      ? cityOption.sort()
+                      : name === "Hotel Name"
+                      ? hotelOption.sort()
+                      : name === "Parking Name"
+                      ? parkingOption.sort()
+                      : name === "Hotel And Parking Name"
+                      ? hotelParkingOption.sort()
+                      : option
+                  }
+                />
+              </div>
+              <div style={{ width: "40%" }} className="ms-auto">
+                <DropdownFilter
+                  placeholder={"Filter type"}
+                  disable={false}
+                  dropdown={"type"}
+                  options={
+                    path === "hotels" || path === "hotelRequests"
+                      ? [...option, "Hotel Name"]
+                      : path === "parkings" || path === "parkingRequests"
+                      ? [...option, "Parking Name"]
+                      : path === "HotelsAndParkings" ||
+                        path === "hotelAndParkingRequests"
+                      ? [...option, "Hotel And Parking Name"]
+                      : path === "booking"
+                      ? [
+                          ...option,
+                          "Hotel Name",
+                          "Parking Name",
+                          "Hotel And Parking Name",
+                        ]
+                      : option
+                  }
+                />
+              </div>
+            </div> */}
           </div>
-          <DataTable path={path} user={user} />
+          {/* results */}
+          <div className="col-md-11">
+            <div className="col-md-12">
+              <div className="d-flex me-2 mb-3">
+                {/* <h2 className="fs-4 my-0">Results</h2> */}
+        
+                <button
+                  className="btn btn-primary fw-bold ms-auto me-3"
+                  onClick={Addnew}
+                >
+                  Add new
+                </button>
+              </div>
+            </div>
+            <Box>
+              <DataTable path={path} user={user} />
+            </Box>
+          </div>
         </div>
       </div>
     </>

@@ -32,7 +32,12 @@ export const parkingHeader = [
 
 export const hotelAndParkingHeader = [
   { field: "_id", headerName: "ID", width: 100 },
-  { field: "hotel_name", headerName: "Hotel Name", width: 130 },
+  {
+    field: "hotel_name",
+    headerName: "Hotel Name",
+    width: 130,
+    cellClassName: "name-column--cell",
+  },
   { field: "parking_name", headerName: "Parking Name", width: 130 },
   { field: "hotel_address", headerName: "Address", width: 130 },
   { field: "hotel_city", headerName: "City", width: 130 },
