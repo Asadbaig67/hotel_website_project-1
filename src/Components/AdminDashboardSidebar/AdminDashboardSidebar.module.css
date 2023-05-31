@@ -1,0 +1,9 @@
+.nav__subtitle {
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+}
+
+.nav__logout {
+    margin-top: 5rem;
+    cursor: pointer;
+}

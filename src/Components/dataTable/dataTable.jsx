@@ -236,7 +236,35 @@ const DataTable = ({ path, user }) => {
   ];
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box
+      sx={{
+        height: 450,
+        width: "100% !important",
+        "& .MuiDataGrid-root": {
+          border: "none",
+        },
+        "& .MuiDataGrid-cell": {
+          borderBottom: "none",
+        },
+        "& .MuiDataGrid-columnHeaders": {
+          backgroundColor: "#a4a9fc",
+          borderBottom: "none",
+        },
+        "& .MuiDataGrid-virtualScroller": {
+          backgroundColor: "#f2f0f0",
+        },
+        "& .MuiDataGrid-footerContainer": {
+          borderTop: "none",
+          backgroundColor: "#a4a9fc",
+        },
+        "& .MuiDataGrid-row": {
+          borderBottom: "none !important",
+        },
+        "& .MuiCheckbox-root": {
+          color: `#1e5245 !important`,
+        },
+      }}
+    >
       <DataGrid
         rows={list}
         columns={
