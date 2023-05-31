@@ -113,7 +113,7 @@ const Footer = () => {
               </li>
               <li className={style.fListItem}>
                 <Link to="/signin" className="d-flex justify-content-start">
-                  <EmailIcon className="me-2"/>
+                  <EmailIcon className="me-2" />
                   <span className="fs-6">info@desalis.com</span>
                 </Link>
               </li>
