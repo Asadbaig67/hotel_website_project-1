@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export const userHeader = [
-  { field: "_id", headerName: "ID", width: 100 },
+  { field: "_id", headerName: "ID", width: 130 },
   { field: "firstName", headerName: "First Name", width: 130 },
   { field: "lastName", headerName: "Last Name", width: 130 },
   { field: "account_type", headerName: "Type", width: 130 },
-  { field: "email", headerName: "Email", width: 230 },
+  { field: "email", headerName: "Email", width: 260 },
   // { field: "mobile", headerName: "Mobile", width: 130 },
   // { field: "postalCode", headerName: "Postal Code", width: 130 },
   // { field: "area", headerName: "Area", width: 130 },
@@ -32,7 +32,12 @@ export const parkingHeader = [
 
 export const hotelAndParkingHeader = [
   { field: "_id", headerName: "ID", width: 100 },
-  { field: "hotel_name", headerName: "Hotel Name", width: 130 },
+  {
+    field: "hotel_name",
+    headerName: "Hotel Name",
+    width: 130,
+    cellClassName: "name-column--cell",
+  },
   { field: "parking_name", headerName: "Parking Name", width: 130 },
   { field: "hotel_address", headerName: "Address", width: 130 },
   { field: "hotel_city", headerName: "City", width: 130 },

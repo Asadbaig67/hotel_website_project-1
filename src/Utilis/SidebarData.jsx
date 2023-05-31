@@ -160,7 +160,7 @@ export const SidebarDataUserBooking = [
     icon: <BusinessCenterIcon />,
     link: "/hotelandparkingbookings",
   },
-]
+];
 
 export const SidebarDataUserUpcomingBooking = [
   {
@@ -181,12 +181,13 @@ export const SidebarDataUserUpcomingBooking = [
     icon: <BusinessCenterIcon />,
     link: "/upcominghotelandparkingbookings",
   },
-]
+];
 //For All
 export const SidebarDataLogout = [
   {
     key: 18,
     title: "Logout",
     icon: <LogoutIcon />,
+    link: "/signin",
   },
 ];
