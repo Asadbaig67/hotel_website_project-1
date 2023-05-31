@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import user from "../../images/user.png";
 import {
@@ -16,19 +16,36 @@ import {
   SidebarDataUserBooking,
   SidebarDataUserUpcomingBooking,
 } from "../../Utilis/SidebarData";
-import style from "./AdminDashboardSidebar.module.css";
+import styles from "./AdminDashboardSidebar.module.css";
+import styled from "styled-components";
+
+const StyledMenuItem = styled(MenuItem)`
+  color: #141414;
+  &:hover {
+    color: #6870fa;
+  }
+  &:active {
+    color: #4cceac;
+  }
+`;
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
+  const location = useLocation();
+  const loc = location.pathname;
+  const style = {
+    backgroundColor: "#c2c2c2",
+  };
   return (
     <Link to={to}>
-      <MenuItem
-        active={selected === title}
-        style={{ color: "#141414" }}
-        onClick={() => setSelected(title)}
+      <StyledMenuItem
+        style={style}
+        onClick={() => {
+          setSelected(title);
+        }}
         icon={icon}
       >
-        <Typography>{title}</Typography>
-      </MenuItem>
+        {title}
+      </StyledMenuItem>
     </Link>
   );
 };
@@ -37,30 +54,16 @@ const SidebarAdmin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("dashboard");
+  const [selected, setSelected] = useState("Dashboard");
   const { view } = useSelector((state) => state.view);
 
   return (
-    <Box
-    sx={{
-        background: `#c2c2c2 !important`,
-        "& .pro-sidebar-inner": {
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#6870fa !important",
-        },
-      }}
-    >
-      <Sidebar collapsed={isCollapsed}>
+    <Box>
+      <Sidebar
+        collapsed={isCollapsed}
+        backgroundColor="#c2c2c2"
+        transitionDuration="80"
+      >
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
@@ -134,11 +137,11 @@ const SidebarAdmin = () => {
             {view === "admin" ? (
               <>
                 {!isCollapsed ? (
-                  <h3 className={style.nav__subtitle}>Dashboard</h3>
+                  <h3 className={styles.nav__subtitle}>Dashboard</h3>
                 ) : (
                   <h3
                     style={{ fontSize: "0.6rem" }}
-                    className={style.nav__subtitle}
+                    className={styles.nav__subtitle}
                   >
                     Dashboard
                   </h3>
@@ -156,11 +159,11 @@ const SidebarAdmin = () => {
                   );
                 })}
                 {!isCollapsed ? (
-                  <h3 className={style.nav__subtitle}>Pending Approvals</h3>
+                  <h3 className={styles.nav__subtitle}>Pending Approvals</h3>
                 ) : (
                   <h3
                     style={{ fontSize: "0.6rem" }}
-                    className={style.nav__subtitle}
+                    className={styles.nav__subtitle}
                   >
                     Pending Approvals
                   </h3>
@@ -181,11 +184,11 @@ const SidebarAdmin = () => {
             ) : view === "partner" ? (
               <>
                 {!isCollapsed ? (
-                  <h3 className={style.nav__subtitle}>Dashboard</h3>
+                  <h3 className={styles.nav__subtitle}>Dashboard</h3>
                 ) : (
                   <h3
                     style={{ fontSize: "0.6rem" }}
-                    className={style.nav__subtitle}
+                    className={styles.nav__subtitle}
                   >
                     Dashboard
                   </h3>
@@ -203,11 +206,11 @@ const SidebarAdmin = () => {
                   );
                 })}
                 {!isCollapsed ? (
-                  <h3 className={style.nav__subtitle}>Pending Approvals</h3>
+                  <h3 className={styles.nav__subtitle}>Pending Approvals</h3>
                 ) : (
                   <h3
                     style={{ fontSize: "0.6rem" }}
-                    className={style.nav__subtitle}
+                    className={styles.nav__subtitle}
                   >
                     Pending Approvals
                   </h3>
@@ -228,11 +231,11 @@ const SidebarAdmin = () => {
             ) : (
               <>
                 {!isCollapsed ? (
-                  <h3 className={style.nav__subtitle}>Dashboard</h3>
+                  <h3 className={styles.nav__subtitle}>Dashboard</h3>
                 ) : (
                   <h3
                     style={{ fontSize: "0.6rem" }}
-                    className={style.nav__subtitle}
+                    className={styles.nav__subtitle}
                   >
                     Dashboard
                   </h3>
@@ -250,11 +253,11 @@ const SidebarAdmin = () => {
                   );
                 })}
                 {!isCollapsed ? (
-                  <h3 className={style.nav__subtitle}>My Bookings</h3>
+                  <h3 className={styles.nav__subtitle}>My Bookings</h3>
                 ) : (
                   <h3
                     style={{ fontSize: "0.6rem" }}
-                    className={style.nav__subtitle}
+                    className={styles.nav__subtitle}
                   >
                     My Bookings
                   </h3>
@@ -272,11 +275,11 @@ const SidebarAdmin = () => {
                   );
                 })}
                 {!isCollapsed ? (
-                  <h3 className={style.nav__subtitle}>Upcoming Bookings</h3>
+                  <h3 className={styles.nav__subtitle}>Upcoming Bookings</h3>
                 ) : (
                   <h3
                     style={{ fontSize: "0.6rem" }}
-                    className={style.nav__subtitle}
+                    className={styles.nav__subtitle}
                   >
                     Upcoming Bookings
                   </h3>
@@ -297,7 +300,7 @@ const SidebarAdmin = () => {
             )}
 
             <Box
-              className={`${style.nav__link} ${style.nav__logout}`}
+              className={`${styles.nav__link} ${styles.nav__logout}`}
               onClick={() => {
                 navigate("/signin");
                 localStorage.clear();
