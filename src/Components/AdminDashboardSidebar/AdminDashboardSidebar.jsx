@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
@@ -38,6 +37,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
     <Link to={to}>
       <StyledMenuItem
+        active={selected === title}
         style={style}
         onClick={() => {
           setSelected(title);
@@ -58,7 +58,7 @@ const SidebarAdmin = () => {
   const { view } = useSelector((state) => state.view);
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
-  
+
   return (
     <Box>
       <Sidebar
@@ -73,7 +73,7 @@ const SidebarAdmin = () => {
             icon={isCollapsed ? <MenuIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
-              backgroundColor:"#c2c2c2"
+              backgroundColor: "#c2c2c2",
               // color: colors.grey[100],
             }}
           >
