@@ -1,24 +1,30 @@
 import React from "react";
 import style from "./About.module.css";
-import about1 from "./img/about/about-1.jpg";
-import gallery1 from "./img/gallery/gallery-1.jpg";
-import gallery2 from "./img/gallery/gallery-2.jpg";
-import gallery3 from "./img/gallery/gallery-3.jpg";
-import gallery4 from "./img/gallery/gallery-4.jpg";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/footer/Footer";
+import parking1 from "../../images/parking10.jpg";
+import Hotel1 from "../../images/hotelPic1.jpg";
+import Hotel21 from "../../images/hotelPic21.jpg";
+import Hotel2 from "../../images/hotelPic2.jpg";
+import Hotel23 from "../../images/hotelPic23.jpg";
+import Hotel3 from "../../images/hotelPic3.jpg";
+import Hotel4 from "../../images/hotelPic4.jpg";
+import Hotel12 from "../../images/hotelPic12.jpg";
+import Hotel25 from "../../images/hotelPic25.jpg";
+import Hotel6 from "../../images/hotelPic7.jpg";
+import LabelImportantRoundedIcon from "@mui/icons-material/LabelImportantRounded";
 
 const About = () => {
   return (
     <>
       <Navbar />
       <div className="conatiner-fluid">
-        <section class={`${style.aboutus_page_section} mt-3`}>
-          <div class="container">
-            <div class={style.about_page_text}>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class={style.ap_title}>
+        <section className={`${style.aboutus_page_section} mt-5`}>
+          <div className="container">
+            <div className={style.about_page_text}>
+              <div className="row d-flex flex-row justify-content-between">
+                <div className="col-lg-6">
+                  <div className={style.ap_title}>
                     <h2>Welcome To Desalis.</h2>
                     <p style={{ fontFamily: "Rubik" }}>
                       Built in 1910 during the Belle Epoque period, this hotel
@@ -29,68 +35,71 @@ const About = () => {
                   </div>
                 </div>
                 <div
-                  class="col-lg-5 offset-lg-1"
+                  className="col-lg-5  offset-lg-1"
                   style={{ fontFamily: "Rubik" }}
                 >
-                  <ul class="ap-services">
+                  <ul className={style.ap_services}>
                     <li>
-                      <i class={style.icon_check}></i> 20% Off On Accommodation.
+                      <LabelImportantRoundedIcon color="primary" /> 20% Off On
+                      Accommodation.
                     </li>
                     <li>
-                      <i class={style.icon_check}></i> Complimentary Daily
-                      Breakfast
+                      <LabelImportantRoundedIcon color="primary" />{" "}
+                      Complimentary Daily Breakfast
                     </li>
                     <li>
-                      <i class={style.icon_check}></i> 3 Pcs Laundry Per Day
+                      <LabelImportantRoundedIcon color="primary" /> 3 Pcs
+                      Laundry Per Day
                     </li>
                     <li>
-                      <i class={style.icon_check}></i> Free Wifi.
+                      <LabelImportantRoundedIcon color="primary" /> Free Wifi.
                     </li>
                     <li>
-                      <i class={style.icon_check}></i> Discount 20% On F&B
+                      <LabelImportantRoundedIcon color="primary" /> Discount 20%
+                      On F&B
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div class={style.about_page_services}>
-              <div class="row">
-                <div class="col-md-4">
+            <div className={style.about_page_services}>
+              <div className="row">
+                <div className="col-md-4">
                   <div
-                    class={`${style.ap_service_item} ${style.set_bg}`}
+                    className={`${style.gallery_item} ${style.set_bg}`}
                     style={{
-                      backgroundImage: `url(${about1})`,
+                      backgroundImage: `url(${Hotel1})`,
                       height: "400px",
                     }}
                   >
-                    <div class={style.api_text}>
-                      <h3>Restaurants Services</h3>
+                    <div className={style.gi_text}>
+                      <h3>Hotel</h3>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div className="col-md-4">
                   <div
-                    class={`${style.ap_service_item} ${style.set_bg}`}
+                    className={`${style.gallery_item} ${style.set_bg}`}
                     style={{
-                      backgroundImage: `url(${about1})`,
+                      backgroundImage: `url(${Hotel4})`,
                       height: "400px",
                     }}
                   >
-                    <div class={style.api_text}>
-                      <h3>Travel & Camping</h3>
+                    <div className={style.gi_text}>
+                      <h3>Hotel And Parking</h3>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div className="col-md-4">
                   <div
-                    class={`${style.ap_service_item} ${style.set_bg}`}
+                    className={`${style.gallery_item} ${style.set_bg}`}
                     style={{
-                      backgroundImage: `url(${about1})`,
+                      backgroundImage: `url(${parking1})`,
                       height: "400px",
                     }}
                   >
-                    <div class={style.api_text}>
-                      <h3>Event & Party</h3>
+                    <div className={style.gi_text}>
+                      <h3>Parking</h3>
                     </div>
                   </div>
                 </div>
@@ -99,82 +108,183 @@ const About = () => {
           </div>
         </section>
 
-        <section
-          class={`${style.video_section} ${style.set_bg}`}
-          data-setbg="img/video-bg.jpg"
-        >
-          <div class="container">
-            <div
-              class="row"
-              style={{ backgroundImage: `url(${gallery1})`, height: "300px" }}
-            >
-              <div class="col-lg-12">
-                <div class={style.video_text}>
-                  <h2>Discover Our Hotel & Services.</h2>
-                  <p>
-                    It S Hurricane Season But We Are Visiting Hilton Head Island
-                  </p>
-                  <a href="/" class="play-btn video-popup">
-                    <img src="img/play.png" alt="" />
-                  </a>
+        <section className={style.hp_room_section}>
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                <div className={style.section_title}>
+                  <span>Our Rooms</span>
+                  <h2>Discover Our Room Types</h2>
+                </div>
+              </div>
+            </div>
+            <div className={style.hp_room_items}>
+              <div className="row mx-1">
+                <div className="col-lg-4 col-md-6">
+                  <div
+                    className={`${style.hp_room_item} ${style.set_bg}`}
+                    style={{ backgroundImage: `url(${Hotel21})` }}
+                  >
+                    <div className={style.hr_text}>
+                      <h3>Single Room</h3>
+                      <h2>
+                        199$<span>/Pernight</span>
+                      </h2>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td className={style.r_o}>Size:</td>
+                            <td>30 ft</td>
+                          </tr>
+                          <tr>
+                            <td className={style.r_o}>Capacity:</td>
+                            <td>Max persion 5</td>
+                          </tr>
+                          <tr>
+                            <td className={style.r_o}>Bed:</td>
+                            <td>King Beds</td>
+                          </tr>
+                          <tr>
+                            <td className={style.r_o}>Services:</td>
+                            <td>Wifi, Television, Bathroom,...</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a href="#" className="primary-btn">
+                        More Details
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4 col-md-6">
+                  <div
+                    className={`${style.hp_room_item} ${style.set_bg}`}
+                    style={{ backgroundImage: `url(${Hotel23})` }}
+                  >
+                    <div className={style.hr_text}>
+                      <h3>Twin Room</h3>
+                      <h2>
+                        159$<span>/Pernight</span>
+                      </h2>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td className={style.r_o}>Size:</td>
+                            <td>30 ft</td>
+                          </tr>
+                          <tr>
+                            <td className={style.r_o}>Capacity:</td>
+                            <td>Max persion 5</td>
+                          </tr>
+                          <tr>
+                            <td className={style.r_o}>Bed:</td>
+                            <td>King Beds</td>
+                          </tr>
+                          <tr>
+                            <td className={style.r_o}>Services:</td>
+                            <td>Wifi, Television, Bathroom,...</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a href="#" className="primary-btn">
+                        More Details
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4 col-md-6">
+                  <div
+                    className={`${style.hp_room_item} ${style.set_bg}`}
+                    style={{ backgroundImage: `url(${Hotel25})` }}
+                  >
+                    <div className={style.hr_text}>
+                      <h3>Family Room</h3>
+                      <h2>
+                        198$<span>/Pernight</span>
+                      </h2>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td className={style.r_o}>Size:</td>
+                            <td>30 ft</td>
+                          </tr>
+                          <tr>
+                            <td className={style.r_o}>Capacity:</td>
+                            <td>Max persion 5</td>
+                          </tr>
+                          <tr>
+                            <td className={style.r_o}>Bed:</td>
+                            <td>King Beds</td>
+                          </tr>
+                          <tr>
+                            <td className={style.r_o}>Services:</td>
+                            <td>Wifi, Television, Bathroom,...</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a href="#" className={style.primary_btn}>
+                        More Details
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section class={`${style.gallery_section} ${style.spad}`}>
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class={style.section_title}>
-                  <span>Our Gallery</span>
-                  <h2>Discover Our Work</h2>
+        <section className={`${style.gallery_section}`}>
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                <div className={style.section_title}>
+                  <span>Our Hotels</span>
+                  <h2>Discover Our Luxury Hotels</h2>
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-lg-6">
+            <div className="row">
+              <div className="col-lg-6">
                 <div
-                  class={`${style.gallery_item} ${style.set_bg}`}
-                  style={{ backgroundImage: `url(${gallery1})` }}
+                  className={`${style.gallery_item} ${style.set_bg}`}
+                  style={{ backgroundImage: `url(${Hotel12})` }}
                 >
-                  <div class={style.gi_text}>
+                  <div className={style.gi_text}>
                     <h3>Room Luxury</h3>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-sm-6">
+                <div className="row">
+                  <div className="col-sm-6">
                     <div
-                      class={`${style.gallery_item} ${style.set_bg}`}
-                      style={{ backgroundImage: `url(${gallery3})` }}
+                      className={`${style.gallery_item} ${style.set_bg}`}
+                      style={{ backgroundImage: `url(${Hotel3})` }}
                     >
-                      <div class={style.gi_text}>
+                      <div className={style.gi_text}>
                         <h3>Room Luxury</h3>
                       </div>
                     </div>
                   </div>
-                  <div class="col-sm-6">
+                  <div className="col-sm-6">
                     <div
-                      class={`${style.gallery_item} ${style.set_bg}`}
-                      style={{ backgroundImage: `url(${gallery4})` }}
+                      className={`${style.gallery_item} ${style.set_bg}`}
+                      style={{ backgroundImage: `url(${Hotel2})` }}
                     >
-                      <div class={style.gi_text}>
+                      <div className={style.gi_text}>
                         <h3>Room Luxury</h3>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-lg-6">
+              <div className="col-lg-6">
                 <div
-                  class={`${style.gallery_item} ${style.set_bg}`}
+                  className={`${style.gallery_item} ${style.set_bg}`}
                   style={{
-                    backgroundImage: `url(${gallery2})`,
+                    backgroundImage: `url(${Hotel6})`,
                     height: "580px",
                   }}
                 >
-                  <div class={style.gi_text}>
+                  <div className={style.gi_text}>
                     <h3>Room Luxury</h3>
                   </div>
                 </div>
