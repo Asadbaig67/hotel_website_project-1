@@ -88,22 +88,22 @@ export default function Dashboard() {
         <SidebarAdmin />
         <div>
           <div
-            // className={`${IsMedium ? "mt-5" : ""}`}
-            // style={{
-            //   marginTop: IsLarge
-            //     ? "80px"
-            //     : IsMedium
-            //     ? "100px"
-            //     : IsSmall
-            //     ? "120px"
-            //     : IsMobile
-            //     ? "200px"
-            //     : "80px",
-            // }}
+          // className={`${IsMedium ? "mt-5" : ""}`}
+          // style={{
+          //   marginTop: IsLarge
+          //     ? "80px"
+          //     : IsMedium
+          //     ? "100px"
+          //     : IsSmall
+          //     ? "120px"
+          //     : IsMobile
+          //     ? "200px"
+          //     : "80px",
+          // }}
           >
-            <div className="col-md-11 ms-auto">
+            <div className="col-md-12 p-3 bg-info d-flex ">
               <h1
-                className={`fs-1 text-${
+                className={`fs-1 fw-bold mx-auto text-${
                   mode === "light" ? "dark" : "light"
                 }`}
               >

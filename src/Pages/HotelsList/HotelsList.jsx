@@ -301,9 +301,9 @@ const HotelsList = () => {
 
       <div className="d-flex">
         <SidebarAdmin />
-        <div>
-          <div className="row justify-content-center">
-            <div className="col-md-11">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-12">
               {view === "admin" ? (
                 path === "hotels" ? (
                   // <h2 className="fs-1 mb-2 mt-4">Hotels</h2>
@@ -346,6 +346,7 @@ const HotelsList = () => {
                     <DatagridHeader title="My Parkings" subtitle="Results" />
                   ) : user.partner_type === "HotelAndParking" ? (
                     // <h2 className="fs-1 mb-2 mt-4">My Hotels and Parking</h2>
+
                     <DatagridHeader
                       title="My Hotel and Parkings"
                       subtitle="Results"
@@ -456,12 +457,12 @@ const HotelsList = () => {
               ) : null}
             </div>
             {/* results */}
-            <div className="col-md-11">
+
+            <div className="col-md-12">
               <div className="row">
                 <div className="col-md-12">
                   <div className="d-flex me-2 mb-3">
                     {/* <h2 className="fs-4 my-0">Results</h2> */}
-
                     <button
                       className="btn btn-primary fw-bold ms-auto me-3"
                       onClick={Addnew}
@@ -470,9 +471,11 @@ const HotelsList = () => {
                     </button>
                   </div>
                 </div>
-                <Box className="col-md-12">
-                  <DataTable path={path} user={user} />
-                </Box>
+                <div className="col-md-12">
+                  <div className="table-responsive">
+                    <DataTable path={path} user={user} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -483,3 +486,22 @@ const HotelsList = () => {
 };
 
 export default HotelsList;
+
+// <div className="col-md-12">
+//               <div className="row">
+//                 <div className="col-md-12">
+//                   <div className="d-flex me-2 mb-3">
+
+//                     <button
+//                       className="btn btn-primary fw-bold ms-auto me-3"
+//                       onClick={Addnew}
+//                     >
+//                       Add new
+//                     </button>
+//                   </div>
+//                 </div>
+//                 <Box className="col-md-12">
+//                   <DataTable path={path} user={user} />
+//                 </Box>
+//               </div>
+//             </div>

@@ -36,7 +36,7 @@ export default function Profile() {
       <div className="d-flex">
         <SidebarAdmin />
         <div>
-          <div className={`rounded ${mode === "dark" ? "bg-dark" : style.bg}`}>
+          <div className={`rounded ${mode === "dark" ? "bg-dark" : style.bg}`}
             <div
               className="row"
               // style={{
@@ -112,9 +112,21 @@ export default function Profile() {
               //   },
               // }}
             >
-              <div className="col-md-11 ms-auto mt-4">
+              {/* <div className="col-md-11 ms-auto mt-4">
                 <h1
                   className={`text-right fs-1 text-${
+                    mode === "light" ? "dark" : "light"
+                  }`}
+                >
+                  Profile
+                </h1>
+              </div> */}
+              <div
+                className="col-md-12 p-3 bg-info d-flex "
+                // style={{ marginLeft: "10px" }}
+              >
+                <h1
+                  className={`fs-1 fw-bold mx-auto text-${
                     mode === "light" ? "dark" : "light"
                   }`}
                 >

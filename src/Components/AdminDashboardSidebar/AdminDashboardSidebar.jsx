@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
@@ -5,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import person from "../../images/user.png";
+import user from "../../images/user.png";
+import { useMediaQuery } from "@mui/material";
 import {
   SidebarDataAdminProfile,
   SidebarDataAdminProfilePending,
@@ -59,6 +62,20 @@ const SidebarAdmin = () => {
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
 
+  //For Mobile Rsponsive of Navbar Search Bar
+  const isMobile = useMediaQuery("(max-width: 400px)");
+  const isDesktop = useMediaQuery("(max-width: 992px)");
+  const isTablet = useMediaQuery("(max-width: 768px)");
+
+
+  useEffect(() => {
+    if (isTablet) {
+      setIsCollapsed(true);
+    } else {
+      setIsCollapsed(false);
+    }
+  }, [isTablet]);
+
   return (
     <Box>
       <Sidebar
@@ -66,6 +83,24 @@ const SidebarAdmin = () => {
         backgroundColor="#c2c2c2"
         transitionDuration="80"
       >
+    <Box
+      sx={{
+        background: `#c2c2c2 !important`,
+        "& .pro-sidebar-inner": {},
+        "& .pro-icon-wrapper": {
+          backgroundColor: "transparent !important",
+        },
+        "& .pro-inner-item": {
+          padding: "5px 35px 5px 20px !important",
+        },
+        "& .pro-inner-item:hover": {
+          color: "#868dfb !important",
+        },
+        "& .pro-menu-item.active": {
+          color: "#6870fa !important",
+        },
+      }}
+    >
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
