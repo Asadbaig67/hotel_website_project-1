@@ -22,14 +22,14 @@
 }
 .aboutus_page_section {
   padding-top: 0;
-  padding-bottom: 70px;
+  /* padding-bottom: 70px; */
 }
 .about_page_text {
   margin-bottom: 65px;
 }
-.about_page_text .ap_title {
+/* .about_page_text .ap_title {
   margin-bottom: 30px;
-}
+} */
 .about_page_text .ap_title h2 {
   font-size: 44px;
   color: #19191a;
@@ -70,11 +70,11 @@
   Gallery Section
 -----------------------*/
 
-.gallery_section {
+/* .gallery_section {
   padding-bottom: 80px;
-}
+} */
 .gallery_section .section_title {
-  margin-bottom: 38px;
+  /* margin-bottom: 38px; */
 }
 .gallery_item {
   position: relative;
@@ -129,39 +129,18 @@
   color: #ffffff;
 }
 
-.video_section {
-  height: 500px;
-  padding-top: 140px;
-}
-.video_section .video_text {
-  text-align: center;
-}
-.video_section .video_text h2 {
-  font-size: 48px;
-  color: #ffffff;
-  margin-bottom: 16px;
-}
-.video_section .video_text p {
-  font-size: 20px;
-  color: #ffffff;
-  margin-bottom: 40px;
-}
-.video_section .video_text .play_btn {
-  display: inline-block;
-}
-
-.section-title {
+.section_title {
   text-align: center;
   margin-bottom: 22px;
 }
-.section-title span {
+.section_title span {
   font-size: 14px;
   color: #dfa974;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
-.section-title h2 {
+.section_title h2 {
   font-size: 44px;
   color: #19191a;
   line-height: 58px;
@@ -175,4 +154,70 @@
 .spad {
   padding-top: 100px;
   padding-bottom: 100px;
+}
+
+/* room css */
+.hp_room_section {
+  /* padding-top: 100px;
+  padding-bottom: 100px; */
+  background-color: #f7f7f7;
+}
+
+.hp_room_items {
+  margin-left: -15px;
+  margin-right: -15px;
+  overflow: hidden;
+}
+.hp_room_items .hp_room_item {
+  height: 600px;
+  margin-right: -15px;
+  position: relative;
+  overflow: hidden;
+}
+.hp_room_items .hp_room_item:hover .hr_text {
+  bottom: 135px;
+}
+.hp_room_items .hp_room_item:hover .hr_text h2 {
+  margin-bottom: 30px;
+}
+.hp_room_items .hp_room_item .hr_text {
+  position: absolute;
+  left: 45px;
+  right: 25px;
+  bottom: -250px;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.hp_room_items .hp_room_item .hr_text h3 {
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+.hp_room_items .hp_room_item .hr_text h2 {
+  color: #dfa974;
+  font-weight: 700;
+  margin-bottom: 50px;
+  -webkit-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.hp_room_items .hp_room_item .hr_text h2 span {
+  font-family: "Cabin", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #ffffff;
+}
+.hp_room_items .hp_room_item .hr_text table {
+  margin-bottom: 30px;
+}
+.hp_room_items .hp_room_item .hr_text table tbody tr td {
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 36px;
+}
+.hp_room_items .hp_room_item .hr_text table tbody tr td.r_o {
+  width: 120px;
+}
+.hp_room_items .hp_room_item .hr_text .primary_btn:after {
+  background: #ffffff;
 }
