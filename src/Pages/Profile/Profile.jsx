@@ -36,9 +36,7 @@ export default function Profile() {
       <div className="d-flex">
         <SidebarAdmin />
         <div>
-          <div
-            className={`rounded ${mode === "dark" ? "bg-dark" : style.bg}`}
-          >
+          <div className={`rounded ${mode === "dark" ? "bg-dark" : style.bg}`}>
             <div
               className="row"
               // style={{
@@ -133,7 +131,7 @@ export default function Profile() {
                   <img
                     style={{ width: "35%" }}
                     className="mt-5 rounded-circle"
-                    src={user.profilePic ? user.profilePic : userImg}
+                    src={user.photo ? user.photo : userImg}
                     alt=""
                   />
                   <h2

@@ -5,7 +5,7 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import user from "../../images/user.png";
+import person from "../../images/user.png";
 import {
   SidebarDataAdminProfile,
   SidebarDataAdminProfilePending,
@@ -56,7 +56,9 @@ const SidebarAdmin = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const { view } = useSelector((state) => state.view);
-
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { user } = loggedinUser;
+  
   return (
     <Box>
       <Sidebar
@@ -71,6 +73,7 @@ const SidebarAdmin = () => {
             icon={isCollapsed ? <MenuIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
+              backgroundColor:"#c2c2c2"
               // color: colors.grey[100],
             }}
           >
@@ -110,24 +113,24 @@ const SidebarAdmin = () => {
                   alt="profile-user"
                   width="100%"
                   height="100%"
-                  src={user}
+                  src={user.photo ? user.photo : person}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
               <Box textAlign="center">
                 <Typography
-                  variant="h3"
+                  variant="h5"
                   // color={colors.grey[100]}
                   //   fontWeight=""
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  john doe
+                  {user.firstName + " " + user.lastName}
                 </Typography>
                 <Typography
-                  variant="h4"
+                  variant="h6"
                   //   color={colors.greenAccent[500]}
                 >
-                  Admin
+                  {user.account_type}
                 </Typography>
               </Box>
             </Box>
