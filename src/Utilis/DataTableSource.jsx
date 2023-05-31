@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export const userHeader = [
-  { field: "_id", headerName: "ID", width: 100 },
+  { field: "_id", headerName: "ID", width: 130 },
   { field: "firstName", headerName: "First Name", width: 130 },
   { field: "lastName", headerName: "Last Name", width: 130 },
   { field: "account_type", headerName: "Type", width: 130 },
-  { field: "email", headerName: "Email", width: 230 },
+  { field: "email", headerName: "Email", width: 260 },
   // { field: "mobile", headerName: "Mobile", width: 130 },
   // { field: "postalCode", headerName: "Postal Code", width: 130 },
   // { field: "area", headerName: "Area", width: 130 },

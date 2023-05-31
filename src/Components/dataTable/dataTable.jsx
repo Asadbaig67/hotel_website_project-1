@@ -238,8 +238,8 @@ const DataTable = ({ path, user }) => {
   return (
     <Box
       sx={{
-        height: 400,
-        width: "100%",
+        height: 450,
+        width: "100% !important",
         "& .MuiDataGrid-root": {
           border: "none",
         },
