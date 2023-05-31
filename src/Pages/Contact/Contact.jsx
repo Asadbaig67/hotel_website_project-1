@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import axios from "axios";
 
 const Contact = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,24 @@ const Contact = () => {
     setTimeout(() => {
       console.log(contactData);
     }, 5000);
+  };
+  const HandleClick = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/contact/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: user.fname,
+          email: user.email,
+          message: user.help,
+        }),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -312,7 +331,11 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder="Your Message"
                     ></textarea>
-                    <button className="btn btn-primary" type="submit">
+                    <button
+                      className="btn btn-primary"
+                      onClick={HandleClick}
+                      type="submit"
+                    >
                       Submit Now
                     </button>
                   </div>

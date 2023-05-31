@@ -30,7 +30,7 @@ const Signin = () => {
   const [buffer, setBuffer] = React.useState(10);
 
   const progressRef = React.useRef(() => {});
-  
+
   useEffect(() => {
     progressRef.current = () => {
       if (progress > 100) {
@@ -112,6 +112,7 @@ const Signin = () => {
   //     }
   //   }
   // };
+
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -162,6 +163,7 @@ const Signin = () => {
       setLoading(false);
     }
   };
+  
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   console.log(loggedinUser);
 

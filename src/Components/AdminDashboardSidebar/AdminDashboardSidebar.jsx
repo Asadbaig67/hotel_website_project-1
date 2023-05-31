@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import user from "../../images/user.png";
+import { useMediaQuery } from "@mui/material";
+
 import {
   SidebarDataAdminProfile,
   SidebarDataAdminProfilePending,
@@ -40,12 +42,25 @@ const SidebarAdmin = () => {
   const [selected, setSelected] = useState("dashboard");
   const { view } = useSelector((state) => state.view);
 
+  //For Mobile Rsponsive of Navbar Search Bar
+  const isMobile = useMediaQuery("(max-width: 400px)");
+  const isDesktop = useMediaQuery("(max-width: 992px)");
+  const isTablet = useMediaQuery("(max-width: 768px)");
+
+
+  useEffect(() => {
+    if (isTablet) {
+      setIsCollapsed(true);
+    } else {
+      setIsCollapsed(false);
+    }
+  }, [isTablet]);
+
   return (
     <Box
-    sx={{
+      sx={{
         background: `#c2c2c2 !important`,
-        "& .pro-sidebar-inner": {
-        },
+        "& .pro-sidebar-inner": {},
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
         },
