@@ -121,111 +121,111 @@ export default function Profile() {
                   Profile
                 </h1>
               </div> */}
-              <div
-                className="col-md-12 p-3 bg-info d-flex "
-                // style={{ marginLeft: "10px" }}
+            <div
+              className="col-md-12 p-3 bg-info d-flex "
+              // style={{ marginLeft: "10px" }}
+            >
+              <h1
+                className={`fs-1 fw-bold mx-auto text-${
+                  mode === "light" ? "dark" : "light"
+                }`}
               >
-                <h1
-                  className={`fs-1 fw-bold mx-auto text-${
+                Profile
+              </h1>
+            </div>
+
+            <div className="col-md-4 col-sm-12">
+              <div
+                className={`${
+                  mode === "light" ? "bg-white" : "bg-dark"
+                } d-flex flex-column align-items-center text-center w-75 mx-auto mt-3 pb-5 rounded-3`}
+              >
+                <img
+                  style={{ width: "35%" }}
+                  className="mt-5 rounded-circle"
+                  src={user.photo ? user.photo : userImg}
+                  alt=""
+                />
+                <h2
+                  className={`fw-semibold my-2 text-${
                     mode === "light" ? "dark" : "light"
                   }`}
                 >
-                  Profile
-                </h1>
-              </div>
-
-              <div className="col-md-4 col-sm-12">
-                <div
-                  className={`${
-                    mode === "light" ? "bg-white" : "bg-dark"
-                  } d-flex flex-column align-items-center text-center w-75 mx-auto mt-3 pb-5 rounded-3`}
+                  {user.firstName + " " + user.lastName}
+                </h2>
+                <span
+                  className={`text-${
+                    mode === "light" ? "black-50" : "white-50"
+                  }`}
                 >
-                  <img
-                    style={{ width: "35%" }}
-                    className="mt-5 rounded-circle"
-                    src={user.photo ? user.photo : userImg}
-                    alt=""
-                  />
-                  <h2
-                    className={`fw-semibold my-2 text-${
-                      mode === "light" ? "dark" : "light"
-                    }`}
-                  >
-                    {user.firstName + " " + user.lastName}
-                  </h2>
-                  <span
-                    className={`text-${
-                      mode === "light" ? "black-50" : "white-50"
-                    }`}
-                  >
-                    {user.account_type}
-                  </span>
-                </div>
+                  {user.account_type}
+                </span>
               </div>
+            </div>
 
-              <div className="col-md-8 mb-5">
-                <div
-                  className={`pt-2 mt-3 ${
-                    mode === "light" ? "bg-white" : "bg-dark"
-                  } rounded-3 me-2`}
-                >
-                  <div className="row text-center m-1 mt-4">
-                    <div className="col-md-3 col-lg-3 col-4">
-                      <p
-                        className={`${style.portion} ${
-                          isXtraSmall ? "fw-bold small" : "fs-5"
-                        }`}
-                        // style={isXtraSmall && { fontSize: "14px" }}
-                        onClick={() => {
-                          viewProfile(true);
-                          viewEditProfile(false);
-                          viewChangePassword(false);
-                        }}
-                      >
-                        Overview {isMobile && "Profile"}
-                      </p>
-                      {profile && (
-                        <hr className={`${style.hr} mt-2 mb-0 text-primary`} />
-                      )}
-                    </div>
-                    <div className="col-md-4 col-lg-3 col-4">
-                      <p
-                        className={`${style.portion} ${
-                          isXtraSmall ? "fw-bold small" : "fs-5"
-                        } `}
-                        // style={isXtraSmall && { fontSize: "14px" }}
-                        onClick={() => {
-                          viewProfile(false);
-                          viewEditProfile(true);
-                          viewChangePassword(false);
-                        }}
-                      >
-                        Edit Profile
-                      </p>
-                      {editProfile && (
-                        <hr className={`${style.hr} mt-2 mb-0 text-primary`} />
-                      )}
-                    </div>
-                    <div className="col-md-5 col-lg-3 col-4">
-                      <p
-                        className={`${style.portion} ${
-                          isXtraSmall ? "fw-bold small" : "fs-5"
-                        }`}
-                        // style={isXtraSmall && { fontSize: "14px" }}
-                        onClick={() => {
-                          viewProfile(false);
-                          viewEditProfile(false);
-                          viewChangePassword(true);
-                        }}
-                      >
-                        Change Password
-                      </p>
-                      {changePassword && (
-                        <hr className={`${style.hr} mt-2 mb-0 text-primary`} />
-                      )}
-                    </div>
+            <div className="col-md-8 mb-5">
+              <div
+                className={`pt-2 mt-3 ${
+                  mode === "light" ? "bg-white" : "bg-dark"
+                } rounded-3 me-2`}
+              >
+                <div className="row text-center m-1 mt-4">
+                  <div className="col-md-3 col-lg-3 col-4">
+                    <p
+                      className={`${style.portion} ${
+                        isXtraSmall ? "fw-bold small" : "fs-5"
+                      }`}
+                      // style={isXtraSmall && { fontSize: "14px" }}
+                      onClick={() => {
+                        viewProfile(true);
+                        viewEditProfile(false);
+                        viewChangePassword(false);
+                      }}
+                    >
+                      Overview {isMobile && "Profile"}
+                    </p>
+                    {profile && (
+                      <hr className={`${style.hr} mt-2 mb-0 text-primary`} />
+                    )}
+                  </div>
+                  <div className="col-md-4 col-lg-3 col-4">
+                    <p
+                      className={`${style.portion} ${
+                        isXtraSmall ? "fw-bold small" : "fs-5"
+                      } `}
+                      // style={isXtraSmall && { fontSize: "14px" }}
+                      onClick={() => {
+                        viewProfile(false);
+                        viewEditProfile(true);
+                        viewChangePassword(false);
+                      }}
+                    >
+                      Edit Profile
+                    </p>
+                    {editProfile && (
+                      <hr className={`${style.hr} mt-2 mb-0 text-primary`} />
+                    )}
+                  </div>
+                  <div className="col-md-5 col-lg-3 col-4">
+                    <p
+                      className={`${style.portion} ${
+                        isXtraSmall ? "fw-bold small" : "fs-5"
+                      }`}
+                      // style={isXtraSmall && { fontSize: "14px" }}
+                      onClick={() => {
+                        viewProfile(false);
+                        viewEditProfile(false);
+                        viewChangePassword(true);
+                      }}
+                    >
+                      Change Password
+                    </p>
+                    {changePassword && (
+                      <hr className={`${style.hr} mt-2 mb-0 text-primary`} />
+                    )}
+                  </div>
 
-                    {/* <ul class="nav nav-tabs">
+                  {/* <ul class="nav nav-tabs">
                       <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">
                           Active
@@ -246,18 +246,17 @@ export default function Profile() {
                       </li>
                     </ul> */}
 
-                    <div className="col-md-12">
-                      <hr className="mt-0" />
-                    </div>
+                  <div className="col-md-12">
+                    <hr className="mt-0" />
                   </div>
-                  {profile ? (
-                    <ProfileView profile={loggedinUser} />
-                  ) : editProfile ? (
-                    <EditProfile profile={loggedinUser} />
-                  ) : changePassword ? (
-                    <ChangePassword profile={loggedinUser} />
-                  ) : null}
                 </div>
+                {profile ? (
+                  <ProfileView profile={loggedinUser} />
+                ) : editProfile ? (
+                  <EditProfile profile={loggedinUser} />
+                ) : changePassword ? (
+                  <ChangePassword profile={loggedinUser} />
+                ) : null}
               </div>
             </div>
           </div>

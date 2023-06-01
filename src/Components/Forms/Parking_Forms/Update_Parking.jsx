@@ -47,6 +47,7 @@ const UpdateParking = () => {
       "http://localhost:5000/uploads/ParkingImages/parking16.jpg",
     ],
     city: "New York",
+    rating: 4,
     country: "USA",
     address: "456 Airport Rd",
   };
@@ -149,6 +150,7 @@ const UpdateParking = () => {
     formData.append("description", formValues.description);
     formData.append("price", formValues.price);
     formData.append("city", formValues.city);
+    formData.append("rating", formValues.rating);
     formData.append("country", formValues.country);
     formData.append("address", formValues.address);
     for (let i = 0; i < features.length; i++) {
@@ -269,7 +271,7 @@ const UpdateParking = () => {
             </div>
           </div>
           <div className="row mt-2">
-            <div className="col-md-6">
+            <div className="col-md-4">
               <label
                 htmlFor="validationCustom01"
                 className={`labels text-${mode === "light" ? "dark" : "light"}`}
@@ -287,7 +289,7 @@ const UpdateParking = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-4">
               <label
                 className={`labels text-${mode === "light" ? "dark" : "light"}`}
               >
@@ -299,6 +301,22 @@ const UpdateParking = () => {
                 placeholder="Booked Slots"
                 name="booked_slots"
                 value={formValues.booked_slots}
+                required
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="col-md-4">
+              <label
+                className={`labels text-${mode === "light" ? "dark" : "light"}`}
+              >
+                Rating
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Booked Slots"
+                name="rating"
+                value={formValues.rating}
                 required
                 onChange={handleInputChange}
               />

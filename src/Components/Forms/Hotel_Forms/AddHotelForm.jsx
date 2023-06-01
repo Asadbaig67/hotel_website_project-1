@@ -12,6 +12,9 @@ import Stack from "@mui/material/Stack";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import style from "./addhotel.module.css";
+import { useEffect } from "react";
+import axios from "axios";
+import Dropdown from "../../dropdown/Dropdown";
 
 const AddHotelForm = () => {
   //Alerts Code
@@ -19,6 +22,8 @@ const AddHotelForm = () => {
   const [open, setOpen] = useState(true);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("info");
+  const [Owner, setOwner] = useState([]);
+  const [FinalOwner, setFinalOwner] = useState({});
 
   const IsMobile = useMediaQuery("(max-width:450px)");
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
@@ -45,7 +50,6 @@ const AddHotelForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
 
   const onSelectFile = (event) => {
-    
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
     let imagesArrayObj = selectedFilesArray.map((file) => {
@@ -56,15 +60,16 @@ const AddHotelForm = () => {
       dummyArray.push(newImage);
     });
     setSelectedImages(dummyArray);
-    
   };
   function deleteHandler(imageObj) {
-    
     setSelectedImages((prevImages) => {
       return prevImages.filter((image) => image !== imageObj);
     });
-    
   }
+
+  const handleOwner = (selectedOwner) => {
+    setFinalOwner(selectedOwner);
+  };
 
   const defaultFeatures = [
     "Luxurious Rooms and Suites",
@@ -130,12 +135,16 @@ const AddHotelForm = () => {
     formData.append("city", formValues.city);
     formData.append("country", formValues.country);
     formData.append("address", formValues.address);
-    formData.append("ownerId", loggedinUser.user._id);
+    formData.append(
+      "ownerId",
+      loggedinUser.user.account_type === "admin"
+        ? FinalOwner.id
+        : loggedinUser.user._id
+    );
     for (let i = 0; i < features.length; i++) {
       formData.append("facilities", features[i]);
     }
 
-    // Append each photo in the photos array to the FormData object
     for (let i = 0; i < selectedImages.length; i++) {
       formData.append("photos", selectedImages[i].file);
     }
@@ -170,7 +179,28 @@ const AddHotelForm = () => {
     }
   };
 
-  console.log("Selected Images Are ", selectedImages);
+  const GetOwners = async () => {
+    const url = "http://localhost:5000/user/getuseridandname";
+    const params = {
+      form_type: "hotel",
+    };
+
+    try {
+      const response = await axios.get(url, { params });
+      let data = response.data;
+      setOwner(Object.values(data).flat());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (loggedinUser.user.account_type === "admin") {
+      GetOwners();
+    }
+  }, []);
+
+  console.log("Final Owner is=", FinalOwner);
 
   return (
     <>
@@ -208,9 +238,62 @@ const AddHotelForm = () => {
           </Stack>
         </Collapse>
       )}
+
       <div className={`container  ${IsMobile ? "" : "w-50"} `}>
         <h1 className="text-center fw-bold">Add Hotel Form</h1>
         <form className="needs-validation mx-4">
+          {loggedinUser.user.account_type === "admin" ? (
+            <div className="row mt-2">
+              <div className="col-md-6">
+                <label htmlFor="validationCustom01">OwnerID</label>
+                <select
+                  className="form-select"
+                  name="type"
+                  id="validationCustom012"
+                  value={FinalOwner.id}
+                  required
+                  // disabled
+                >
+                  <option value="1">Owner Id</option>
+                  <option value={FinalOwner.id}>{FinalOwner.id}</option>
+                  {/* <option value="Single">Single</option>
+                <option value="Twin">Twin</option>
+                <option value="Family">Family</option> */}
+                </select>
+              </div>
+              <div className="col-md-6">
+                <label htmlFor="validationCustom01">Owner Name</label>
+                <select
+                  className="form-select"
+                  name="type"
+                  id="validationCustom01"
+                  required
+                  onChange={(event) =>
+                    handleOwner({
+                      id: event.target.value,
+                      name: event.target.options[event.target.selectedIndex]
+                        .text,
+                    })
+                  }
+                >
+                  <option key="1" value="1">
+                    Select The Owner
+                  </option>
+                  {Owner.map((owner) => {
+                    return (
+                      <>
+                        <option key={owner._id} value={owner._id}>
+                          {owner.name}
+                        </option>
+                      </>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="row mt-2">
             <div className="col-md-6">
               <label
