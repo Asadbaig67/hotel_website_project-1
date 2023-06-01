@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
@@ -20,6 +19,18 @@ import {
 } from "../../Utilis/SidebarData";
 import styles from "./AdminDashboardSidebar.module.css";
 import styled from "styled-components";
+
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const StyledMenuItem = styled(MenuItem)`
   color: #141414;
@@ -53,6 +64,27 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
+const ItemLogout = ({ title, icon, selected, setSelected }) => {
+  const location = useLocation();
+  const loc = location.pathname;
+  const style = {
+    backgroundColor: "#c2c2c2",
+  };
+
+  return (
+    <StyledMenuItem
+      active={selected === title}
+      style={style}
+      onClick={() => {
+        setSelected(title);
+      }}
+      icon={icon}
+    >
+      {title}
+    </StyledMenuItem>
+  );
+};
+
 const SidebarAdmin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -66,7 +98,7 @@ const SidebarAdmin = () => {
   const isMobile = useMediaQuery("(max-width: 400px)");
   const isDesktop = useMediaQuery("(max-width: 992px)");
   const isTablet = useMediaQuery("(max-width: 768px)");
-
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     if (isTablet) {
@@ -76,6 +108,18 @@ const SidebarAdmin = () => {
     }
   }, [isTablet]);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const logout = () => {
+    navigate("/signin");
+    localStorage.clear();
+    dispatch({ type: "SET_LOGGEDIN_USER", payload: {} });
+  };
+
   return (
     <Box>
       <Sidebar
@@ -83,24 +127,6 @@ const SidebarAdmin = () => {
         backgroundColor="#c2c2c2"
         transitionDuration="80"
       >
-    <Box
-      sx={{
-        background: `#c2c2c2 !important`,
-        "& .pro-sidebar-inner": {},
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#6870fa !important",
-        },
-      }}
-    >
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
@@ -339,18 +365,13 @@ const SidebarAdmin = () => {
 
             <Box
               className={`${styles.nav__link} ${styles.nav__logout}`}
-              onClick={() => {
-                navigate("/signin");
-                localStorage.clear();
-                dispatch({ type: "SET_LOGGEDIN_USER", payload: {} });
-              }}
+              onClick={handleClickOpen}
             >
               {SidebarDataLogout.map((item) => {
                 return (
-                  <Item
+                  <ItemLogout
                     key={item.key}
                     title={item.title}
-                    to={item.link}
                     icon={item.icon}
                     selected={selected}
                     setSelected={setSelected}
@@ -361,6 +382,25 @@ const SidebarAdmin = () => {
           </Box>
         </Menu>
       </Sidebar>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Logout"}</DialogTitle>
+        <hr className="m-0" />
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Are you sure you want to logout?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="outlined" color="primary" onClick={handleClose}>Cancel</Button>
+          <Button variant="outlined" color="error" onClick={logout}>Log out</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
