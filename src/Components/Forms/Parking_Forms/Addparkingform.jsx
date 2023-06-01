@@ -11,6 +11,8 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
+import { useEffect } from "react";
 
 const AddParkingForm = () => {
   //Alerts Code
@@ -19,6 +21,8 @@ const AddParkingForm = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("info");
   const IsMobile = useMediaQuery("(max-width:450px)");
+  const [Owner, setOwner] = useState([]);
+  const [FinalOwner, setFinalOwner] = useState({});
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -27,6 +31,7 @@ const AddParkingForm = () => {
     booked_slots: 0,
     description: "",
     photos: [],
+    rating: 0,
     city: "",
     price: 0,
     country: "",
@@ -39,6 +44,10 @@ const AddParkingForm = () => {
       ...formValues,
       [event.target.name]: value,
     });
+  };
+
+  const handleOwner = (selectedOwner) => {
+    setFinalOwner(selectedOwner);
   };
 
   const [parkingImages, setParkingImages] = useState([]);
@@ -54,7 +63,6 @@ const AddParkingForm = () => {
       dummyImages.push(blobImagesArray[i]);
     }
     setParkingImages(dummyImages);
-    
   };
 
   // Function to remove an image from the array of images
@@ -63,7 +71,6 @@ const AddParkingForm = () => {
       return prevImages.filter((Imageblob) => Imageblob !== image);
     });
     URL.revokeObjectURL(image);
-    
   }
 
   // Add Features Code
@@ -101,7 +108,12 @@ const AddParkingForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("ownerId", loggedinUser.user._id);
+    formData.append(
+      "ownerId",
+      loggedinUser.user.account_type === "admin"
+        ? FinalOwner.id
+        : loggedinUser.user._id
+    );
     formData.append("name", formValues.name);
     formData.append("title", formValues.title);
     formData.append("total_slots", formValues.total_slots);
@@ -109,6 +121,7 @@ const AddParkingForm = () => {
     formData.append("description", formValues.description);
     formData.append("price", formValues.price);
     formData.append("city", formValues.city);
+    formData.append("rating", formValues.rating);
     formData.append("country", formValues.country);
     formData.append("address", formValues.address);
     for (let i = 0; i < features.length; i++) {
@@ -150,7 +163,28 @@ const AddParkingForm = () => {
     }
   };
 
-  console.log(features);
+  const GetOwners = async () => {
+    const url = "http://localhost:5000/user/getuseridandname";
+    const params = {
+      form_type: "parking",
+    };
+
+    try {
+      const response = await axios.get(url, { params });
+      let data = response.data;
+      setOwner(Object.values(data).flat());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (loggedinUser.user.account_type === "admin") {
+      GetOwners();
+    }
+  }, []);
+
+  console.log(formValues.rating);
 
   return (
     <>
@@ -191,6 +225,58 @@ const AddParkingForm = () => {
       <div className={`container  ${IsMobile ? "" : "w-50"} `}>
         <h1 className="text-center fw-bold">Add Parking Form</h1>
         <form className="needs-validation mx-4">
+          {loggedinUser.user.account_type === "admin" ? (
+            <div className="row mt-2">
+              <div className="col-md-6">
+                <label htmlFor="validationCustom01">OwnerID</label>
+                <select
+                  className="form-select"
+                  name="type"
+                  id="validationCustom012"
+                  value={FinalOwner.id}
+                  required
+                  // disabled
+                >
+                  <option value="1">Owner Id</option>
+                  <option value={FinalOwner.id}>{FinalOwner.id}</option>
+                  {/* <option value="Single">Single</option>
+                <option value="Twin">Twin</option>
+                <option value="Family">Family</option> */}
+                </select>
+              </div>
+              <div className="col-md-6">
+                <label htmlFor="validationCustom01">Owner Name</label>
+                <select
+                  className="form-select"
+                  name="type"
+                  id="validationCustom01"
+                  required
+                  onChange={(event) =>
+                    handleOwner({
+                      id: event.target.value,
+                      name: event.target.options[event.target.selectedIndex]
+                        .text,
+                    })
+                  }
+                >
+                  <option key="1" value="1">
+                    Select The Owner
+                  </option>
+                  {Owner.map((owner) => {
+                    return (
+                      <>
+                        <option key={owner._id} value={owner._id}>
+                          {owner.name}
+                        </option>
+                      </>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="row mt-2">
             <div className="col-md-6">
               <label
@@ -228,7 +314,7 @@ const AddParkingForm = () => {
             </div>
           </div>
           <div className="row mt-2">
-            <div className="col-md-6">
+            <div className="col-md-4">
               <label
                 htmlFor="validationCustom01"
                 className={`labels text-${mode === "light" ? "dark" : "light"}`}
@@ -246,7 +332,7 @@ const AddParkingForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-4">
               <label
                 className={`labels text-${mode === "light" ? "dark" : "light"}`}
               >
@@ -258,6 +344,22 @@ const AddParkingForm = () => {
                 placeholder="Booked Slots"
                 name="booked_slots"
                 value={formValues.booked_slots}
+                required
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="col-md-4">
+              <label
+                className={`labels text-${mode === "light" ? "dark" : "light"}`}
+              >
+                Parking Rating
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Parking Rating"
+                name="rating"
+                value={formValues.rating}
                 required
                 onChange={handleInputChange}
               />
@@ -415,7 +517,7 @@ const AddParkingForm = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="mt-3">
             <div className="form-group">
               <label htmlFor="feature">Parking Feature</label>
