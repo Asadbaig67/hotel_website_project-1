@@ -28,6 +28,7 @@ export const parkingHeader = [
   { field: "address", headerName: "Address", width: 130 },
   { field: "city", headerName: "City", width: 130 },
   { field: "country", headerName: "Country", width: 130 },
+  { field: "rating", headerName: "Rating", width: 130 },
 ];
 
 export const hotelAndParkingHeader = [
@@ -49,7 +50,7 @@ export const bookingHeader = [
   { field: "_id", headerName: "ID", width: 100 },
   { field: "Booking_type", headerName: "Booking Type", width: 100 },
   {
-    field: "hotelName" || "parkingName" || "hotelAndParkingName",
+    field: "hotelName" | "parkingName" | "hotelAndParkingName",
     headerName: "Name",
     width: 130,
   },

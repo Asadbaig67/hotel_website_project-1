@@ -36,7 +36,7 @@ export default function Profile() {
       <div className="d-flex">
         <SidebarAdmin />
         <div>
-          <div className={`rounded ${mode === "dark" ? "bg-dark" : style.bg}`}
+          <div className={`rounded ${mode === "dark" ? "bg-dark" : style.bg}`}></div>
             <div
               className="row"
               // style={{
@@ -262,7 +262,6 @@ export default function Profile() {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 }
