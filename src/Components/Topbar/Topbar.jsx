@@ -20,6 +20,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import Badge from "@mui/material/Badge";
 
 const Topbar = () => {
   //   const theme = useTheme();
@@ -37,12 +38,12 @@ const Topbar = () => {
   useEffect(() => {
     const fetchNotification = async () => {
       const data = await axios.get(
-        "http://localhost:5000/notification/getNotification"
+        `http://localhost:5000/notification/getNotification/${user._id}`
       );
       dispatch({ type: "SET_NOTIFICATION", payload: data.data });
     };
     fetchNotification();
-  });
+  }, []);
 
   const handleNotication = async (event) => {
     setAnchorEl(event.currentTarget);
@@ -87,7 +88,9 @@ const Topbar = () => {
             // variant="contained"
             onClick={handleNotication}
           >
-            <NotificationsOutlinedIcon />
+            <Badge color="primary" badgeContent={notification.length} max={99}>
+              <NotificationsOutlinedIcon />
+            </Badge>
           </Button>
           <Popover
             anchorOrigin={{
