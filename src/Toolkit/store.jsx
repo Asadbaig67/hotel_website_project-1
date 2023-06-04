@@ -52,6 +52,7 @@ import { hotelAndParkingOperatingCities } from "./reducer/setHotelAndParkingOper
 import { featuredCityCount } from "./reducer/featuredCityCount";
 import { Redirect_Route } from "./reducer/setRedirectRoute";
 import { setPropertyData } from "./reducer/viewpropertydata";
+import { setNotification } from "./reducer/notifications";
 
 const persistConfig = {
   key: "root",
@@ -103,7 +104,7 @@ const reducer = combineReducers({
   getFocus: SetDateFocus,
 
   featuredCityCount: featuredCityCount,
-  
+
   getHotelParkingfrombackend: hotelParkongDataReducer,
   getBookedDetails: Set_booked_property,
   getSelectedParking: Set_Selected_Parking,
@@ -111,7 +112,8 @@ const reducer = combineReducers({
   parkingOperatingCities: parkingOperatingCities,
   hotelAndParkingOperatingCities: hotelAndParkingOperatingCities,
   getRedirectRoute: Redirect_Route,
-  setPropertyData:setPropertyData
+  setPropertyData: setPropertyData,
+  setNotification: setNotification,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
