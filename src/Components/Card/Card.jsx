@@ -35,6 +35,9 @@ const Card = (props) => {
     TwinRoomPrice = 0,
     FamilyRoomPrice = 0;
 
+  console.log("here is singlerrom = ", options.singleroom);
+  console.log("here is = twin room", options.twinroom);
+  console.log("here is = nyc rrom", options.familyroom);
   if (activePath === "hotel") {
     if (props.item.rooms) {
       const { rooms } = props.item;
@@ -123,13 +126,16 @@ const Card = (props) => {
   }
 
   // console.log(nights);
-
   // const [value, setValue] = useState(3);
   // const [hover, setHover] = useState(5);
   // dates.map((item) => {
   //   let date1 = new Date(item.checkIn);
   //   let date2 = new Date(item.checkOut);
   // });
+
+  console.log("The Props", props.item);
+
+  const Facilities = [...props.item.hotel.Facilities];
 
   const labels = {
     0.5: "Useless",
