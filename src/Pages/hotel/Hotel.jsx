@@ -43,6 +43,10 @@ const Hotel = () => {
     console.log("Selected Hotel =", selected_hotel);
     console.log("Selected Hotel Rooms =", selected_hotel.Rooms);
   }
+  let Facilities = [];
+  if (selected_hotel.Facilities) {
+    Facilities = [...selected_hotel.Facilities];
+  }
 
   // const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
@@ -156,9 +160,7 @@ const Hotel = () => {
   // To handle see more button
   let [limit, setLimit] = useState(6);
   const handleSeemore = () => {
-    limit === data.facilities.length
-      ? setLimit(6)
-      : setLimit(data.facilities.length);
+    limit === Facilities.length ? setLimit(6) : setLimit(Facilities.length);
   };
 
   const HandleBook = () => {
@@ -656,24 +658,25 @@ const Hotel = () => {
                 <div>
                   <h5 className="my-3">Most popular facilities</h5>
                   <div className="d-flex flex-wrap text-success">
-                    {data.facilities.map((item, i) => {
-                      {
-                        if (i <= limit)
-                          return (
-                            <>
-                              <div key={i}>
-                                <div
-                                  className={`bg-info text-light py-1 mb-2 rounded-pill me-3 px-2 fs-6`}
-                                >
-                                  {item}
+                    {Facilities &&
+                      Facilities.map((item, i) => {
+                        {
+                          if (i <= limit)
+                            return (
+                              <>
+                                <div key={i}>
+                                  <div
+                                    className={`bg-info text-light py-1 mb-2 rounded-pill me-3 px-2 fs-6`}
+                                  >
+                                    {item}
+                                  </div>
                                 </div>
-                              </div>
-                            </>
-                          );
-                      }
-                    })}
+                              </>
+                            );
+                        }
+                      })}
 
-                    {limit < data.facilities.length && (
+                    {limit < Facilities.length && (
                       <div
                         onClick={handleSeemore}
                         className="my-auto text-info text-decoration-underline cursor_pointer"
@@ -682,7 +685,7 @@ const Hotel = () => {
                       </div>
                     )}
 
-                    {limit === data.facilities.length && (
+                    {limit === Facilities.length && (
                       <div
                         onClick={handleSeemore}
                         className="my-auto text-info text-decoration-underline cursor_pointer"

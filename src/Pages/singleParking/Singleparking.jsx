@@ -82,8 +82,10 @@ function ParkingPropertyDetails({ property }) {
     5: "Excellent+",
   };
 
-  function getLabelText(value) {
-    return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
+  let Value = selected_parking.parking.rating;
+
+  function getLabelText(Value) {
+    return `${Value} Star${Value !== 1 ? "s" : ""}, ${labels[Value]}`;
   }
 
   const HandleBooking = async () => {
@@ -106,6 +108,8 @@ function ParkingPropertyDetails({ property }) {
       console.error(error);
     }
   };
+
+  console.log("booked property = ", selected_parking);
 
   return (
     <>
@@ -134,12 +138,8 @@ function ParkingPropertyDetails({ property }) {
               <Rating
                 name="hover-feedback"
                 value={
-                  booked_property
-                    ? booked_property.rating
-                      ? booked_property.rating
-                      : booked_property.rating
-                      ? booked_property.rating
-                      : 4
+                  selected_parking.parking.rating
+                    ? selected_parking.parking.rating
                     : 4
                 }
                 precision={1}
@@ -217,11 +217,12 @@ function ParkingPropertyDetails({ property }) {
           <div className={`${styles.property_features} my-2`}>
             <h3 className="my-1">Features:</h3>
             <ul className={`mt-2 ${styles.features_list}`}>
-              {property.features.map((feature) => (
-                <li key={feature} className={styles.feature_item}>
-                  {feature}
-                </li>
-              ))}
+              {selected_parking.parking.Facilities &&
+                selected_parking.parking.Facilities.map((feature) => (
+                  <li key={feature} className={styles.feature_item}>
+                    {feature}
+                  </li>
+                ))}
             </ul>
           </div>
         </div>

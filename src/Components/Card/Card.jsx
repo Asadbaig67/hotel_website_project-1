@@ -135,7 +135,10 @@ const Card = (props) => {
 
   console.log("The Props", props.item);
 
-  const Facilities = [...props.item.hotel.Facilities];
+  let Facilities = [];
+  if (props.item.hotel.Facilities) {
+    Facilities = [...props.item.hotel.Facilities];
+  }
 
   const labels = {
     0.5: "Useless",
@@ -294,24 +297,42 @@ const Card = (props) => {
           </div>
 
           <div className="mt-1 mb-0 text-muted" style={{ fontSize: "12px" }}>
-            <span>{cardData.attr1}</span>
-            <span className="text-primary"> • </span>
-            <span>{cardData.attr2}</span>
-            <span className="text-primary"> • </span>
-            <span>
-              {cardData.attr3}
-              <br />
-            </span>
+            {Facilities.length > 0 && (
+              <>
+                {Facilities.slice(3, 7).map((facility, index) => (
+                  <React.Fragment key={index}>
+                    <span>{facility}</span>
+                    {index !== Facilities.slice(3, 7).length - 1 && (
+                      <span className="text-primary"> • </span>
+                    )}
+                  </React.Fragment>
+                ))}
+              </>
+            )}
+            <br />
           </div>
           <div className="mb-1 text-muted small" style={{ fontSize: "12px" }}>
-            <span>{cardData.attr4}</span>
+            {Facilities.length > 0 && (
+              <>
+                {Facilities.slice(0, 3).map((facility, index) => (
+                  <React.Fragment key={index}>
+                    <span>{facility}</span>
+                    {index !== Facilities.slice(0, 3).length - 1 && (
+                      <span className="text-primary"> • </span>
+                    )}
+                  </React.Fragment>
+                ))}
+              </>
+            )}
+            <br />
+            {/* <span>{cardData.attr4}</span>
             <span className="text-primary"> • </span>
             <span>{cardData.attr5}</span>
             <span className="text-primary"> • </span>
             <span>
               {cardData.attr6}
               <br />
-            </span>
+            </span> */}
           </div>
           <div className="text-muted small">
             {options.singleRoom > 0

@@ -901,9 +901,192 @@ const Navbar = ({ list }) => {
                               </div>
                             </span>
                             {openOptions && (
-                              <div
-                                className={`shadow-lg w-100 ${style.options}`}
-                              >
+                              // <div
+                              //   className={`shadow-lg w-100 ${style.options}`}
+                              // >
+                              //   <div className="row">
+                              //     <div className="ms-1 me-5 ms-2 col-md-4 ">
+                              //       <h5 className="text-start my-1">
+                              //         Set Person
+                              //       </h5>
+                              //       <div className={style.optionItem}>
+                              //         <span
+                              //           className={`${style.optionText} `}
+                              //           style={{ marginRight: "35px" }}
+                              //         >
+                              //           Adult
+                              //         </span>
+                              //         <div className={style.optionCounter}>
+                              //           <button
+                              //             disabled={options.adult <= 1}
+                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
+                              //             onClick={() =>
+                              //               handleOption("adult", "d")
+                              //             }
+                              //           >
+                              //             <RemoveIcon />
+                              //           </button>
+                              //           <span
+                              //             className={style.optionCounterNumber}
+                              //           >
+                              //             {options.adult}
+                              //           </span>
+                              //           <button
+                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
+                              //             onClick={() =>
+                              //               handleOption("adult", "i")
+                              //             }
+                              //           >
+                              //             <AddIcon />
+                              //           </button>
+                              //         </div>
+                              //       </div>
+                              //       <div className={style.optionItem}>
+                              //         <span
+                              //           className={`${style.optionText} `}
+                              //           style={{ marginRight: "10px" }}
+                              //         >
+                              //           Children
+                              //         </span>
+                              //         <div className={style.optionCounter}>
+                              //           <button
+                              //             disabled={options.children <= 0}
+                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
+                              //             onClick={() =>
+                              //               handleOption("children", "d")
+                              //             }
+                              //           >
+                              //             <RemoveIcon />
+                              //           </button>
+                              //           <span
+                              //             className={style.optionCounterNumber}
+                              //           >
+                              //             {options.children}
+                              //           </span>
+                              //           <button
+                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
+                              //             onClick={() =>
+                              //               handleOption("children", "i")
+                              //             }
+                              //           >
+                              //             <AddIcon />
+                              //           </button>
+                              //         </div>
+                              //       </div>
+                              //     </div>
+                              //     <hr
+                              //       className={`my-2 ${
+                              //         isTablet ? "" : "d-none"
+                              //       }`}
+                              //     />
+                              //     <div
+                              //       className={`${
+                              //         !isTablet ? "border-start" : ""
+                              //       } ms-1 col-md-4`}
+                              //     >
+                              //       <h5 className="text-start my-1">
+                              //         Set Rooms
+                              //       </h5>
+                              //       <div className={style.optionItem}>
+                              //         <span
+                              //           className={style.optionText}
+                              //           style={{ marginRight: "9px" }}
+                              //         >
+                              //           Single Room
+                              //         </span>
+                              //         <div className={style.optionCounter}>
+                              //           <button
+                              //             disabled={options.singleRoom <= 0}
+                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
+                              //             onClick={() =>
+                              //               handleOption("singleRoom", "d")
+                              //             }
+                              //           >
+                              //             <RemoveIcon />
+                              //           </button>
+                              //           <span
+                              //             className={style.optionCounterNumber}
+                              //           >
+                              //             {options.singleRoom}
+                              //           </span>
+                              //           <button
+                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
+                              //             onClick={() =>
+                              //               handleOption("singleRoom", "i")
+                              //             }
+                              //           >
+                              //             <AddIcon />
+                              //           </button>
+                              //         </div>
+                              //       </div>
+                              //       <div className={style.optionItem}>
+                              //         <span
+                              //           className={style.optionText}
+                              //           style={{ marginRight: "21px" }}
+                              //         >
+                              //           Twin Room
+                              //         </span>
+                              //         <div className={style.optionCounter}>
+                              //           <button
+                              //             disabled={options.twinRoom <= 0}
+                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
+                              //             onClick={() =>
+                              //               handleOption("twinRoom", "d")
+                              //             }
+                              //           >
+                              //             <RemoveIcon />
+                              //           </button>
+                              //           <span
+                              //             className={style.optionCounterNumber}
+                              //           >
+                              //             {options.twinRoom}
+                              //           </span>
+                              //           <button
+                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
+                              //             onClick={() =>
+                              //               handleOption("twinRoom", "i")
+                              //             }
+                              //           >
+                              //             <AddIcon />
+                              //           </button>
+                              //         </div>
+                              //       </div>
+                              //       <div className={style.optionItem}>
+                              //         <span
+                              //           className={style.optionText}
+                              //           style={{ marginRight: "5px" }}
+                              //         >
+                              //           Family Room
+                              //         </span>
+                              //         <div className={style.optionCounter}>
+                              //           <button
+                              //             disabled={options.familyRoom <= 0}
+                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
+                              //             onClick={() =>
+                              //               handleOption("familyRoom", "d")
+                              //             }
+                              //           >
+                              //             <RemoveIcon />
+                              //           </button>
+                              //           <span
+                              //             className={style.optionCounterNumber}
+                              //           >
+                              //             {options.familyRoom}
+                              //           </span>
+                              //           <button
+                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
+                              //             onClick={() =>
+                              //               handleOption("familyRoom", "i")
+                              //             }
+                              //           >
+                              //             <AddIcon />
+                              //           </button>
+                              //         </div>
+                              //       </div>
+                              //     </div>
+                              //   </div>
+                              // </div>
+                              <div className={`shadow-lg ${style.options}`}>
                                 <div className="row">
                                   <div className="ms-1 me-5 ms-2 col-md-4 ">
                                     <h5 className="text-start my-1">
@@ -948,7 +1131,9 @@ const Navbar = ({ list }) => {
                                       >
                                         Children
                                       </span>
-                                      <div className={style.optionCounter}>
+                                      <div
+                                        className={`ms-1 ${style.optionCounter}`}
+                                      >
                                         <button
                                           disabled={options.children <= 0}
                                           className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
@@ -974,20 +1159,11 @@ const Navbar = ({ list }) => {
                                       </div>
                                     </div>
                                   </div>
-                                  <hr
-                                    className={`my-2 ${
-                                      isTablet ? "" : "d-none"
-                                    }`}
-                                  />
-                                  <div
-                                    className={`${
-                                      !isTablet ? "border-start" : ""
-                                    } ms-1 col-md-4`}
-                                  >
+                                  <div className="border-start ms-1 col-md-4">
                                     <h5 className="text-start my-1">
                                       Set Rooms
                                     </h5>
-                                    <div className={style.optionItem}>
+                                    <div className={`${style.optionItem}`}>
                                       <span
                                         className={style.optionText}
                                         style={{ marginRight: "9px" }}
@@ -1019,7 +1195,7 @@ const Navbar = ({ list }) => {
                                         </button>
                                       </div>
                                     </div>
-                                    <div className={style.optionItem}>
+                                    <div className={`${style.optionItem} ms-2`}>
                                       <span
                                         className={style.optionText}
                                         style={{ marginRight: "21px" }}
@@ -1051,7 +1227,7 @@ const Navbar = ({ list }) => {
                                         </button>
                                       </div>
                                     </div>
-                                    <div className={style.optionItem}>
+                                    <div className={`${style.optionItem}`}>
                                       <span
                                         className={style.optionText}
                                         style={{ marginRight: "5px" }}
@@ -1165,7 +1341,9 @@ const Navbar = ({ list }) => {
                                         >
                                           Children
                                         </span>
-                                        <div className={style.optionCounter}>
+                                        <div
+                                          className={`ms-1 ${style.optionCounter}`}
+                                        >
                                           <button
                                             disabled={options.children <= 0}
                                             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
