@@ -15,15 +15,16 @@ const List = () => {
   const { options } = useSelector((state) => state.searchOption);
   const { c } = useSelector((state) => state.searchVehicle);
 
-  const { adult, children, familyroom, singleroom, twinroom } = options;
+  const { adult, children, familyRoom, singleRoom, twinRoom } = options;
   const checkin = dates[0];
   const checkout = dates[1];
 
   const { activePath } = useSelector((state) => state.activePath);
 
-  if (window.scroll(0, 0)) {
-    document.body.style.width = "100vw";
-  }
+  // if (window.scroll(0, 0)) {
+  //   document.body.style.width = "100vw";
+  // }
+
   // For Hotel and parking
   // Getting City For Hotel and Parking
   const { cityHotelAndParking } = useSelector(
@@ -51,6 +52,21 @@ const List = () => {
 
   const [option, setOption] = useState(options);
   const [openDate, setOpenDate] = useState(false);
+
+  console.log("Options Are ", option);
+
+  // console.log("Values Are ", {
+  //   city,
+  //   checkin,
+  //   checkout,
+  //   adult,
+  //   dates,
+  //   children,
+  //   singleRoom,
+  //   twinRoom,
+  //   familyRoom,
+  // });
+
   // const [min, setMin] = useState(undefined);
   // const [max, setMax] = useState(undefined);
 
@@ -64,14 +80,14 @@ const List = () => {
   // }
 
   const handleClick = () => {
-    // reFetch();
+    dispatch({ type: "SET_OPTION", payload: option });
     activePath === "hotel" ? getHotels() : getHotelAndParking();
   };
 
   const getHotels = async () => {
     try {
       dispatch({ type: "SET_FEATURED_DATA", payload: [] });
-      const url = `http://localhost:5000/hotels/search?city=${city}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleroom}&twinRoom=${twinroom}&familyRoom=${familyroom}`;
+      const url = `http://localhost:5000/hotels/search?city=${city}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleRoom}&twinRoom=${twinRoom}&familyRoom=${familyRoom}`;
       const response = await fetch(url, {
         method: "GET",
         // credentials: "include",
@@ -87,7 +103,7 @@ const List = () => {
     try {
       dispatch({ type: "SET_FEATURED_DATA", payload: [] });
       // const url = `http://localhost:5000/hotelandparking/search?city=${cityHotelAndParking}&checkIn=2023-03-11T00:00:00.000Z&checkOut=2023-03-14T00:00:00.000Z&adult=4&children=2&singleRoom=1&twinRoom=1&familyRoom=1&vehicle=5`;
-      const url = `http://localhost:5000/hotelandparking/search?city=${cityHotelAndParking}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleroom}&twinRoom=${twinroom}&familyRoom=${familyroom}&vehicles=${c}`;
+      const url = `http://localhost:5000/hotelandparking/search?city=${cityHotelAndParking}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleRoom}&twinRoom=${twinRoom}&familyRoom=${familyRoom}&vehicles=${c}`;
       const response = await fetch(url, {
         method: "GET",
         // credentials: "include",
@@ -114,8 +130,6 @@ const List = () => {
       selectedRatings.push(rating);
     }
 
-    console.log(selectedRatings);
-
     if (selectedRatings.length === 0) {
       setDataList(hotelData);
     } else {
@@ -140,7 +154,6 @@ const List = () => {
   //   };
   //   filteredData();
   // }, [selectedRatings, dataList]);
-  console.log(featured_hotel);
 
   useEffect(() => {
     if (activePath === "hotel" && featured_hotel.length === 0) {
@@ -207,64 +220,152 @@ const List = () => {
                     <span className={style.lsOptionText}>Adult</span>
                     <input
                       type="number"
-                      min={1}
+                      // min={1}
+                      value={option.adult}
                       className={style.lsOptionInput}
                       placeholder={option.adult}
-                      onChange={(e) =>
-                        e.target.value < 1 || e.target.value === ""
-                          ? dispatch({
-                              type: "SET_OPTION",
-                              payload: { ...options, adult: 1 },
-                            })
-                          : dispatch({
-                              type: "SET_OPTION",
-                              payload: { ...options, adult: e.target.value },
-                            })
-                      }
+                      // onChange={(e) =>
+                      //   e.target.value < 1 || e.target.value === ""
+                      //     ? dispatch({
+                      //         type: "SET_OPTION",
+                      //         payload: { ...options, adult: 1 },
+                      //       })
+                      //     : dispatch({
+                      //         type: "SET_OPTION",
+                      //         payload: { ...options, adult: e.target.value },
+                      //       })
+                      // }
+                      onChange={(e) => {
+                        setOption({ ...option, adult: e.target.value });
+                        // dispatch({
+                        //   type: "SET_OPTION",
+                        //   payload: { ...options, adult: e.target.value },
+                        // });
+                      }}
                     />
                   </div>
                   <div className={style.lsOptionItem}>
                     <span className={style.lsOptionText}>Children</span>
                     <input
                       type="number"
-                      min={0}
+                      // min={0}
+                      value={option.children}
                       className={style.lsOptionInput}
                       placeholder={options.children}
-                      onChange={(e) =>
-                        e.target.value < 1 || e.target.value === ""
-                          ? dispatch({
-                              type: "SET_OPTION",
-                              payload: { ...options, children: 1 },
-                            })
-                          : dispatch({
-                              type: "SET_OPTION",
-                              payload: { ...options, adult: e.target.value },
-                            })
-                      }
+                      // onChange={(e) =>
+                      //   e.target.value < 1 || e.target.value === ""
+                      //     ? dispatch({
+                      //         type: "SET_OPTION",
+                      //         payload: { ...options, children: 1 },
+                      //       })
+                      //     : dispatch({
+                      //         type: "SET_OPTION",
+                      //         payload: { ...options, adult: e.target.value },
+                      //       })
+                      // }
+                      onChange={(e) => {
+                        setOption({ ...option, children: e.target.value });
+                        // dispatch({
+                        //   type: "SET_OPTION",
+                        //   payload: { ...options, children: e.target.value },
+                        // });
+                      }}
                     />
                   </div>
                   <div className={style.lsOptionItem}>
-                    <span className={style.lsOptionText}>Room</span>
+                    <span className={style.lsOptionText}>Single Room</span>
                     <input
                       type="number"
-                      min={1}
+                      // min={1}
+                      value={option.singleRoom}
                       className={style.lsOptionInput}
-                      placeholder={
-                        options.singleRoom +
-                        options.twinRoom +
-                        options.familyRoom
-                      }
-                      onChange={(e) =>
-                        e.target.value < 1 || e.target.value === ""
-                          ? dispatch({
-                              type: "SET_OPTION",
-                              payload: { ...options, SingleRoom: 1 },
-                            })
-                          : dispatch({
-                              type: "SET_OPTION",
-                              payload: { ...options, room: e.target.value },
-                            })
-                      }
+                      // placeholder={
+                      //   options.singleRoom +
+                      //   options.twinRoom +
+                      //   options.familyRoom
+                      // }
+                      // onChange={(e) =>
+                      //   e.target.value < 1 || e.target.value === ""
+                      //     ? dispatch({
+                      //         type: "SET_OPTION",
+                      //         payload: { ...options, SingleRoom: 1 },
+                      //       })
+                      //     : dispatch({
+                      //         type: "SET_OPTION",
+                      //         payload: { ...options, room: e.target.value },
+                      //       })
+                      // }
+                      onChange={(e) => {
+                        setOption({ ...option, singleRoom: e.target.value });
+                        // dispatch({
+                        //   type: "SET_OPTION",
+                        //   payload: { ...options, singleRoom: e.target.value },
+                        // });
+                      }}
+                    />
+                  </div>
+                  <div className={style.lsOptionItem}>
+                    <span className={style.lsOptionText}>Twin Room</span>
+                    <input
+                      type="number"
+                      // min={1}
+                      value={option.twinRoom}
+                      className={style.lsOptionInput}
+                      // placeholder={
+                      //   options.singleRoom +
+                      //   options.twinRoom +
+                      //   options.familyRoom
+                      // }
+                      // onChange={(e) =>
+                      //   e.target.value < 1 || e.target.value === ""
+                      //     ? dispatch({
+                      //         type: "SET_OPTION",
+                      //         payload: { ...options, SingleRoom: 1 },
+                      //       })
+                      //     : dispatch({
+                      //         type: "SET_OPTION",
+                      //         payload: { ...options, room: e.target.value },
+                      //       })
+                      // }
+                      onChange={(e) => {
+                        setOption({ ...option, twinRoom: e.target.value });
+                        // dispatch({
+                        //   type: "SET_OPTION",
+                        //   payload: { ...options, twinRoom: e.target.value },
+                        // });
+                      }}
+                    />
+                  </div>
+                  <div className={style.lsOptionItem}>
+                    <span className={style.lsOptionText}>Family Room</span>
+                    <input
+                      type="number"
+                      // min={1}
+                      value={option.familyRoom}
+                      className={style.lsOptionInput}
+                      // placeholder={
+                      //   options.singleRoom +
+                      //   options.twinRoom +
+                      //   options.familyRoom
+                      // }
+                      // onChange={(e) =>
+                      //   e.target.value < 1 || e.target.value === ""
+                      //     ? dispatch({
+                      //         type: "SET_OPTION",
+                      //         payload: { ...options, SingleRoom: 1 },
+                      //       })
+                      //     : dispatch({
+                      //         type: "SET_OPTION",
+                      //         payload: { ...options, room: e.target.value },
+                      //       })
+                      // }
+                      onChange={(e) => {
+                        setOption({ ...option, familyRoom: e.target.value });
+                        // dispatch({
+                        //   type: "SET_OPTION",
+                        //   payload: { ...options, familyRoom: e.target.value },
+                        // });
+                      }}
                     />
                   </div>
                 </div>

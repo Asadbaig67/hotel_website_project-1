@@ -18,7 +18,9 @@ const ParkingCard = (props) => {
     availableSlots,
     parking,
   } = props.data;
-  const { name, city, country, description, price, title, photos } = parking;
+
+  const { name, city, country, description, price, title, photos, rating } =
+    parking;
   const card = {
     title: "Card title",
     rating: "4.5",
@@ -29,7 +31,6 @@ const ParkingCard = (props) => {
   const HandleClick = () => {
     dispatch({ type: "SET_SELECTED_PARKING", payload: props.data });
     Navigate("/singleparking");
-    console.log("clicked");
   };
 
   return (
@@ -91,14 +92,14 @@ const ParkingCard = (props) => {
           </small>
           <small className="d-block">
             {" "}
-            <span className="text-warning fw-bold">Rating</span> {card.rating}
+            <span className="text-warning fw-bold">Rating</span> {rating}
           </small>
           <p>
             {" "}
             <span className="fw-bold text-info">{availableSlots}</span> Free
             Slots{" "}
           </p>
-          <p className="card-text">{description}</p>
+          <p className="card-text fw-lighter mt-2 fst-italic">{description}</p>
           <div className="mt-3 ">
             <h4 className="">
               <span className="fw-bold text-dark bg-success rounded-2 px-2 py-1 me-2">
