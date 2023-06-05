@@ -85,6 +85,13 @@ const HotelsList = () => {
           "http://localhost:5000/hotelandparking/getPendinghotelandparkings",
       });
       dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader });
+    } else if (path==="cancelbooking"){
+      dispatch({
+        type: "SETURL",
+        payload:
+          "http://localhost:5000/booking/getCancelledBookings",
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHeader });
     }
   } else if (view === "partner") {
     if (path === "Property") {
@@ -151,19 +158,19 @@ const HotelsList = () => {
       if (user.partner_type === "Hotel") {
         dispatch({
           type: "SETURL",
-          payload: `http://localhost:5000/booking/getBookingHotelByOwnerId/${id}`,
+          payload: `http://localhost:5000/booking/getCancelledBookingsByHotelOwnerId/${id}`,
         });
         dispatch({ type: "SETHEADER", payload: bookingHotelHeader });
       } else if (user.partner_type === "Parking") {
         dispatch({
           type: "SETURL",
-          payload: `http://localhost:5000/booking/getBookingParkingByOwnerId/${id}`,
+          payload: `http://localhost:5000/booking/getCancelledBookingsByParkingOwnerId/${id}`,
         });
         dispatch({ type: "SETHEADER", payload: bookingParkingHeader });
       } else if (user.partner_type === "HotelAndParking") {
         dispatch({
           type: "SETURL",
-          payload: `http://localhost:5000/booking/getBookingHotelandParkingByOwnerId/${id}`,
+          payload: `http://localhost:5000/booking/getCancelledBookingsByHotelAndParkingOwnerId/${id}`,
         });
         dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader });
       }
@@ -225,6 +232,12 @@ const HotelsList = () => {
         payload: `http://localhost:5000/booking/getUpcomingBookingHotelandParkingByUserId/${id}`,
       });
       dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader });
+    } else if (path==="cancelbooking"){
+      dispatch({
+        type: "SETURL",
+        payload: `http://localhost:5000/booking/getCancelledBookingsByUserId/${id}`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHeader });
     }
   }
 

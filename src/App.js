@@ -36,11 +36,8 @@ import HotelBooking from "./Components/Forms/Booking_Forms/Hotel_booking";
 import ParkingPropertyDetails from "./Pages/singleParking/Singleparking";
 import Featured_skeleton from "./Components/Skeletons/Featured_skeleton";
 import Viewbookings from "./Pages/BookingDetails/Viewbookings";
-import RoomBooking from "./Pages/BookingDetails/Book";
 import Viewproperty from "./Pages/ViewProperty/Viewproperty";
 import AdminBookings from "./Pages/BookingDetails/AdminBookings";
-import SidebarAdmin from "./Components/AdminDashboardSidebar/AdminDashboardSidebar";
-import Topbar from "./Components/Topbar/Topbar";
 
 function App() {
   const property = {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { Box, IconButton, useTheme } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -9,6 +9,18 @@ import bgrmvblk from "../../images/bgrmvblk.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import person from "../../images/user.png";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Divider from "@mui/material/Divider";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
+import Badge from "@mui/material/Badge";
 
 const Topbar = () => {
   //   const theme = useTheme();
@@ -18,6 +30,32 @@ const Topbar = () => {
   const navigate = useNavigate();
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
+
+  const { notification } = useSelector((state) => state.setNotification);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  useEffect(() => {
+    const fetchNotification = async () => {
+      const data = await axios.get(
+        `http://localhost:5000/notification/getNotification/${user._id}`
+      );
+      dispatch({ type: "SET_NOTIFICATION", payload: data.data });
+    };
+    fetchNotification();
+  }, []);
+
+  const handleNotication = async (event) => {
+    setAnchorEl(event.currentTarget);
+    console.log(notification);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
@@ -45,7 +83,76 @@ const Topbar = () => {
           {/* <LightModeOutlinedIcon /> */}
         </IconButton>
         <IconButton>
-          <NotificationsOutlinedIcon />
+          <Button
+            aria-describedby={id}
+            // variant="contained"
+            onClick={handleNotication}
+          >
+            <Badge color="primary" badgeContent={notification.length} max={99}>
+              <NotificationsOutlinedIcon />
+            </Badge>
+          </Button>
+          <Popover
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+          >
+            <List
+              sx={{
+                width: "100%",
+                maxWidth: 360,
+                height: "100%",
+                maxHeight: 360,
+                bgcolor: "background.paper",
+              }}
+            >
+              {notification === [] ? (
+                <CircularProgress />
+              ) : (
+                notification.map((item) => {
+                  return (
+                    <>
+                      <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                          <Avatar
+                            alt="Remy Sharp"
+                            src={user.photo ? user.photo : person}
+                          />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={item.type}
+                          secondary={
+                            <React.Fragment>
+                              <Typography
+                                sx={{ display: "inline" }}
+                                component="span"
+                                variant="body2"
+                                color="text.primary"
+                              >
+                                {item.title}
+                              </Typography>
+                              {` — ${item.message}`}
+                              {` — ${item.date}`}
+                            </React.Fragment>
+                          }
+                        />
+                      </ListItem>
+                      <Divider variant="inset" component="li" />
+                    </>
+                  );
+                })
+              )}
+            </List>
+          </Popover>
         </IconButton>
         {/* <IconButton><SettingsOutlinedIcon /></IconButton> */}
         <IconButton>
