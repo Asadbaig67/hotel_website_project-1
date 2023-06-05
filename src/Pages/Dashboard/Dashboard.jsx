@@ -1,26 +1,26 @@
 import React, { useState } from "react";
-import Sidebar from "../../Components/adminSidebar/Sidebar";
 import style from "./Dashboard.module.css";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useDispatch, useSelector } from "react-redux";
 import { adminCard, patnerCard, userCard } from "../../Utilis/DashboardData";
-import { useMediaQuery } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { Typography, useMediaQuery } from "@mui/material";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import DashboardDataTable from "../../Components/dashboardDataTable/dashboardDataTable";
 import { dashboardOperatingCityHeader } from "../../Utilis/DataTableSource";
 import Topbar from "../../Components/Topbar/Topbar";
 import SidebarAdmin from "../../Components/AdminDashboardSidebar/AdminDashboardSidebar";
+import HotelIcon from "@mui/icons-material/Hotel";
+import LocalParkingIcon from "@mui/icons-material/LocalParking";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 export default function Dashboard() {
-  const { header } = useSelector((state) => state.setHeader);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   dispatch({ type: "SETHEADER", payload: dashboardOperatingCityHeader });
 
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
-  const id = user._id;
   const location = useLocation();
   const path = location.pathname.split("/")[1];
 
@@ -81,6 +81,15 @@ export default function Dashboard() {
     }
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <>
       <Topbar />
@@ -101,7 +110,7 @@ export default function Dashboard() {
           //     : "80px",
           // }}
           >
-            <div className="col-md-12 p-3 bg-info d-flex ">
+            <div className="col-md-12 p-3 d-flex justify-content-between">
               <h1
                 className={`fs-1 fw-bold mx-auto text-${
                   mode === "light" ? "dark" : "light"
@@ -109,6 +118,65 @@ export default function Dashboard() {
               >
                 Dashboard
               </h1>
+              <div>
+                <button className="btn btn-info" onClick={handleOpen}>
+                  List your property
+                </button>
+                <Menu
+                  anchorEl={anchorEl}
+                  id="account-menu"
+                  open={open}
+                  onClose={handleClose}
+                  onClick={handleClose}
+                  PaperProps={{
+                    elevation: 0,
+                    sx: {
+                      overflow: "visible",
+                      filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                      mt: 1.5,
+                      "& .MuiAvatar-root": {
+                        width: 32,
+                        height: 32,
+                        ml: -0.5,
+                        mr: 1,
+                      },
+                      "&:before": {
+                        content: '""',
+                        display: "block",
+                        position: "absolute",
+                        top: 0,
+                        right: 14,
+                        width: 10,
+                        height: 10,
+                        bgcolor: "background.paper",
+                        transform: "translateY(-50%) rotate(45deg)",
+                        zIndex: 0,
+                      },
+                    },
+                  }}
+                  transformOrigin={{ horizontal: "right", vertical: "top" }}
+                  anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                >
+                  <MenuItem onClick={() => navigate("/hotelform")}>
+                    <div className="d-flex">
+                      <HotelIcon />
+                      <Typography>Hotel Partner</Typography>
+                    </div>
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate("/parkingform")}>
+                    <div className="d-flex">
+                      <LocalParkingIcon />
+                      <Typography>Parking Partner</Typography>
+                    </div>
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate("/hotelparkingform")}>
+                    <div className="d-flex">
+                      <HotelIcon />
+                      <Typography>Hotel and Parking Partner</Typography>
+                    </div>
+                  </MenuItem>
+                </Menu>
+              </div>
             </div>
 
             <div className={`row justify-content-center mt-4`}>
