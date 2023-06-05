@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export const userHeader = [
   { field: "_id", headerName: "ID", width: 130 },
   { field: "firstName", headerName: "First Name", width: 130 },
@@ -50,7 +48,7 @@ export const bookingHeader = [
   { field: "_id", headerName: "ID", width: 100 },
   { field: "Booking_type", headerName: "Booking Type", width: 100 },
   {
-    field: "hotelName" | "parkingName" | "hotelAndParkingName",
+    field: "propertyName",
     headerName: "Name",
     width: 130,
   },

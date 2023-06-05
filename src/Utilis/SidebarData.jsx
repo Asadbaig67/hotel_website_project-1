@@ -51,6 +51,12 @@ export const SidebarDataAdminProfile = [
     icon: <BusinessCenterIcon />,
     link: "/booking",
   },
+  {
+    key: "n",
+    title: "Canceled Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/cancelbooking",
+  },
 ];
 
 export const SidebarDataAdminProfilePending = [
@@ -159,6 +165,12 @@ export const SidebarDataUserBooking = [
     title: "Hotels and Parkings",
     icon: <BusinessCenterIcon />,
     link: "/hotelandparkingbookings",
+  },
+  {
+    key: "n",
+    title: "Canceled Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/cancelbooking",
   },
 ];
 

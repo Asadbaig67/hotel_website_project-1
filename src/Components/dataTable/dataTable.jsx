@@ -30,7 +30,7 @@ const DataTable = ({ path, user }) => {
   const [open, setOpen] = useState(false);
   const [dialogData, setDialogData] = useState({});
   const [ratingOpen, setRatingOpen] = useState(false);
-  const [rating, setRating] = useState();
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     setList(filteredData);
@@ -423,6 +423,10 @@ const DataTable = ({ path, user }) => {
             type="number"
             fullWidth
             variant="standard"
+            inputProps={{
+              max: 5, // Maximum value
+              min: 1, // Minimum value
+            }}
             onChange={(e) => setRating(e.target.value)}
           />
         </DialogContent>
@@ -437,6 +441,7 @@ const DataTable = ({ path, user }) => {
           <Button
             variant="outlined"
             color="primary"
+            disabled={rating < 1 || rating > 5 ? true : false}
             onClick={() => handleApproveWithRating(dialogData.id, rating)}
           >
             Approve
