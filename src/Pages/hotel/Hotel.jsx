@@ -33,15 +33,15 @@ const Hotel = () => {
   // const { dates } = useSelector((state) => state.searchDate);
   const { options } = useSelector((state) => state.searchOption);
   const { c } = useSelector((state) => state.searchVehicle);
-  console.log(options);
+  // console.log(options);
   const { room_data } = useSelector((state) => state.getStaticroom);
   const { activePath } = useSelector((state) => state.activePath);
-  console.log("Selected Option are =", options);
+  // console.log("Selected Option are =", options);
   const { selected_hotel } = useSelector((state) => state.getSelectedHotel);
 
   if (selected_hotel) {
-    console.log("Selected Hotel =", selected_hotel);
-    console.log("Selected Hotel Rooms =", selected_hotel.Rooms);
+    // console.log("Selected Hotel =", selected_hotel);
+    // console.log("Selected Hotel Rooms =", selected_hotel.Rooms);
   }
 
   // const id = location.pathname.split("/")[2];
@@ -71,7 +71,6 @@ const Hotel = () => {
     parkingPrice = selected_hotel.parking_price * c;
   }
 
-  console.log("Parking Price =", parkingPrice);
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
@@ -184,12 +183,6 @@ const Hotel = () => {
     return () => window.removeEventListener("scroll", disableScroll);
   }, [open]);
 
-  console.log("Hotel Page" + selected_hotel.Nights);
-
-  selected_hotel.photos.map((photo, i) => {
-    console.log(photo);
-  });
-
   return (
     <div style={{ overflow: "hidden" }}>
       <Navbar list={false} />
@@ -282,35 +275,24 @@ const Hotel = () => {
               </div>
             </div>
             <div className="hotelImages">
-              {/* {data.photos?.map((photo, i) => (
-                <div className="hotelImgWrapper" key={photo}>
-                  <img
-                    onClick={() => {
-                      if (!isXtraSmallScreen) {
-                        window.scrollTo(20, 20);
-                        handleOpen(i);
-                      }
-                    }}
-                    src={photo}
-                    alt=""
-                    className="hotelImg"
-                  />
-                </div>
-              ))} */}
               {selected_hotel.photos.map((photo, i) => {
-                <div className="hotelImgWrapper" key={photo}>
-                  <img
-                    onClick={() => {
-                      if (!isXtraSmallScreen) {
-                        window.scrollTo(20, 20);
-                        handleOpen(i);
-                      }
-                    }}
-                    src={photo}
-                    alt=""
-                    className="hotelImg"
-                  />
-                </div>;
+                return (
+                  <>
+                    <div className="hotelImgWrapper" key={photo}>
+                      <img
+                        onClick={() => {
+                          if (!isXtraSmallScreen) {
+                            window.scrollTo(20, 20);
+                            handleOpen(i);
+                          }
+                        }}
+                        src={photo}
+                        alt="hotel_img"
+                        className="hotelImg"
+                      />
+                    </div>
+                  </>
+                );
               })}
             </div>
             {/* <div className="d-flex flex-wrap justify-content-start align-items-center">
