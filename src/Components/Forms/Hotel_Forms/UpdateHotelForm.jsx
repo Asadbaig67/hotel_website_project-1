@@ -11,11 +11,8 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
-import axios from "axios";
 import style from "./addhotel.module.css";
-import { json } from "react-router-dom";
-import SidebarAdmin from "../../AdminDashboardSidebar/AdminDashboardSidebar";
-import Topbar from "../../Topbar/Topbar";
+import AdminSidebar from "../../adminSidebar/AdminSidebar";
 
 const UpdateHotel = () => {
   //Alerts Code
@@ -251,30 +248,11 @@ const UpdateHotel = () => {
       console.error(error);
     }
   };
-
-  // async function getImageFileObject() {
-  //   const url = formValues.photos[0];
-  //   let option = {
-  //     method: "GET",
-  //   };
-  //   const response = await fetch(url, option);
-  //   const buffer = await response.arrayBuffer();
-  //   const file = new File([buffer], "hotelparking-bg.jpg", {
-  //     type: "image/jpeg",
-  //   });
-  //   return file;
-  // }
-
-  // getImageFileObject().then((file) => {
-  //   console.log("New File Object = ", file);
-  // });
-
   return (
     <>
-      <Topbar />
       <div className="d-flex">
-        <SidebarAdmin />
-        <div>
+        <AdminSidebar/>
+        <div className="mt-5">
           {alertOn && (
             <Collapse in={open}>
               <Stack sx={{ width: "100%" }} spacing={1}>

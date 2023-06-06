@@ -24,6 +24,7 @@ import {
 } from "../../Utilis/DataTableSource";
 import Topbar from "../../Components/Topbar/Topbar";
 import SidebarAdmin from "../../Components/AdminDashboardSidebar/AdminDashboardSidebar";
+import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 
 const Viewproperty = () => {
   const IsMobile = useMediaQuery("(max-width:450px)");
@@ -416,13 +417,9 @@ const Viewproperty = () => {
           </div>
         </div>
       </div>
-      {/* <div>
-        <Navbar />
-      </div> */}
-      <Topbar />
       <div className="d-flex">
-        <SidebarAdmin />
-        <div className={`my-3 ${styles.property_details}`}>
+        <AdminSidebar/>
+        <div className={`my-3 mt-5 ${styles.property_details}`}>
           <div>
             <div className="d-flex justify-content-between">
               <h2 className={`${styles.property_name} mb-2`}>

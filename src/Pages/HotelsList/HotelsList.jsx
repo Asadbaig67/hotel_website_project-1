@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import DataTable from "../../Components/dataTable/dataTable";
-import Sidebar from "../../Components/adminSidebar/Sidebar";
+import DataTable from "../../Components/dataTable/dataTable"
 // import Dropdown from "../../Components/Filterdropdown/FilterDropdown";
 // import DropdownFilter from "../../Components/dropdownFilter/Dropdown";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import DatagridHeader from "../../Components/DatagridHeader/DatagridHeader";
-import Topbar from "../../Components/Topbar/Topbar";
-import SidebarAdmin from "../../Components/AdminDashboardSidebar/AdminDashboardSidebar";
 import {
   hotelsHeader,
   userHeader,
@@ -20,6 +17,7 @@ import {
   bookingParkingHeader,
   bookingHotelAndParkingHeader,
 } from "../../Utilis/DataTableSource";
+import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 
 const HotelsList = () => {
   const navigate = useNavigate();
@@ -309,17 +307,16 @@ const HotelsList = () => {
       (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
       // window.location.href = "/hotelparkingform";
-      navigate("/hotelparkingform");
+      
     }
   };
 
   return (
     <>
-      <Topbar />
-
+      
       <div className="d-flex">
-        <SidebarAdmin />
-        <div className="container-fluid">
+        <AdminSidebar/>
+        <div className="container-fluid mt-5">
           <div className="row">
             <div className="col-md-12">
               {view === "admin" ? (
@@ -504,22 +501,3 @@ const HotelsList = () => {
 };
 
 export default HotelsList;
-
-// <div className="col-md-12">
-//               <div className="row">
-//                 <div className="col-md-12">
-//                   <div className="d-flex me-2 mb-3">
-
-//                     <button
-//                       className="btn btn-primary fw-bold ms-auto me-3"
-//                       onClick={Addnew}
-//                     >
-//                       Add new
-//                     </button>
-//                   </div>
-//                 </div>
-//                 <Box className="col-md-12">
-//                   <DataTable path={path} user={user} />
-//                 </Box>
-//               </div>
-//             </div>
