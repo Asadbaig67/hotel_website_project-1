@@ -258,6 +258,7 @@ const Card = (props) => {
             >
               <Rating
                 name="hover-feedback"
+                readOnly
                 value={rating ? rating : hotel_rating}
                 precision={0.5}
                 getLabelText={getLabelText}

@@ -17,6 +17,7 @@ import Tooltip from "@mui/material/Tooltip";
 function ParkingPropertyDetails({ property }) {
   const { booked_property } = useSelector((state) => state.getBookedDetails);
   const { c } = useSelector((state) => state.searchVehicle);
+  
   // Data The User Selected From Card
   const { selected_parking } = useSelector((state) => state.getSelectedParking);
   console.log(
@@ -82,8 +83,6 @@ function ParkingPropertyDetails({ property }) {
     5: "Excellent+",
   };
 
-  let Value = selected_parking.parking.rating;
-
   function getLabelText(Value) {
     return `${Value} Star${Value !== 1 ? "s" : ""}, ${labels[Value]}`;
   }
@@ -119,7 +118,7 @@ function ParkingPropertyDetails({ property }) {
       <div className={`my-3 ${styles.property_details}`}>
         <div>
           <div className="d-flex justify-content-between">
-            <h2 className={`${styles.property_name} mb-2`}>
+            <h2 className={`${styles.property_name} `}>
               {selected_parking.parking.name}
             </h2>
             <button className="btn btn-primary btn-lg " onClick={HandleBooking}>
@@ -133,10 +132,13 @@ function ParkingPropertyDetails({ property }) {
                 width: 200,
                 display: "flex",
                 alignItems: "center",
+                m: 0,
+                p: 0,
               }}
             >
               <Rating
-                name="hover-feedback"
+                name="read-only"
+                readOnly
                 value={
                   selected_parking.parking.rating
                     ? selected_parking.parking.rating
@@ -158,12 +160,8 @@ function ParkingPropertyDetails({ property }) {
                 <Box className="ms-3" sx={{ mb: 1, fontSize: 17 }}>
                   {
                     labels[
-                      booked_property
-                        ? booked_property.rating
-                          ? booked_property.rating
-                          : booked_property.hotel_rating
-                          ? booked_property.hotel_rating
-                          : 4
+                      selected_parking.parking.rating
+                        ? selected_parking.parking.rating
                         : 4
                     ]
                   }
