@@ -144,4 +144,8 @@
   .listSearch {
     display: none;
   }
+
+  .sideSection{
+    display: none;
+  }
 }

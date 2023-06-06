@@ -4,7 +4,7 @@ import DataTable from "../../Components/dataTable/dataTable";
 import Sidebar from "../../Components/adminSidebar/Sidebar";
 // import Dropdown from "../../Components/Filterdropdown/FilterDropdown";
 // import DropdownFilter from "../../Components/dropdownFilter/Dropdown";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import DatagridHeader from "../../Components/DatagridHeader/DatagridHeader";
@@ -22,6 +22,7 @@ import {
 } from "../../Utilis/DataTableSource";
 
 const HotelsList = () => {
+  const navigate = useNavigate();
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
   const id = user._id;
@@ -85,11 +86,10 @@ const HotelsList = () => {
           "http://localhost:5000/hotelandparking/getPendinghotelandparkings",
       });
       dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader });
-    } else if (path==="cancelbooking"){
+    } else if (path === "cancelbooking") {
       dispatch({
         type: "SETURL",
-        payload:
-          "http://localhost:5000/booking/getCancelledBookings",
+        payload: "http://localhost:5000/booking/getCancelledBookings",
       });
       dispatch({ type: "SETHEADER", payload: bookingHeader });
     }
@@ -232,7 +232,7 @@ const HotelsList = () => {
         payload: `http://localhost:5000/booking/getUpcomingBookingHotelandParkingByUserId/${id}`,
       });
       dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader });
-    } else if (path==="cancelbooking"){
+    } else if (path === "cancelbooking") {
       dispatch({
         type: "SETURL",
         payload: `http://localhost:5000/booking/getCancelledBookingsByUserId/${id}`,
@@ -286,25 +286,30 @@ const HotelsList = () => {
       (path === "Property" && user.partner_type === "Hotel") ||
       (path === "PropertyRequests" && user.partner_type === "Hotel")
     ) {
-      window.location.href = "/hotelform";
+      // window.location.href = "/hotelform";
+      navigate("/hotelform");
     } else if (path === "users") {
-      window.location.href = "/adduser";
+      // window.location.href = "/adduser";
+      navigate("/adduser");
     } else if (path === "booking") {
-      window.location.href = "/addbooking";
+      // window.location.href = "/addbooking";
+      navigate("/addbooking");
     } else if (
       path === "parkings" ||
       path === "parkingRequests" ||
       (path === "Property" && user.partner_type === "Parking") ||
       (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
-      window.location.href = "/parkingform";
+      // window.location.href = "/parkingform";
+      navigate("/parkingform");
     } else if (
       path === "HotelsAndParkings" ||
       path === "hotelAndParkingRequests" ||
       (path === "Property" && user.partner_type === "HotelAndParking") ||
       (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
-      window.location.href = "/hotelparkingform";
+      // window.location.href = "/hotelparkingform";
+      navigate("/hotelparkingform");
     }
   };
 

@@ -22,6 +22,8 @@ import {
   bookingHotelHeader,
   bookingParkingHeader,
 } from "../../Utilis/DataTableSource";
+import Topbar from "../../Components/Topbar/Topbar";
+import SidebarAdmin from "../../Components/AdminDashboardSidebar/AdminDashboardSidebar";
 
 const Viewproperty = () => {
   const IsMobile = useMediaQuery("(max-width:450px)");
@@ -414,262 +416,311 @@ const Viewproperty = () => {
           </div>
         </div>
       </div>
-      <div>
+      {/* <div>
         <Navbar />
-      </div>
-      <div className={`my-3 ${styles.property_details}`}>
-        <div>
-          <div className="d-flex justify-content-between">
-            <h2 className={`${styles.property_name} mb-2`}>
-              {data.name || data.hotel_name}
-            </h2>
-            {/* <button className="btn btn-primary btn-lg ">Book Now</button> */}
-          </div>
-          <div className={styles.property_ratings}>
-            <Box
-              className="justify-content-start mb-2"
-              sx={{
-                width: 200,
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Rating
-                name="hover-feedback"
-                value={
-                  data
-                    ? data.rating
-                      ? data.rating
-                      : data.hotel_rating
-                      ? data.hotel_rating
-                      : 0
-                    : null
-                }
-                precision={1}
-                getLabelText={getLabelText}
-                // onChange={(event, newValue) => {
-                //   setValue(newValue);
-                // }}
-                // onChangeActive={(event, newHover) => {
-                //   setHover(newHover);
-                // }}
-                emptyIcon={
-                  <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-                }
-              />
-              {
-                <Box className="ms-3" sx={{ mb: 1, fontSize: 17 }}>
-                  {
-                    labels[
-                      data
-                        ? data.rating
-                          ? data.rating
-                          : data.hotel_rating
-                          ? data.hotel_rating
-                          : 0
-                        : null
-                    ]
-                  }
-                </Box>
-              }
-            </Box>
-          </div>
-          <div className="d-flex flex-row">
-            <span>
-              <Link
-                to="/"
-                className="text-primary fs-8 fw-bold my-0 mx-md-0 mx-0"
+      </div> */}
+      <Topbar />
+      <div className="d-flex">
+        <SidebarAdmin />
+        <div className={`my-3 ${styles.property_details}`}>
+          <div>
+            <div className="d-flex justify-content-between">
+              <h2 className={`${styles.property_name} mb-2`}>
+                {data.name || data.hotel_name}
+              </h2>
+              {/* <button className="btn btn-primary btn-lg ">Book Now</button> */}
+            </div>
+            <div className={styles.property_ratings}>
+              <Box
+                className="justify-content-start mb-2"
+                sx={{
+                  width: 200,
+                  display: "flex",
+                  alignItems: "center",
+                }}
               >
-                {data.city || data.hotel_city}
-              </Link>
-            </span>
-            <span>
-              <div to="/" className="fs-8 fw-light my-0 mx-1">
-                {data.country || data.hotel_country}
-                {/* {hotel_country ? hotel_country : "Bangladesh"} */}
-              </div>
-            </span>
-            <span>
-              <DirectionsWalkIcon fontSize="small" className="mb-2 small" />
-              29 min (1.8km)
-            </span>
-          </div>
-        </div>
-        <hr />
-        <div className="mb-3">
-          <Tooltip title="Accessible For People With Reduces Mobility" arrow>
-            <AccessibleIcon
-              fontSize="larger"
-              className="bg-secondary rounded-pill p-1 me-2 fs-1"
-            />
-          </Tooltip>
-          <Tooltip title="24h Service" arrow>
-            <RestoreIcon
-              fontSize="larger"
-              className="bg-secondary rounded-pill p-1 ms-1 fs-1"
-            />
-          </Tooltip>
-        </div>
-        <div className={`${styles.property_info} `}>
-          <h3 className="fw-bold fs-5 text-dark my-2">
-            Details: About the car park
-          </h3>
-          <div className={`${styles.property_description} my-2`}>
-            <p>{data.description || data.hotel_description}</p>
-          </div>
-          <div className={`${styles.property_features} my-2`}>
-            <h3 className="my-1">Features:</h3>
-            <ul className={`mt-2 ${styles.features_list}`}>
-              {data.Facilities
-                ? data.Facilities.map((feature) => (
-                    <li key={feature} className={styles.feature_item}>
-                      {feature}
-                    </li>
-                  ))
-                : null}
-            </ul>
-          </div>
-        </div>
-
-        {/* Modal Code */}
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <div
-                  id="carouselExample"
-                  className="carousel slide"
-                  data-bs-ride="carousel"
+                <Rating
+                  name="hover-feedback"
+                  value={
+                    data
+                      ? data.rating
+                        ? data.rating
+                        : data.hotel_rating
+                        ? data.hotel_rating
+                        : 0
+                      : null
+                  }
+                  precision={1}
+                  getLabelText={getLabelText}
+                  // onChange={(event, newValue) => {
+                  //   setValue(newValue);
+                  // }}
+                  // onChangeActive={(event, newHover) => {
+                  //   setHover(newHover);
+                  // }}
+                  emptyIcon={
+                    <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                  }
+                />
+                {
+                  <Box className="ms-3" sx={{ mb: 1, fontSize: 17 }}>
+                    {
+                      labels[
+                        data
+                          ? data.rating
+                            ? data.rating
+                            : data.hotel_rating
+                            ? data.hotel_rating
+                            : 0
+                          : null
+                      ]
+                    }
+                  </Box>
+                }
+              </Box>
+            </div>
+            <div className="d-flex flex-row">
+              <span>
+                <Link
+                  to="/"
+                  className="text-primary fs-8 fw-bold my-0 mx-md-0 mx-0"
                 >
-                  <div className="carousel-inner">
-                    {data.photos
-                      ? data.photos.map((e, index) => (
-                          <div
-                            className={`carousel-item ${
-                              index === 0 ? "active" : ""
-                            }`}
-                            key={index}
-                          >
-                            <img
-                              src={e}
-                              className="d-block "
-                              style={{
-                                objectFit: "cover",
-                                height: "500px",
-                                width: "100%",
-                              }}
-                              alt="property pic"
-                            />
-                          </div>
-                        ))
-                      : data.hotel_photos.map((e, index) => (
-                          <div
-                            className={`carousel-item ${
-                              index === 0 ? "active" : ""
-                            }`}
-                            key={index}
-                          >
-                            <img
-                              src={e}
-                              className="d-block "
-                              style={{
-                                objectFit: "cover",
-                                height: "500px",
-                                width: "100%",
-                              }}
-                              alt="property pic"
-                            />
-                          </div>
-                        ))}
+                  {data.city || data.hotel_city}
+                </Link>
+              </span>
+              <span>
+                <div to="/" className="fs-8 fw-light my-0 mx-1">
+                  {data.country || data.hotel_country}
+                  {/* {hotel_country ? hotel_country : "Bangladesh"} */}
+                </div>
+              </span>
+              <span>
+                <DirectionsWalkIcon fontSize="small" className="mb-2 small" />
+                29 min (1.8km)
+              </span>
+            </div>
+          </div>
+          <hr />
+          <div className="mb-3">
+            <Tooltip title="Accessible For People With Reduces Mobility" arrow>
+              <AccessibleIcon
+                fontSize="larger"
+                className="bg-secondary rounded-pill p-1 me-2 fs-1"
+              />
+            </Tooltip>
+            <Tooltip title="24h Service" arrow>
+              <RestoreIcon
+                fontSize="larger"
+                className="bg-secondary rounded-pill p-1 ms-1 fs-1"
+              />
+            </Tooltip>
+          </div>
+          <div className={`${styles.property_info} `}>
+            <h3 className="fw-bold fs-5 text-dark my-2">
+              Details: About the car park
+            </h3>
+            <div className={`${styles.property_description} my-2`}>
+              <p>{data.description || data.hotel_description}</p>
+            </div>
+            <div className={`${styles.property_features} my-2`}>
+              <h3 className="my-1">Features:</h3>
+              <ul className={`mt-2 ${styles.features_list}`}>
+                {data.Facilities
+                  ? data.Facilities.map((feature) => (
+                      <li key={feature} className={styles.feature_item}>
+                        {feature}
+                      </li>
+                    ))
+                  : null}
+              </ul>
+            </div>
+          </div>
+
+          {/* Modal Code */}
+          <div
+            className="modal fade"
+            id="exampleModal"
+            tabIndex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <div
+                    id="carouselExample"
+                    className="carousel slide"
+                    data-bs-ride="carousel"
+                  >
+                    <div className="carousel-inner">
+                      {data.photos
+                        ? data.photos.map((e, index) => (
+                            <div
+                              className={`carousel-item ${
+                                index === 0 ? "active" : ""
+                              }`}
+                              key={index}
+                            >
+                              <img
+                                src={e}
+                                className="d-block "
+                                style={{
+                                  objectFit: "cover",
+                                  height: "500px",
+                                  width: "100%",
+                                }}
+                                alt="property pic"
+                              />
+                            </div>
+                          ))
+                        : data.hotel_photos.map((e, index) => (
+                            <div
+                              className={`carousel-item ${
+                                index === 0 ? "active" : ""
+                              }`}
+                              key={index}
+                            >
+                              <img
+                                src={e}
+                                className="d-block "
+                                style={{
+                                  objectFit: "cover",
+                                  height: "500px",
+                                  width: "100%",
+                                }}
+                                alt="property pic"
+                              />
+                            </div>
+                          ))}
+                    </div>
+                    <button
+                      className="carousel-control-prev"
+                      type="button"
+                      data-bs-target="#carouselExample"
+                      data-bs-slide="prev"
+                    >
+                      <span
+                        className="carousel-control-prev-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      className="carousel-control-next"
+                      type="button"
+                      data-bs-target="#carouselExample"
+                      data-bs-slide="next"
+                    >
+                      <span
+                        className="carousel-control-next-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Next</span>
+                    </button>
                   </div>
-                  <button
-                    className="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#carouselExample"
-                    data-bs-slide="prev"
-                  >
-                    <span
-                      className="carousel-control-prev-icon"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Previous</span>
-                  </button>
-                  <button
-                    className="carousel-control-next"
-                    type="button"
-                    data-bs-target="#carouselExample"
-                    data-bs-slide="next"
-                  >
-                    <span
-                      className="carousel-control-next-icon"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Next</span>
-                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className={`mb-2 ${styles.property_pictures}`}>
-          <h3 className="my-3">Pictures:</h3>
-          {data.photos
-            ? data.photos.map((picture) => (
-                <button
-                  type="button"
-                  className="btn btn-unstyled"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                >
-                  <img
-                    src={picture}
-                    className={`${styles.preview_image} me-2`}
-                    alt="upload"
+          <div className={`mb-2 ${styles.property_pictures}`}>
+            <h3 className="my-3">Pictures:</h3>
+            {data.photos
+              ? data.photos.map((picture) => (
+                  <button
+                    type="button"
+                    className="btn btn-unstyled"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                  >
+                    <img
+                      src={picture}
+                      className={`${styles.preview_image} me-2`}
+                      alt="upload"
+                    />
+                  </button>
+                ))
+              : data.hotel_photos.map((picture) => (
+                  <button
+                    type="button"
+                    className="btn btn-unstyled"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                  >
+                    <img
+                      src={picture}
+                      className={`${styles.preview_image} me-2`}
+                      alt="upload"
+                    />
+                  </button>
+                ))}
+          </div>
+          <div className="mb-2">
+            {(user.account_type === "admin" && path === "parkings") ||
+            (user.account_type === "admin" && path === "parkingRequests") ||
+            (user.partner_type === "Parking" && path === "Property") ? (
+              <div className=" my-3">
+                <h3 className="fw-bold fs-5 my-3 text-dark my-2">
+                  All Parking Details
+                </h3>
+                <Box sx={{ height: 400, width: "100%" }}>
+                  <DataGrid
+                    rows={[data]}
+                    columns={parkingDetailHeader}
+                    getRowId={(row) => row._id}
+                    initialState={{
+                      pagination: {
+                        paginationModel: {
+                          pageSize: 5,
+                        },
+                      },
+                    }}
+                    pageSizeOptions={[5]}
+                    checkboxSelection
+                    disableRowSelectionOnClick
                   />
-                </button>
-              ))
-            : data.hotel_photos.map((picture) => (
-                <button
-                  type="button"
-                  className="btn btn-unstyled"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                >
-                  <img
-                    src={picture}
-                    className={`${styles.preview_image} me-2`}
-                    alt="upload"
+                </Box>
+              </div>
+            ) : (
+              <div className=" my-3">
+                <h3 className="fw-bold fs-5 my-3 text-dark my-2">
+                  All Rooms And Details
+                </h3>
+                <Box sx={{ height: 400, width: "100%" }}>
+                  <DataGrid
+                    rows={rooms}
+                    columns={roomHeader.concat(updateColumn, deleteColumn)}
+                    getRowId={(row) => row._id}
+                    initialState={{
+                      pagination: {
+                        paginationModel: {
+                          pageSize: 5,
+                        },
+                      },
+                    }}
+                    pageSizeOptions={[5]}
+                    checkboxSelection
+                    disableRowSelectionOnClick
                   />
-                </button>
-              ))}
-        </div>
-        <div className="mb-2">
-          {(user.account_type === "admin" && path === "parkings") ||
-          (user.account_type === "admin" && path === "parkingRequests") ||
-          (user.partner_type === "Parking" && path === "Property") ? (
-            <div className=" my-3">
+                </Box>
+              </div>
+            )}
+            <div className="my-3 ">
               <h3 className="fw-bold fs-5 my-3 text-dark my-2">
-                All Parking Details
+                ALl Bookings Details
               </h3>
               <Box sx={{ height: 400, width: "100%" }}>
                 <DataGrid
-                  rows={[data]}
-                  columns={parkingDetailHeader}
+                  rows={booking}
+                  columns={header}
                   getRowId={(row) => row._id}
                   initialState={{
                     pagination: {
@@ -684,57 +735,12 @@ const Viewproperty = () => {
                 />
               </Box>
             </div>
-          ) : (
-            <div className=" my-3">
-              <h3 className="fw-bold fs-5 my-3 text-dark my-2">
-                All Rooms And Details
-              </h3>
-              <Box sx={{ height: 400, width: "100%" }}>
-                <DataGrid
-                  rows={rooms}
-                  columns={roomHeader.concat(updateColumn, deleteColumn)}
-                  getRowId={(row) => row._id}
-                  initialState={{
-                    pagination: {
-                      paginationModel: {
-                        pageSize: 5,
-                      },
-                    },
-                  }}
-                  pageSizeOptions={[5]}
-                  checkboxSelection
-                  disableRowSelectionOnClick
-                />
-              </Box>
-            </div>
-          )}
-          <div className="my-3 ">
-            <h3 className="fw-bold fs-5 my-3 text-dark my-2">
-              ALl Bookings Details
-            </h3>
-            <Box sx={{ height: 400, width: "100%" }}>
-              <DataGrid
-                rows={booking}
-                columns={header}
-                getRowId={(row) => row._id}
-                initialState={{
-                  pagination: {
-                    paginationModel: {
-                      pageSize: 5,
-                    },
-                  },
-                }}
-                pageSizeOptions={[5]}
-                checkboxSelection
-                disableRowSelectionOnClick
-              />
-            </Box>
           </div>
         </div>
       </div>
-      <div>
+      {/* <div>
         <Footer />
-      </div>
+      </div> */}
     </>
   );
 };

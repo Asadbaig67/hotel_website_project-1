@@ -169,7 +169,7 @@ const List = () => {
       <Navbar list={false} className="w-100" />
       <div className={`${style.listContainer}`}>
         <div className={`row justify-content-around ${style.listWrapper}`}>
-          <div className="col-3">
+          <div className={`col-3 ${style.sideSection}`}>
             <div className={`${style.listSearch}`}>
               <h1 className={style.lsTitle}>Search</h1>
               <div className={style.lsItem}>
