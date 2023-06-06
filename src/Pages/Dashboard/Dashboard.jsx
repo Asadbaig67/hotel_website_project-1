@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./Dashboard.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { adminCard, patnerCard, userCard } from "../../Utilis/DashboardData";
+import { patnerCard, userCard } from "../../Utilis/DashboardData";
 import { Typography, useMediaQuery } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -35,24 +35,7 @@ export default function Dashboard() {
   const [addHotelAndParkingOperatingCity, setaddHotelAndParkingOperatingCity] =
     useState(false);
   const [name, setName] = useState("");
-
-  const card = (argument) => {
-    return argument.map((element) => {
-      return (
-        <div className="col-md-5" key={element.key}>
-          <div className={style.wrapper}>
-            <Link className={`${style.card1} rounded-3`} to={element.link}>
-              <h3>{element.title}</h3>
-              <p className="small">{element.description} </p>
-              <Link className={style.go_corner} to={element.link}>
-                <div className={style.go_arrow}>→</div>
-              </Link>
-            </Link>
-          </div>
-        </div>
-      );
-    });
-  };
+  const [adminCard, setAdminCard] = useState([]);
 
   const handleClick = async () => {
     let hotel = [],
@@ -81,6 +64,85 @@ export default function Dashboard() {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      let admin = [];
+      try {
+        const hotelNum = await axios.get(
+          "http://localhost:5000/hotels/getallhotels"
+        );
+
+        const parkingNum = await axios.get(
+          "http://localhost:5000/parking/getallparkings"
+        );
+
+        const hotelAndParkingNum = await axios.get(
+          "http://localhost:5000/hotelandparking/getallhotelandparkings"
+        );
+        const bookingsNum = await axios.get(
+          "http://localhost:5000/booking/getBooking"
+        );
+
+        admin = [
+          {
+            key: 1,
+            title: "Total Approved Hotels",
+            description: hotelNum.data.length,
+            link: "/",
+          },
+          {
+            key: 2,
+            title: "Total Approved Parkings",
+            description: parkingNum.data.length,
+            link: "/",
+          },
+          {
+            key: 3,
+            title: "Total Approved Hotels and Parkings",
+            description: hotelAndParkingNum.data.length,
+            link: "/",
+          },
+          {
+            key: 4,
+            title: "Total Bokings",
+            description: bookingsNum.data.length,
+            link: "/",
+          },
+          {
+            key: 5,
+            title: "Total Approved Hotels",
+            description: hotelNum.data.length,
+            link: "/",
+          },
+          {
+            key: 6,
+            title: "Total Approved Parkings",
+            description: parkingNum.data.length,
+            link: "/",
+          },
+          {
+            key: 7,
+            title: "Total Approved Hotels and Parkings",
+            description: hotelAndParkingNum.data.length,
+            link: "/",
+          },
+          {
+            key: 8,
+            title: "Total Bokings",
+            description: bookingsNum.data.length,
+            link: "/",
+          },
+        ];
+        setAdminCard(admin);
+        console.log(admin);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleOpen = (event) => {
@@ -88,6 +150,28 @@ export default function Dashboard() {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const card = (argument) => {
+    return argument.map((element) => {
+      return (
+        <div className="col-md-3" key={element.key}>
+          <Link
+            className={`${style.card1} rounded-3`}
+            style={{ height: "85%" }}
+            to={element.link}
+          >
+            <h3 className="h-50">{element.title}</h3>
+            <p className="bold fs-1 text-end mt-4 mb-0">
+              {element.description}
+            </p>
+            <Link className={style.go_corner} to={element.link}>
+              <div className={style.go_arrow}>→</div>
+            </Link>
+          </Link>
+        </div>
+      );
+    });
   };
 
   return (
@@ -118,65 +202,67 @@ export default function Dashboard() {
               >
                 Dashboard
               </h1>
-              <div>
-                <button className="btn btn-info" onClick={handleOpen}>
-                  List your property
-                </button>
-                <Menu
-                  anchorEl={anchorEl}
-                  id="account-menu"
-                  open={open}
-                  onClose={handleClose}
-                  onClick={handleClose}
-                  PaperProps={{
-                    elevation: 0,
-                    sx: {
-                      overflow: "visible",
-                      filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                      mt: 1.5,
-                      "& .MuiAvatar-root": {
-                        width: 32,
-                        height: 32,
-                        ml: -0.5,
-                        mr: 1,
+              {user.account_type === "user" ? (
+                <div>
+                  <button className="btn btn-info" onClick={handleOpen}>
+                    List your property
+                  </button>
+                  <Menu
+                    anchorEl={anchorEl}
+                    id="account-menu"
+                    open={open}
+                    onClose={handleClose}
+                    onClick={handleClose}
+                    PaperProps={{
+                      elevation: 0,
+                      sx: {
+                        overflow: "visible",
+                        filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                        mt: 1.5,
+                        "& .MuiAvatar-root": {
+                          width: 32,
+                          height: 32,
+                          ml: -0.5,
+                          mr: 1,
+                        },
+                        "&:before": {
+                          content: '""',
+                          display: "block",
+                          position: "absolute",
+                          top: 0,
+                          right: 14,
+                          width: 10,
+                          height: 10,
+                          bgcolor: "background.paper",
+                          transform: "translateY(-50%) rotate(45deg)",
+                          zIndex: 0,
+                        },
                       },
-                      "&:before": {
-                        content: '""',
-                        display: "block",
-                        position: "absolute",
-                        top: 0,
-                        right: 14,
-                        width: 10,
-                        height: 10,
-                        bgcolor: "background.paper",
-                        transform: "translateY(-50%) rotate(45deg)",
-                        zIndex: 0,
-                      },
-                    },
-                  }}
-                  transformOrigin={{ horizontal: "right", vertical: "top" }}
-                  anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                >
-                  <MenuItem onClick={() => navigate("/hotelform")}>
-                    <div className="d-flex">
-                      <HotelIcon />
-                      <Typography>Hotel Partner</Typography>
-                    </div>
-                  </MenuItem>
-                  <MenuItem onClick={() => navigate("/parkingform")}>
-                    <div className="d-flex">
-                      <LocalParkingIcon />
-                      <Typography>Parking Partner</Typography>
-                    </div>
-                  </MenuItem>
-                  <MenuItem onClick={() => navigate("/hotelparkingform")}>
-                    <div className="d-flex">
-                      <HotelIcon />
-                      <Typography>Hotel and Parking Partner</Typography>
-                    </div>
-                  </MenuItem>
-                </Menu>
-              </div>
+                    }}
+                    transformOrigin={{ horizontal: "right", vertical: "top" }}
+                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                  >
+                    <MenuItem onClick={() => navigate("/hotelform")}>
+                      <div className="d-flex">
+                        <HotelIcon />
+                        <Typography>Hotel Partner</Typography>
+                      </div>
+                    </MenuItem>
+                    <MenuItem onClick={() => navigate("/parkingform")}>
+                      <div className="d-flex">
+                        <LocalParkingIcon />
+                        <Typography>Parking Partner</Typography>
+                      </div>
+                    </MenuItem>
+                    <MenuItem onClick={() => navigate("/hotelparkingform")}>
+                      <div className="d-flex">
+                        <HotelIcon />
+                        <Typography>Hotel and Parking Partner</Typography>
+                      </div>
+                    </MenuItem>
+                  </Menu>
+                </div>
+              ) : null}
             </div>
 
             <div className={`row justify-content-center mt-4`}>

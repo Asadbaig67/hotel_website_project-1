@@ -1,7 +1,7 @@
 export const adminCard = [
   {
     key: 1,
-    title: "Hotels",
+    title: "Total Hotels",
     description:
       "Card description with lots of great facts and interesting details.",
     link: "/",
