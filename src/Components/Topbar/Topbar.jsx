@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import { Box, IconButton, useTheme } from "@mui/material";
-import InputBase from "@mui/material/InputBase";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import bgrmvblk from "../../images/bgrmvblk.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";

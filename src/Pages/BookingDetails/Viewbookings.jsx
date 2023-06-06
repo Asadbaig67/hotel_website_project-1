@@ -125,12 +125,12 @@ const ViewBookings = () => {
       }
     }
   }
-  console.log("Single Room =", options.singleRoom);
-  console.log("Single Rooms Array =", singleRoomsArray);
-  console.log("Twin Room =", options.twinRoom);
-  console.log("Twin Rooms Array =", twinRoomsArray);
-  console.log("Family Room =", options.familyRoom);
-  console.log("Family Rooms Array =", familyRoomsArray);
+  // console.log("Single Room =", options.singleRoom);
+  // console.log("Single Rooms Array =", singleRoomsArray);
+  // console.log("Twin Room =", options.twinRoom);
+  // console.log("Twin Rooms Array =", twinRoomsArray);
+  // console.log("Family Room =", options.familyRoom);
+  // console.log("Family Rooms Array =", familyRoomsArray);
 
   // User Id Data
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
@@ -183,14 +183,14 @@ const ViewBookings = () => {
     });
   }
 
-  console.log("User Id =", userId);
-  console.log("Hotel Id =", hotelId);
-  console.log("Check In =", checkIn);
-  console.log("Check Out =", checkOut);
-  console.log("Room Array =", roomArray);
-  console.log("Room Array befor stringinfied=", roomArray);
+  // console.log("User Id =", userId);
+  // console.log("Hotel Id =", hotelId);
+  // console.log("Check In =", checkIn);
+  // console.log("Check Out =", checkOut);
+  // console.log("Room Array =", roomArray);
+  // console.log("Room Array befor stringinfied=", roomArray);
   roomArray = JSON.stringify(roomArray);
-  console.log("Room Array stringinfied=", roomArray);
+  // console.log("Room Array stringinfied=", roomArray);
 
   if (booked_property.parking_name) {
     parking = {

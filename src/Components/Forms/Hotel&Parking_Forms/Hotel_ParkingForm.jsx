@@ -13,6 +13,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useEffect } from "react";
 import style from "../Hotel_Forms/addhotel.module.css";
+import SidebarAdmin from "../../AdminDashboardSidebar/AdminDashboardSidebar";
+import Topbar from "../../Topbar/Topbar";
 
 const AddHotelParkingForm = () => {
   //Alerts Code
@@ -217,502 +219,534 @@ const AddHotelParkingForm = () => {
 
   return (
     <>
-      {alertOn && (
-        <Collapse in={open}>
-          <Stack sx={{ width: "100%" }} spacing={1}>
-            <Alert
-              sx={{
-                borderRadius: "9999px", // make the alert appear as a pill shape
-                transition: "transform 0.3s ease-in-out", // add a transition effect
-                transform: open ? "scale(1)" : "scale(0.7)", // scale the alert based on the open state
-                mt: 2,
-                mb: 2,
-                ml: 2,
-                mr: 2,
-              }}
-              severity={alertType}
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
+      <Topbar />
+      <div className="d-flex">
+        <SidebarAdmin />
+        <div>
+          {alertOn && (
+            <Collapse in={open}>
+              <Stack sx={{ width: "100%" }} spacing={1}>
+                <Alert
+                  sx={{
+                    borderRadius: "9999px", // make the alert appear as a pill shape
+                    transition: "transform 0.3s ease-in-out", // add a transition effect
+                    transform: open ? "scale(1)" : "scale(0.7)", // scale the alert based on the open state
+                    mt: 2,
+                    mb: 2,
+                    ml: 2,
+                    mr: 2,
                   }}
-                  sx={{ mt: 1.5 }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-            >
-              <AlertTitle>Add Hotel And Parking</AlertTitle>
-              <strong>{alertMessage}!</strong>
-            </Alert>
-          </Stack>
-        </Collapse>
-      )}
-      <div className={`container  ${IsMobile ? "" : "w-50"} `}>
-        <h1 className="text-center fw-bold">Add Hotel And Parking Form</h1>
-        <form className="needs-validation mx-4">
-          {loggedinUser.user.account_type === "admin" ? (
-            <div className="row mt-2">
-              <div className="col-md-6">
-                <label htmlFor="validationCustom01">OwnerID</label>
-                <select
-                  className="form-select"
-                  name="type"
-                  id="validationCustom012"
-                  value={FinalOwner.id}
-                  required
-                  // disabled
-                >
-                  <option value="1">Owner Id</option>
-                  <option value={FinalOwner.id}>{FinalOwner.id}</option>
-                  {/* <option value="Single">Single</option>
-                <option value="Twin">Twin</option>
-                <option value="Family">Family</option> */}
-                </select>
-              </div>
-              <div className="col-md-6">
-                <label htmlFor="validationCustom01">Owner Name</label>
-                <select
-                  className="form-select"
-                  name="type"
-                  id="validationCustom01"
-                  required
-                  onChange={(event) =>
-                    handleOwner({
-                      id: event.target.value,
-                      name: event.target.options[event.target.selectedIndex]
-                        .text,
-                    })
+                  severity={alertType}
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                      sx={{ mt: 1.5 }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
                   }
                 >
-                  <option key="1" value="1">
-                    Select The Owner
-                  </option>
-                  {Owner.map((owner) => {
-                    return (
-                      <>
-                        <option key={owner._id} value={owner._id}>
-                          {owner.name}
-                        </option>
-                      </>
-                    );
-                  })}
-                </select>
-              </div>
-            </div>
-          ) : (
-            ""
+                  <AlertTitle>Add Hotel And Parking</AlertTitle>
+                  <strong>{alertMessage}!</strong>
+                </Alert>
+              </Stack>
+            </Collapse>
           )}
-          <div className="row mt-2">
-            <div className="col-md-6">
-              <label
-                htmlFor="validationCustom01"
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Hotel Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Parking Name"
-                name="hotel_name"
-                id="validationCustom01"
-                value={formValues.hotel_name}
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-6">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Hotel Title
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Hotel Title"
-                name="hotel_title"
-                value={formValues.hotel_title}
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="row mt-2">
-            <div className="col-md-6">
-              <label
-                htmlFor="validationCustom01"
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Parking Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Parking Name"
-                name="parking_name"
-                id="validationCustom01"
-                value={formValues.parking_name}
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-6">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Parking Title
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Parking Title"
-                name="parking_title"
-                value={formValues.parking_title}
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="row mt-2">
-            <div className="col-md-4">
-              <label
-                htmlFor="validationCustom01"
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Total Slots
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Total Slots"
-                name="total_slots"
-                id="validationCustom01"
-                value={formValues.total_slots}
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-4">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Booked Slots
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Booked Slots"
-                name="booked_slots"
-                value={formValues.booked_slots}
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-4">
-              <label
-                htmlFor="validationCustom01"
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Hotel Rating
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Rating"
-                name="hotel_rating"
-                id="validationCustom01"
-                value={formValues.hotel_rating}
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-6 mt-2">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Address
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Area"
-                value={formValues.address}
-                name="address"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-6 mt-2">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Parking Price
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Price"
-                value={formValues.price}
-                name="price"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="row mt-3">
-            <div className="col-md-6">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Country
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="country"
-                value={formValues.country}
-                name="country"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-6">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                City
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="state"
-                value={formValues.city}
-                name="city"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-12 mt-2">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Hotel Description
-              </label>
-              <textarea
-                className="form-control"
-                placeholder="description"
-                value={formValues.hotel_description}
-                name="hotel_description"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-12 mt-2">
-              <label
-                className={`labels text-${mode === "light" ? "dark" : "light"}`}
-              >
-                Parking Description
-              </label>
-              <textarea
-                className="form-control"
-                placeholder="description"
-                value={formValues.parking_description}
-                name="parking_description"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="row">
-            <label
-              htmlFor=""
-              className={`labels mt-2 text-${
-                mode === "light" ? "dark" : "light"
-              }`}
-            >
-              Upload Hotel Images
-            </label>
-            <small>Please select 3-7 images only </small>
-            <div className="col-md-12 col-sm-4">
-              <div className={style.image_selector}>
-                {hotelimages &&
-                  hotelimages.map((imageObj, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className={`${style.image_preview} mx-1 my-1`}
-                      >
-                        <img
-                          className={style.preview_image}
-                          src={imageObj.blobURL}
-                          alt="upload"
-                        />
-                        <div
-                          className={`${style.image_overlay} d-flex flex-row justify-content-between`}
-                        >
-                          <p
-                            className={`${style.image_number} text-light ms-1`}
-                          >
-                            {index + 1}
-                          </p>
-                          <IconButton
-                            aria-label="delete"
-                            size="small"
-                            className={style.delete_button}
-                          >
-                            <DeleteIcon
-                              className="text-light me-1"
-                              onClick={() => deleteHandler(imageObj)}
-                              fontSize="small"
-                            />
-                          </IconButton>
-                        </div>
-                      </div>
-                    );
-                  })}
-                <IconButton
-                  color="secondary"
-                  aria-label="upload picture"
-                  component="label"
-                  className={style.add_button}
-                >
+          <div className={`container  ${IsMobile ? "" : "w-50"} `}>
+            <h1 className="text-center fw-bold">Add Hotel And Parking Form</h1>
+            <form className="needs-validation mx-4">
+              {loggedinUser.user.account_type === "admin" ? (
+                <div className="row mt-2">
+                  <div className="col-md-6">
+                    <label htmlFor="validationCustom01">OwnerID</label>
+                    <select
+                      className="form-select"
+                      name="type"
+                      id="validationCustom012"
+                      value={FinalOwner.id}
+                      required
+                      // disabled
+                    >
+                      <option value="1">Owner Id</option>
+                      <option value={FinalOwner.id}>{FinalOwner.id}</option>
+                      {/* <option value="Single">Single</option>
+                <option value="Twin">Twin</option>
+                <option value="Family">Family</option> */}
+                    </select>
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="validationCustom01">Owner Name</label>
+                    <select
+                      className="form-select"
+                      name="type"
+                      id="validationCustom01"
+                      required
+                      onChange={(event) =>
+                        handleOwner({
+                          id: event.target.value,
+                          name: event.target.options[event.target.selectedIndex]
+                            .text,
+                        })
+                      }
+                    >
+                      <option key="1" value="1">
+                        Select The Owner
+                      </option>
+                      {Owner.map((owner) => {
+                        return (
+                          <>
+                            <option key={owner._id} value={owner._id}>
+                              {owner.name}
+                            </option>
+                          </>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+              <div className="row mt-2">
+                <div className="col-md-6">
+                  <label
+                    htmlFor="validationCustom01"
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Hotel Name
+                  </label>
                   <input
-                    hidden
-                    onChange={onSelectFile}
-                    accept="image/png , image/jpeg"
-                    type="file"
-                    multiple
+                    type="text"
+                    className="form-control"
+                    placeholder="Parking Name"
+                    name="hotel_name"
+                    id="validationCustom01"
+                    value={formValues.hotel_name}
+                    required
+                    onChange={handleInputChange}
                   />
-                  <AddPhotoAlternateIcon />
-                </IconButton>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <label
-              htmlFor=""
-              className={`labels mt-2 text-${
-                mode === "light" ? "dark" : "light"
-              }`}
-            >
-              Upload Parking Images
-            </label>
-            <small>Please select 3-7 images only </small>
-            <div className="col-md-12 col-sm-4">
-              <div className={style.image_selector}>
-                {parkingimages &&
-                  parkingimages.map((imageObj, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className={`${style.image_preview} mx-1 my-1`}
-                      >
-                        <img
-                          className={style.preview_image}
-                          src={imageObj.blobURL}
-                          alt="upload"
-                        />
-                        <div
-                          className={`${style.image_overlay} d-flex flex-row justify-content-between`}
-                        >
-                          <p
-                            className={`${style.image_number} text-light ms-1`}
-                          >
-                            {index + 1}
-                          </p>
-                          <IconButton
-                            aria-label="delete"
-                            size="small"
-                            className={style.delete_button}
-                          >
-                            <DeleteIcon
-                              className="text-light me-1"
-                              onClick={() => deleteParkingHandler(imageObj)}
-                              fontSize="small"
-                            />
-                          </IconButton>
-                        </div>
-                      </div>
-                    );
-                  })}
-                <IconButton
-                  color="secondary"
-                  aria-label="upload picture"
-                  component="label"
-                  className={style.add_button}
-                >
+                </div>
+                <div className="col-md-6">
+                  <label
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Hotel Title
+                  </label>
                   <input
-                    hidden
-                    onChange={onParkingSelectFile}
-                    accept="image/png , image/jpeg"
-                    type="file"
-                    multiple
+                    type="text"
+                    className="form-control"
+                    placeholder="Hotel Title"
+                    name="hotel_title"
+                    value={formValues.hotel_title}
+                    required
+                    onChange={handleInputChange}
                   />
-                  <AddPhotoAlternateIcon />
-                </IconButton>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="mt-3">
-            <div className="form-group">
-              <label htmlFor="feature">Hotel And Parking Feature</label>
-              <input
-                type="text"
-                className="form-control"
-                id="feature"
-                name="feature"
-                placeholder="Enter a feature"
-                value={newFeature}
-                onChange={(event) => setNewFeature(event.target.value)}
-              />
-            </div>
-            <button
-              type="button"
-              className="btn btn-sm my-2 btn-primary"
-              onClick={handleAddFeature}
-            >
-              Add Feature
-            </button>
-            <div className="mt-2">
-              {features.map((feature) => (
-                <span
-                  key={feature}
-                  style={{ fontSize: "14px" }}
-                  className="badge badge-pill rounded-pill badge-info p-2 mx-1 mr-1 mb-1"
-                >
-                  {feature}{" "}
-                  <ClearIcon
-                    fontSize="small"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleRemoveFeature(feature)}
+              <div className="row mt-2">
+                <div className="col-md-6">
+                  <label
+                    htmlFor="validationCustom01"
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Parking Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Parking Name"
+                    name="parking_name"
+                    id="validationCustom01"
+                    value={formValues.parking_name}
+                    required
+                    onChange={handleInputChange}
                   />
-                </span>
-              ))}
-            </div>
+                </div>
+                <div className="col-md-6">
+                  <label
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Parking Title
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Parking Title"
+                    name="parking_title"
+                    value={formValues.parking_title}
+                    required
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="row mt-2">
+                <div className="col-md-4">
+                  <label
+                    htmlFor="validationCustom01"
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Total Slots
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Total Slots"
+                    name="total_slots"
+                    id="validationCustom01"
+                    value={formValues.total_slots}
+                    required
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="col-md-4">
+                  <label
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Booked Slots
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Booked Slots"
+                    name="booked_slots"
+                    value={formValues.booked_slots}
+                    required
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="col-md-4">
+                  <label
+                    htmlFor="validationCustom01"
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Hotel Rating
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Rating"
+                    name="hotel_rating"
+                    id="validationCustom01"
+                    value={formValues.hotel_rating}
+                    required
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-6 mt-2">
+                  <label
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Area"
+                    value={formValues.address}
+                    name="address"
+                    required
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="col-md-6 mt-2">
+                  <label
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Parking Price
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Price"
+                    value={formValues.price}
+                    name="price"
+                    required
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="row mt-3">
+                <div className="col-md-6">
+                  <label
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Country
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="country"
+                    value={formValues.country}
+                    name="country"
+                    required
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="state"
+                    value={formValues.city}
+                    name="city"
+                    required
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="col-md-12 mt-2">
+                  <label
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Hotel Description
+                  </label>
+                  <textarea
+                    className="form-control"
+                    placeholder="description"
+                    value={formValues.hotel_description}
+                    name="hotel_description"
+                    required
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="col-md-12 mt-2">
+                  <label
+                    className={`labels text-${
+                      mode === "light" ? "dark" : "light"
+                    }`}
+                  >
+                    Parking Description
+                  </label>
+                  <textarea
+                    className="form-control"
+                    placeholder="description"
+                    value={formValues.parking_description}
+                    name="parking_description"
+                    required
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <label
+                  htmlFor=""
+                  className={`labels mt-2 text-${
+                    mode === "light" ? "dark" : "light"
+                  }`}
+                >
+                  Upload Hotel Images
+                </label>
+                <small>Please select 3-7 images only </small>
+                <div className="col-md-12 col-sm-4">
+                  <div className={style.image_selector}>
+                    {hotelimages &&
+                      hotelimages.map((imageObj, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className={`${style.image_preview} mx-1 my-1`}
+                          >
+                            <img
+                              className={style.preview_image}
+                              src={imageObj.blobURL}
+                              alt="upload"
+                            />
+                            <div
+                              className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                            >
+                              <p
+                                className={`${style.image_number} text-light ms-1`}
+                              >
+                                {index + 1}
+                              </p>
+                              <IconButton
+                                aria-label="delete"
+                                size="small"
+                                className={style.delete_button}
+                              >
+                                <DeleteIcon
+                                  className="text-light me-1"
+                                  onClick={() => deleteHandler(imageObj)}
+                                  fontSize="small"
+                                />
+                              </IconButton>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    <IconButton
+                      color="secondary"
+                      aria-label="upload picture"
+                      component="label"
+                      className={style.add_button}
+                    >
+                      <input
+                        hidden
+                        onChange={onSelectFile}
+                        accept="image/png , image/jpeg"
+                        type="file"
+                        multiple
+                      />
+                      <AddPhotoAlternateIcon />
+                    </IconButton>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <label
+                  htmlFor=""
+                  className={`labels mt-2 text-${
+                    mode === "light" ? "dark" : "light"
+                  }`}
+                >
+                  Upload Parking Images
+                </label>
+                <small>Please select 3-7 images only </small>
+                <div className="col-md-12 col-sm-4">
+                  <div className={style.image_selector}>
+                    {parkingimages &&
+                      parkingimages.map((imageObj, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className={`${style.image_preview} mx-1 my-1`}
+                          >
+                            <img
+                              className={style.preview_image}
+                              src={imageObj.blobURL}
+                              alt="upload"
+                            />
+                            <div
+                              className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                            >
+                              <p
+                                className={`${style.image_number} text-light ms-1`}
+                              >
+                                {index + 1}
+                              </p>
+                              <IconButton
+                                aria-label="delete"
+                                size="small"
+                                className={style.delete_button}
+                              >
+                                <DeleteIcon
+                                  className="text-light me-1"
+                                  onClick={() => deleteParkingHandler(imageObj)}
+                                  fontSize="small"
+                                />
+                              </IconButton>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    <IconButton
+                      color="secondary"
+                      aria-label="upload picture"
+                      component="label"
+                      className={style.add_button}
+                    >
+                      <input
+                        hidden
+                        onChange={onParkingSelectFile}
+                        accept="image/png , image/jpeg"
+                        type="file"
+                        multiple
+                      />
+                      <AddPhotoAlternateIcon />
+                    </IconButton>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3">
+                <div className="form-group">
+                  <label htmlFor="feature">Hotel And Parking Feature</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="feature"
+                    name="feature"
+                    placeholder="Enter a feature"
+                    value={newFeature}
+                    onChange={(event) => setNewFeature(event.target.value)}
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-sm my-2 btn-primary"
+                  onClick={handleAddFeature}
+                >
+                  Add Feature
+                </button>
+                <div className="mt-2">
+                  {features.map((feature) => (
+                    <span
+                      key={feature}
+                      style={{ fontSize: "14px" }}
+                      className="badge badge-pill rounded-pill badge-info p-2 mx-1 mr-1 mb-1"
+                    >
+                      {feature}{" "}
+                      <ClearIcon
+                        fontSize="small"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleRemoveFeature(feature)}
+                      />
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-5 text-center">
+                <button
+                  className="btn btn-primary btn-lg profile-button mb-4"
+                  type="submit"
+                  disabled={
+                    hotelimages.length < 3 ||
+                    hotelimages.length > 7 ||
+                    parkingimages.length < 3 ||
+                    parkingimages.length > 7
+                  }
+                  onClick={handleSubmit}
+                >
+                  Add Hotel And Parking
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="mt-5 text-center">
-            <button
-              className="btn btn-primary btn-lg profile-button mb-4"
-              type="submit"
-              disabled={
-                hotelimages.length < 3 ||
-                hotelimages.length > 7 ||
-                parkingimages.length < 3 ||
-                parkingimages.length > 7
-              }
-              onClick={handleSubmit}
-            >
-              Add Hotel And Parking
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </>
   );
