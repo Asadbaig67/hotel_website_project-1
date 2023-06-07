@@ -14,6 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import SidebarAdmin from "../../AdminDashboardSidebar/AdminDashboardSidebar";
 import Topbar from "../../Topbar/Topbar";
+import AdminSidebar from "../../adminSidebar/AdminSidebar";
 
 const AddRoomForm = () => {
   //Alerts Code
@@ -38,20 +39,6 @@ const AddRoomForm = () => {
       [name]: value,
     }));
   };
-  // const [selectedImages, setSelectedImages] = useState([]);
-  // const onSelectFile = (event) => {
-  //   const selectedFiles = event.target.files;
-  //   const selectedFilesArray = Array.from(selectedFiles);
-  //   let imagesArray = selectedFilesArray.map((file) => {
-  //     return URL.createObjectURL(file);
-  //   });
-  //   setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-  // };
-  // // Function to remove an image from the array of images
-  // function deleteHandler(image) {
-  //   setSelectedImages(selectedImages.filter((e) => e !== image));
-  //   URL.revokeObjectURL(image);
-  // }
 
   const { mode } = useSelector((state) => state.mode);
 
@@ -114,10 +101,9 @@ const AddRoomForm = () => {
 
   return (
     <>
-      <Topbar />
       <div className="d-flex">
-        <SidebarAdmin />
-        <div>
+        <AdminSidebar />
+        <div className="mt-5">
           {alertOn && (
             <Collapse in={open}>
               <Stack sx={{ width: "100%" }} spacing={1}>

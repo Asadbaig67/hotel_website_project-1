@@ -121,7 +121,7 @@ const SidebarAdmin = () => {
   };
 
   return (
-    <Box>
+    <div>
       <Sidebar
         collapsed={isCollapsed}
         backgroundColor="#c2c2c2"
@@ -397,11 +397,15 @@ const SidebarAdmin = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" color="primary" onClick={handleClose}>Cancel</Button>
-          <Button variant="outlined" color="error" onClick={logout}>Log out</Button>
+          <Button variant="outlined" color="primary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="outlined" color="error" onClick={logout}>
+            Log out
+          </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </div>
   );
 };
 

@@ -55,7 +55,14 @@ const Topbar = () => {
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      p={2}
+      position="sticky"
+      backgroundColor="white"
+      top={0}
+    >
       {/* SEARCH BAR */}
       <Box
         display="flex"

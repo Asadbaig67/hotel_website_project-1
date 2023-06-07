@@ -15,6 +15,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import SidebarAdmin from "../../AdminDashboardSidebar/AdminDashboardSidebar";
 import Topbar from "../../Topbar/Topbar";
+import AdminSidebar from "../../adminSidebar/AdminSidebar";
 
 const AddParkingForm = () => {
   //Alerts Code
@@ -190,10 +191,9 @@ const AddParkingForm = () => {
 
   return (
     <>
-      <Topbar />
       <div className="d-flex">
-        <SidebarAdmin />
-        <div>
+        <AdminSidebar />
+        <div className="mt-5">
           {alertOn && (
             <Collapse in={open}>
               <Stack sx={{ width: "100%" }} spacing={1}>
