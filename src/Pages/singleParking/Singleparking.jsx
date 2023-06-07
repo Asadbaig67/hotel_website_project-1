@@ -17,7 +17,7 @@ import Tooltip from "@mui/material/Tooltip";
 function ParkingPropertyDetails({ property }) {
   const { booked_property } = useSelector((state) => state.getBookedDetails);
   const { c } = useSelector((state) => state.searchVehicle);
-  
+
   // Data The User Selected From Card
   const { selected_parking } = useSelector((state) => state.getSelectedParking);
   console.log(
@@ -57,7 +57,7 @@ function ParkingPropertyDetails({ property }) {
   // Parking Object
 
   let parking = {
-    Total_slots: c,
+    Total_slots: parseInt(c),
     Parking_price: selected_parking.parking.price,
   };
 
@@ -87,6 +87,7 @@ function ParkingPropertyDetails({ property }) {
     return `${Value} Star${Value !== 1 ? "s" : ""}, ${labels[Value]}`;
   }
 
+  console.log("Parking = ", parking);
   const HandleBooking = async () => {
     // Api Request
     const parkingURL = `http://localhost:5000/booking/addParkingBooking?userId=${userId}&parkingId=${parkingId}&checkIn=${checkInDateFormatted}&checkOut=${checkOutDateFormatted}&parking=${parking}`;
@@ -350,14 +351,14 @@ function ParkingPropertyDetails({ property }) {
           </div>
         </div>
         <div className="my-4">
-          <Link to={`/booking/${property.id}`}>
-            <button
-              className="btn my-2 btn-primary btn-lg "
-              onClick={HandleBooking}
-            >
-              Book Now
-            </button>
-          </Link>
+          {/* <Link to={`/booking/${property.id}`}> */}
+          <button
+            className="btn my-2 btn-primary btn-lg "
+            onClick={HandleBooking}
+          >
+            Book Now
+          </button>
+          {/* </Link> */}
         </div>
       </div>
       <div>
