@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "../../Components/Navbar/Navbar";
-import Footer from "../../Components/footer/Footer";
-import family1 from "../../images/family1.jpg";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
@@ -10,8 +7,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
-import Topbar from "../../Components/Topbar/Topbar";
-import SidebarAdmin from "../../Components/AdminDashboardSidebar/AdminDashboardSidebar";
+import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 
 // export default ViewBookings;
 const ViewBookings = () => {
@@ -149,13 +145,12 @@ const ViewBookings = () => {
 
   return (
     <>
-      <Topbar />
       <div className="d-flex">
-        <SidebarAdmin />
+        <AdminSidebar/>
         {loading ? (
           <h1>Loading</h1>
         ) : (
-          <div className="container">
+          <div className="container mt-5">
             <div className="row">
               <div className="col-md-4">
                 <div className="py-2">

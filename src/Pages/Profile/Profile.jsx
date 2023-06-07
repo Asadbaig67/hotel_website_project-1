@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import style from "./Profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import userImg from "../../images/user.png";
-
-// import { Link } from "react-router-dom";
-import Sidebar from "../../Components/adminSidebar/Sidebar";
+import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 import ProfileView from "../../Components/ProfileView/ProfileView";
 import EditProfile from "../../Components/EditProfile/EditProfile";
 import ChangePassword from "../../Components/changePassword/changePassword";
 import { useMediaQuery } from "@mui/material";
-import Topbar from "../../Components/Topbar/Topbar";
-import SidebarAdmin from "../../Components/AdminDashboardSidebar/AdminDashboardSidebar";
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -32,10 +27,9 @@ export default function Profile() {
 
   return (
     <>
-      <Topbar />
       <div className="d-flex">
-        <SidebarAdmin />
-        <div>
+        <AdminSidebar />
+        <div className="mt-5">
           <div
             className={`rounded ${mode === "dark" ? "bg-dark" : style.bg}`}
           ></div>

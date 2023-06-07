@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import style from "./Dashboard.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { patnerCard, userCard } from "../../Utilis/DashboardData";
+import { adminCard, patnerCard, userCard } from "../../Utilis/DashboardData";
 import { Typography, useMediaQuery } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import DashboardDataTable from "../../Components/dashboardDataTable/dashboardDataTable";
 import { dashboardOperatingCityHeader } from "../../Utilis/DataTableSource";
-import Topbar from "../../Components/Topbar/Topbar";
-import SidebarAdmin from "../../Components/AdminDashboardSidebar/AdminDashboardSidebar";
 import HotelIcon from "@mui/icons-material/Hotel";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -35,7 +34,10 @@ export default function Dashboard() {
   const [addHotelAndParkingOperatingCity, setaddHotelAndParkingOperatingCity] =
     useState(false);
   const [name, setName] = useState("");
-  const [adminCard, setAdminCard] = useState([]);
+  // const [adminCard, setAdminCard] = useState([]);
+  // const [hotelCount, setHotelCount] = useState(0);
+  // const [parkingCount, setParkingCount] = useState(0);
+  // const [hotelAndParkingCount, setHotelAndParkingCount] = useState(0);
 
   const handleClick = async () => {
     let hotel = [],
@@ -63,85 +65,152 @@ export default function Dashboard() {
       alert("Successfully added");
     }
   };
+  const { count } = useSelector((state) => state.db_Collection_Count);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let admin = [];
-      try {
-        const hotelNum = await axios.get(
-          "http://localhost:5000/hotels/getallhotels"
-        );
+  // useEffect(async () => {
+  //   let admin = [];
+  //   await Promise.all(
+  //     setInterval(async () => {
+  //       try {
+  //         const hotelNum = await axios.get(
+  //           "http://localhost:5000/hotels/getallhotels"
+  //         );
 
-        const parkingNum = await axios.get(
-          "http://localhost:5000/parking/getallparkings"
-        );
+  //         const parkingNum = await axios.get(
+  //           "http://localhost:5000/parking/getallparkings"
+  //         );
 
-        const hotelAndParkingNum = await axios.get(
-          "http://localhost:5000/hotelandparking/getallhotelandparkings"
-        );
-        const bookingsNum = await axios.get(
-          "http://localhost:5000/booking/getBooking"
-        );
+  //         const hotelAndParkingNum = await axios.get(
+  //           "http://localhost:5000/hotelandparking/getallhotelandparkings"
+  //         );
+  //         const bookingsNum = await axios.get(
+  //           "http://localhost:5000/booking/getBooking"
+  //         );
+  //         dispatch({
+  //           type: "SET_COLLECTION_COUNT",
+  //           payload: {
+  //             hotelNum: hotelNum.data.length,
+  //             parkingNum: parkingNum.data.length,
+  //             hotelAndParkingNum: hotelAndParkingNum.data.length,
+  //             bookingsNum: bookingsNum.data.length,
+  //           },
+  //         });
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     }, 300000)
+  //   );
+  //   admin = [
+  //     {
+  //       key: 1,
+  //       title: "Total Approved Hotels",
+  //       description: count.hotelNum,
+  //       link: "/",
+  //     },
+  //     {
+  //       key: 2,
+  //       title: "Total Approved Parkings",
+  //       description: count.parkingNum,
+  //       link: "/",
+  //     },
+  //     {
+  //       key: 3,
+  //       title: "Total Approved Hotels and Parkings",
+  //       description: count.hotelAndParkingNum,
+  //       link: "/",
+  //     },
+  //     {
+  //       key: 4,
+  //       title: "Total Bokings",
+  //       description: count.bookingsNum,
+  //       link: "/",
+  //     },
+  //   ];
+  //   setAdminCard(admin);
+  //   console.log(admin);
+  // }, []);
 
-        admin = [
-          {
-            key: 1,
-            title: "Total Approved Hotels",
-            description: hotelNum.data.length,
-            link: "/",
-          },
-          {
-            key: 2,
-            title: "Total Approved Parkings",
-            description: parkingNum.data.length,
-            link: "/",
-          },
-          {
-            key: 3,
-            title: "Total Approved Hotels and Parkings",
-            description: hotelAndParkingNum.data.length,
-            link: "/",
-          },
-          {
-            key: 4,
-            title: "Total Bokings",
-            description: bookingsNum.data.length,
-            link: "/",
-          },
-          {
-            key: 5,
-            title: "Total Approved Hotels",
-            description: hotelNum.data.length,
-            link: "/",
-          },
-          {
-            key: 6,
-            title: "Total Approved Parkings",
-            description: parkingNum.data.length,
-            link: "/",
-          },
-          {
-            key: 7,
-            title: "Total Approved Hotels and Parkings",
-            description: hotelAndParkingNum.data.length,
-            link: "/",
-          },
-          {
-            key: 8,
-            title: "Total Bokings",
-            description: bookingsNum.data.length,
-            link: "/",
-          },
-        ];
-        setAdminCard(admin);
-        console.log(admin);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     let admin = [];
+  //     try {
+  //       const hotelNum = await axios.get(
+  //         "http://localhost:5000/hotels/getallhotels"
+  //       );
 
-    fetchData();
-  }, []);
+  //       const parkingNum = await axios.get(
+  //         "http://localhost:5000/parking/getallparkings"
+  //       );
+
+  //       const hotelAndParkingNum = await axios.get(
+  //         "http://localhost:5000/hotelandparking/getallhotelandparkings"
+  //       );
+  //       const bookingsNum = await axios.get(
+  //         "http://localhost:5000/booking/getBooking"
+  //       );
+  //       setHotelCount(hotelNum.data.length);
+  //       setParkingCount(parkingNum.data.length);
+  //       setHotelAndParkingCount(hotelAndParkingNum.data.length);
+
+  //       admin = [
+  //         {
+  //           key: 1,
+  //           title: "Total Approved Hotels",
+  //           description: hotelNum.data.length,
+  //           link: "/",
+  //         },
+  //         {
+  //           key: 2,
+  //           title: "Total Approved Parkings",
+  //           description: parkingNum.data.length,
+  //           link: "/",
+  //         },
+  //         {
+  //           key: 3,
+  //           title: "Total Approved Hotels and Parkings",
+  //           description: hotelAndParkingNum.data.length,
+  //           link: "/",
+  //         },
+  //         {
+  //           key: 4,
+  //           title: "Total Bokings",
+  //           description: bookingsNum.data.length,
+  //           link: "/",
+  //         },
+  //         {
+  //           key: 5,
+  //           title: "Total Approved Hotels",
+  //           description: hotelNum.data.length,
+  //           link: "/",
+  //         },
+  //         {
+  //           key: 6,
+  //           title: "Total Approved Parkings",
+  //           description: parkingNum.data.length,
+  //           link: "/",
+  //         },
+  //         {
+  //           key: 7,
+  //           title: "Total Approved Hotels and Parkings",
+  //           description: hotelAndParkingNum.data.length,
+  //           link: "/",
+  //         },
+  //         {
+  //           key: 8,
+  //           title: "Total Bokings",
+  //           description: bookingsNum.data.length,
+  //           link: "/",
+  //         },
+  //       ];
+  //       setAdminCard(admin);
+  //       console.log(admin);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -176,10 +245,9 @@ export default function Dashboard() {
 
   return (
     <>
-      <Topbar />
       <div className="d-flex">
-        <SidebarAdmin />
-        <div>
+        <AdminSidebar />
+        <div className="mt-5">
           <div
           // className={`${IsMedium ? "mt-5" : ""}`}
           // style={{

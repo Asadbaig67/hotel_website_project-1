@@ -17,3 +17,16 @@
     background-color: #c2c2c2 !important;
     color: #6870fa !important;
 }
+
+.sidebar {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.divSidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 999;
+}

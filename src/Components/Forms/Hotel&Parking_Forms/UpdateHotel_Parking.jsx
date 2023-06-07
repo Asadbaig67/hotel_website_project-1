@@ -12,8 +12,7 @@ import Stack from "@mui/material/Stack";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import style from "../Hotel_Forms/addhotel.module.css";
-import SidebarAdmin from "../../AdminDashboardSidebar/AdminDashboardSidebar";
-import Topbar from "../../Topbar/Topbar";
+import AdminSidebar from "../../adminSidebar/AdminSidebar";
 
 const UpdateHotelAndParking = () => {
   //Alerts Code
@@ -265,10 +264,9 @@ const UpdateHotelAndParking = () => {
 
   return (
     <>
-      <Topbar />
       <div className="d-flex">
-        <SidebarAdmin />
-        <div>
+        <AdminSidebar />
+        <div className="mt-5">
           {alertOn && (
             <Collapse in={open}>
               <Stack sx={{ width: "100%" }} spacing={1}>

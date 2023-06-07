@@ -53,6 +53,8 @@ import { featuredCityCount } from "./reducer/featuredCityCount";
 import { Redirect_Route } from "./reducer/setRedirectRoute";
 import { setPropertyData } from "./reducer/viewpropertydata";
 import { setNotification } from "./reducer/notifications";
+import { db_Collection_Count } from "./reducer/getDbDocumentsCount";
+import { toggleSidebar } from "./reducer/toggleSidebar";
 
 const persistConfig = {
   key: "root",
@@ -114,6 +116,8 @@ const reducer = combineReducers({
   getRedirectRoute: Redirect_Route,
   setPropertyData: setPropertyData,
   setNotification: setNotification,
+  db_Collection_Count: db_Collection_Count,
+  toggleSidebar: toggleSidebar,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

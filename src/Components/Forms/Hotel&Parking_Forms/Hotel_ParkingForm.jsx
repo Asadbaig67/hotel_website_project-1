@@ -13,8 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useEffect } from "react";
 import style from "../Hotel_Forms/addhotel.module.css";
-import SidebarAdmin from "../../AdminDashboardSidebar/AdminDashboardSidebar";
-import Topbar from "../../Topbar/Topbar";
+import AdminSidebar from "../../adminSidebar/AdminSidebar";
 
 const AddHotelParkingForm = () => {
   //Alerts Code
@@ -219,10 +218,9 @@ const AddHotelParkingForm = () => {
 
   return (
     <>
-      <Topbar />
       <div className="d-flex">
-        <SidebarAdmin />
-        <div>
+        <AdminSidebar />
+        <div className="mt-5">
           {alertOn && (
             <Collapse in={open}>
               <Stack sx={{ width: "100%" }} spacing={1}>
