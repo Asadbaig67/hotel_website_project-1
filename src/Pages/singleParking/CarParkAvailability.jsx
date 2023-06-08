@@ -102,6 +102,7 @@ const CarParkAvailability = (props) => {
     hour: "2-digit",
     minute: "2-digit",
   });
+
   const exitTime = exitDate.toLocaleTimeString([], {
     hour12: true,
     hour: "2-digit",
@@ -151,22 +152,26 @@ const CarParkAvailability = (props) => {
               <span className="card-label w-100">Car park entrance</span>
               <span>
                 {entryDateString}{" "}
-                <strong className="strong-hour">{entryTime}</strong>
+                <strong className="strong-hour">
+                  {dates[0].split(" ")[1]}
+                </strong>
               </span>
             </div>
             <div className="col-6 d-flex align-content-center flex-wrap">
               <span className="card-label w-100">Leave car park</span>
               <span>
                 {exitDateString}{" "}
-                <strong className="strong-hour">{exitTime}</strong>
+                <strong className="strong-hour">
+                  {dates[1].split(" ")[1]}
+                </strong>
               </span>
             </div>
-            <div className="col-12 divider-top d-flex align-content-center flex-wrap">
+            {/* <div className="col-12 divider-top d-flex align-content-center flex-wrap">
               <span className="card-label w-100 fw-bold text-dark">
                 Vehicle
               </span>
               {vehicle}
-            </div>
+            </div> */}
           </div>
           {/* <div className="card-footer d-flex justify-content-center">
             <button className="btn btn-card">Book now</button>

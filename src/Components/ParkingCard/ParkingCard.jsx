@@ -1,7 +1,7 @@
 import React from "react";
-import image from "../../images/listing-01.jpg";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
 
 const ParkingCard = (props) => {
   const dispatch = useDispatch();
@@ -96,21 +96,24 @@ const ParkingCard = (props) => {
           </small>
           <p>
             {" "}
-            <span className="fw-bold text-info">{availableSlots}</span> Free
-            Slots{" "}
+            <span className="fw-bold text-info my-1">
+              {availableSlots}
+            </span>{" "}
+            Free Slots{" "}
           </p>
-          <p className="card-text fw-lighter mt-2 fst-italic">{description}</p>
-          <div className="mt-3 ">
+          <p className="card-text fw-lighter mt-2 fst-italic">
+            {description.slice(0, 100) + "..."}
+          </p>
+          <div className="mt-2">
             <h4 className="">
-              <span className="fw-bold text-dark bg-success rounded-2 px-2 py-1 me-2">
+              <span className="fw-bold text-dark bg-secondary rounded-2 px-2 py-1 me-2">
                 Price{" "}
               </span>{" "}
               {price}.00${" "}
             </h4>
           </div>
         </div>
-
-        <div className="card-body">
+        <div className="p-2">
           <button className="btn btn-primary btn-block" onClick={HandleClick}>
             Book Now
           </button>

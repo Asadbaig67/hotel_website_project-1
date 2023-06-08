@@ -17,6 +17,7 @@ import Tooltip from "@mui/material/Tooltip";
 function ParkingPropertyDetails({ property }) {
   const { booked_property } = useSelector((state) => state.getBookedDetails);
   const { c } = useSelector((state) => state.searchVehicle);
+
   // Data The User Selected From Card
   const { selected_parking } = useSelector((state) => state.getSelectedParking);
   console.log(
@@ -56,7 +57,7 @@ function ParkingPropertyDetails({ property }) {
   // Parking Object
 
   let parking = {
-    Total_slots: c,
+    Total_slots: parseInt(c),
     Parking_price: selected_parking.parking.price,
   };
 
@@ -82,12 +83,11 @@ function ParkingPropertyDetails({ property }) {
     5: "Excellent+",
   };
 
-  let Value = selected_parking.parking.rating;
-
   function getLabelText(Value) {
     return `${Value} Star${Value !== 1 ? "s" : ""}, ${labels[Value]}`;
   }
 
+  console.log("Parking = ", parking);
   const HandleBooking = async () => {
     // Api Request
     const parkingURL = `http://localhost:5000/booking/addParkingBooking?userId=${userId}&parkingId=${parkingId}&checkIn=${checkInDateFormatted}&checkOut=${checkOutDateFormatted}&parking=${parking}`;
@@ -119,7 +119,7 @@ function ParkingPropertyDetails({ property }) {
       <div className={`my-3 ${styles.property_details}`}>
         <div>
           <div className="d-flex justify-content-between">
-            <h2 className={`${styles.property_name} mb-2`}>
+            <h2 className={`${styles.property_name} `}>
               {selected_parking.parking.name}
             </h2>
             <button className="btn btn-primary btn-lg " onClick={HandleBooking}>
@@ -133,10 +133,13 @@ function ParkingPropertyDetails({ property }) {
                 width: 200,
                 display: "flex",
                 alignItems: "center",
+                m: 0,
+                p: 0,
               }}
             >
               <Rating
-                name="hover-feedback"
+                name="read-only"
+                readOnly
                 value={
                   selected_parking.parking.rating
                     ? selected_parking.parking.rating
@@ -158,12 +161,8 @@ function ParkingPropertyDetails({ property }) {
                 <Box className="ms-3" sx={{ mb: 1, fontSize: 17 }}>
                   {
                     labels[
-                      booked_property
-                        ? booked_property.rating
-                          ? booked_property.rating
-                          : booked_property.hotel_rating
-                          ? booked_property.hotel_rating
-                          : 4
+                      selected_parking.parking.rating
+                        ? selected_parking.parking.rating
                         : 4
                     ]
                   }
@@ -352,14 +351,14 @@ function ParkingPropertyDetails({ property }) {
           </div>
         </div>
         <div className="my-4">
-          <Link to={`/booking/${property.id}`}>
-            <button
-              className="btn my-2 btn-primary btn-lg "
-              onClick={HandleBooking}
-            >
-              Book Now
-            </button>
-          </Link>
+          {/* <Link to={`/booking/${property.id}`}> */}
+          <button
+            className="btn my-2 btn-primary btn-lg "
+            onClick={HandleBooking}
+          >
+            Book Now
+          </button>
+          {/* </Link> */}
         </div>
       </div>
       <div>

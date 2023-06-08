@@ -74,7 +74,6 @@
   margin-bottom: 5px;
   object-fit: cover;
   cursor: pointer;
-  
 }
 
 .hotelDetails {
@@ -164,6 +163,32 @@
   font-size: 50px;
   color: lightgray;
   cursor: pointer;
+}
+
+.propertyheading {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.property_ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.property_li {
+  background-color: #f5f5f5;
+  color: #555;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 @media screen and (max-width: 992px) {

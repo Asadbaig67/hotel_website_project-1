@@ -27,123 +27,11 @@ import { pink } from "@mui/material/colors";
 import { useMediaQuery } from "@mui/material";
 
 const Parking = () => {
-  const [age, setAge] = useState("");
-
   const isXtraSmallScreen = useMediaQuery("(max-width:450px)");
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
   return (
     <div className="continer-fluid">
       <Navbar list={true} />
-      {/* <!-- slider section --> */}
-      {/* <section
-        className={`${style.slider_section} `}
-        style={{ backgroundImage: `url(${slider})` }}
-      >
-        <div className="container">
-          <div className={` text-light  text-center col-md-9 mx-auto px-0`}>
-            <h1 className="text-light fw-bold">
-              Finding Parking Lots Made Easy
-            </h1>
-            <p className="text-light">
-              Necessitatibus non ducimus hic dolor? Maiores itaque vitae sit
-              blanditiis porro, a expedita ex. Totam vel sed obcaecati. Placeat
-              maxime asperiores deleniti tenetur officiis laboriosam laborum a
-              nihil quisquam quis!
-            </p>
-          </div>
-          <div className="container">
-            <form action="#">
-              <div className="row text-center">
-                <div className="col-md-4">
-                  <div className="">
-                    <label for="" className="text-light">
-                      Select Parking
-                    </label>
-                    <div className="text-light">
-                      <FormControl sx={{ m: 1, minWidth: 300 }}>
-                        <InputLabel id="demo-simple-select-helper-label">
-                          Parking
-                        </InputLabel>
-                        <Select
-                          className="bg-light rounded-2"
-                          color="secondary"
-                          variant="filled"
-                          labelId="demo-simple-select-helper-label"
-                          id="demo-simple-select-helper"
-                          value={age}
-                          label="location"
-                          onChange={handleChange}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          <MenuItem value={10}>London</MenuItem>
-                          <MenuItem value={20}>Dubai</MenuItem>
-                          <MenuItem value={30}>Liberty Parking</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-4 px-0">
-                  <div className="form-group ">
-                    <label for="" className="text-light">
-                      Your Name
-                    </label>
-                    <Box
-                      component="form"
-                      sx={{
-                        "& > :not(style)": { m: 1, width: "35ch" },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      <TextField
-                        className="bg-light rounded-2"
-                        color="primary"
-                        variant="outlined"
-                        id="outlined-basic"
-                        label="Name"
-                      />
-                    </Box>
-                  </div>
-                </div>
-                <div className="col-md-4 px-0">
-                  <div className="form-group">
-                    <label for="" className="text-light">
-                      Your Mobile Number
-                    </label>
-                    <Box
-                      component="form"
-                      sx={{
-                        "& > :not(style)": { m: 1, width: "35ch" },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      <TextField
-                        className="bg-light rounded-2"
-                        id="outlined-basic"
-                        label="Phone"
-                        variant="outlined"
-                      />
-                    </Box>
-                  </div>
-                </div>
-              </div>
-              <div className="text-center">
-                <button type="submit" className="btn mt-3 btn-lg btn-primary">
-                  Search Parking
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section> */}
-      {/* <!-- end slider section --> */}
 
       {/* <!-- about section --> */}
 
@@ -155,17 +43,27 @@ const Parking = () => {
         <div className={` container `}>
           <div className={``}>
             <h3 className="fw-bold ">About Us</h3>
-            <p className={`text-start ${isXtraSmallScreen ? "my-2" : "mb-2 mt-1"} `}>
+            <p
+              className={`text-start ${
+                isXtraSmallScreen ? "my-2" : "mb-2 mt-1"
+              } `}
+            >
               Magni quod blanditiis non minus sed aut voluptatum illum quisquam
               aspernatur ullam vel beatae rerum ipsum voluptatibus
             </p>
           </div>
-          <div className="row">
+          <div
+            className="row"
+            style={{ display: "flex", alignItems: "center" }}
+          >
             <div className={`col-lg-6 ${isXtraSmallScreen ? "pt-0 mt-0" : ""}`}>
               <div className={`${style.img_box}`}>
                 <img
                   src={about}
-                  style={{ boxShadow: "-2px 12px 22px -5px rgba(0,0,0,0.31)" }}
+                  style={{
+                    boxShadow: "-2px 12px 22px -5px rgba(0,0,0,0.31)",
+                    maxWidth: "100%",
+                  }}
                   className="rounded-1 mt-0 pt-0"
                   alt=""
                 />
@@ -173,7 +71,9 @@ const Parking = () => {
             </div>
             <div className={`col-lg-6 ${isXtraSmallScreen ? "pt-3" : ""}`}>
               <div className={``}>
-                <h3 className={`fw-bold ${isXtraSmallScreen ? "my-1" : "mb-2"}`}>
+                <h3
+                  className={`fw-bold ${isXtraSmallScreen ? "my-1" : "mb-2"}`}
+                >
                   We Are Here For Help
                 </h3>
                 <p className="text-start">

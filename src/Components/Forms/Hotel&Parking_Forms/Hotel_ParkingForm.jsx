@@ -323,7 +323,7 @@ const AddHotelParkingForm = () => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Parking Name"
+                    placeholder="Hotel Name"
                     name="hotel_name"
                     id="validationCustom01"
                     value={formValues.hotel_name}
