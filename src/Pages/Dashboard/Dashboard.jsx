@@ -63,10 +63,12 @@ export default function Dashboard() {
       alert("Successfully added");
     }
   };
+  const [isLoading, setIsLoading] = useState(true);
   const [cardData, setCardData] = useState([]);
   const { count } = useSelector((state) => state.db_Collection_Count);
   // const { cardData } = useSelector((state) => state.dashboardCard);
   const [listingChartData, setListingChartData] = useState({});
+  const [bookingChartData, setBookingChartData] = useState({});
 
   const fetchData = async () => {
     let admin = [];
@@ -450,18 +452,25 @@ export default function Dashboard() {
   };
 
   const chartListingData = async () => {
-    let data = {};
     try {
-      const hotel = await axios.get(
-        "http://localhost:5000/hotels/chart/hotelData"
-      );
-      const parking = await axios.get(
-        "http://localhost:5000/parking/chart/parkingData"
-      );
-      const hotelAndParking = await axios.get(
-        "http://localhost:5000/hotelandparking/chart/hotelandparkingData"
-      );
-      data = {
+      const [hotel, parking, hotelAndParking] = await Promise.all([
+        axios.get("http://localhost:5000/hotels/chart/hotelData"),
+        axios.get("http://localhost:5000/parking/chart/parkingData"),
+        axios.get(
+          "http://localhost:5000/hotelandparking/chart/hotelandparkingData"
+        ),
+      ]);
+
+      const [hotelBooking, parkingBooking, hotelAndParkingBooking] =
+        await Promise.all([
+          axios.get("http://localhost:5000/booking/chart/hotelbookings"),
+          axios.get("http://localhost:5000/booking/chart/parkingbookings"),
+          axios.get(
+            "http://localhost:5000/booking/chart/hotelandparkingbookings"
+          ),
+        ]);
+
+      const data = {
         hotel: { name: "Hotel", data: hotel.data },
         parking: { name: "Parking", data: parking.data },
         hotelAndParking: {
@@ -469,17 +478,36 @@ export default function Dashboard() {
           data: hotelAndParking.data,
         },
       };
+
       setListingChartData(data);
+      setBookingChartData({
+        hotel: { name: "Hotel Bookings", data: hotelBooking.data },
+        parking: { name: "Parking Bookings", data: parkingBooking.data },
+        hotelAndParking: {
+          name: "Hotel and Parking Bookings",
+          data: hotelAndParkingBooking.data,
+        },
+      });
+      setIsLoading(false);
       console.log("listingChartData==>", listingChartData);
     } catch (error) {
       console.log("error==>==>", error);
-      // console.error(error);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    chartListingData();
+    const Data = async () => {
+      setIsLoading(true);
+      await chartListingData();
+    };
+
+    Data();
+  }, []);
+
+  useEffect(() => {
     fetchData(); // Execute fetchData function once on rendering
+
     const intervalId = setInterval(fetchData, 5 * 60 * 1000); // Execute fetchData every 5 minutes (5 * 60 * 1000 milliseconds)
 
     return () => {
@@ -642,6 +670,10 @@ export default function Dashboard() {
     );
   };
 
+  if (isLoading) {
+    return <div>Is Loading</div>;
+  }
+
   return (
     <>
       <div className="d-flex w-100">
@@ -775,7 +807,7 @@ export default function Dashboard() {
           </div>
 
           {/* Charts */}
-          {/* {view === "admin" ? (
+          {view === "admin" ? (
             <>
               {chartList(listingChartData)}
               <div className="mt-5 mb-3 mx-4">
@@ -870,95 +902,8 @@ export default function Dashboard() {
             </>
           ) : view === "partner" ? (
             <>
-              <div className="mt-5 mb-3 mx-4">
-                <div
-                  className="row justify-content-center p-4 rounded-3"
-                  style={{ backgroundColor: "#dfebf6" }}
-                >
-                  <Typography variant="h6">Booking Summary</Typography>
-                  <div className="col-md-6">
-                    <ChartData
-                      data1={{
-                        name: "Hotel",
-                        data: [30, 40, 45, 50, 49, 60, 70, 91],
-                      }}
-                      data2={{
-                        name: "Parking",
-                        data: [20, 10, 45, 74, 19, 60, 20, 13],
-                      }}
-                      data3={{
-                        name: "Hotel and Parking",
-                        data: [40, 30, 54, 14, 19, 90, 27, 33],
-                      }}
-                      type="area"
-                      title="Hotel vs. Parking vs. Hotel and Parking"
-                      color={["#210440", "#fdb095", "#e5958e"]}
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <Typography>Overview</Typography>
-                    <div className="row justify-content-center">
-                      <div
-                        className="col-md-5 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#210440" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Hotel Bookings
-                        </Typography>
-                      </div>
-                      <div
-                        className="col-md-5 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#fdb095" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Parking Bookings
-                        </Typography>
-                      </div>
-                      <div
-                        className="col-md-10 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#e5958e" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Hotel and Parking Bookings
-                        </Typography>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {chartList(listingChartData)}
+              {chartList(bookingChartData)}
             </>
           ) : (
             <>
@@ -1141,8 +1086,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </>
-          )} */}
-          {chartList(listingChartData)}
+          )}
 
           {/* Add operating cities */}
           {view === "admin" && (
