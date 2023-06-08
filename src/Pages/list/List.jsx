@@ -53,8 +53,6 @@ const List = () => {
   const [option, setOption] = useState(options);
   const [openDate, setOpenDate] = useState(false);
 
-  console.log("Options Are ", option);
-
   // console.log("Values Are ", {
   //   city,
   //   checkin,
@@ -163,6 +161,9 @@ const List = () => {
       getHotelAndParking();
     }
   }, [activePath]);
+
+  console.log("Hotel Data ", hotelData);
+  console.log("Featured Hotel ", dataList);
 
   return (
     <div className="container-fluid w-100">
@@ -444,9 +445,9 @@ const List = () => {
           <div className={`col-8 ${style.listResult}`}>
             {activePath === "hotel" &&
               featured_hotel.length === 0 &&
-              dataList.length === 0 && <Loader />}
+              hotelData.length === 0 && <Loader />}
             {activePath === "hotelAndParking" &&
-              dataList.length === 0 &&
+              hotelData.length === 0 &&
               featured_hotel.length === 0 && <Loader />}
             {activePath === "hotel" && featured_hotel.length > 0 && (
               <>
@@ -455,9 +456,9 @@ const List = () => {
                 ))}
               </>
             )}
-            {activePath === "hotel" && dataList.length > 0 && (
+            {activePath === "hotel" && hotelData.length > 0 && (
               <>
-                {dataList.map((item) => (
+                {hotelData.map((item) => (
                   <Card item={item} key={item._id} />
                 ))}
               </>
@@ -469,10 +470,10 @@ const List = () => {
                 ))}
               </>
             )}
-            {activePath === "hotelAndParking" && dataList.length > 0 && (
+            {activePath === "hotelAndParking" && hotelData.length > 0 && (
               <>
                 {/* {dispatch({ type: "SET_FEATURED_DATA", payload: [] })} */}
-                {dataList.map((item) => (
+                {hotelData.map((item) => (
                   <Card item={item} key={item._id} />
                 ))}
               </>

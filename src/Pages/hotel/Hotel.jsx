@@ -185,6 +185,8 @@ const Hotel = () => {
     return () => window.removeEventListener("scroll", disableScroll);
   }, [open]);
 
+  console.log("limit", limit);
+
   return (
     <div style={{ overflow: "hidden" }}>
       <Navbar list={false} />
@@ -627,7 +629,7 @@ const Hotel = () => {
                       : data.name
                     : null}
                 </h1>
-                <p className="hotelDesc text-dark fs-6 fw-light">
+                <p className="fw-lighter  fs-6 lh-base mt-1 fst-italic">
                   {selected_hotel ? selected_hotel.description : data.desc}
                   {selected_hotel
                     ? selected_hotel.hotel_description
@@ -637,7 +639,8 @@ const Hotel = () => {
                       : data.name
                     : null}
                 </p>
-                <div>
+
+                {/* <div>
                   <h5 className="my-3">Most popular facilities</h5>
                   <div className="d-flex flex-wrap text-success">
                     {Facilities &&
@@ -676,7 +679,65 @@ const Hotel = () => {
                       </div>
                     )}
                   </div>
+                </div> */}
+                <div
+                  className=" my-2"
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "700",
+                    color: "#000",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <h3 className="my-1">Features:</h3>
+                  <ul
+                    className="mt-2"
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      listStyle: "none",
+                      margin: "0",
+                      padding: "0",
+                    }}
+                  >
+                    {Facilities &&
+                      Facilities.slice(0, limit).map((feature, i) => (
+                        <li
+                          key={feature}
+                          className=""
+                          style={{
+                            backgroundColor: "#ffffff",
+                            color: "#555",
+                            fontSize: "14px",
+                            fontWeight: "700",
+                            borderRadius: "20px",
+                            padding: "10px 20px",
+                            marginRight: "10px",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          {feature}
+                        </li>
+                      ))}
+                  </ul>
                 </div>
+                {limit < Facilities.length && (
+                  <small
+                    onClick={handleSeemore}
+                    className="my-auto ms-2 fw-bold text-info cursor_pointer"
+                  >
+                    See More
+                  </small>
+                )}
+
+                {limit === Facilities.length && (
+                  <small
+                    onClick={handleSeemore}
+                    className="my-auto ms-2 fw-bold text-info cursor_pointer"
+                  >
+                    See Less
+                  </small>
+                )}
               </div>
 
               <div className="hotelDetailsPrice">
