@@ -63,10 +63,12 @@ export default function Dashboard() {
       alert("Successfully added");
     }
   };
+  const [isLoading, setIsLoading] = useState(true);
   const [cardData, setCardData] = useState([]);
   const { count } = useSelector((state) => state.db_Collection_Count);
   // const { cardData } = useSelector((state) => state.dashboardCard);
   const [listingChartData, setListingChartData] = useState({});
+  const [bookingChartData, setBookingChartData] = useState({});
 
   const fetchData = async () => {
     let admin = [];
@@ -121,56 +123,56 @@ export default function Dashboard() {
             key: 1,
             title: "Approved Hotels",
             description: hotelNum.data.length,
-            link: "/",
+            link: "/hotels",
             name: "Hotels",
           },
           {
             key: 2,
             title: "Approved Parkings",
             description: parkingNum.data.length,
-            link: "/",
+            link: "/parkings",
             name: "Parkings",
           },
           {
             key: 3,
             title: "Approved Hotels and Parkings",
             description: hotelAndParkingNum.data.length,
-            link: "/",
+            link: "/HotelsAndParkings",
             name: "Hotels and Parkings",
           },
           {
             key: 4,
             title: "Completed Bokings",
             description: bookingsNum.data.length,
-            link: "/",
+            link: "/booking",
             name: "Bookings",
           },
           {
             key: 5,
             title: "Pending Hotels",
             description: pendingHotelNum.data.length,
-            link: "/",
+            link: "/hotelRequests",
             name: "Hotels",
           },
           {
             key: 6,
             title: "Pending Parkings",
             description: pendingParkingNum.data.length,
-            link: "/",
+            link: "/parkingRequests",
             name: "Parkings",
           },
           {
             key: 7,
             title: "Pending Hotels and Parkings",
             description: pendingHotelAndParkingNum.data.length,
-            link: "/",
+            link: "/hotelAndParkingRequests",
             name: "Hotels and Parkings",
           },
           {
             key: 8,
             title: "Upcoming Bokings",
             description: upcomingBookingsNum.data.length,
-            link: "/",
+            link: "/booking",
             name: "Bookings",
           },
         ];
@@ -205,28 +207,28 @@ export default function Dashboard() {
               key: 1,
               title: "Approved Hotels",
               description: hotelNum.data.length,
-              link: "/",
+              link: "/Property",
               name: "Hotels",
             },
             {
               key: 2,
               title: "Completed Bokings",
               description: bookingsNum.data.length,
-              link: "/",
+              link: "/booking",
               name: "Bookings",
             },
             {
               key: 3,
               title: "Pending Hotels",
               description: pendingHotelNum.data.length,
-              link: "/",
+              link: "/PropertyRequests",
               name: "Hotels",
             },
             {
               key: 4,
               title: "Upcoming Bokings",
               description: upcomingbBookingsNum.data.length,
-              link: "/",
+              link: "/bookingRequests",
               name: "Bookings",
             },
           ];
@@ -261,28 +263,28 @@ export default function Dashboard() {
               key: 1,
               title: "Approved Parkings",
               description: parkingNum.data.length,
-              link: "/",
+              link: "/Property",
               name: "Parkings",
             },
             {
               key: 2,
               title: "Completed Bokings",
               description: bookingsNum.data.length,
-              link: "/",
+              link: "/booking",
               name: "Bookings",
             },
             {
               key: 3,
               title: "Pending Parkings",
               description: pendingParkingNum.data.length,
-              link: "/",
+              link: "/PropertyRequests",
               name: "Parkings",
             },
             {
               key: 4,
               title: "Upcoming Bokings",
               description: upcomingbBookingsNum.data.length,
-              link: "/",
+              link: "/bookingRequests",
               name: "Bookings",
             },
           ];
@@ -317,34 +319,33 @@ export default function Dashboard() {
               key: 1,
               title: "Approved Hotels and Parkings",
               description: hotelAndParkingNum.data.length,
-              link: "/",
+              link: "/Property",
               name: "Hotels and Parkings",
             },
             {
               key: 2,
               title: "Completed Bokings",
               description: bookingsNum.data.length,
-              link: "/",
+              link: "/booking",
               name: "Bookings",
             },
             {
               key: 3,
               title: "Pending Hotels and Parkings",
               description: pendingHotelAndParkingNum.data.length,
-              link: "/",
+              link: "/PropertyRequests",
               name: "Hotels and Parkings",
             },
             {
               key: 4,
               title: "Upcoming Bokings",
               description: upcomingbBookingsNum.data.length,
-              link: "/",
+              link: "/bookingRequests",
               name: "Bookings",
             },
           ];
         }
       } else if (view === "user") {
-        const user = JSON.parse(localStorage.getItem("user"));
         const prevHotelBookingNum = await axios.get(
           `http://localhost:5000/booking/getPreviousBookingHotelByUserId/${user._id}`
         );
@@ -354,9 +355,9 @@ export default function Dashboard() {
         const prevHotelAndParkingBookingNum = await axios.get(
           `http://localhost:5000/booking/getPreviousBookingHotelandParkingByUserId/${user._id}`
         );
-        // Remaining
+        
         const prevTotalBookingNum = await axios.get(
-          `http://localhost:5000/booking/getCompletedBookingByUserId/${user._id}`
+          `http://localhost:5000/booking/getAllPreviousBookingsByUserId/${user._id}`
         );
         const upcomingHotelBookingNum = await axios.get(
           `http://localhost:5000/booking/getUpcomingBookingHotelByUserId/${user._id}`
@@ -367,9 +368,9 @@ export default function Dashboard() {
         const upcomingHotelAndParkingBookingNum = await axios.get(
           `http://localhost:5000/booking/getUpcomingBookingHotelandParkingByUserId/${user._id}`
         );
-        // Remaining
+
         const upcomingTotalBookingNum = await axios.get(
-          `http://localhost:5000/booking/getCompletedBookingByUserId/${user._id}`
+          `http://localhost:5000/booking/getAllUpcommingBookingsByUserId/${user._id}`
         );
 
         dispatch({
@@ -382,57 +383,57 @@ export default function Dashboard() {
             key: 1,
             title: "Hotel Bookings",
             description: prevHotelBookingNum.data.length,
-            link: "/",
-            name: "Hotels",
+            link: "/hotelbookings",
+            name: "Hotel Bookings",
           },
           {
             key: 2,
             title: "Parking Bookings",
             description: prevParkingBookingNum.data.length,
-            link: "/",
-            name: "Parkings",
+            link: "/parkingbookings",
+            name: "Parkings Bookings",
           },
           {
             key: 3,
             title: "Hotel and Parking Bookings",
             description: prevHotelAndParkingBookingNum.data.length,
-            link: "/",
-            name: "Hotels and Parkings",
+            link: "/hotelandparkingbookings",
+            name: "Hotels and Parkings Bookings",
           },
           {
             key: 4,
             title: "Completed Bookings",
             description: prevTotalBookingNum.data.length,
-            link: "/",
-            name: "Bookings",
+            link: "/hotelbookings",
+            name: "Completed Bookings",
           },
           {
             key: 5,
-            title: "Hotel Bookings",
+            title: "Upcoming Hotel Bookings",
             description: upcomingHotelBookingNum.data.length,
-            link: "/",
-            name: "Hotels",
+            link: "/upcominghotelbookings",
+            name: "Hotels Bookings",
           },
           {
             key: 6,
             title: "Parking Bookings",
             description: upcomingParkingBookingNum.data.length,
-            link: "/",
-            name: "Parkings",
+            link: "/upcomingparkingbookings",
+            name: "Parkings Bookings",
           },
           {
             key: 7,
             title: "Hotel and Parking Bookings",
             description: upcomingHotelAndParkingBookingNum.data.length,
-            link: "/",
-            name: "Hotels and Parkings",
+            link: "/upcominghotelandparkingbookings",
+            name: "Hotels and Parkings Bookings",
           },
           {
             key: 8,
-            title: "Completed Bookings",
+            title: "Upcoming Bookings",
             description: upcomingTotalBookingNum.data.length,
-            link: "/",
-            name: "Bookings",
+            link: "/upcominghotelbookings",
+            name: "Upcoming Bookings",
           },
         ];
       }
@@ -450,18 +451,25 @@ export default function Dashboard() {
   };
 
   const chartListingData = async () => {
-    let data = {};
     try {
-      const hotel = await axios.get(
-        "http://localhost:5000/hotels/chart/hotelData"
-      );
-      const parking = await axios.get(
-        "http://localhost:5000/parking/chart/parkingData"
-      );
-      const hotelAndParking = await axios.get(
-        "http://localhost:5000/hotelandparking/chart/hotelandparkingData"
-      );
-      data = {
+      const [hotel, parking, hotelAndParking] = await Promise.all([
+        axios.get("http://localhost:5000/hotels/chart/hotelData"),
+        axios.get("http://localhost:5000/parking/chart/parkingData"),
+        axios.get(
+          "http://localhost:5000/hotelandparking/chart/hotelandparkingData"
+        ),
+      ]);
+
+      const [hotelBooking, parkingBooking, hotelAndParkingBooking] =
+        await Promise.all([
+          axios.get("http://localhost:5000/booking/chart/hotelbookings"),
+          axios.get("http://localhost:5000/booking/chart/parkingbookings"),
+          axios.get(
+            "http://localhost:5000/booking/chart/hotelandparkingbookings"
+          ),
+        ]);
+
+      const data = {
         hotel: { name: "Hotel", data: hotel.data },
         parking: { name: "Parking", data: parking.data },
         hotelAndParking: {
@@ -469,17 +477,36 @@ export default function Dashboard() {
           data: hotelAndParking.data,
         },
       };
+
       setListingChartData(data);
+      setBookingChartData({
+        hotel: { name: "Hotel Bookings", data: hotelBooking.data },
+        parking: { name: "Parking Bookings", data: parkingBooking.data },
+        hotelAndParking: {
+          name: "Hotel and Parking Bookings",
+          data: hotelAndParkingBooking.data,
+        },
+      });
+      setIsLoading(false);
       console.log("listingChartData==>", listingChartData);
     } catch (error) {
       console.log("error==>==>", error);
-      // console.error(error);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    chartListingData();
+    const Data = async () => {
+      setIsLoading(true);
+      await chartListingData();
+    };
+
+    Data();
+  }, []);
+
+  useEffect(() => {
     fetchData(); // Execute fetchData function once on rendering
+
     const intervalId = setInterval(fetchData, 5 * 60 * 1000); // Execute fetchData every 5 minutes (5 * 60 * 1000 milliseconds)
 
     return () => {
@@ -502,12 +529,12 @@ export default function Dashboard() {
         <div className="col-md-3" key={element.key}>
           <Link
             className={`${style.card1} rounded-3 pb-3`}
-            style={{ height: "85%" }}
+            style={{ height: "87%" }}
             to={element.link}
           >
             <h3 className="h-50">{element.title}</h3>
             <p
-              className={`bolder text-center mt-3 mb-4 ${
+              className={`bolder text-center mb-5 ${
                 style.card1_description
               } ${
                 i === 0
@@ -642,11 +669,15 @@ export default function Dashboard() {
     );
   };
 
+  if (isLoading) {
+    return <div>Is Loading</div>;
+  }
+
   return (
     <>
       <div className="d-flex w-100">
         <AdminSidebar />
-        <div className="mt-5">
+        <div className="mt-5 mb-5">
           <div
             className={`row`}
             // style={{
@@ -775,190 +806,15 @@ export default function Dashboard() {
           </div>
 
           {/* Charts */}
-          {/* {view === "admin" ? (
+          {view === "admin" ? (
             <>
-              {chartList(listingChartData)}
-              <div className="mt-5 mb-3 mx-4">
-                <div
-                  className="row justify-content-center p-4 rounded-3"
-                  style={{ backgroundColor: "#dfebf6" }}
-                >
-                  <Typography variant="h6">Booking Summary</Typography>
-                  <div className="col-md-6">
-                    <ChartData
-                      data1={{
-                        name: "Hotel",
-                        data: [30, 40, 45, 50, 49, 60, 70, 91],
-                      }}
-                      data2={{
-                        name: "Parking",
-                        data: [20, 10, 45, 74, 19, 60, 20, 13],
-                      }}
-                      data3={{
-                        name: "Hotel and Parking",
-                        data: [40, 30, 54, 14, 19, 90, 27, 33],
-                      }}
-                      type="area"
-                      title="Hotel vs. Parking vs. Hotel and Parking"
-                      color={["#210440", "#fdb095", "#e5958e"]}
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <Typography>Overview</Typography>
-                    <div className="row justify-content-center">
-                      <div
-                        className="col-md-5 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#210440" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Hotel Bookings
-                        </Typography>
-                      </div>
-                      <div
-                        className="col-md-5 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#fdb095" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Parking Bookings
-                        </Typography>
-                      </div>
-                      <div
-                        className="col-md-10 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#e5958e" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Hotel and Parking Bookings
-                        </Typography>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
+            {chartList(listingChartData)}
+            {chartList(bookingChartData)}
+          </>
           ) : view === "partner" ? (
             <>
-              <div className="mt-5 mb-3 mx-4">
-                <div
-                  className="row justify-content-center p-4 rounded-3"
-                  style={{ backgroundColor: "#dfebf6" }}
-                >
-                  <Typography variant="h6">Booking Summary</Typography>
-                  <div className="col-md-6">
-                    <ChartData
-                      data1={{
-                        name: "Hotel",
-                        data: [30, 40, 45, 50, 49, 60, 70, 91],
-                      }}
-                      data2={{
-                        name: "Parking",
-                        data: [20, 10, 45, 74, 19, 60, 20, 13],
-                      }}
-                      data3={{
-                        name: "Hotel and Parking",
-                        data: [40, 30, 54, 14, 19, 90, 27, 33],
-                      }}
-                      type="area"
-                      title="Hotel vs. Parking vs. Hotel and Parking"
-                      color={["#210440", "#fdb095", "#e5958e"]}
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <Typography>Overview</Typography>
-                    <div className="row justify-content-center">
-                      <div
-                        className="col-md-5 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#210440" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Hotel Bookings
-                        </Typography>
-                      </div>
-                      <div
-                        className="col-md-5 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#fdb095" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Parking Bookings
-                        </Typography>
-                      </div>
-                      <div
-                        className="col-md-10 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#e5958e" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Hotel and Parking Bookings
-                        </Typography>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {chartList(listingChartData)}
+              {chartList(bookingChartData)}
             </>
           ) : (
             <>
@@ -1141,14 +997,13 @@ export default function Dashboard() {
                 </div>
               </div>
             </>
-          )} */}
-          {chartList(listingChartData)}
+          )}
 
           {/* Add operating cities */}
           {view === "admin" && (
             <div>
               <div>
-                <div className="container pb-3">
+                <div className="container pb-3 mt-4">
                   <div className="row justify-content-center flex align-items-end">
                     <div className="col-md-10">
                       <h1 className="fs-1 fw-bold">Add Cities</h1>
@@ -1167,7 +1022,7 @@ export default function Dashboard() {
                         }}
                       />
                     </div>
-                    <div className="col-md-2">
+                    <div className="col-md-2 mt-2">
                       <button
                         disabled={
                           !addHotelOperatingCity &&
@@ -1249,7 +1104,7 @@ export default function Dashboard() {
 
               <div className="container">
                 <div className="row justify-content-center">
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <h1 className="fw-semibold my-2">
                       Operating Hotels cities
                     </h1>
@@ -1260,7 +1115,7 @@ export default function Dashboard() {
                       url={`http://localhost:5000/OperatingProperty/getHotelOperatingCityObj`}
                     />
                   </div>
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <h1 className="fw-semibold my-2">
                       Operating Parking cities
                     </h1>
@@ -1271,7 +1126,7 @@ export default function Dashboard() {
                       url={`http://localhost:5000/OperatingProperty/getParkingOperatingCityObj`}
                     />
                   </div>
-                  <div className="col-md-5">
+                  <div className="col-md-6 mt-3">
                     <h1 className="fw-semibold my-2">
                       Operating Hotel and Parking cities
                     </h1>

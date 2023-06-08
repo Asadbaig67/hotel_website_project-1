@@ -35,13 +35,9 @@ import {
   SidebarDataUserUpcomingBooking,
   SidebarDataLogout,
 } from "../../Utilis/SidebarData";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./AdminSidebar.module.css";
-
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import bgrmvblk from "../../images/bgrmvblk.png";
-import { Link } from "react-router-dom";
 import person from "../../images/user.png";
 import Popover from "@mui/material/Popover";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -49,14 +45,11 @@ import Avatar from "@mui/material/Avatar";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import Badge from "@mui/material/Badge";
-
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { AirlineSeatIndividualSuiteSharp } from "@mui/icons-material";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import { AccountCircle } from "@mui/icons-material";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -130,21 +123,18 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function AdminSidebar() {
+  const location = useLocation();
+  const path = location.pathname;
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
-
   const { notification } = useSelector((state) => state.setNotification);
-
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const openNotification = Boolean(anchorEl);
   const id = openNotification ? "simple-popover" : undefined;
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const view = useSelector((state) => state.view.view);
   const theme = useTheme();
-  // const [open, setOpen] = React.useState(false);
   const { open } = useSelector((state) => state.toggleSidebar);
   const [openDialog, setOpenDialog] = React.useState(false);
 
@@ -190,13 +180,26 @@ export default function AdminSidebar() {
   };
 
   const [anchorElMenu, setAnchorElMenu] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
 
   const isMenuOpen = Boolean(anchorElMenu);
   const handleProfileMenuOpen = (event) => {
     setAnchorElMenu(event.currentTarget);
-  };
-  const handleMenuClose = () => {
-    setAnchorElMenu(null);
   };
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -222,6 +225,50 @@ export default function AdminSidebar() {
     </Menu>
   );
 
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem onClick={handleNotication}>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge badgeContent={17} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -240,16 +287,22 @@ export default function AdminSidebar() {
             >
               <MenuIcon />
             </IconButton>
-            <Typography
+            {/* <Typography
               variant="h6"
               noWrap
               component="div"
               sx={{ display: { xs: "none", sm: "block" } }}
             >
-              MUI
-            </Typography>
+            </Typography> */}
+            <Box
+              sx={{
+                width: { lg: "6%", m: "7%", xs: "25%", sm: "20%" },
+              }}
+            >
+              <img src={bgrmvblk} alt="" className="w-100" />
+            </Box>
             <Box sx={{ flexGrow: 1 }} />
-            <Box>
+            <Box sx={{ display: { xs: "none", sm: "block" } }}>
               {/* <IconButton
                 size="large"
                 aria-label="show 4 new mails"
@@ -351,7 +404,7 @@ export default function AdminSidebar() {
                 {/* <AccountCircle /> */}
               </IconButton>
             </Box>
-            {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <Box sx={{ display: { xs: "flex", md: "none", sm: "none" } }}>
               <IconButton
                 size="large"
                 aria-label="show more"
@@ -362,12 +415,19 @@ export default function AdminSidebar() {
               >
                 <MoreIcon />
               </IconButton>
-            </Box> */}
+            </Box>
           </Toolbar>
         </AppBar>
+        {renderMobileMenu}
         {renderMenu}
         <Drawer variant="permanent" open={open}>
-          <DrawerHeader>
+          {/* <div className="d-flex justify-content-around"> */}
+          <DrawerHeader
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Typography variant="h5" noWrap component="div">
+              DESALIS
+            </Typography>
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
@@ -376,7 +436,24 @@ export default function AdminSidebar() {
               )}
             </IconButton>
           </DrawerHeader>
+          {/* </div> */}
           <Divider />
+
+          {open && (
+            <List>
+              <div className="d-flex justify-content-center">
+                <img src={user.photo ? user.photo : person} alt="user" />
+              </div>
+              <div className="d-flex flex-column align-items-center">
+                <Typography variant="h5" noWrap component="div">
+                  {user.firstName} {user.lastName}
+                </Typography>
+                <Typography variant="p" noWrap component="div">
+                  {user.account_type}
+                </Typography>
+              </div>
+            </List>
+          )}
           {view === "admin" ? (
             <>
               <List>
@@ -393,11 +470,17 @@ export default function AdminSidebar() {
                     sx={{ display: "block" }}
                   >
                     <ListItemButton
-                      onClick={() => navigate(element.link)}
+                      onClick={() => {
+                        navigate(element.link);
+                      }}
                       sx={{
                         minHeight: 48,
                         justifyContent: open ? "initial" : "center",
                         px: 2.5,
+                        color: `${path === element.link ? "#00838f" : "#000"}`,
+                        fontWeight: `${
+                          path === element.link ? "800" : "normal"
+                        }`,
                       }}
                     >
                       <ListItemIcon
@@ -405,13 +488,21 @@ export default function AdminSidebar() {
                           minWidth: 0,
                           mr: open ? 3 : "auto",
                           justifyContent: "center",
+                          color: `${
+                            path === element.link ? "#00838f" : "#000"
+                          }`,
+                          fontWeight: `${
+                            path === element.link ? "800" : "normal"
+                          }`,
                         }}
                       >
                         {element.icon}
                       </ListItemIcon>
                       <ListItemText
                         primary={element.title}
-                        sx={{ opacity: open ? 1 : 0 }}
+                        sx={{
+                          opacity: open ? 1 : 0,
+                        }}
                       />
                     </ListItemButton>
                   </ListItem>
