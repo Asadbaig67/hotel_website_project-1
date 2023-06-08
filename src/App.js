@@ -38,9 +38,12 @@ import Featured_skeleton from "./Components/Skeletons/Featured_skeleton";
 import Viewbookings from "./Pages/BookingDetails/Viewbookings";
 import Viewproperty from "./Pages/ViewProperty/Viewproperty";
 import AdminBookings from "./Pages/BookingDetails/AdminBookings";
-import AdminSidebar from "./Components/adminSidebar/AdminSidebar";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
   const property = {
     id: 1,
     name: "Example Property",
@@ -85,6 +88,7 @@ function App() {
       },
     ],
   };
+  
 
   return (
     <>
