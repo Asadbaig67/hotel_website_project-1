@@ -14,7 +14,7 @@ import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 import person from "../../images/user.png";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import ChartData from "../../Components/Chart/Chart";
-import { set } from "date-fns";
+import SingleChartData from "../../Components/Chart/SingleDataChart";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -69,6 +69,22 @@ export default function Dashboard() {
   // const { cardData } = useSelector((state) => state.dashboardCard);
   const [listingChartData, setListingChartData] = useState({});
   const [bookingChartData, setBookingChartData] = useState({});
+  const [partnerCombinedData, setPartnerCombinedData] = useState({});
+  const [userCombinedData, setUserCombinedData] = useState({});
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   const fetchData = async () => {
     let admin = [];
@@ -355,7 +371,7 @@ export default function Dashboard() {
         const prevHotelAndParkingBookingNum = await axios.get(
           `http://localhost:5000/booking/getPreviousBookingHotelandParkingByUserId/${user._id}`
         );
-        
+
         const prevTotalBookingNum = await axios.get(
           `http://localhost:5000/booking/getAllPreviousBookingsByUserId/${user._id}`
         );
@@ -452,43 +468,102 @@ export default function Dashboard() {
 
   const chartListingData = async () => {
     try {
-      const [hotel, parking, hotelAndParking] = await Promise.all([
-        axios.get("http://localhost:5000/hotels/chart/hotelData"),
-        axios.get("http://localhost:5000/parking/chart/parkingData"),
-        axios.get(
-          "http://localhost:5000/hotelandparking/chart/hotelandparkingData"
-        ),
-      ]);
-
-      const [hotelBooking, parkingBooking, hotelAndParkingBooking] =
-        await Promise.all([
-          axios.get("http://localhost:5000/booking/chart/hotelbookings"),
-          axios.get("http://localhost:5000/booking/chart/parkingbookings"),
+      if (view === "admin") {
+        const [hotel, parking, hotelAndParking] = await Promise.all([
+          axios.get("http://localhost:5000/hotels/chart/hotelData"),
+          axios.get("http://localhost:5000/parking/chart/parkingData"),
           axios.get(
-            "http://localhost:5000/booking/chart/hotelandparkingbookings"
+            "http://localhost:5000/hotelandparking/chart/hotelandparkingData"
           ),
         ]);
 
-      const data = {
-        hotel: { name: "Hotel", data: hotel.data },
-        parking: { name: "Parking", data: parking.data },
-        hotelAndParking: {
-          name: "Hotel and Parking",
-          data: hotelAndParking.data,
-        },
-      };
+        const [hotelBooking, parkingBooking, hotelAndParkingBooking] =
+          await Promise.all([
+            axios.get("http://localhost:5000/booking/chart/hotelbookings"),
+            axios.get("http://localhost:5000/booking/chart/parkingbookings"),
+            axios.get(
+              "http://localhost:5000/booking/chart/hotelandparkingbookings"
+            ),
+          ]);
 
-      setListingChartData(data);
-      setBookingChartData({
-        hotel: { name: "Hotel Bookings", data: hotelBooking.data },
-        parking: { name: "Parking Bookings", data: parkingBooking.data },
-        hotelAndParking: {
-          name: "Hotel and Parking Bookings",
-          data: hotelAndParkingBooking.data,
-        },
-      });
+        const data = {
+          hotel: { name: "Hotel", data: hotel.data },
+          parking: { name: "Parking", data: parking.data },
+          hotelAndParking: {
+            name: "Hotel and Parking",
+            data: hotelAndParking.data,
+          },
+        };
+
+        setListingChartData(data);
+        setBookingChartData({
+          hotel: { name: "Hotel Bookings", data: hotelBooking.data },
+          parking: { name: "Parking Bookings", data: parkingBooking.data },
+          hotelAndParking: {
+            name: "Hotel and Parking Bookings",
+            data: hotelAndParkingBooking.data,
+          },
+        });
+      } else if (view === "partner") {
+        if (user.partner_type === "Hotel") {
+          const hotelCombinedBookings = await axios.get(
+            `http://localhost:5000/booking/chart/combinedpartnerhotel/${user._id}`
+          );
+          setPartnerCombinedData({
+            name: "Hotel Bookings",
+            data: hotelCombinedBookings.data,
+          });
+        } else if (user.partner_type === "Parking") {
+          const parkingCombinedBookings = await axios.get(
+            `http://localhost:5000/booking/chart/combinedpartnerparking/${user._id}`
+          );
+          setPartnerCombinedData({
+            name: "Parking Bookings",
+            data: parkingCombinedBookings.data,
+          });
+        } else if (user.partner_type === "HotelAndParking") {
+          const hotelAndParkingCombinedBookings = await axios.get(
+            `http://localhost:5000/booking/chart/combinedpartnerhotelparking/${user._id}`
+          );
+          setPartnerCombinedData({
+            name: "Hotel and Parking Bookings",
+            data: hotelAndParkingCombinedBookings.data,
+          });
+        }
+      } else if (view === "user") {
+        const [
+          userAllBooking,
+          userHotelBooking,
+          userParkingBooking,
+          userHotelAndParkingBooking,
+        ] = await Promise.all([
+          axios.get(
+            `http://localhost:5000/booking/chart/userallbookings/${user._id}`
+          ),
+          axios.get(
+            `http://localhost:5000/booking/chart/userhotelbookings/${user._id}`
+          ),
+          axios.get(
+            `http://localhost:5000/booking/chart/userparkingbookings/${user._id}`
+          ),
+          axios.get(
+            `http://localhost:5000/booking/chart/userhotelandparkingbookings/${user._id}`
+          ),
+        ]);
+        setUserCombinedData({
+          name: "All Bookings",
+          data: userAllBooking.data,
+        });
+        setListingChartData({
+          hotel: { name: "Hotel Bookings", data: userHotelBooking.data },
+          parking: { name: "Parking Bookings", data: userParkingBooking.data },
+          hotelAndParking: {
+            name: "Hotel and Parking Bookings",
+            data: userHotelAndParkingBooking.data,
+          },
+        });
+      }
       setIsLoading(false);
-      console.log("listingChartData==>", listingChartData);
     } catch (error) {
       console.log("error==>==>", error);
       setIsLoading(false);
@@ -534,9 +609,7 @@ export default function Dashboard() {
           >
             <h3 className="h-50">{element.title}</h3>
             <p
-              className={`bolder text-center mb-5 ${
-                style.card1_description
-              } ${
+              className={`bolder text-center mb-5 ${style.card1_description} ${
                 i === 0
                   ? style.red
                   : i === 1
@@ -568,7 +641,7 @@ export default function Dashboard() {
     });
   };
 
-  const chartList = (data) => {
+  const adminChartList = (data) => {
     console.log(data);
     return (
       <div className="mt-5 mb-3 mx-4">
@@ -660,6 +733,116 @@ export default function Dashboard() {
                   sx={{ fontWeight: "800", color: "#dfebf6" }}
                 >
                   {data.hotelAndParking.name}
+                </Typography>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const partnerChartData = (data) => {
+    return (
+      <div className="mt-5 mb-3 mx-4">
+        <div
+          className="row justify-content-center p-4 rounded-3"
+          style={{ backgroundColor: "#dfebf6" }}
+        >
+          <Typography variant="h6">Total Bookings Summary</Typography>
+          <div className="col-md-6">
+            <SingleChartData
+              data1={{
+                name: data.name,
+                data: data.data,
+              }}
+              type="line"
+              title={`All ${
+                user.partner_type ? user.partner_type : ""
+              } Bookings`}
+              // color={["#008FFB", "#00E396", "#FEB019"]}
+            />
+          </div>
+          <div className="col-md-6">
+            <Typography>Overview</Typography>
+            <div className="row justify-content-center">
+              <div
+                className="col-md-5 m-1 py-4 rounded-4"
+                style={{ backgroundColor: "#008FFB" }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{ fontWeight: "600", color: "#dfebf6" }}
+                  align="center"
+                >
+                  Maximum Bookings
+                </Typography>
+                <Typography
+                  variant="h3"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                  align="center"
+                >
+                  {Math.max(...data.data)}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                >
+                  {months[data.data.indexOf(Math.max(...data.data))]}
+                </Typography>
+              </div>
+              <div
+                className="col-md-5 m-1 py-4 rounded-4"
+                style={{ backgroundColor: "#00E396" }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{ fontWeight: "600", color: "#dfebf6" }}
+                  align="center"
+                >
+                  Minimum Bookings
+                </Typography>
+                <Typography
+                  variant="h3"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                  align="center"
+                >
+                  {Math.min(...data.data)}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                >
+                  {
+                    months[
+                      data.data
+                        .slice(0, new Date().getMonth() + 1)
+                        .indexOf(Math.min(...data.data))
+                    ]
+                  }
+                </Typography>
+              </div>
+              <div
+                className="col-md-10 m-1 py-4 rounded-4"
+                style={{ backgroundColor: "#FEB019" }}
+              >
+                <Typography
+                  variant="h3"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                  align="center"
+                >
+                  {data.data.reduce((acc, curr) => {
+                    return acc + curr;
+                  }, 0)}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                >
+                  {data.name}
                 </Typography>
               </div>
             </div>
@@ -808,194 +991,15 @@ export default function Dashboard() {
           {/* Charts */}
           {view === "admin" ? (
             <>
-            {chartList(listingChartData)}
-            {chartList(bookingChartData)}
-          </>
-          ) : view === "partner" ? (
-            <>
-              {chartList(listingChartData)}
-              {chartList(bookingChartData)}
+              {adminChartList(listingChartData)}
+              {adminChartList(bookingChartData)}
             </>
+          ) : view === "partner" ? (
+            <>{partnerChartData(partnerCombinedData)}</>
           ) : (
             <>
-              <div className="mt-5 mb-3 mx-4">
-                <div
-                  className="row justify-content-center p-4 rounded-3"
-                  style={{ backgroundColor: "#dfebf6" }}
-                >
-                  <Typography variant="h6">Property Listing Summary</Typography>
-                  <div className="col-md-6">
-                    <ChartData
-                      data1={{
-                        name: "Hotel",
-                        data: [30, 40, 45, 50, 49, 60, 70, 91],
-                      }}
-                      data2={{
-                        name: "Parking",
-                        data: [20, 10, 45, 74, 19, 60, 20, 13],
-                      }}
-                      data3={{
-                        name: "Hotel and Parking",
-                        data: [40, 30, 54, 14, 19, 90, 27, 33],
-                      }}
-                      type="line"
-                      title="Hotel vs. Parking vs. Hotel and Parking"
-                      color={["#008FFB", "#00E396", "#FEB019"]}
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <Typography>Overview</Typography>
-                    <div className="row justify-content-center">
-                      <div
-                        className="col-md-5 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#008FFB" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Hotels
-                        </Typography>
-                      </div>
-                      <div
-                        className="col-md-5 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#00E396" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Parking
-                        </Typography>
-                      </div>
-                      <div
-                        className="col-md-10 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#FEB019" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Hotel and Parkings
-                        </Typography>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-5 mb-3 mx-4">
-                <div
-                  className="row justify-content-center p-4 rounded-3"
-                  style={{ backgroundColor: "#dfebf6" }}
-                >
-                  <Typography variant="h6">Booking Summary</Typography>
-                  <div className="col-md-6">
-                    <ChartData
-                      data1={{
-                        name: "Hotel",
-                        data: [30, 40, 45, 50, 49, 60, 70, 91],
-                      }}
-                      data2={{
-                        name: "Parking",
-                        data: [20, 10, 45, 74, 19, 60, 20, 13],
-                      }}
-                      data3={{
-                        name: "Hotel and Parking",
-                        data: [40, 30, 54, 14, 19, 90, 27, 33],
-                      }}
-                      type="area"
-                      title="Hotel vs. Parking vs. Hotel and Parking"
-                      color={["#210440", "#fdb095", "#e5958e"]}
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <Typography>Overview</Typography>
-                    <div className="row justify-content-center">
-                      <div
-                        className="col-md-5 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#210440" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Hotel Bookings
-                        </Typography>
-                      </div>
-                      <div
-                        className="col-md-5 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#fdb095" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Parking Bookings
-                        </Typography>
-                      </div>
-                      <div
-                        className="col-md-10 m-1 py-4 rounded-4"
-                        style={{ backgroundColor: "#e5958e" }}
-                      >
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                          align="center"
-                        >
-                          200
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          sx={{ fontWeight: "800", color: "#dfebf6" }}
-                        >
-                          Hotel and Parking Bookings
-                        </Typography>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {adminChartList(listingChartData)}
+              {partnerChartData(userCombinedData)}
             </>
           )}
 
