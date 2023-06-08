@@ -529,12 +529,12 @@ export default function Dashboard() {
         <div className="col-md-3" key={element.key}>
           <Link
             className={`${style.card1} rounded-3 pb-3`}
-            style={{ height: "85%" }}
+            style={{ height: "87%" }}
             to={element.link}
           >
             <h3 className="h-50">{element.title}</h3>
             <p
-              className={`bolder text-center mt-3 mb-4 ${
+              className={`bolder text-center mb-5 ${
                 style.card1_description
               } ${
                 i === 0
@@ -677,7 +677,7 @@ export default function Dashboard() {
     <>
       <div className="d-flex w-100">
         <AdminSidebar />
-        <div className="mt-5">
+        <div className="mt-5 mb-5">
           <div
             className={`row`}
             // style={{
@@ -1003,7 +1003,7 @@ export default function Dashboard() {
           {view === "admin" && (
             <div>
               <div>
-                <div className="container pb-3">
+                <div className="container pb-3 mt-4">
                   <div className="row justify-content-center flex align-items-end">
                     <div className="col-md-10">
                       <h1 className="fs-1 fw-bold">Add Cities</h1>
@@ -1022,7 +1022,7 @@ export default function Dashboard() {
                         }}
                       />
                     </div>
-                    <div className="col-md-2">
+                    <div className="col-md-2 mt-2">
                       <button
                         disabled={
                           !addHotelOperatingCity &&
@@ -1104,7 +1104,7 @@ export default function Dashboard() {
 
               <div className="container">
                 <div className="row justify-content-center">
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <h1 className="fw-semibold my-2">
                       Operating Hotels cities
                     </h1>
@@ -1115,7 +1115,7 @@ export default function Dashboard() {
                       url={`http://localhost:5000/OperatingProperty/getHotelOperatingCityObj`}
                     />
                   </div>
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <h1 className="fw-semibold my-2">
                       Operating Parking cities
                     </h1>
@@ -1126,7 +1126,7 @@ export default function Dashboard() {
                       url={`http://localhost:5000/OperatingProperty/getParkingOperatingCityObj`}
                     />
                   </div>
-                  <div className="col-md-5">
+                  <div className="col-md-6 mt-3">
                     <h1 className="fw-semibold my-2">
                       Operating Hotel and Parking cities
                     </h1>
