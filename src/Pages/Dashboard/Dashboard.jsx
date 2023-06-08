@@ -123,56 +123,56 @@ export default function Dashboard() {
             key: 1,
             title: "Approved Hotels",
             description: hotelNum.data.length,
-            link: "/",
+            link: "/hotels",
             name: "Hotels",
           },
           {
             key: 2,
             title: "Approved Parkings",
             description: parkingNum.data.length,
-            link: "/",
+            link: "/parkings",
             name: "Parkings",
           },
           {
             key: 3,
             title: "Approved Hotels and Parkings",
             description: hotelAndParkingNum.data.length,
-            link: "/",
+            link: "/HotelsAndParkings",
             name: "Hotels and Parkings",
           },
           {
             key: 4,
             title: "Completed Bokings",
             description: bookingsNum.data.length,
-            link: "/",
+            link: "/booking",
             name: "Bookings",
           },
           {
             key: 5,
             title: "Pending Hotels",
             description: pendingHotelNum.data.length,
-            link: "/",
+            link: "/hotelRequests",
             name: "Hotels",
           },
           {
             key: 6,
             title: "Pending Parkings",
             description: pendingParkingNum.data.length,
-            link: "/",
+            link: "/parkingRequests",
             name: "Parkings",
           },
           {
             key: 7,
             title: "Pending Hotels and Parkings",
             description: pendingHotelAndParkingNum.data.length,
-            link: "/",
+            link: "/hotelAndParkingRequests",
             name: "Hotels and Parkings",
           },
           {
             key: 8,
             title: "Upcoming Bokings",
             description: upcomingBookingsNum.data.length,
-            link: "/",
+            link: "/booking",
             name: "Bookings",
           },
         ];
@@ -207,28 +207,28 @@ export default function Dashboard() {
               key: 1,
               title: "Approved Hotels",
               description: hotelNum.data.length,
-              link: "/",
+              link: "/Property",
               name: "Hotels",
             },
             {
               key: 2,
               title: "Completed Bokings",
               description: bookingsNum.data.length,
-              link: "/",
+              link: "/booking",
               name: "Bookings",
             },
             {
               key: 3,
               title: "Pending Hotels",
               description: pendingHotelNum.data.length,
-              link: "/",
+              link: "/PropertyRequests",
               name: "Hotels",
             },
             {
               key: 4,
               title: "Upcoming Bokings",
               description: upcomingbBookingsNum.data.length,
-              link: "/",
+              link: "/bookingRequests",
               name: "Bookings",
             },
           ];
@@ -263,28 +263,28 @@ export default function Dashboard() {
               key: 1,
               title: "Approved Parkings",
               description: parkingNum.data.length,
-              link: "/",
+              link: "/Property",
               name: "Parkings",
             },
             {
               key: 2,
               title: "Completed Bokings",
               description: bookingsNum.data.length,
-              link: "/",
+              link: "/booking",
               name: "Bookings",
             },
             {
               key: 3,
               title: "Pending Parkings",
               description: pendingParkingNum.data.length,
-              link: "/",
+              link: "/PropertyRequests",
               name: "Parkings",
             },
             {
               key: 4,
               title: "Upcoming Bokings",
               description: upcomingbBookingsNum.data.length,
-              link: "/",
+              link: "/bookingRequests",
               name: "Bookings",
             },
           ];
@@ -319,34 +319,33 @@ export default function Dashboard() {
               key: 1,
               title: "Approved Hotels and Parkings",
               description: hotelAndParkingNum.data.length,
-              link: "/",
+              link: "/Property",
               name: "Hotels and Parkings",
             },
             {
               key: 2,
               title: "Completed Bokings",
               description: bookingsNum.data.length,
-              link: "/",
+              link: "/booking",
               name: "Bookings",
             },
             {
               key: 3,
               title: "Pending Hotels and Parkings",
               description: pendingHotelAndParkingNum.data.length,
-              link: "/",
+              link: "/PropertyRequests",
               name: "Hotels and Parkings",
             },
             {
               key: 4,
               title: "Upcoming Bokings",
               description: upcomingbBookingsNum.data.length,
-              link: "/",
+              link: "/bookingRequests",
               name: "Bookings",
             },
           ];
         }
       } else if (view === "user") {
-        const user = JSON.parse(localStorage.getItem("user"));
         const prevHotelBookingNum = await axios.get(
           `http://localhost:5000/booking/getPreviousBookingHotelByUserId/${user._id}`
         );
@@ -356,9 +355,9 @@ export default function Dashboard() {
         const prevHotelAndParkingBookingNum = await axios.get(
           `http://localhost:5000/booking/getPreviousBookingHotelandParkingByUserId/${user._id}`
         );
-        // Remaining
+        
         const prevTotalBookingNum = await axios.get(
-          `http://localhost:5000/booking/getCompletedBookingByUserId/${user._id}`
+          `http://localhost:5000/booking/getAllPreviousBookingsByUserId/${user._id}`
         );
         const upcomingHotelBookingNum = await axios.get(
           `http://localhost:5000/booking/getUpcomingBookingHotelByUserId/${user._id}`
@@ -369,9 +368,9 @@ export default function Dashboard() {
         const upcomingHotelAndParkingBookingNum = await axios.get(
           `http://localhost:5000/booking/getUpcomingBookingHotelandParkingByUserId/${user._id}`
         );
-        // Remaining
+
         const upcomingTotalBookingNum = await axios.get(
-          `http://localhost:5000/booking/getCompletedBookingByUserId/${user._id}`
+          `http://localhost:5000/booking/getAllUpcommingBookingsByUserId/${user._id}`
         );
 
         dispatch({
@@ -384,57 +383,57 @@ export default function Dashboard() {
             key: 1,
             title: "Hotel Bookings",
             description: prevHotelBookingNum.data.length,
-            link: "/",
-            name: "Hotels",
+            link: "/hotelbookings",
+            name: "Hotel Bookings",
           },
           {
             key: 2,
             title: "Parking Bookings",
             description: prevParkingBookingNum.data.length,
-            link: "/",
-            name: "Parkings",
+            link: "/parkingbookings",
+            name: "Parkings Bookings",
           },
           {
             key: 3,
             title: "Hotel and Parking Bookings",
             description: prevHotelAndParkingBookingNum.data.length,
-            link: "/",
-            name: "Hotels and Parkings",
+            link: "/hotelandparkingbookings",
+            name: "Hotels and Parkings Bookings",
           },
           {
             key: 4,
             title: "Completed Bookings",
             description: prevTotalBookingNum.data.length,
-            link: "/",
-            name: "Bookings",
+            link: "/hotelbookings",
+            name: "Completed Bookings",
           },
           {
             key: 5,
-            title: "Hotel Bookings",
+            title: "Upcoming Hotel Bookings",
             description: upcomingHotelBookingNum.data.length,
-            link: "/",
-            name: "Hotels",
+            link: "/upcominghotelbookings",
+            name: "Hotels Bookings",
           },
           {
             key: 6,
             title: "Parking Bookings",
             description: upcomingParkingBookingNum.data.length,
-            link: "/",
-            name: "Parkings",
+            link: "/upcomingparkingbookings",
+            name: "Parkings Bookings",
           },
           {
             key: 7,
             title: "Hotel and Parking Bookings",
             description: upcomingHotelAndParkingBookingNum.data.length,
-            link: "/",
-            name: "Hotels and Parkings",
+            link: "/upcominghotelandparkingbookings",
+            name: "Hotels and Parkings Bookings",
           },
           {
             key: 8,
-            title: "Completed Bookings",
+            title: "Upcoming Bookings",
             description: upcomingTotalBookingNum.data.length,
-            link: "/",
-            name: "Bookings",
+            link: "/upcominghotelbookings",
+            name: "Upcoming Bookings",
           },
         ];
       }
