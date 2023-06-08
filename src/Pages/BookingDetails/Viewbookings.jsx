@@ -1,15 +1,30 @@
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/footer/Footer";
-import family1 from "../../images/family1.jpg";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Typography from "@mui/material/Typography";
+import LabelIcon from "@mui/icons-material/Label";
+import { styled } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+import Chip from "@mui/material/Chip";
 
 // export default ViewBookings;
 const ViewBookings = () => {
+  const Root = styled("div")(({ theme }) => ({
+    width: "100%",
+    ...theme.typography.body2,
+    "& > :not(style) + :not(style)": {
+      marginTop: theme.spacing(2),
+    },
+  }));
+
   const labels = {
     0.5: "Useless",
     1: "Useless+",
@@ -22,6 +37,8 @@ const ViewBookings = () => {
     4.5: "Excellent",
     5: "Excellent+",
   };
+
+  const steps = ["Your Selection", "Your Details", "Final Step"];
 
   const { cardData } = useSelector((state) => state.setCardData);
   const { options } = useSelector((state) => state.searchOption);
@@ -125,12 +142,6 @@ const ViewBookings = () => {
       }
     }
   }
-  // console.log("Single Room =", options.singleRoom);
-  // console.log("Single Rooms Array =", singleRoomsArray);
-  // console.log("Twin Room =", options.twinRoom);
-  // console.log("Twin Rooms Array =", twinRoomsArray);
-  // console.log("Family Room =", options.familyRoom);
-  // console.log("Family Rooms Array =", familyRoomsArray);
 
   // User Id Data
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
@@ -138,8 +149,6 @@ const ViewBookings = () => {
   // Hotel Id Data
   const hotelId = booked_property._id;
   // Dates Data
-  // const checkIn = new Date(dates[0]).toISOString();
-  // const checkOut = new Date(dates[1]).toISOString();
   const checkIn = dates[0];
   const checkOut = dates[1];
   // Room Details
@@ -183,12 +192,6 @@ const ViewBookings = () => {
     });
   }
 
-  // console.log("User Id =", userId);
-  // console.log("Hotel Id =", hotelId);
-  // console.log("Check In =", checkIn);
-  // console.log("Check Out =", checkOut);
-  // console.log("Room Array =", roomArray);
-  // console.log("Room Array befor stringinfied=", roomArray);
   roomArray = JSON.stringify(roomArray);
   // console.log("Room Array stringinfied=", roomArray);
 
@@ -214,6 +217,11 @@ const ViewBookings = () => {
     const [endday, endmonth, endyear] = endingDate.split("-").map(Number);
     CorrectCheckOut = endyear + "-" + endmonth + "-" + endday;
     endingDate = new Date(endyear, endmonth - 1, endday); // Note: month is 0-indexed in JavaScript
+  }
+
+  let Facilities = [];
+  if (booked_property.Facilities) {
+    Facilities = [...booked_property.Facilities];
   }
 
   const HandleBooking = async () => {
@@ -260,16 +268,38 @@ const ViewBookings = () => {
   return (
     <>
       <Navbar />
-      <div className="container">
+      <div
+        className="container "
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "20px",
+          backgroundColor: "#fff",
+          boxShadow: "0 0 20px rgba(0, 0, 0, 0.1)",
+          borderRadius: "10px",
+        }}
+      >
+        <Box sx={{ width: "100%", my: 2 }}>
+          <Stepper activeStep={1}>
+            {steps.map((label, index) => {
+              const labelProps = {};
+              return (
+                <Step key={label}>
+                  <StepLabel {...labelProps}>{label}</StepLabel>
+                </Step>
+              );
+            })}
+          </Stepper>
+        </Box>
         <div className="row">
           <div className="col-md-4">
             <div className="py-2">
-              <div className="card">
+              {/* <div className="card">
                 <div className="card-body">
-                  <div className="text-center">
-                    <h1 className="mb-3 card-title fw-bold bg-info rounded-3 p-3 text-dark">
+                  <div className="">
+                    <h5 className="mb-3 card-title fw-bold text-dark">
                       Your Booking Details
-                    </h1>
+                    </h5>
                   </div>
                   <div>
                     <div className="d-flex justify-content-between ">
@@ -313,6 +343,55 @@ const ViewBookings = () => {
                     </Link>
                   </div>
                 </div>
+              </div> */}
+              <div className="">
+                <div className="card-body">
+                  <div className="text-center">
+                    <h5 className="mb-3 card-title fw-bold text-dark">
+                      Your Booking Details
+                    </h5>
+                  </div>
+                  <div>
+                    <div className="d-flex justify-content-between">
+                      <div className="d-flex my-1">
+                        <i className="fas fa-calendar-alt mt-1"></i>
+                        <span className="mx-1">{dates[0]}</span>
+                      </div>
+                      <div className="d-flex my-1">
+                        <i className="fas fa-calendar-alt mt-1"></i>
+                        <span className="mx-1">{dates[1]}</span>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between my-1">
+                      <i className="fas fa-moon"></i>
+                      <span>{booked_property.Nights} Nights</span>
+                    </div>
+                    <div className="d-flex justify-content-between my-1">
+                      <i className="fas fa-users"></i>
+                      <span>
+                        {options.adult} Adults, {options.children} Child
+                      </span>
+                    </div>
+                  </div>
+                  <hr />
+                  <div>
+                    <small className="fw-bold text-dark">You selected:</small>
+                    <div className="text-muted small">
+                      {options.singleRoom > 0
+                        ? `${options.singleRoom}x Single Room`
+                        : null}{" "}
+                      {options.twinRoom > 0
+                        ? `- ${options.twinRoom}x Twin Room`
+                        : null}{" "}
+                      {options.familyRoom > 0
+                        ? `- ${options.familyRoom}x Family Room`
+                        : null}{" "}
+                    </div>
+                    <Link to="/listhotel" className="small">
+                      Change Your Selection
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -320,34 +399,24 @@ const ViewBookings = () => {
           <div className="col-md-8">
             <div className="py-2 d-flex flex-column">
               <div className="justify-content-center">
-                <div className="card shadow-0 border rounded-3">
+                <div className=" shadow-0 ">
                   <div className="card-body">
-                    <div className="row text-center">
-                      <h1 className="mb-3 fw-bold d-inline bg-info rounded-3 p-3 text-dark">
-                        Hotel Details
-                      </h1>
-                    </div>
                     <div className="row">
                       <div className="col-md-3 col-xl-3 col-sm-12">
                         <div className="h-100 bg-image hover-zoom ripple rounded ripple-surface">
                           <img
                             src={src}
-                            className=""
-                            style={{
-                              objectFit: "cover",
-                              // imageRendering: "crisp-edges",
-                            }}
+                            style={{ objectFit: "cover" }}
+                            className="w-100 h-100"
                           />
-                          <Link to="/">
-                            <div className="hover-overlay">
-                              <div
-                                className="mask"
-                                style={{
-                                  backgroundColor: "rgba(253, 253, 253, 0.15)",
-                                }}
-                              ></div>
-                            </div>
-                          </Link>
+                          <div className="hover-overlay">
+                            <div
+                              className="mask"
+                              style={{
+                                backgroundColor: "rgba(253, 253, 253, 0.15)",
+                              }}
+                            ></div>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-9 col-lg-9 col-xl-9">
@@ -370,6 +439,7 @@ const ViewBookings = () => {
                         >
                           <Rating
                             name="hover-feedback"
+                            readOnly
                             value={
                               booked_property
                                 ? booked_property.rating
@@ -414,30 +484,49 @@ const ViewBookings = () => {
                           className="mt-1 mb-0 text-muted"
                           style={{ fontSize: "12px" }}
                         >
-                          <span>{cardData.attr1}</span>
-                          <span className="text-primary"> • </span>
-                          <span>{cardData.attr2}</span>
-                          <span className="text-primary"> • </span>
-                          <span>
-                            {cardData.attr3}
-                            <br />
-                          </span>
+                          {Facilities.length > 0 && (
+                            <>
+                              {Facilities.slice(3, 7).map((facility, index) => (
+                                <React.Fragment key={index}>
+                                  <span>{facility}</span>
+                                  {index !==
+                                    Facilities.slice(3, 7).length - 1 && (
+                                    <span className="text-primary"> • </span>
+                                  )}
+                                </React.Fragment>
+                              ))}
+                            </>
+                          )}
+                          <br />
                         </div>
                         <div
                           className="mb-1 text-muted small"
                           style={{ fontSize: "12px" }}
                         >
-                          <span>{cardData.attr4}</span>
-                          <span className="text-primary"> • </span>
-                          <span>{cardData.attr5}</span>
-                          <span className="text-primary"> • </span>
-                          <span>
-                            {cardData.attr6}
-                            <br />
-                          </span>
+                          {Facilities.length > 0 && (
+                            <>
+                              {Facilities.slice(0, 3).map((facility, index) => (
+                                <React.Fragment key={index}>
+                                  <span>{facility}</span>
+                                  {index !==
+                                    Facilities.slice(0, 3).length - 1 && (
+                                    <span className="text-primary"> • </span>
+                                  )}
+                                </React.Fragment>
+                              ))}
+                            </>
+                          )}
+                          <br />
+                          {/* <span>{cardData.attr4}</span>
+            <span className="text-primary"> • </span>
+            <span>{cardData.attr5}</span>
+            <span className="text-primary"> • </span>
+            <span>
+              {cardData.attr6}
+              <br />
+            </span> */}
                         </div>
-                        <p className="w-100">
-                          {booked_property.description}
+                        <p className="w-100 fst-italic text-muted">
                           {booked_property
                             ? booked_property.description
                               ? booked_property.description.slice(0, 320) +
@@ -458,207 +547,121 @@ const ViewBookings = () => {
             </div>
           </div>
         </div>
-        <div className="row justify-content-center">
+        <div className="row mt-1">
+          <hr />
+        </div>
+        <div className="row ">
           <div className="col-md-12">
-            <div className="card border rounded-3 shadow">
-              <div className="card-body">
-                <div className="row mb-4">
-                  <div className="col-12 text-center">
-                    <h1 className="bg-warning rounded-3 py-3 text-dark">
-                      Room To Be Booked
-                    </h1>
-                  </div>
+            <div className="card-body">
+              <div className="row">
+                <div className="col-12">
+                  <h5 className="text-dark fw-bold my-3">Rooms To Be Booked</h5>
                 </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="row mb-3">
-                      {options.singleRoom > 0 && (
-                        <>
-                          <div className="col-md-4">
-                            <h5>Single Rooms:</h5>
-                          </div>
-                          <div className="col-md-8 justify-content-end">
-                            <span className="fw-bold">
-                              {singleRoomsArray.map(
-                                (room, index) =>
-                                  `Room No: ${room.number}${
-                                    index === singleRoomsArray.length - 1
-                                      ? ""
-                                      : ", "
-                                  }`
-                              )}
-                            </span>
-                          </div>
-                        </>
-                      )}
-                      {/* <div className="col-md-4">
-                        <h5>Single Rooms:</h5>
-                      </div>
-                      <div className="col-md-8 justify-content-end">
-                        <span className="fw-bold">
-                          {singleRooms.map(
-                            (roomNo, index) =>
-                              `Room No: ${roomNo}${
-                                index === singleRooms.length - 1 ? "" : ", "
-                              }`
-                          )}
-                        </span>
-                      </div> */}
-                    </div>
-                    <div className="row mb-3">
-                      {options.twinRoom > 0 ? (
-                        <>
-                          <div className="col-md-4">
-                            <h5>Twin Rooms:</h5>
-                          </div>
-                          <div className="col-md-8 justify-content-end">
-                            <span className="fw-bold">
-                              {twinRoomsArray.map(
-                                (room, index) =>
-                                  `Room No: ${room.number}${
-                                    index === twinRoomsArray.length - 1
-                                      ? ""
-                                      : ", "
-                                  }`
-                              )}
-                            </span>
-                          </div>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                      {/* <div className="col-md-4">
-                        <h5>Twin Rooms:</h5>
-                      </div>
-                      <div className="col-md-8">
-                        <span className="fw-bold">
-                          {twinRooms.map(
-                            (roomNo, index) =>
-                              `Room No: ${roomNo}${
-                                index === twinRooms.length - 1 ? "" : ", "
-                              }`
-                          )}
-                        </span>
-                      </div> */}
-                    </div>
-                    <div className="row mb-3">
-                      {options.familyRoom > 0 ? (
-                        <>
-                          <div className="col-md-4">
-                            <h5>Family Rooms:</h5>
-                          </div>
-                          <div className="col-md-8 justify-content-end">
-                            <span className="fw-bold">
-                              {familyRoomsArray.map(
-                                (room, index) =>
-                                  `Room No: ${room.number}${
-                                    index === familyRoomsArray.length - 1
-                                      ? ""
-                                      : ", "
-                                  }`
-                              )}
-                            </span>
-                          </div>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                      {/* <div className="col-md-4">
-                        <h5>Family Rooms:</h5>
-                      </div>
-                      <div className="col-md-8">
-                        <span className="fw-bold">
-                          {familyRooms.map(
-                            (roomNo, index) =>
-                              `Room No: ${roomNo}${
-                                index === familyRooms.length - 1 ? "" : ", "
-                              }`
-                          )}
-                        </span>
-                      </div> */}
-                    </div>
+              </div>
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="row mb-3">
+                    {options.singleRoom > 0 && (
+                      <>
+                        <div className="col-md-4">
+                          <LabelIcon color="primary" className="mx-2" />
+                          <span>Single Room(s):</span>
+                        </div>
+                        <div className="col-md-8 justify-content-end">
+                          <span className="fw-bold">
+                            {singleRoomsArray.map(
+                              (room, index) =>
+                                `Room No: ${room.number}${
+                                  index === singleRoomsArray.length - 1
+                                    ? ""
+                                    : ", "
+                                }`
+                            )}
+                          </span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div className="row mb-3">
+                    {options.twinRoom > 0 ? (
+                      <>
+                        <div className="col-md-4">
+                          <LabelIcon color="primary" className="mx-2" />
+                          <span>Twin Room(s):</span>
+                        </div>
+                        <div className="col-md-8 justify-content-end">
+                          <span className="fw-bold">
+                            {twinRoomsArray.map(
+                              (room, index) =>
+                                `Room No: ${room.number}${
+                                  index === twinRoomsArray.length - 1
+                                    ? ""
+                                    : ", "
+                                }`
+                            )}
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="row mb-3">
+                    {options.familyRoom > 0 ? (
+                      <>
+                        <div className="col-md-4">
+                          <LabelIcon color="primary" className="mx-2" />
+                          <span>Family Room(s):</span>
+                        </div>
+                        <div className="col-md-8 justify-content-end">
+                          <span className="fw-bold">
+                            {familyRoomsArray.map(
+                              (room, index) =>
+                                `Room No: ${room.number}${
+                                  index === familyRoomsArray.length - 1
+                                    ? ""
+                                    : ", "
+                                }`
+                            )}
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
+        <div className="row mt-1">
+          <hr />
+        </div>
         <div className="row">
           <div className="">
             <div className="py-2">
               <div className="justify-content-center">
-                {/* <div className="card shadow-0 border rounded-3">
+                <div className="">
                   <div className="card-body">
-                    <div className="row text-center mb-4">
-                      <h1 className="mb-0">Price Summary</h1>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <h5>Room Booked</h5>
-                        <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                          <span>Room type: {roomType}</span>
-                          <span className="fw-bold">${roomPrice}</span>
-                        </div>
-                      </div>
-                    </div>
-                    {parkingBooked && (
-                      <div className="row mt-3">
-                        <div className="col-md-12">
-                          <h5>Parking</h5>
-                          <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                            <span>Parking price:</span>
-                            <span className="fw-bold">${parkingPrice}</span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    {additionalCharges && (
-                      <div className="row mt-3">
-                        <div className="col-md-12">
-                          <h5>Additional Charges</h5>
-                          <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                            <span>{additionalChargesDescription}:</span>
-                            <span className="fw-bold">
-                              ${additionalChargesPrice}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    <div className="row mt-3">
-                      <div className="col-md-12">
-                        <h5>Tax Details</h5>
-                        <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                          <span>{taxDescription}:</span>
-                          <span className="fw-bold">${taxPrice}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row mt-4">
-                      <div className="col-md-12">
-                        <h5>Total Price</h5>
-                        <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                          <span>Total:</span>
-                          <span className="fw-bold">${totalPrice}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-                <div className="card border rounded-3 shadow">
-                  <div className="card-body">
-                    <div className="row text-center mb-4">
-                      <h1 className="mb-0 fw-bold d-inline bg-warning rounded-3 p-3 text-dark">
+                    <div className="row text-start mb-4">
+                      <h5 className="mb-0 fw-bold text-dark">
                         Your Price Summary
-                      </h1>
+                      </h5>
                     </div>
                     <div className="row">
                       <div className="col-md-12">
-                        <h5>Room Booked</h5>
+                        <Root>
+                          <Divider className=" text-muted fs-6">
+                            Rooms Booked
+                          </Divider>
+                        </Root>
                         {options.singleRoom > 0 ? (
                           <div className="d-flex justify-content-between align-items-center">
-                            <span>Single Room</span>
+                            <span>
+                              <LabelIcon color="primary" className="mx-2" />
+                              Single Room
+                            </span>
                             <span className="fw-bold">
                               {`${options.singleRoom}x  ${booked_property.SingleRoomPrice}`}
                             </span>
@@ -666,7 +669,10 @@ const ViewBookings = () => {
                         ) : null}{" "}
                         {options.twinRoom > 0 ? (
                           <div className="d-flex justify-content-between align-items-center ">
-                            <span>Twin Room</span>
+                            <span>
+                              <LabelIcon color="primary" className="mx-2" />
+                              Twin Room
+                            </span>
                             <span className="fw-bold">
                               {`${options.twinRoom}x  ${booked_property.TwinRoomPrice}`}
                             </span>
@@ -674,7 +680,10 @@ const ViewBookings = () => {
                         ) : null}{" "}
                         {options.familyRoom > 0 ? (
                           <div className="d-flex justify-content-between align-items-center ">
-                            <span>Family Room</span>
+                            <span>
+                              <LabelIcon color="primary" className="mx-2" />
+                              Family Room
+                            </span>
                             <span className="fw-bold">
                               {`${options.familyRoom}x  ${booked_property.FamilyRoomPrice}`}
                             </span>
@@ -682,30 +691,43 @@ const ViewBookings = () => {
                         ) : null}{" "}
                       </div>
                     </div>
-                    <hr />
                     {booked_property.parking_name && (
                       <>
                         <div className="row mt-3">
                           <div className="col-md-12">
-                            <h5>{booked_property.parking_name}</h5>
+                            <Root>
+                              <Divider className=" text-muted fs-6">
+                                Booked Parking
+                              </Divider>
+                            </Root>
+                            <span>{booked_property.parking_name}</span>
                             <div className="d-flex justify-content-between align-items-center ">
-                              <span>Parking price:</span>
+                              <span>
+                                <LabelIcon color="primary" className="mx-2" />
+                                Parking price:
+                              </span>
                               <span className="fw-bold">
                                 {`${c}x ${booked_property.parking_price}`}
                               </span>
                             </div>
                           </div>
                         </div>
-                        <hr />
                       </>
                     )}
 
                     {additionalCharges && (
                       <div className="row mt-3">
                         <div className="col-md-12">
-                          <h5>Additional Charges</h5>
-                          <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                            <span>{additionalChargesDescription}:</span>
+                          <Root>
+                            <Divider className=" text-muted fs-6">
+                              Additonal Charges
+                            </Divider>
+                          </Root>
+                          <div className="d-flex justify-content-between align-items-center">
+                            <span>
+                              <LabelIcon color="primary" className="mx-2" />
+                              {additionalChargesDescription}:
+                            </span>
                             <span className="fw-bold">
                               ${additionalChargesPrice}
                             </span>
@@ -715,9 +737,16 @@ const ViewBookings = () => {
                     )}
                     <div className="row mt-3">
                       <div className="col-md-12">
-                        <h5>Tax Details</h5>
-                        <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                          <span>{taxDescription}:</span>
+                        <Root>
+                          <Divider className=" text-muted fs-6">
+                            Tax Details
+                          </Divider>
+                        </Root>
+                        <div className="d-flex justify-content-between align-items-center">
+                          <span>
+                            <LabelIcon color="primary" className="mx-2" />
+                            {taxDescription}:
+                          </span>
                           <span className="fw-bold">${taxPrice}</span>
                         </div>
                       </div>
@@ -727,14 +756,13 @@ const ViewBookings = () => {
                       style={{ backgroundColor: "#ebf3ff" }}
                     >
                       <div className="col-md-12">
-                        <h5 className="text-dark fw-bold fs-2">Total Price</h5>
                         <div className="border-bottom pb-2">
                           <div className="d-flex justify-content-between align-items-center text-white p-2">
-                            <div className="fw-bold fs-4 text-dark">
-                              Price :
-                            </div>
+                            <h5 className="text-dark fw-bold fs-2">
+                              Total Price
+                            </h5>
                             <div>
-                              <span className="fw-bold text-dark fs-3">
+                              <span className="fw-bold ms-1 text-dark fs-4">
                                 PKR $
                                 {booked_property.parking_price
                                   ? booked_property.Total_Price +
@@ -749,7 +777,7 @@ const ViewBookings = () => {
                                 )}
                               </span>
                               <br />
-                              <small className="text-dark">
+                              <small className="text-dark ms-1">
                                 +PKR ${taxPrice + additionalChargesPrice} taxes
                                 and charges
                               </small>
@@ -758,7 +786,7 @@ const ViewBookings = () => {
                         </div>
                         <div className="text-end">
                           <button
-                            className="btn mt-3 btn-primary btn-lg fw-bold text-light fs-5 "
+                            className="btn mt-3 btn-primary btn-sm fw-bold text-light fs-6 "
                             onClick={HandleBooking}
                           >
                             Book For PKR

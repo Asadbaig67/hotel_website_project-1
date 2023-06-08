@@ -136,7 +136,7 @@ const FeaturedProperties = () => {
                   </div>
                   <small className={`${style.fpPrice}`}>
                     {hotel.description
-                      ? hotel.description.slice(0, 60)
+                      ? hotel.description.slice(0, 50)
                       : "No Description"}
                     ...
                   </small>

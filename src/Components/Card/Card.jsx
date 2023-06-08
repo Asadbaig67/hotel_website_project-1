@@ -73,15 +73,18 @@ const Card = (props) => {
         let { room } = element;
         if (options.singleRoom !== 0 && room.type === "Single") {
           Total_Price += options.singleRoom * room.price;
-          SingleRoomPrice = options.singleRoom * room.price;
+          SingleRoomPrice = room.price;
+          // SingleRoomPrice = options.singleRoom * room.price;
         }
         if (options.twinRoom !== 0 && room.type === "Twin") {
           Total_Price += options.twinRoom * room.price;
-          TwinRoomPrice = options.twinRoom * room.price;
+          TwinRoomPrice = room.price;
+          // TwinRoomPrice = options.twinRoom * room.price;
         }
         if (options.familyRoom !== 0 && room.type === "Family") {
           Total_Price += options.familyRoom * room.price;
-          FamilyRoomPrice = options.familyRoom * room.price;
+          FamilyRoomPrice = room.price;
+          // FamilyRoomPrice = options.familyRoom * room.price;
         }
         // obj.type = room.type;
         // obj.price = room.price;
@@ -231,16 +234,14 @@ const Card = (props) => {
         <div className="col-md-3 col-xl-3 col-sm-12">
           <div className="h-100 bg-image hover-zoom ripple rounded ripple-surface">
             <img src={src} className="w-100 h-100" />
-            <Link to="/">
-              <div className="hover-overlay">
-                <div
-                  className="mask"
-                  style={{
-                    backgroundColor: "rgba(253, 253, 253, 0.15)",
-                  }}
-                ></div>
-              </div>
-            </Link>
+            <div className="hover-overlay">
+              <div
+                className="mask"
+                style={{
+                  backgroundColor: "rgba(253, 253, 253, 0.15)",
+                }}
+              ></div>
+            </div>
           </div>
         </div>
         <div className="col-md-6 col-xl-6 col-sm-12 py-1 px-2">
