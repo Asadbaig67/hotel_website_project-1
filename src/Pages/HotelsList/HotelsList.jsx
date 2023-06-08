@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import DataTable from "../../Components/dataTable/dataTable"
+import DataTable from "../../Components/dataTable/dataTable";
 // import Dropdown from "../../Components/Filterdropdown/FilterDropdown";
 // import DropdownFilter from "../../Components/dropdownFilter/Dropdown";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -307,15 +307,13 @@ const HotelsList = () => {
       (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
       // window.location.href = "/hotelparkingform";
-      
     }
   };
 
   return (
     <>
-      
       <div className="d-flex">
-        <AdminSidebar/>
+        <AdminSidebar />
         <div className="container-fluid mt-5">
           <div className="row">
             <div className="col-md-12">

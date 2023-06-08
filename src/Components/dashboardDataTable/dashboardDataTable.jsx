@@ -1,14 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useFetch } from "../../Utilis/Fetch";
 import { Box } from "@mui/material";
 import axios from "axios";
 
 const DashboardDataTable = ({ path, user, type, url }) => {
   const { header } = useSelector((state) => state.setHeader);
-  const dispatch = useDispatch();
   const { data, loading, error } = useFetch(url);
+  // let cityData = [];
+  // data.map((item, i) => {
+  //   cityData[i] = [];
+  //   item.cities.map((cityItem, j) => {
+  //     cityData[i][j] = {
+  //       _id: cityItem._id,
+  //       type: item.type,
+  //       city: cityItem.city,
+  //       createdAt: cityItem.createdAt,
+  //     };
+  //   });
+  // });
+  // cityData = cityData.flat();
 
   let filteredData = data;
   const [list, setList] = useState([]);
