@@ -147,10 +147,8 @@ const Parking = () => {
                 </span>{" "}
               </h4>
               <p className={`text-dark ${isXtraSmallScreen ? "" : "mt-1"}`}>
-                Eaque nostrum quis ad aliquam autem odio assumenda accusamus,
-                consequuntur, iste voluptate voluptates quia non dicta hic
-                repellendus similique a facere earum omnis? Repellendus nemo,
-                aspernatur ullam est deserunt officiis.
+                When it comes to parking bookings, we stand out from the rest.
+                Here's why you should choose us:
               </p>
             </div>
           </div>

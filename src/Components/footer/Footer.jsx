@@ -52,7 +52,10 @@ const Footer = () => {
                 </Link>
               </li>
               <li className={style.fListItem}>
-                <Link to="/" className="d-flex justify-content-start">
+                <Link
+                  to="/HotelAndParking"
+                  className="d-flex justify-content-start"
+                >
                   <Hotel className="me-2" />
                   <span className="fs-6">Hotel And Parking</span>
                 </Link>
@@ -70,7 +73,7 @@ const Footer = () => {
 
             <ul className={`${style.fList} mt-4`}>
               <li className={style.fListItem}>
-                <Link to="/" className="d-flex justify-content-start">
+                <Link to="/about" className="d-flex justify-content-start">
                   <InfoIcon className="me-2" />
                   <span className="fs-6">About Us</span>
                 </Link>
@@ -100,19 +103,19 @@ const Footer = () => {
 
             <ul className={`${style.fList} mt-4`}>
               <li className={style.fListItem}>
-                <Link to="/" className="d-flex justify-content-start">
+                <Link to="/contact" className="d-flex justify-content-start">
                   <CallIcon className="me-2" />{" "}
                   <span className=" fs-6">+92 (233) 5263282</span>
                 </Link>
               </li>
               <li className={style.fListItem}>
-                <Link to="/" className="d-flex justify-content-start">
+                <Link to="/contact" className="d-flex justify-content-start">
                   <CallIcon className="me-2" />
                   <span className="fs-6">+92 (303) 1233980</span>
                 </Link>
               </li>
               <li className={style.fListItem}>
-                <Link to="/signin" className="d-flex justify-content-start">
+                <Link to="/contact" className="d-flex justify-content-start">
                   <EmailIcon className="me-2" />
                   <span className="fs-6">info@desalis.com</span>
                 </Link>

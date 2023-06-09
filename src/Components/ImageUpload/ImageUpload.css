@@ -53,6 +53,6 @@ input[type="file"] {
 }
 
 img {
-    width: auto;
+    /* width: auto; */
     height: 100%;
 }

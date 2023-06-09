@@ -41,6 +41,7 @@ import AdminBookings from "./Pages/BookingDetails/AdminBookings";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DashboardLoader from "./Components/Loader/DashboardLoader";
 
 function App() {
   const dispatch = useDispatch();
@@ -88,7 +89,7 @@ function App() {
       },
     ],
   };
-  
+
 
   return (
     <>
@@ -105,6 +106,7 @@ function App() {
         <Route path="/addRoom" element={<RoomForm />} />
         <Route path="/parking" element={<Parking />} />
         <Route path="/loader" element={<Loader />} />
+        <Route path="/dashboardloader" element={<DashboardLoader />} />
         <Route path="/ParkingList" element={<ParkingList />} />
         <Route path="/HotelAndParking" element={<HotelAndParking />} />
         <Route path="/HotelAndParkingList" element={<List />} />

@@ -200,12 +200,10 @@ const AddHotelForm = () => {
     }
   }, []);
 
-  console.log("Final Owner is=", FinalOwner);
-
   return (
     <>
       <div className="d-flex">
-        <AdminSidebar/>
+        <AdminSidebar />
         <div className="mt-5">
           {alertOn && (
             <Collapse in={open}>
@@ -241,7 +239,7 @@ const AddHotelForm = () => {
               </Stack>
             </Collapse>
           )}
-          <div className={`container  ${IsMobile ? "" : "w-50"} `}>
+          <div className={`container-fluid  ${IsMobile ? "" : "w-100"} `}>
             <h1 className="text-center fw-bold">Add Hotel Form</h1>
             <form className="needs-validation mx-4">
               {loggedinUser.user.account_type === "admin" ? (

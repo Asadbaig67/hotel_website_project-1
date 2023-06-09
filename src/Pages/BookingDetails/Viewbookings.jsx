@@ -82,6 +82,8 @@ const ViewBookings = () => {
   console.log("Rooms =", Rooms);
   let room, room_no;
 
+  console.log("Options =", options.singleRoom);
+
   if (options.singleRoom > 0) {
     for (let i = 0; i < Rooms.length; i++) {
       room = Rooms[i].room;
