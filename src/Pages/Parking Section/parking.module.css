@@ -548,7 +548,7 @@ a:focus {
   margin-top: 15px;
 }
 
-.about_section .detail_box a {
+.about_section .detail_box button {
   display: inline-block;
   padding: 10px 45px;
   background-color: #ff6f3c;
@@ -560,11 +560,13 @@ a:focus {
   margin-top: 15px;
 }
 
-.about_section .detail_box a:hover {
+.about_section .detail_box button:hover {
   background-color: #ef3e00;
 }
 
 .why_section .box {
+  height: 350px;
+  border-radius: 15px;
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -601,6 +603,7 @@ a:focus {
 
 .why_section .box .img_box img {
   width: 55px;
+  height: 55px;
 }
 
 .why_section .box .detail_box {
