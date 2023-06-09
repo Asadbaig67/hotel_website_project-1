@@ -41,15 +41,31 @@ const Parking = () => {
         } ${isXtraSmallScreen ? "pt-3" : ""}`}
       >
         <div className={` container `}>
-          <div className={``}>
-            <h3 className="fw-bold ">About Us</h3>
+          <div
+            className={style.heading_container}
+            // style={{ marginBottom: "30px" }}
+          >
+            <h2 className="fw-bold fs-2 my-1">
+              About{" "}
+              <span
+                className=""
+                style={{
+                  borderBottom: "3px solid rgba(255, 74, 87, 0.8)",
+                  borderColor: "#ff4a57",
+                }}
+              >
+                Us
+              </span>{" "}
+            </h2>
             <p
               className={`text-start ${
                 isXtraSmallScreen ? "my-2" : "mb-2 mt-1"
               } `}
             >
-              Magni quod blanditiis non minus sed aut voluptatum illum quisquam
-              aspernatur ullam vel beatae rerum ipsum voluptatibus
+              We are a dedicated team passionate about providing seamless
+              parking experiences. With years of expertise in the industry, we
+              understand the importance of reliable parking options and strive
+              to make your journey stress-free.
             </p>
           </div>
           <div
@@ -70,30 +86,34 @@ const Parking = () => {
               </div>
             </div>
             <div className={`col-lg-6 ${isXtraSmallScreen ? "pt-3" : ""}`}>
-              <div className={``}>
-                <h3
-                  className={`fw-bold ${isXtraSmallScreen ? "my-1" : "mb-2"}`}
-                >
-                  We Are Here For Help
-                </h3>
-                <p className="text-start">
-                  There are many variations of passages of Lorem Ipsum
-                  available, but the majority have suffered alteration in some
-                  form, by injected humour, or randomised words which don't look
-                  even slightly believable. If you are going to use a passage to
-                  be sure there isn't anything the middle of text.
-                </p>
-                <p className="text-start">
-                  Molestiae odio earum non qui cumque provident voluptates,
-                  repellendus exercitationem, possimus at iste corrupti officiis
-                  unde alias eius ducimus reiciendis soluta eveniet. Nobis ullam
-                  ab omnis quasi expedita.
-                </p>
-                <button
-                  className={`btn btn-lg btn-primary  ${
-                    isXtraSmallScreen ? "mt-3" : "mt-3"
+              <div className={`${style.detail_box}`}>
+                <h2
+                  className={`fw-bold fs-4 ${
+                    isXtraSmallScreen ? "my-1" : "mb-2"
                   }`}
                 >
+                  We Are Here For Help
+                </h2>
+                <p className="text-start">
+                  We understand that the parking booking process can be
+                  overwhelming at times. That's why our dedicated customer
+                  support team is here to assist you every step of the way.
+                  Whether you have questions about parking options, need help
+                  with online booking, or require assistance with any aspect of
+                  your reservation, we're ready to help. Our knowledgeable and
+                  friendly team is committed to providing excellent customer
+                  service, ensuring your satisfaction.
+                </p>
+                <p className="text-start">
+                  We prioritize addressing your queries and concerns promptly,
+                  allowing you to proceed with your reservation confidently.
+                  Your convenience and peace of mind are our top priorities as
+                  we strive to make your experience with us smooth and pleasant.
+                  Reach out to our customer support team for any assistance you
+                  may need – we're here to make your parking booking experience
+                  a breeze.
+                </p>
+                <button className={`${isXtraSmallScreen ? "mt-3" : "mt-3"}`}>
                   Read More
                 </button>
               </div>
@@ -114,9 +134,18 @@ const Parking = () => {
         <div className="container">
           <div className="col-md-10 px-0">
             <div className={`${style.heading_container}`}>
-              <h3 className={`fw-bold ${isXtraSmallScreen ? "mb-2" : ""}`}>
-                Why Choose Us
-              </h3>
+              <h4 className={`fw-bold fs-2 ${isXtraSmallScreen ? "mb-2" : ""}`}>
+                Why Choose{" "}
+                <span
+                  className=""
+                  style={{
+                    borderBottom: "3px solid rgba(255, 74, 87, 0.8)",
+                    borderColor: "#ff4a57",
+                  }}
+                >
+                  Us
+                </span>{" "}
+              </h4>
               <p className={`text-dark ${isXtraSmallScreen ? "" : "mt-1"}`}>
                 Eaque nostrum quis ad aliquam autem odio assumenda accusamus,
                 consequuntur, iste voluptate voluptates quia non dicta hic
@@ -129,16 +158,14 @@ const Parking = () => {
             <div className="col-md-6 col-lg-4 mx-auto">
               <div className={`${style.box}`}>
                 <div className={`${style.img_box}`}>
-                  <img src={w1} alt="" />
+                  <img src={w1} style={{ width: "55px" }} alt="" />
                 </div>
                 <div className={`${style.detail_box}`}>
-                  <h4 className="">No Booking Fees</h4>
+                  <h4 className="my-2">No Booking Fees</h4>
                   <p className="text-light">
-                    Voluptatem earum eveniet mollitia sit animi dolorum. Iste,
-                    quas? Omnis error culpa illo nihil consequatur consectetur
-                    tenetur harum modi, quae libero ducimus reiciendis voluptat
-                    excepturi. Cum ducimus nesciunt dicta tenetur ducimus
-                    perferendis.
+                    We believe in transparency, which is why we don't charge any
+                    additional booking fees. You pay only for the parking spot,
+                    ensuring a fair and cost-effective experience.
                   </p>
                 </div>
               </div>
@@ -149,13 +176,12 @@ const Parking = () => {
                   <img src={w2} alt="" />
                 </div>
                 <div className={`${style.detail_box}`}>
-                  <h4>Online Payments</h4>
+                  <h4 className="my-2">Online Payments</h4>
                   <p className="text-light">
-                    Voluptatem earum eveniet mollitia sit animi dolorum. Iste,
-                    quas? Omnis error culpa illo nihil consequatur consectetur
-                    tenetur harum modi, quae libero ducimus reiciendis voluptat
-                    excepturi. Cum ducimus nesciunt dicta tenetur ducimus
-                    perferendis.
+                    Say goodbye to cash transactions and long queues. Our secure
+                    online payment system allows you to conveniently pay for
+                    your parking reservation in advance, saving you time and
+                    effort.
                   </p>
                 </div>
               </div>
@@ -166,13 +192,12 @@ const Parking = () => {
                   <img src={w3} alt="" />
                 </div>
                 <div className={`${style.detail_box}`}>
-                  <h4>Simple Booking Process</h4>
+                  <h4 className="my-2">Simple Booking Process</h4>
                   <p className="text-light">
-                    Voluptatem earum eveniet mollitia sit animi dolorum. Iste,
-                    quas? Omnis error culpa illo nihil consequatur consectetur
-                    tenetur harum modi, quae libero ducimus reiciendis voluptat
-                    excepturi. Cum ducimus nesciunt dicta tenetur ducimus
-                    perferendis.
+                    We value your time, so we've designed a user-friendly
+                    booking process that takes only a few minutes to complete.
+                    With just a few clicks, you can secure your parking spot
+                    hassle-free.
                   </p>
                 </div>
               </div>
@@ -201,60 +226,63 @@ const Parking = () => {
               <div className="col-md-6 col-lg-4 mx-auto">
                 <div className={`${style.box}`}>
                   <h4 className={`${style.price}`}>$10</h4>
-                  <h5 className={`${style.name} text-dark`}>Basic</h5>
+                  <h5
+                    className={`${style.name} pb-1 mb-1 fw-bold text-dark`}
+                    style={{
+                      borderBottom: "3px solid rgba(255, 74, 87, 0.8)",
+                      borderColor: "#ff4a57",
+                      display: "inline-block",
+                    }}
+                  >
+                    Basic
+                  </h5>
                   <p className="">
-                    Consequuntur iure, quam vero quidem minima obcaecati veniam,
-                    praesentium impedit quod repudiandae tempora amet deserunt
-                    rerum accusamus. Commodi qui, illum ad ipsa porro ipsum
-                    nostrum magni minus.
+                    Our Basic plan offers affordable parking options without
+                    compromising on quality. Enjoy peace of mind knowing your
+                    vehicle is in safe hands.
                   </p>
-                  <a href="">
-                    Read More
-                    <i
-                      className="fa fa-long-arrow-right"
-                      aria-hidden="true"
-                    ></i>
-                  </a>
                 </div>
               </div>
               <div className="col-md-6 col-lg-4 mx-auto">
                 <div className={`${style.box} ${style.box_center}`}>
                   <h4 className={`${style.price}`}>$30</h4>
                   <div className="" style={{ marginTop: "75px" }}>
-                    <h5 className={`${style.name} text-dark`}>Premium</h5>
+                    <h5
+                      className={`${style.name} pb-1 mb-1 fw-bold text-dark`}
+                      style={{
+                        borderBottom: "3px solid rgba(255, 74, 87, 0.8)",
+                        borderColor: "#ff4a57",
+                        display: "inline-block",
+                      }}
+                    >
+                      Premium
+                    </h5>
                     <p className="">
-                      Consequuntur iure, quam vero quidem minima obcaecati
-                      veniam, praesentium impedit quod repudiandae tempora amet
-                      deserunt rerum accusamus. Commodi qui, illum ad ipsa porro
-                      ipsum nostrum magni minus.
+                      For the ultimate parking experience, our Premium plan
+                      offers exclusive perks and premium amenities. Indulge in
+                      luxury and convenience as we cater to your every need.
                     </p>
                   </div>
-                  <a href="">
-                    Read More
-                    <i
-                      className="fa fa-long-arrow-right"
-                      aria-hidden="true"
-                    ></i>
-                  </a>
                 </div>
               </div>
               <div className="col-md-6 col-lg-4 mx-auto">
                 <div className={`${style.box}`}>
-                  <h4 className={`${style.price}`}>$20</h4>
-                  <h5 className={`${style.name} text-dark`}>Standard</h5>
+                  <h4 className={`${style.price}`}>$20 </h4>
+                  <h5
+                    className={`${style.name} pb-1 mb-1 fw-bold text-dark`}
+                    style={{
+                      borderBottom: "3px solid rgba(255, 74, 87, 0.8)",
+                      borderColor: "#ff4a57",
+                      display: "inline-block",
+                    }}
+                  >
+                    Standard
+                  </h5>
                   <p>
-                    Consequuntur iure, quam vero quidem minima obcaecati veniam,
-                    praesentium impedit quod repudiandae tempora amet deserunt
-                    rerum accusamus. Commodi qui, illum ad ipsa porro ipsum
-                    nostrum magni minus.
+                    Upgrade to our Standard plan for added benefits and
+                    features. Experience enhanced security measures and
+                    additional services for a seamless parking experience.
                   </p>
-                  <a href="">
-                    Read More
-                    <i
-                      className="fa fa-long-arrow-right"
-                      aria-hidden="true"
-                    ></i>
-                  </a>
                 </div>
               </div>
             </div>
@@ -266,7 +294,7 @@ const Parking = () => {
 
       {/* <!-- client section --> */}
 
-      <section
+      {/* <section
         className={`${style.client_section} ${
           isXtraSmallScreen ? "" : style.layout_padding
         }`}
@@ -332,7 +360,7 @@ const Parking = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* <!-- end client section --> */}
 
