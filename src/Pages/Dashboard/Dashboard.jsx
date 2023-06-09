@@ -15,6 +15,7 @@ import person from "../../images/user.png";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import ChartData from "../../Components/Chart/Chart";
 import SingleChartData from "../../Components/Chart/SingleDataChart";
+import ChartIndividualData from "../../Components/Chart/ChartIndividual";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -71,6 +72,7 @@ export default function Dashboard() {
   const [bookingChartData, setBookingChartData] = useState({});
   const [partnerCombinedData, setPartnerCombinedData] = useState({});
   const [userCombinedData, setUserCombinedData] = useState({});
+  const [partnerIndividualData, setPartnerIndividualData] = useState({});
   const months = [
     "January",
     "February",
@@ -509,6 +511,12 @@ export default function Dashboard() {
           const hotelCombinedBookings = await axios.get(
             `http://localhost:5000/booking/chart/combinedpartnerhotel/${user._id}`
           );
+
+          const hotelIndividualBookings = await axios.get(
+            `http://localhost:5000/booking/chart/hotelbookings/${user._id}`
+          );
+
+          setPartnerIndividualData(hotelIndividualBookings.data);
           setPartnerCombinedData({
             name: "Hotel Bookings",
             data: hotelCombinedBookings.data,
@@ -517,6 +525,12 @@ export default function Dashboard() {
           const parkingCombinedBookings = await axios.get(
             `http://localhost:5000/booking/chart/combinedpartnerparking/${user._id}`
           );
+
+          const parkingIndividualBookings = await axios.get(
+            `http://localhost:5000/booking/chart/parkingbookings/${user._id}`
+          );
+
+          setPartnerIndividualData(parkingIndividualBookings.data);
           setPartnerCombinedData({
             name: "Parking Bookings",
             data: parkingCombinedBookings.data,
@@ -525,6 +539,12 @@ export default function Dashboard() {
           const hotelAndParkingCombinedBookings = await axios.get(
             `http://localhost:5000/booking/chart/combinedpartnerhotelparking/${user._id}`
           );
+
+          const hotelAndParkingIndividualBookings = await axios.get(
+            `http://localhost:5000/booking/chart/hotelandparkingbookings/${user._id}`
+          );
+
+          setPartnerIndividualData(hotelAndParkingIndividualBookings.data);
           setPartnerCombinedData({
             name: "Hotel and Parking Bookings",
             data: hotelAndParkingCombinedBookings.data,
@@ -733,6 +753,158 @@ export default function Dashboard() {
                   sx={{ fontWeight: "800", color: "#dfebf6" }}
                 >
                   {data.hotelAndParking.name}
+                </Typography>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const partnerindividualChartList = (data) => {
+    console.log(data);
+    return (
+      <div className="mt-5 mb-3 mx-4">
+        <div
+          className="row justify-content-center p-4 rounded-3"
+          style={{ backgroundColor: "#dfebf6" }}
+        >
+          <Typography variant="h6">Property Wise Booking Summary</Typography>
+          <div className="col-md-6">
+            <ChartIndividualData
+              data={data}
+              type="line"
+              title={user.partner_type.toUpperCase() + " Booking Summary"}
+              color={["#008FFB", "#00E396", "#FEB019"]}
+            />
+          </div>
+          <div className="col-md-6">
+            <Typography>Overview</Typography>
+            <div className="row justify-content-center">
+              <div
+                className="col-md-5 m-1 py-4 rounded-4"
+                style={{ backgroundColor: "#008FFB" }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{ fontWeight: "600", color: "#dfebf6" }}
+                  align="center"
+                >
+                  Maximum Bookings
+                </Typography>
+                <Typography
+                  variant="h3"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                  align="center"
+                >
+                  {Math.max(
+                    ...data.map((element) => {
+                      return element.data.reduce((acc, curr) => {
+                        return acc + curr;
+                      }, 0);
+                    })
+                  )}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                >
+                  {
+                    data.reduce(
+                      (maxObj, currentObj) => {
+                        const currentSum = currentObj.data.reduce(
+                          (acc, curr) => acc + curr,
+                          0
+                        );
+                        if (currentSum > maxObj.sum) {
+                          return { sum: currentSum, object: currentObj };
+                        } else {
+                          return maxObj;
+                        }
+                      },
+                      { sum: -Infinity, object: null }
+                    ).object.name
+                  }
+                </Typography>
+              </div>
+              <div
+                className="col-md-5 m-1 py-4 rounded-4"
+                style={{ backgroundColor: "#00E396" }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{ fontWeight: "600", color: "#dfebf6" }}
+                  align="center"
+                >
+                  Minimum Bookings
+                </Typography>
+                <Typography
+                  variant="h3"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                  align="center"
+                >
+                  {Math.min(
+                    ...data.map((element) => {
+                      return element.data.reduce((acc, curr) => {
+                        return acc + curr;
+                      }, 0);
+                    })
+                  )}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                >
+                  {
+                    data.reduce(
+                      (maxObj, currentObj) => {
+                        const currentSum = currentObj.data.reduce(
+                          (acc, curr) => acc + curr,
+                          0
+                        );
+                        if (currentSum < maxObj.sum) {
+                          return { sum: currentSum, object: currentObj };
+                        } else {
+                          return maxObj;
+                        }
+                      },
+                      { sum: Infinity, object: null }
+                    ).object.name
+                  }
+                </Typography>
+              </div>
+              <div
+                className="col-md-10 m-1 py-4 rounded-4"
+                style={{ backgroundColor: "#FEB019" }}
+              >
+                <Typography
+                  variant="h3"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                  align="center"
+                >
+                  {data
+                    .map((element) => {
+                      return element.data.reduce((acc, curr) => {
+                        return acc + curr;
+                      }, 0);
+                    })
+                    .reduce((acc, curr) => {
+                      return acc + curr;
+                    })}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  sx={{ fontWeight: "800", color: "#dfebf6" }}
+                >
+                  {user.partner_type === "Hotel"
+                    ? "Total Hotel Bookings"
+                    : user.partner_type === "Parking"
+                    ? "Total Parking Bookings"
+                    : "Total Hotel and Parking Bookings"}
                 </Typography>
               </div>
             </div>
@@ -995,7 +1167,10 @@ export default function Dashboard() {
               {adminChartList(bookingChartData)}
             </>
           ) : view === "partner" ? (
-            <>{partnerChartData(partnerCombinedData)}</>
+            <>
+              {partnerindividualChartList(partnerIndividualData)}
+              {partnerChartData(partnerCombinedData)}
+            </>
           ) : (
             <>
               {adminChartList(listingChartData)}
