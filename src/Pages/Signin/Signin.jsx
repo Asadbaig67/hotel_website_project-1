@@ -163,9 +163,6 @@ const Signin = () => {
       setLoading(false);
     }
   };
-  
-  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
-  console.log(loggedinUser);
 
   return (
     <>

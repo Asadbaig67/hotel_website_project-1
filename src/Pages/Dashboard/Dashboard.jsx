@@ -39,6 +39,7 @@ export default function Dashboard() {
   const [addHotelAndParkingOperatingCity, setaddHotelAndParkingOperatingCity] =
     useState(false);
   const [name, setName] = useState("");
+  
   const handleClick = async () => {
     let hotel = [],
       parking = [],
@@ -74,6 +75,7 @@ export default function Dashboard() {
   const [partnerCombinedData, setPartnerCombinedData] = useState({});
   const [userCombinedData, setUserCombinedData] = useState({});
   const [partnerIndividualData, setPartnerIndividualData] = useState({});
+  
   const months = [
     "January",
     "February",
@@ -482,10 +484,10 @@ export default function Dashboard() {
 
         const [hotelBooking, parkingBooking, hotelAndParkingBooking] =
           await Promise.all([
-            axios.get("http://localhost:5000/booking/chart/hotelbookings"),
-            axios.get("http://localhost:5000/booking/chart/parkingbookings"),
+            axios.get("http://localhost:5000/booking/chart/Allhotelbookings"),
+            axios.get("http://localhost:5000/booking/chart/Allparkingbookings"),
             axios.get(
-              "http://localhost:5000/booking/chart/hotelandparkingbookings"
+              "http://localhost:5000/booking/chart/Allhotelandparkingbookings"
             ),
           ]);
 
