@@ -95,58 +95,37 @@ function App() {
       <Routes>
         <Route path="/signup" element={<PublicRoute Component={Signup} />} />
         <Route path="/signin" element={<PublicRoute Component={Signin} />} />
-        <Route
-          path="/forgetpassword"
-          element={<PublicRoute Component={Forgetpass} />}
-        />
-        <Route
-          path="/otpverify"
-          element={<PublicRoute Component={Otpverify} />}
-        />
+        <Route path="/forgetpassword" element={<Forgetpass />} />
+        <Route path="/otpverify" element={<Otpverify />} />
         <Route
           path="/reset/password"
           element={<PublicRoute Component={Changepassword} />}
         />
-        <Route path="/" element={<PublicRoute Component={Home} />} />
-        <Route path="/listHotel" element={<PublicRoute Component={List} />} />
-        <Route
-          path="/singleHotel"
-          element={<PublicRoute Component={Hotel} />}
-        />
+        <Route path="/" element={<Home />} />
+        <Route path="/listHotel" element={<List />} />
+        <Route path="/singleHotel" element={<Hotel />} />
         <Route
           path="/addHotel"
-          element={<PublicRoute Component={HotelForm} />}
+          element={<PrivateRoute Component={HotelForm} />}
         />
-        <Route path="/addRoom" element={<PublicRoute Component={RoomForm} />} />
-        <Route path="/parking" element={<PublicRoute Component={Parking} />} />
+        <Route
+          path="/addRoom"
+          element={<PrivateRoute Component={RoomForm} />}
+        />
+        <Route path="/parking" element={<Parking />} />
         <Route path="/loader" element={<Loader />} />
         <Route path="/dashboardloader" element={<DashboardLoader />} />
-        <Route
-          path="/ParkingList"
-          element={<PublicRoute Component={ParkingList} />}
-        />
-        <Route
-          path="/HotelAndParking"
-          element={<PublicRoute Component={HotelAndParking} />}
-        />
-        <Route
-          path="/HotelAndParkingList"
-          element={<PublicRoute Component={List} />}
-        />
-        <Route
-          path="/singleHotelAndParking"
-          element={<PublicRoute Component={Hotel} />}
-        />
+        <Route path="/ParkingList" element={<ParkingList />} />
+        <Route path="/HotelAndParking" element={<HotelAndParking />} />
+        <Route path="/HotelAndParkingList" element={<List />} />
+        <Route path="/singleHotelAndParking" element={<Hotel />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<PublicRoute Component={About} />} />
+        <Route path="/about" element={<About />} />
         <Route
           path="/listproperty"
           element={<PrivateRoute Component={Listing} />}
         />
-        <Route
-          path="/roomcard"
-          element={<PrivateRoute Component={Roomcard} />}
-        />
+        <Route path="/roomcard" element={<Roomcard />} />
         <Route
           path="/hotelform"
           element={<PrivateRoute Component={AddHotelForm} />}
@@ -157,14 +136,7 @@ function App() {
         />
         {/* <Route path="/parkingform" element={<AddParkingForm />} /> */}
         <Route path="/skeleton" element={<Featured_skeleton />} />
-        <Route
-          path="/singleparking"
-          element={
-            <PrivateRoute
-              Component={<ParkingPropertyDetails property={property} />}
-            />
-          }
-        />
+        <Route path="/singleparking" element={<ParkingPropertyDetails />} />
         <Route
           path="/bookingdetails"
           element={<PrivateRoute Component={Viewbookings} />}

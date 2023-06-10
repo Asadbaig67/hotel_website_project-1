@@ -39,7 +39,7 @@ export default function Dashboard() {
   const [addHotelAndParkingOperatingCity, setaddHotelAndParkingOperatingCity] =
     useState(false);
   const [name, setName] = useState("");
-  
+
   const handleClick = async () => {
     let hotel = [],
       parking = [],
@@ -75,7 +75,7 @@ export default function Dashboard() {
   const [partnerCombinedData, setPartnerCombinedData] = useState({});
   const [userCombinedData, setUserCombinedData] = useState({});
   const [partnerIndividualData, setPartnerIndividualData] = useState({});
-  
+
   const months = [
     "January",
     "February",
@@ -1033,7 +1033,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="d-flex w-100">
+      <div className="container-fluid d-flex w-100">
         <AdminSidebar />
         <div className="mt-5 mb-5">
           <div
@@ -1081,12 +1081,16 @@ export default function Dashboard() {
                     >
                       <NotificationsActiveIcon />{" "}
                       <span>
-                        <b>
-                          {count.pendingHotelNum +
-                            count.pendingParkingNum +
-                            count.pendingHotelAndParkingNum}
-                        </b>{" "}
-                        listed properties are pending for approval.
+                        {view === "admin" ? (
+                          <>
+                            <b>
+                              {count.pendingHotelNum +
+                                count.pendingParkingNum +
+                                count.pendingHotelAndParkingNum}
+                            </b>{" "}
+                            listed properties are pending for approval.
+                          </>
+                        ) : null}
                       </span>
                     </h5>
                     {/* <h3 className={`fs-2 fw-semibold ${style.date}`}>
