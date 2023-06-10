@@ -14,6 +14,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import { useMediaQuery } from "@mui/material";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -24,6 +25,11 @@ const DataTable = ({ path, user }) => {
   const { header } = useSelector((state) => state.setHeader);
   const { url } = useSelector((state) => state.setDataUrl);
   const dispatch = useDispatch();
+
+  const isMobile = useMediaQuery("(max-width: 400px)");
+  const isDesktop = useMediaQuery("(max-width: 992px)");
+  const isTablet = useMediaQuery("(max-width: 768px)");
+
   const { data, loading, error } = useFetch(url);
   let filteredData = data;
   const [list, setList] = useState([]);
@@ -300,154 +306,162 @@ const DataTable = ({ path, user }) => {
       },
     },
   ];
+  const [widthdata, setWidthdata] = useState(window.innerWidth - 90);
+
+  useEffect(() => {
+    setWidthdata(window.innerWidth - 90);
+  }, [window.innerWidth]);
 
   return (
     <>
-      <Box
-        sx={{
-          height: 450,
-          width: "100% !important",
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: "#a4a9fc",
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: "#f2f0f0",
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: "#a4a9fc",
-          },
-          "& .MuiDataGrid-row": {
-            borderBottom: "none !important",
-          },
-          "& .MuiCheckbox-root": {
-            color: `#1e5245 !important`,
-          },
-        }}
-      >
-        <DataGrid
-          rows={list}
-          columns={
-            path === "hotelRequests" ||
-            path === "parkingRequests" ||
-            path === "hotelAndParkingRequests"
-              ? header.concat(viewColumn, deleteColumn, approveColumn)
-              : path === "upcominghotelbookings" ||
-                path === "upcomingparkingbookings" ||
-                path === "upcominghotelandparkingbookings"
-              ? header.concat(viewColumn, cancelBookingColumn)
-              : header.concat(viewColumn, deleteColumn)
-          }
-          slots={{
-            toolbar: GridToolbar,
-          }}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
+      <div>
+        <Box
+          sx={{
+            height: 450,
+            width: widthdata,
+            // width: "100% !important",
+            "& .MuiDataGrid-root": {
+              border: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: "#a4a9fc",
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: "#f2f0f0",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "none",
+              backgroundColor: "#a4a9fc",
+            },
+            "& .MuiDataGrid-row": {
+              borderBottom: "none !important",
+            },
+            "& .MuiCheckbox-root": {
+              color: `#1e5245 !important`,
             },
           }}
-          pageSizeOptions={[5]}
-          // checkboxSelection
-          disableRowSelectionOnClick
-          getRowId={(row) => row._id}
-          loading={loading}
-        />
-      </Box>
-      {/* Confirmation */}
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>
-          {dialogData.action === "delete" ? "Delete" : "Approve"}
-        </DialogTitle>
-        <hr className="m-0" />
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Are you sure you want to{" "}
-            {dialogData.action === "delete" ? "Delete" : "Approve"}?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="outlined" color="primary" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => {
-              dialogData.action === "delete"
-                ? handleDelete(dialogData.id)
-                : handleApprove(dialogData.id);
+        >
+          <DataGrid
+            rows={list}
+            columns={
+              path === "hotelRequests" ||
+              path === "parkingRequests" ||
+              path === "hotelAndParkingRequests"
+                ? header.concat(viewColumn, deleteColumn, approveColumn)
+                : path === "upcominghotelbookings" ||
+                  path === "upcomingparkingbookings" ||
+                  path === "upcominghotelandparkingbookings"
+                ? header.concat(viewColumn, cancelBookingColumn)
+                : header.concat(viewColumn, deleteColumn)
+            }
+            slots={{
+              toolbar: GridToolbar,
             }}
-          >
-            {dialogData.action === "delete"
-              ? "Delete"
-              : `Approve with rating ${dialogData.data}`}
-          </Button>
-          {dialogData.action === "approve" ? (
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
+                },
+              },
+            }}
+            pageSizeOptions={[5]}
+            // checkboxSelection
+            disableRowSelectionOnClick
+            getRowId={(row) => row._id}
+            loading={loading}
+          />
+        </Box>
+        {/* Confirmation */}
+        <Dialog
+          open={open}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>
+            {dialogData.action === "delete" ? "Delete" : "Approve"}
+          </DialogTitle>
+          <hr className="m-0" />
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Are you sure you want to{" "}
+              {dialogData.action === "delete" ? "Delete" : "Approve"}?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="outlined" color="primary" onClick={handleClose}>
+              Cancel
+            </Button>
             <Button
               variant="outlined"
               color="primary"
               onClick={() => {
-                handleOpenRating();
-                handleClose();
+                dialogData.action === "delete"
+                  ? handleDelete(dialogData.id)
+                  : handleApprove(dialogData.id);
               }}
             >
-              Update rating and approve
+              {dialogData.action === "delete"
+                ? "Delete"
+                : `Approve with rating ${dialogData.data}`}
             </Button>
-          ) : null}
-        </DialogActions>
-      </Dialog>
-      {/* Rating */}
-      <Dialog open={ratingOpen} onClose={handleClose}>
-        <DialogTitle>Update Rating</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Rating"
-            type="number"
-            fullWidth
-            variant="standard"
-            inputProps={{
-              max: 5, // Maximum value
-              min: 1, // Minimum value
-            }}
-            onChange={(e) => setRating(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={handleCloseRating}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            disabled={rating < 1 || rating > 5 ? true : false}
-            onClick={() => handleApproveWithRating(dialogData.id, rating)}
-          >
-            Approve
-          </Button>
-        </DialogActions>
-      </Dialog>
+            {dialogData.action === "approve" ? (
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  handleOpenRating();
+                  handleClose();
+                }}
+              >
+                Update rating and approve
+              </Button>
+            ) : null}
+          </DialogActions>
+        </Dialog>
+        {/* Rating */}
+        <Dialog open={ratingOpen} onClose={handleClose}>
+          <DialogTitle>Update Rating</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Rating"
+              type="number"
+              fullWidth
+              variant="standard"
+              inputProps={{
+                max: 5, // Maximum value
+                min: 1, // Minimum value
+              }}
+              onChange={(e) => setRating(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleCloseRating}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              disabled={rating < 1 || rating > 5 ? true : false}
+              onClick={() => handleApproveWithRating(dialogData.id, rating)}
+            >
+              Approve
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </>
   );
 };

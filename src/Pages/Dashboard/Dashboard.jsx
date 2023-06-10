@@ -16,6 +16,7 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import ChartData from "../../Components/Chart/Chart";
 import SingleChartData from "../../Components/Chart/SingleDataChart";
 import ChartIndividualData from "../../Components/Chart/ChartIndividual";
+import DashboardLoader from "../../Components/Loader/DashboardLoader";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -1025,7 +1026,7 @@ export default function Dashboard() {
   };
 
   if (isLoading) {
-    return <div>Is Loading</div>;
+    return <DashboardLoader />;
   }
 
   return (

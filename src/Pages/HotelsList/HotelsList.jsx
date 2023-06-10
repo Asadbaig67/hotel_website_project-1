@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import DatagridHeader from "../../Components/DatagridHeader/DatagridHeader";
+
 import {
   hotelsHeader,
   userHeader,
@@ -314,7 +315,7 @@ const HotelsList = () => {
     <>
       <div className="d-flex">
         <AdminSidebar />
-        <div className="container-fluid mt-5">
+        <div className="container-fluid" style={{ marginTop: "70px" }}>
           <div className="row">
             <div className="col-md-12">
               {view === "admin" ? (
