@@ -17,6 +17,8 @@ import Topbar from "../../Topbar/Topbar";
 import AdminSidebar from "../../adminSidebar/AdminSidebar";
 
 const AddRoomForm = () => {
+  const { hotel } = useSelector((state) => state.setAddedHotel);
+
   //Alerts Code
   const [alertOn, setAlertOn] = useState(false);
   const [open, setOpen] = useState(true);
@@ -61,7 +63,8 @@ const AddRoomForm = () => {
     const url = "http://localhost:5000/room/addroom";
 
     const data = {
-      hotelId: "64308b2d8926b91b79d17f69",
+      // hotelId: "64308b2d8926b91b79d17f69",
+      hotelId: hotel._id,
       room_no: roomsArray,
       type: formValues.type,
       price: formValues.price,
@@ -101,9 +104,9 @@ const AddRoomForm = () => {
 
   return (
     <>
-      <div className="d-flex">
+      <div className="d-flex" style={{ marginTop: "50px" }}>
         <AdminSidebar />
-        <div className="mt-5">
+        <div className="mt-5" style={{ width: "100vw" }}>
           {alertOn && (
             <Collapse in={open}>
               <Stack sx={{ width: "100%" }} spacing={1}>

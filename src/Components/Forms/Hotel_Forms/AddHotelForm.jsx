@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FormData from "form-data";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -10,10 +10,14 @@ import ClearIcon from "@mui/icons-material/Clear";
 import style from "./addhotel.module.css";
 import { useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const AddHotelForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   //Alerts Code
   const [emptyInput, setEmptyInput] = useState(false);
@@ -211,7 +215,13 @@ const AddHotelForm = () => {
         setLoading(false);
         setError(true);
       }
+
       const data = await response.json();
+      const hotel = data.hotel;
+      dispatch({
+        type: "SET_HOTEL",
+        payload: hotel,
+      });
     } catch (error) {
       console.error(error);
     }
@@ -332,14 +342,26 @@ const AddHotelForm = () => {
                 ""
               )}
               {success && (
-                <Button
-                  variant="contained"
-                  color="success"
-                  data-bs-dismiss="modal"
-                  onClick={handleSuccess}
-                >
-                  Finish
-                </Button>
+                <>
+                  <Link to="/roomform">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      data-bs-dismiss="modal"
+                      onClick={handleSuccess}
+                    >
+                      Add Rooms
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    data-bs-dismiss="modal"
+                    onClick={handleSuccess}
+                  >
+                    Finish
+                  </Button>
+                </>
               )}
               {/* {!loading && success && (
                   <Button
@@ -356,8 +378,8 @@ const AddHotelForm = () => {
       </div>
       <div className="d-flex" style={{ marginTop: "50px" }}>
         <AdminSidebar />
-        <div className="mt-5">
-          <div className={`container-fluid  ${IsMobile ? "" : "w-100"} `}>
+        <div className="mt-5" style={{ width: "100vw" }}>
+          <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Hotel Form</h1>
             <form className="needs-validation mx-4">
               {loggedinUser.user.account_type === "admin" ? (
