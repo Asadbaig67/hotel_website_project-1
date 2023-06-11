@@ -5,22 +5,71 @@ import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import Stack from "@mui/material/Stack";
-import Collapse from "@mui/material/Collapse";
-import CloseIcon from "@mui/icons-material/Close";
+import Button from "@mui/material/Button";
 import axios from "axios";
 import { useEffect } from "react";
 import style from "../Hotel_Forms/addhotel.module.css";
 import AdminSidebar from "../../adminSidebar/AdminSidebar";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const AddHotelParkingForm = () => {
-  //Alerts Code
-  const [alertOn, setAlertOn] = useState(false);
-  const [open, setOpen] = useState(true);
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("info");
+  //Confirm Modal Code
+  const [emptyInput, setEmptyInput] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleClickOpen = () => {
+    if (
+      formValues.hotel_name === "" ||
+      formValues.hotel_title === "" ||
+      formValues.parking_name === "" ||
+      formValues.hotel_rating === "" ||
+      formValues.parking_title === "" ||
+      formValues.total_slots === "" ||
+      formValues.booked_slots === "" ||
+      formValues.hotel_description === "" ||
+      formValues.parking_description === "" ||
+      formValues.price === "" ||
+      formValues.city === "" ||
+      formValues.country === "" ||
+      formValues.address === ""
+    ) {
+      console.log("Empty Input", formValues);
+      setEmptyInput(true);
+    } else {
+      setEmptyInput(false);
+    }
+  };
+
+  const handleConditions = () => {
+    setError(false);
+    setMessage("");
+  };
+  const handleSuccess = () => {
+    setSuccess(false);
+    setMessage("");
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      hotel_name: "",
+      hotel_title: "",
+      parking_name: "",
+      hotel_rating: 0,
+      parking_title: "",
+      total_slots: 0,
+      booked_slots: 0,
+      hotel_description: "",
+      parking_description: "",
+      price: 0,
+      city: "",
+      country: "",
+      address: "",
+    }));
+    setHotelimages([]);
+    setParkingimages([]);
+  };
+
   const [Owner, setOwner] = useState([]);
   const [FinalOwner, setFinalOwner] = useState({});
 
@@ -132,6 +181,8 @@ const AddHotelParkingForm = () => {
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
 
   const handleSubmit = async (event) => {
+    setMessage("");
+    setLoading(true);
     event.preventDefault();
     const formData = new FormData();
     formData.append(
@@ -174,22 +225,21 @@ const AddHotelParkingForm = () => {
     try {
       const response = await fetch(url, options);
       if (response.status === 200) {
-        setAlertOn(true);
-        setAlertType("success");
-        setAlertMessage("Hotel And Parking Added Successfully");
-        setTimeout(() => {
-          setOpen(false);
-        }, 7000);
+        setMessage("Hotel And Parking Added Successfully!!");
+        setLoading(false);
+        setSuccess(true);
+      } else if (response.status === 422) {
+        setMessage("Hotel And Parking Alreay Exists!!");
+        setSuccess(false);
+        setLoading(false);
+        setError(true);
       } else {
-        setAlertOn(true);
-        setAlertType("error");
-        setAlertMessage("Something went wrong");
-        setTimeout(() => {
-          setOpen(false);
-        }, 7000);
+        setMessage("Something Went Wrong!!");
+        setSuccess(false);
+        setLoading(false);
+        setError(true);
       }
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -218,44 +268,107 @@ const AddHotelParkingForm = () => {
 
   return (
     <>
-      <div className="d-flex">
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Confirm Add Hotel And Parking
+              </h1>
+            </div>
+            <div class="modal-body">
+              {hotelimages.length < 3 ||
+              hotelimages.length > 7 ||
+              parkingimages.length < 3 ||
+              parkingimages.length > 7 ? (
+                <span className="text-danger d-block">
+                  Please select 3-7 images only!!
+                </span>
+              ) : (
+                ""
+              )}
+              {emptyInput ? (
+                <span className="text-danger d-block">
+                  Please fill all the fields!!
+                </span>
+              ) : (
+                ""
+              )}
+              {!(
+                hotelimages.length < 3 ||
+                hotelimages.length > 7 ||
+                parkingimages.length < 3 ||
+                parkingimages.length > 7
+              ) &&
+                !emptyInput && (
+                  <>
+                    <span className="d-block">
+                      {message === ""
+                        ? "Are you sure you want to add this hotel?"
+                        : message}
+                    </span>
+                  </>
+                )}
+            </div>
+            <div class="modal-footer">
+              {!success && (
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onClick={handleConditions}
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+              )}
+              {!loading && !success && !error && (
+                <Button
+                  variant="contained"
+                  disabled={
+                    hotelimages.length < 3 ||
+                    hotelimages.length > 7 ||
+                    parkingimages.length < 3 ||
+                    parkingimages.length > 7 ||
+                    emptyInput
+                  }
+                  onClick={handleSubmit}
+                >
+                  Confirm Add
+                </Button>
+              )}
+              {loading ? (
+                <>
+                  <CircularProgress />
+                </>
+              ) : (
+                ""
+              )}
+              {success && (
+                <Button
+                  variant="contained"
+                  color="success"
+                  data-bs-dismiss="modal"
+                  onClick={handleSuccess}
+                >
+                  Finish
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="d-flex" style={{ marginTop: "50px" }}>
         <AdminSidebar />
         <div className="mt-5">
-          {alertOn && (
-            <Collapse in={open}>
-              <Stack sx={{ width: "100%" }} spacing={1}>
-                <Alert
-                  sx={{
-                    borderRadius: "9999px", // make the alert appear as a pill shape
-                    transition: "transform 0.3s ease-in-out", // add a transition effect
-                    transform: open ? "scale(1)" : "scale(0.7)", // scale the alert based on the open state
-                    mt: 2,
-                    mb: 2,
-                    ml: 2,
-                    mr: 2,
-                  }}
-                  severity={alertType}
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setOpen(false);
-                      }}
-                      sx={{ mt: 1.5 }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                >
-                  <AlertTitle>Add Hotel And Parking</AlertTitle>
-                  <strong>{alertMessage}!</strong>
-                </Alert>
-              </Stack>
-            </Collapse>
-          )}
-          <div className={`container  ${IsMobile ? "" : "w-50"} `}>
+          <div className={`container-fluid  ${IsMobile ? "" : "w-100"} `}>
             <h1 className="text-center fw-bold">Add Hotel And Parking Form</h1>
             <form className="needs-validation mx-4">
               {loggedinUser.user.account_type === "admin" ? (
@@ -436,7 +549,7 @@ const AddHotelParkingForm = () => {
                       mode === "light" ? "dark" : "light"
                     }`}
                   >
-                    Hotel Rating
+                    Hotel Rating (out of 5)
                   </label>
                   <input
                     type="text"
@@ -729,6 +842,15 @@ const AddHotelParkingForm = () => {
               </div>
               <div className="mt-5 text-center">
                 <button
+                  type="button"
+                  class="btn btn-primary btn-lg profile-button mb-4"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                  onClick={handleClickOpen}
+                >
+                  Add Hotel And Parking
+                </button>
+                {/* <button
                   className="btn btn-primary btn-lg profile-button mb-4"
                   type="submit"
                   disabled={
@@ -740,7 +862,7 @@ const AddHotelParkingForm = () => {
                   onClick={handleSubmit}
                 >
                   Add Hotel And Parking
-                </button>
+                </button> */}
               </div>
             </form>
           </div>

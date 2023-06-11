@@ -22,8 +22,20 @@ import Googlelogo from "./googlelogo.png";
 const Signin = () => {
   // code for loader top
 
-  const googleAuth = () => {
-    window.open(`http://localhost:5000/user/google`);
+  const googleAuth = async (event) => {
+    event.preventDefault();
+    const url = "http://localhost:5000/user/auth/example";
+    const options = {
+      method: "GET",
+      withCredentials: true,
+      // credentials: true,
+    };
+    const response = await axios(url, options);
+    const data = response.data;
+    console.log(data);
+
+    // const data = window.open(`http://localhost:5000/user/google`, "_self");
+    // console.log("data is From backend", data);
   };
 
   const [progress, setProgress] = React.useState(0);
@@ -163,7 +175,7 @@ const Signin = () => {
       setLoading(false);
     }
   };
-  
+
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   console.log(loggedinUser);
 
@@ -204,7 +216,7 @@ const Signin = () => {
             </Typography>
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
               noValidate
               sx={{ mt: 1 }}
             >
@@ -237,7 +249,7 @@ const Signin = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onSubmit={handleSubmit}
+                onClick={handleSubmit}
               >
                 Sign In
               </Button>
@@ -249,8 +261,8 @@ const Signin = () => {
                   <Link to="/signup">Don't have an account? Sign Up</Link>
                 </Grid>
               </Grid>
-              <Button
-                type="submit"
+              <button
+                // type="submit"
                 fullWidth
                 variant="outlined"
                 size="larger"
@@ -277,7 +289,7 @@ const Signin = () => {
                 />
                 <span className="mx-auto">Continue with Google</span>{" "}
                 {/* Wrapped the text in a span element */}
-              </Button>
+              </button>
             </Box>
           </Box>
           <Copyright sx={{ mt: 8, mb: 4 }} />
