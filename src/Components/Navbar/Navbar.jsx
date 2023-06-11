@@ -347,17 +347,17 @@ const Navbar = ({ list }) => {
   };
 
   const HandleLogout = async () => {
-    // let url = "http://localhost:5000/user/userlogout";
-    // let options = {
-    //   method: "GET",
-    // };
-    // const response = await fetch(url, options);
-
-    dispatch({ type: "SET_LOGGEDIN_USER", payload: {} });
-    dispatch({ type: "LOGIN", payload: false });
-
-    // dispatch({ type: "SET_LOGGEDIN_USER", payload: null });
-    navigate("/");
+    let url = "http://localhost:5000/user/userlogout";
+    let options = {
+      method: "GET",
+    };
+    const response = await fetch(url, options);
+    if (response.ok) {
+      localStorage.clear();
+      dispatch({ type: "SET_LOGGEDIN_USER", payload: {} });
+      dispatch({ type: "LOGIN", payload: false });
+      navigate("/");
+    }
   };
   // const HandleRedirectDashboard = () => {
   //   dispatch({ type: "SET_REDIRECT_ROUTE", payload: "dashboard" });

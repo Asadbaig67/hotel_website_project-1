@@ -22,11 +22,11 @@ import {
   bookingHotelHeader,
   bookingParkingHeader,
 } from "../../Utilis/DataTableSource";
-import Topbar from "../../Components/Topbar/Topbar";
-import SidebarAdmin from "../../Components/AdminDashboardSidebar/AdminDashboardSidebar";
 import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
+import { useDispatch } from "react-redux";
 
 const Viewproperty = () => {
+  const dispatch = useDispatch();
   const IsMobile = useMediaQuery("(max-width:450px)");
   const navigate = useNavigate();
   const location = useLocation();
@@ -280,8 +280,13 @@ const Viewproperty = () => {
     }
   }, [roomdata]);
 
-  console.log("Formvalues are=", formValues);
-  console.log("New Room are = ", roomsArray);
+  const addRoom = () => {
+    dispatch({
+      type: "SET_HOTEL",
+      payload: data,
+    });
+    navigate("/roomform");
+  };
 
   return (
     <>
@@ -418,7 +423,7 @@ const Viewproperty = () => {
         </div>
       </div>
       <div className="d-flex">
-        <AdminSidebar/>
+        <AdminSidebar />
         <div className={`my-3 mt-5 ${styles.property_details}`}>
           <div>
             <div className="d-flex justify-content-between">
@@ -688,9 +693,14 @@ const Viewproperty = () => {
               </div>
             ) : (
               <div className=" my-3">
-                <h3 className="fw-bold fs-5 my-3 text-dark my-2">
-                  All Rooms And Details
-                </h3>
+                <div className="d-flex justify-content-between">
+                  <h3 className="fw-bold fs-5 my-3 text-dark my-2">
+                    All Rooms And Details
+                  </h3>
+                  {rooms.length < 3 ? (
+                    <button className="btn btn-primary" onClick={addRoom}>Add Room</button>
+                  ) : null}
+                </div>
                 <Box sx={{ height: 400, width: "100%" }}>
                   <DataGrid
                     rows={rooms}
