@@ -56,6 +56,7 @@ import { setNotification } from "./reducer/notifications";
 import { db_Collection_Count } from "./reducer/getDbDocumentsCount";
 import { toggleSidebar } from "./reducer/toggleSidebar";
 import { dashboardCard } from "./reducer/setDashboardCard";
+import {SET_LOGIN} from "./reducer/isLogin"
 
 const persistConfig = {
   key: "root",
@@ -120,6 +121,7 @@ const reducer = combineReducers({
   db_Collection_Count: db_Collection_Count,
   toggleSidebar: toggleSidebar,
   dashboardCard: dashboardCard,
+  setLogin:SET_LOGIN,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

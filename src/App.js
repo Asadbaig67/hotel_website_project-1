@@ -42,9 +42,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardLoader from "./Components/Loader/DashboardLoader";
+import PrivateRoute from "./Components/Routes/PrivateRoute";
+import PublicRoute from "./Components/Routes/PublicRoute";
 
 function App() {
-  const dispatch = useDispatch();
   const property = {
     id: 1,
     name: "Example Property",
@@ -89,21 +90,28 @@ function App() {
       },
     ],
   };
-
-
   return (
     <>
       <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<PublicRoute Component={Signup} />} />
+        <Route path="/signin" element={<PublicRoute Component={Signin} />} />
         <Route path="/forgetpassword" element={<Forgetpass />} />
         <Route path="/otpverify" element={<Otpverify />} />
-        <Route path="/reset/password" element={<Changepassword />} />
+        <Route
+          path="/reset/password"
+          element={<PublicRoute Component={Changepassword} />}
+        />
         <Route path="/" element={<Home />} />
         <Route path="/listHotel" element={<List />} />
         <Route path="/singleHotel" element={<Hotel />} />
-        <Route path="/addHotel" element={<HotelForm />} />
-        <Route path="/addRoom" element={<RoomForm />} />
+        <Route
+          path="/addHotel"
+          element={<PrivateRoute Component={HotelForm} />}
+        />
+        <Route
+          path="/addRoom"
+          element={<PrivateRoute Component={RoomForm} />}
+        />
         <Route path="/parking" element={<Parking />} />
         <Route path="/loader" element={<Loader />} />
         <Route path="/dashboardloader" element={<DashboardLoader />} />
@@ -113,59 +121,152 @@ function App() {
         <Route path="/singleHotelAndParking" element={<Hotel />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
-        <Route path="/listproperty" element={<Listing />} />
+        <Route
+          path="/listproperty"
+          element={<PrivateRoute Component={Listing} />}
+        />
         <Route path="/roomcard" element={<Roomcard />} />
-        <Route path="/hotelform" element={<AddHotelForm />} />
-        <Route path="/parkingform" element={<AddParkingForm />} />
+        <Route
+          path="/hotelform"
+          element={<PrivateRoute Component={AddHotelForm} />}
+        />
+        <Route
+          path="/parkingform"
+          element={<PrivateRoute Component={AddParkingForm} />}
+        />
         {/* <Route path="/parkingform" element={<AddParkingForm />} /> */}
         <Route path="/skeleton" element={<Featured_skeleton />} />
+        <Route path="/singleparking" element={<ParkingPropertyDetails />} />
         <Route
-          path="/singleparking"
-          element={<ParkingPropertyDetails property={property} />}
+          path="/bookingdetails"
+          element={<PrivateRoute Component={Viewbookings} />}
         />
-        <Route path="/bookingdetails" element={<Viewbookings />} />
-        <Route path="/viewbookingdetails" element={<AdminBookings />} />
+        <Route
+          path="/viewbookingdetails"
+          element={<PrivateRoute Component={AdminBookings} />}
+        />
         {/* <Route path="/booking" element={<RoomBooking rooms={rooms} />} /> */}
-        <Route path="/viewproperty" element={<Viewproperty />} />
+        <Route
+          path="/viewproperty"
+          element={<PrivateRoute Component={Viewproperty} />}
+        />
 
         {/* Admin Routes */}
 
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/hotels" element={<HotelsList />} />
-        <Route path="/users" element={<HotelsList />} />
-        <Route path="/booking" element={<HotelsList />} />
-        <Route path="/cancelbooking" element={<HotelsList />} />
-        <Route path="/hotelRequests" element={<HotelsList />} />
-        <Route path="/parkingRequests" element={<HotelsList />} />
-        <Route path="/hotelAndParkingRequests" element={<HotelsList />} />
-        <Route path="/HotelsAndParkings" element={<HotelsList />} />
-        <Route path="/parkings" element={<HotelsList />} />
-        <Route path="/property" element={<HotelsList />} />
-        <Route path="/PropertyRequests" element={<HotelsList />} />
-        <Route path="/bookingRequests" element={<HotelsList />} />
-        <Route path="/hotelbookings" element={<HotelsList />} />
-        <Route path="/parkingbookings" element={<HotelsList />} />
-        <Route path="/hotelandparkingbookings" element={<HotelsList />} />
-        <Route path="/upcominghotelbookings" element={<HotelsList />} />
-        <Route path="/upcomingparkingbookings" element={<HotelsList />} />
+        <Route
+          path="/dashboard"
+          element={<PrivateRoute Component={Dashboard} />}
+        />
+        <Route path="/profile" element={<PrivateRoute Component={Profile} />} />
+        <Route
+          path="/hotels"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/users"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/booking"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/cancelbooking"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/hotelRequests"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/parkingRequests"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/hotelAndParkingRequests"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/HotelsAndParkings"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/parkings"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/property"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/PropertyRequests"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/bookingRequests"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/hotelbookings"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/parkingbookings"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/hotelandparkingbookings"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/upcominghotelbookings"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/upcomingparkingbookings"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
         <Route
           path="/upcominghotelandparkingbookings"
-          element={<HotelsList />}
+          element={<PrivateRoute Component={HotelsList} />}
         />
-        <Route path="/profiledata" element={<ProfileDataForm />} />
+        <Route
+          path="/profiledata"
+          element={<PrivateRoute Component={ProfileDataForm} />}
+        />
         <Route path="/maps" element={<Reactmaps />} />
-        <Route path="/hotelform" element={<AddHotelForm />} />
-        <Route path="/parkingform" element={<AddParkingForm />} />
-        <Route path="/hotelparkingform" element={<AddHotelParkingForm />} />
-        <Route path="/roomform" element={<AddRoomForm />} />
-        <Route path="/hotelbooking" element={<HotelBooking />} />
-        <Route path="/updatehotel" element={<UpdateHotel />} />
+        <Route
+          path="/hotelform"
+          element={<PrivateRoute Component={AddHotelForm} />}
+        />
+        <Route
+          path="/parkingform"
+          element={<PrivateRoute Component={AddParkingForm} />}
+        />
+        <Route
+          path="/hotelparkingform"
+          element={<PrivateRoute Component={AddHotelParkingForm} />}
+        />
+        <Route
+          path="/roomform"
+          element={<PrivateRoute Component={AddRoomForm} />}
+        />
+        <Route
+          path="/hotelbooking"
+          element={<PrivateRoute Component={HotelBooking} />}
+        />
+        <Route
+          path="/updatehotel"
+          element={<PrivateRoute Component={UpdateHotel} />}
+        />
         <Route
           path="/updatehotelandparking"
-          element={<UpdateHotelAndParking />}
+          element={<PrivateRoute Component={UpdateHotelAndParking} />}
         />
-        <Route path="/updateparking" element={<UpdateParking />} />
+        <Route
+          path="/updateparking"
+          element={<PrivateRoute Component={UpdateParking} />}
+        />
       </Routes>
     </>
   );
