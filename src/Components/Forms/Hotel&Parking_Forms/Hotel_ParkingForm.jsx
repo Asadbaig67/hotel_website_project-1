@@ -10,9 +10,11 @@ import axios from "axios";
 import { useEffect } from "react";
 import style from "../Hotel_Forms/addhotel.module.css";
 import AdminSidebar from "../../adminSidebar/AdminSidebar";
+import { Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const AddHotelParkingForm = () => {
+  const dispatch = useDispatch();
   //Confirm Modal Code
   const [emptyInput, setEmptyInput] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -240,6 +242,11 @@ const AddHotelParkingForm = () => {
         setError(true);
       }
       const data = await response.json();
+      const hotel = data.hotel;
+      dispatch({
+        type: "SET_HOTEL",
+        payload: hotel,
+      });
     } catch (error) {
       console.error(error);
     }
@@ -352,14 +359,26 @@ const AddHotelParkingForm = () => {
                 ""
               )}
               {success && (
-                <Button
-                  variant="contained"
-                  color="success"
-                  data-bs-dismiss="modal"
-                  onClick={handleSuccess}
-                >
-                  Finish
-                </Button>
+                <>
+                  <Link to="/roomform">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      data-bs-dismiss="modal"
+                      onClick={handleSuccess}
+                    >
+                      Add Rooms
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    data-bs-dismiss="modal"
+                    onClick={handleSuccess}
+                  >
+                    Finish
+                  </Button>
+                </>
               )}
             </div>
           </div>
