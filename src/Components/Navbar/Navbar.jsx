@@ -357,14 +357,14 @@ const Navbar = ({ list }) => {
       navigate("/");
     }
   };
-  const HandleRedirectDashboard = () => {
-    dispatch({ type: "SET_REDIRECT_ROUTE", payload: "dashboard" });
-    // navigate("/signin");
-  };
-  const HandleRedirectSignin = () => {
-    dispatch({ type: "SET_REDIRECT_ROUTE", payload: "/" });
-    // navigate("/signin");
-  };
+  // const HandleRedirectDashboard = () => {
+  //   dispatch({ type: "SET_REDIRECT_ROUTE", payload: "dashboard" });
+  //   // navigate("/signin");
+  // };
+  // const HandleRedirectSignin = () => {
+  //   dispatch({ type: "SET_REDIRECT_ROUTE", payload: "/" });
+  //   // navigate("/signin");
+  // };
 
   useEffect(() => {
     // console.log(cityParking, c, datesParking);
@@ -702,7 +702,7 @@ const Navbar = ({ list }) => {
                                   // to={HandleRedirectDashboard}
                                   // to="/signin"
                                   to={loggedinUser ? "/dashboard" : "/signin"}
-                                  onClick={HandleRedirectDashboard}
+                                  // onClick={HandleRedirectDashboard}
                                   // to={loggedinUser ? "/dashboard" : "/signin"}
                                 >
                                   My Dashboard
@@ -743,7 +743,7 @@ const Navbar = ({ list }) => {
                                     </ListItemIcon>
                                     <Link
                                       to="/signin"
-                                      onClick={HandleRedirectSignin}
+                                      // onClick={HandleRedirectSignin}
                                       className="text-dark"
                                     >
                                       Sign-in
