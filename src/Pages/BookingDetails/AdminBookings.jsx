@@ -40,10 +40,10 @@ const ViewBookings = () => {
   const FetchDatafromId = async () => {
     let url = "";
     if (data) {
-      console.log("dataaaa", data);
+      // console.log("dataaaa", data);
       if (data.Booking_type === "hotel") {
         // console.log(data.hotelId);
-        url = `http://localhost:5000/hotels/gethotelbyid/${data.hotelId}`;
+        url = `http://localhost:5000/hotels/gethotelbyid/${data.hotelData.hotelId}`;
         const response = await axios.get(url);
         // console.log("res", response.data);
 
@@ -63,11 +63,14 @@ const ViewBookings = () => {
   };
 
   let cardPicture = "";
-  if (
-    (datafromId.photos && datafromId.photos.length !== 0) ||
-    (datafromId.hotel_photos && datafromId.photos.length !== 0)
-  ) {
-    cardPicture = datafromId.photos[0];
+
+  if (data.Booking_type === "hotel") {
+    if (
+      (data.hotelData.photos && data.hotelData.photos.length !== 0) ||
+      (data.hotelData.hotel_photos && data.hotelData.photos.length !== 0)
+    ) {
+      cardPicture = data.hotelData.photos[0];
+    }
   }
   // console.log(cardPicture);
 
@@ -128,25 +131,23 @@ const ViewBookings = () => {
     familyRoomsArray: familyRoomsArray,
   };
 
-  // console.log("oiugf", roomDetails);
-  // console.log("Bhai Data To agyahua hai", datafromId);
 
   const [loading, setLoading] = useState(true);
 
-  if (!datafromId) {
+  if (!data.hotelData) {
     setLoading(true);
   }
 
   useEffect(() => {
-    if (datafromId) {
+    if (data.hotelData) {
       setLoading(false);
     }
-  }, [datafromId]);
+  }, [data.hotelData]);
 
   return (
     <>
       <div className="d-flex">
-        <AdminSidebar/>
+        <AdminSidebar />
         {loading ? (
           <h1>Loading</h1>
         ) : (
@@ -179,11 +180,11 @@ const ViewBookings = () => {
                         <div className="d-flex justify-content-between my-1">
                           <i className="fas fa-users"></i>
                           <span>
-                            {data.persons
-                              ? `${data.persons.adults} Adults`
+                            {data.bookingData.persons
+                              ? `${data.bookingData.persons.adults} Adults`
                               : ""}
-                            {data.persons
-                              ? `,${data.persons.childrens} Child`
+                            {data.bookingData.persons
+                              ? `,${data.bookingData.persons.children} Child`
                               : ""}
                           </span>
                         </div>
@@ -294,7 +295,7 @@ const ViewBookings = () => {
                           <div className="col-md-9 col-lg-9 col-xl-9">
                             <h5>
                               {data.Booking_type === "hotel"
-                                ? datafromId.name
+                                ? data.hotelData.name
                                 : data.Booking_type === "hotelandparking"
                                 ? datafromId.hotel_name
                                 : data.Booking_type === "parking"
@@ -313,7 +314,7 @@ const ViewBookings = () => {
                                 name="hover-feedback"
                                 value={
                                   data.Booking_type === "hotel"
-                                    ? datafromId.rating
+                                    ? data.hotelData.rating
                                     : data.Booking_type === "parking"
                                     ? 5
                                     : data.Booking_type === "hotelandparking"
@@ -343,7 +344,7 @@ const ViewBookings = () => {
                                   {
                                     labels[
                                       data.Booking_type === "hotel"
-                                        ? datafromId.rating
+                                        ? data.hotelData.rating
                                         : data.Booking_type === "parking"
                                         ? 5
                                         : data.Booking_type ===
@@ -383,7 +384,7 @@ const ViewBookings = () => {
                             </div>
                             <p className="w-100">
                               {data.Booking_type === "hotel" &&
-                                datafromId.description}
+                                data.hotelData.description}
                               {data.Booking_type === "hotelandparking" &&
                                 datafromId.hotel_description}
                               {data.Booking_type === "parking" &&

@@ -353,7 +353,9 @@ const Navbar = ({ list }) => {
     };
     const response = await fetch(url, options);
     if (response.ok) {
-      dispatch({ type: "SET_LOGGEDIN_USER", payload: null });
+      localStorage.clear();
+      dispatch({ type: "SET_LOGGEDIN_USER", payload: {} });
+      dispatch({ type: "LOGIN", payload: false });
       navigate("/");
     }
   };
