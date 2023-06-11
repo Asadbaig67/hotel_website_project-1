@@ -6,11 +6,11 @@ const DashboardLoader = () => {
   return (
     <div>
       <AdminSidebar />
-      <div class={style.loader_dash}>
-        <div class={style.bar_dash}></div>
-        <div class={style.bar_dash}></div>
-        <div class={style.bar_dash}></div>
-        <div class={style.bar_dash}></div>
+      <div className={style.loader_dash}>
+        <div className={style.bar_dash}></div>
+        <div className={style.bar_dash}></div>
+        <div className={style.bar_dash}></div>
+        <div className={style.bar_dash}></div>
       </div>
     </div>
   );

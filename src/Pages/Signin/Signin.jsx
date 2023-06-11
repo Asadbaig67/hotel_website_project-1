@@ -147,7 +147,7 @@ const Signin = () => {
       const data = response.data;
       dispatch({ type: "SET_LOGGEDIN_USER", payload: data });
       dispatch({ type: "SETVIEWTYPE", payload: data.user.account_type });
-
+      dispatch({ type: "LOGIN", payload: true });
       if (response.status === 200) {
         if (redirectRoute === "dashboard") {
           Navigate("/dashboard");
@@ -163,9 +163,6 @@ const Signin = () => {
       setLoading(false);
     }
   };
-  
-  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
-  console.log(loggedinUser);
 
   return (
     <>

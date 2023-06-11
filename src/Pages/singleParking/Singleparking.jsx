@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Tooltip from "@mui/material/Tooltip";
 
-function ParkingPropertyDetails({ property }) {
+function ParkingPropertyDetails() {
   const { booked_property } = useSelector((state) => state.getBookedDetails);
   const { c } = useSelector((state) => state.searchVehicle);
 

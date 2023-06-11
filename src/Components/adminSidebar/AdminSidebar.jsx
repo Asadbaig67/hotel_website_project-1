@@ -177,6 +177,7 @@ export default function AdminSidebar() {
     navigate("/signin");
     localStorage.clear();
     dispatch({ type: "SET_LOGGEDIN_USER", payload: {} });
+    dispatch({ type: "LOGIN", payload: false });
   };
 
   const [anchorElMenu, setAnchorElMenu] = React.useState(null);
