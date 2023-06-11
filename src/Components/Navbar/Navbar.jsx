@@ -124,7 +124,7 @@ const Navbar = ({ list }) => {
   const [alertShow, setAlertShow] = useState(false);
   const [option, setOption] = useState(options);
   // get location of user
-  const { user } = useSelector((state) => state.user);
+  const { login } = useSelector((state) => state.setLogin);
 
   const handleOption = (name, operation) => {
     setOption((prev) => {
@@ -347,17 +347,10 @@ const Navbar = ({ list }) => {
   };
 
   const HandleLogout = async () => {
-    let url = "http://localhost:5000/user/userlogout";
-    let options = {
-      method: "GET",
-    };
-    const response = await fetch(url, options);
-    if (response.ok) {
-      localStorage.clear();
-      dispatch({ type: "SET_LOGGEDIN_USER", payload: {} });
-      dispatch({ type: "LOGIN", payload: false });
-      navigate("/");
-    }
+    localStorage.clear();
+    dispatch({ type: "SET_LOGGEDIN_USER", payload: {} });
+    dispatch({ type: "LOGIN", payload: false });
+    navigate("/");
   };
   // const HandleRedirectDashboard = () => {
   //   dispatch({ type: "SET_REDIRECT_ROUTE", payload: "dashboard" });
@@ -569,7 +562,7 @@ const Navbar = ({ list }) => {
                       />
                     </NavLink>
                   </li>
-                  {user ? (
+                  {login ? (
                     <>
                       {/* <li>
                         <NavLink to="/">
