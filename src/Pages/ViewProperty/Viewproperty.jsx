@@ -285,6 +285,7 @@ const Viewproperty = () => {
       type: "SET_HOTEL",
       payload: data,
     });
+    console.log(data);
     navigate("/roomform");
   };
 
@@ -293,7 +294,7 @@ const Viewproperty = () => {
       <div
         class="modal fade"
         id="exampleModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
@@ -698,7 +699,9 @@ const Viewproperty = () => {
                     All Rooms And Details
                   </h3>
                   {rooms.length < 3 ? (
-                    <button className="btn btn-primary" onClick={addRoom}>Add Room</button>
+                    <button className="btn btn-primary" onClick={addRoom}>
+                      Add Room
+                    </button>
                   ) : null}
                 </div>
                 <Box sx={{ height: 400, width: "100%" }}>
