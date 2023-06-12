@@ -212,6 +212,27 @@ const DataTable = ({ path, user }) => {
     setRatingOpen(false);
   };
 
+  const handleUpdate = (id) => {
+    if (
+      user.partner_type === "Hotel" ||
+      path === "hotels" ||
+      path === "hotelRequests"
+    )
+      navigate("/updatehotel", { state: { id: id } });
+    else if (
+      user.partner_type === "Parking" ||
+      path === "parkings" ||
+      path === "parkingRequests"
+    )
+      navigate("/updateparking", { state: { id: id } });
+    else if (
+      user.partner_type === "HotelAndParking" ||
+      path === "HotelsAndParkings" ||
+      path === "hotelAndParkingRequests"
+    )
+      navigate("/updatehotelandparking", { state: { id: id } });
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -226,6 +247,26 @@ const DataTable = ({ path, user }) => {
   const handleCloseRating = () => {
     setRatingOpen(false);
   };
+
+  const updateColumn = [
+    {
+      field: "update",
+      headerName: "",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <button
+            className="btn btn-info"
+            onClick={() => {
+              handleUpdate(params.row);
+            }}
+          >
+            Update
+          </button>
+        );
+      },
+    },
+  ];
 
   const deleteColumn = [
     {
@@ -351,11 +392,22 @@ const DataTable = ({ path, user }) => {
               path === "hotelRequests" ||
               path === "parkingRequests" ||
               path === "hotelAndParkingRequests"
-                ? header.concat(viewColumn, deleteColumn, approveColumn)
+                ? header.concat(
+                    updateColumn,
+                    viewColumn,
+                    deleteColumn,
+                    approveColumn
+                  )
                 : path === "upcominghotelbookings" ||
                   path === "upcomingparkingbookings" ||
                   path === "upcominghotelandparkingbookings"
                 ? header.concat(viewColumn, cancelBookingColumn)
+                : path === "hotels" ||
+                  path === "parkings" ||
+                  path === "HotelsAndParkings" ||
+                  path === "Property" ||
+                  path === "PropertyRequests"
+                ? header.concat(updateColumn, viewColumn, deleteColumn)
                 : header.concat(viewColumn, deleteColumn)
             }
             slots={{

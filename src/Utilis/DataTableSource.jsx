@@ -194,7 +194,12 @@ export const roomHeader = [
     width: 110,
     valueGetter: (params) => {
       let count = params.row.room_no.length;
-      if (params.row.room_no.unavailableDates === 0) count = count - 1;
+      console.log(params);
+      params.row.room_no.forEach((element) => {
+        element.unavailableDates.length === 0
+          ? (count = count - 1)
+          : (count = count);
+      });
       return count;
     },
   },

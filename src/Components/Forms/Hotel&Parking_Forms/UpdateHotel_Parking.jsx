@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import FormData from "form-data";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -13,8 +13,15 @@ import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import style from "../Hotel_Forms/addhotel.module.css";
 import AdminSidebar from "../../adminSidebar/AdminSidebar";
+import axios from "axios"
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const UpdateHotelAndParking = () => {
+  const dispatch = useDispatch();
+
+  const [value, setValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState("");
   //Alerts Code
   const [alertOn, setAlertOn] = useState(false);
   const [open, setOpen] = useState(true);
@@ -258,9 +265,20 @@ const UpdateHotelAndParking = () => {
     }
   };
 
-  console.log(formValues);
-  console.log("Hotel Images", hotelimages);
-  console.log("Parking Images", parkingimages);
+  const { hotelAndParkingOperatingCity } = useSelector(
+    (state) => state.hotelAndParkingOperatingCities
+  );
+
+  useEffect(() => {
+    const GetHotelAndParkingCities = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/OperatingProperty/getHotelAndParkingOperatingCity"
+      );
+      dispatch({ type: "SET_HOTEL_AND_PARKING_CITY", payload: response.data });
+      // console.log(response.data);
+    };
+    GetHotelAndParkingCities();
+  }, []);
 
   return (
     <>
@@ -509,14 +527,29 @@ const UpdateHotelAndParking = () => {
                   >
                     City
                   </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="state"
-                    value={formValues.hotel_city}
-                    name="hotel_city"
-                    required
-                    onChange={handleInputChange}
+                  <Autocomplete
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newValue,
+                      }));
+                    }}
+                    clearOnEscape
+                    inputValue={inputValue}
+                    onInputChange={(event, newInputValue) => {
+                      setInputValue(newInputValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newInputValue,
+                      }));
+                    }}
+                    id="controllable-states-demo"
+                    options={hotelAndParkingOperatingCity}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Controllable" />
+                    )}
                   />
                 </div>
                 <div className="col-md-12 mt-2">

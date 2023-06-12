@@ -18,7 +18,9 @@ const ParkingList = () => {
     <div style={{ overflowX: "hidden" }}>
       <Navbar list={false} />
       <div className="mt-3 row">
-        {parkingData.length === 0 ? (
+        {parkingData.message === "Parking Not Found" ? (
+          <h1 className="text-center text-danger">{parkingData.message}</h1>
+        ) : parkingData.length === 0 ? (
           <Loader />
         ) : (
           parkingData.map((item) => (

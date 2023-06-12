@@ -338,6 +338,11 @@ const Navbar = ({ list }) => {
             type: "SET_PARKING_DATA",
             payload: parkingList,
           });
+        } else {
+          dispatch({
+            type: "SET_PARKING_DATA",
+            payload: { message: "No Parking Found" },
+          });
         }
         // console.log(parkingList);
       } catch (error) {

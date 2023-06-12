@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormData from "form-data";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -13,8 +13,15 @@ import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import style from "./addhotel.module.css";
 import AdminSidebar from "../../adminSidebar/AdminSidebar";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const UpdateHotel = () => {
+  const dispatch = useDispatch();
+  const [value, setValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState("");
   //Alerts Code
   const [alertOn, setAlertOn] = useState(false);
   const [open, setOpen] = useState(true);
@@ -24,23 +31,14 @@ const UpdateHotel = () => {
   const IsMobile = useMediaQuery("(max-width:450px)");
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
 
-  const defaultFormValues = {
-    _id: "64308b2d8926b91b79d17f69",
-    Facilities: [],
-    name: "Luxury One Hotel",
-    title: "Hotel",
-    rating: 5,
-    description:
-      "Escape to The Mountain View Lodge, where you can enjoy breathtaking views of the surrounding mountains. Our rustic lodge offers cozy accommodations and a warm, inviting atmosphere. Whether you are here to ski, hike, or simply relax, The Mountain View Lodge is the perfect destination",
-    photos: [
-      "http://localhost:5000/uploads/HotelImages/hotelparking-bg.jpg",
-      "http://localhost:5000/uploads/HotelImages/hotelPic4.jpg",
-    ],
-    city: "Lahore",
-    country: "Pakistan",
-    address: "Gulberg",
-  };
+  const { hotelOperatingCity } = useSelector(
+    (state) => state.hotelOperatingCities
+  );
+  const location = useLocation();
+  const id = location.state.id;
 
+  const defaultFormValues = id;
+  console.log(defaultFormValues);
   const [formValues, setFormValues] = useState(defaultFormValues);
   // const [formValues, setFormValues] = useState({
   //   name: "",
@@ -248,10 +246,22 @@ const UpdateHotel = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const GetHotelCities = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/OperatingProperty/getHotelOperatingCity"
+      );
+      dispatch({ type: "SET_HOTEL_CITY", payload: response.data });
+      // console.log(response.data);
+    };
+    GetHotelCities();
+  }, []);
+
   return (
     <>
       <div className="d-flex">
-        <AdminSidebar/>
+        <AdminSidebar />
         <div className="mt-5">
           {alertOn && (
             <Collapse in={open}>
@@ -441,14 +451,29 @@ const UpdateHotel = () => {
                   >
                     City
                   </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="state"
-                    value={formValues.city}
-                    name="city"
-                    required
-                    onChange={handleInputChange}
+                  <Autocomplete
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newValue,
+                      }));
+                    }}
+                    clearOnEscape
+                    inputValue={inputValue}
+                    onInputChange={(event, newInputValue) => {
+                      setInputValue(newInputValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newInputValue,
+                      }));
+                    }}
+                    id="controllable-states-demo"
+                    options={hotelOperatingCity}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Controllable" />
+                    )}
                   />
                 </div>
               </div>
@@ -626,7 +651,7 @@ const UpdateHotel = () => {
                   // disabled={files.length < 3 || files.length > 7}
                   onClick={handleSubmit}
                 >
-                  Add Hotel
+                  Update Hotel
                 </button>
               </div>
             </form>

@@ -114,7 +114,7 @@ const Featured = () => {
             src="https://cf.bstatic.com/xdata/images/city/max500/957801.webp?k=a969e39bcd40cdcc21786ba92826063e3cb09bf307bcfeac2aa392b838e9b7a5&o="
             alt=""
             className={`${style.featuredImg} ${style.cursor}`}
-            onClick={() => HandleClick("Lahore")}
+            onClick={() => HandleClick("Islamabad")}
           />
           <div className={style.featuredTitles}>
             <h1 className={style.text_shadow}>Islamabad</h1>
