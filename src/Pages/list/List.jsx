@@ -449,35 +449,60 @@ const List = () => {
             {activePath === "hotelAndParking" &&
               hotelData.length === 0 &&
               featured_hotel.length === 0 && <Loader />}
-            {activePath === "hotel" && featured_hotel.length > 0 && (
-              <>
-                {featured_hotel.map((item) => (
-                  <Card item={item} activePath={activePath} key={item._id} />
-                ))}
-              </>
+            
+            {activePath === "hotel" &&
+            featured_hotel.message === "No Hotel Found" ? (
+              <h1 className="text-center text-danger">{featured_hotel.message}</h1>
+            ) : (
+              activePath === "hotel" &&
+              featured_hotel.length > 0 && (
+                <>
+                  {featured_hotel.map((item) => (
+                    <Card item={item} key={item._id} />
+                  ))}
+                </>
+              )
             )}
-            {activePath === "hotel" && hotelData.length > 0 && (
-              <>
-                {hotelData.map((item) => (
-                  <Card item={item} key={item._id} />
-                ))}
-              </>
+            {activePath === "hotel" &&
+            hotelData.message === "No Hotel Found" ? (
+              <h1 className="text-center text-danger">{hotelData.message}</h1>
+            ) : (
+              activePath === "hotel" &&
+              hotelData.length > 0 && (
+                <>
+                  {hotelData.map((item) => (
+                    <Card item={item} key={item._id} />
+                  ))}
+                </>
+              )
             )}
-            {activePath === "hotelAndParking" && featured_hotel.length > 0 && (
-              <>
-                {featured_hotel.map((item) => (
-                  <Card item={item} activePath={activePath} key={item._id} />
-                ))}
-              </>
+            {activePath === "hotelAndParking" &&
+            featured_hotel.message === "No Hotel Found" ? (
+              <h1 className="text-center text-danger">{featured_hotel.message}</h1>
+            ) : (
+              activePath === "hotelAndParking" &&
+              featured_hotel.length > 0 && (
+                <>
+                  {featured_hotel.map((item) => (
+                    <Card item={item} key={item._id} />
+                  ))}
+                </>
+              )
             )}
-            {activePath === "hotelAndParking" && hotelData.length > 0 && (
-              <>
-                {/* {dispatch({ type: "SET_FEATURED_DATA", payload: [] })} */}
-                {hotelData.map((item) => (
-                  <Card item={item} key={item._id} />
-                ))}
-              </>
+            {activePath === "hotelAndParking" &&
+            hotelData.message === "No hotels found" ? (
+              <h1 className="text-center text-danger">{hotelData.message}</h1>
+            ) : (
+              activePath === "hotelAndParking" &&
+              hotelData.length > 0 && (
+                <>
+                  {hotelData.map((item) => (
+                    <Card item={item} key={item._id} />
+                  ))}
+                </>
+              )
             )}
+            
           </div>
         </div>
       </div>

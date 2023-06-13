@@ -43,7 +43,7 @@ const ViewBookings = () => {
       // console.log("dataaaa", data);
       if (data.Booking_type === "hotel") {
         // console.log(data.hotelId);
-        url = `http://localhost:5000/hotels/gethotelbyid/${data.hotelData.hotelId}`;
+        url = `http://localhost:5000/hotels/gethotelbyid/${data.hotelData._id}`;
         const response = await axios.get(url);
         // console.log("res", response.data);
 
@@ -54,7 +54,7 @@ const ViewBookings = () => {
         // console.log("res", response.data);
         setDatafromId(response.data);
       } else {
-        url = `http://localhost:5000/parking/getParkingById/${data.parkingId}`;
+        url = `http://localhost:5000/parking/getParkingById/${data.parkingData._id}`;
         const response = await axios.get(url);
         // console.log("res", response.data);
         setDatafromId(response.data);
@@ -71,7 +71,12 @@ const ViewBookings = () => {
     ) {
       cardPicture = data.hotelData.photos[0];
     }
+  } else if (data.Booking_type === "parking") {
+    if (data.parkingData.photos && data.parkingData.photos.length !== 0) {
+      cardPicture = data.parkingData.photos[0];
+    }
   }
+
   // console.log(cardPicture);
 
   useEffect(() => {
@@ -131,18 +136,59 @@ const ViewBookings = () => {
     familyRoomsArray: familyRoomsArray,
   };
 
-
   const [loading, setLoading] = useState(true);
 
-  if (!data.hotelData) {
-    setLoading(true);
+  if (data.Booking_type === "hotel") {
+    if (!data.hotelData) {
+      setLoading(true);
+    }
+  } else if (data.Booking_type === "parking") {
+    if (!data.parkingData) {
+      setLoading(true);
+    }
   }
-
   useEffect(() => {
-    if (data.hotelData) {
+    if (data.parkingData) {
       setLoading(false);
     }
-  }, [data.hotelData]);
+  }, [data.parkingData]);
+
+  const showFacilities = (param) => {
+    return (
+      <>
+        <div className="mt-1 mb-0 text-muted" style={{ fontSize: "12px" }}>
+          {param.Facilities.length > 0 && (
+            <>
+              {param.Facilities.slice(3, 7).map((facility, index) => (
+                <React.Fragment key={index}>
+                  <span>{facility}</span>
+                  {index !== param.Facilities.slice(3, 7).length - 1 && (
+                    <span className="text-primary"> • </span>
+                  )}
+                </React.Fragment>
+              ))}
+            </>
+          )}
+          <br />
+        </div>
+        <div className="mb-1 text-muted small" style={{ fontSize: "12px" }}>
+          {param.Facilities.length > 0 && (
+            <>
+              {param.Facilities.slice(0, 3).map((facility, index) => (
+                <React.Fragment key={index}>
+                  <span>{facility}</span>
+                  {index !== param.Facilities.slice(0, 3).length - 1 && (
+                    <span className="text-primary"> • </span>
+                  )}
+                </React.Fragment>
+              ))}
+            </>
+          )}
+          <br />
+        </div>
+      </>
+    );
+  };
 
   return (
     <>
@@ -177,17 +223,20 @@ const ViewBookings = () => {
                           <i className="fas fa-moon"></i>
                           <span>{Nights ? `${Nights} Nights` : ""} </span>
                         </div>
-                        <div className="d-flex justify-content-between my-1">
-                          <i className="fas fa-users"></i>
-                          <span>
-                            {data.bookingData.persons
-                              ? `${data.bookingData.persons.adults} Adults`
-                              : ""}
-                            {data.bookingData.persons
-                              ? `,${data.bookingData.persons.children} Child`
-                              : ""}
-                          </span>
-                        </div>
+                        {data.Booking_type === "hotel" ||
+                        data.Booking_type === "hotelandparking" ? (
+                          <div className="d-flex justify-content-between my-1">
+                            <i className="fas fa-users"></i>
+                            <span>
+                              {data.bookingData.persons
+                                ? `${data.bookingData.persons.adults} Adults`
+                                : ""}
+                              {data.bookingData.persons
+                                ? `,${data.bookingData.persons.children} Child`
+                                : ""}
+                            </span>
+                          </div>
+                        ) : null}
                       </div>
                       <hr />
                       <div>
@@ -224,21 +273,25 @@ const ViewBookings = () => {
                             </div>
                           </>
                         )}
-                        {data.parking && (
+                        {data.parkingData && (
                           <>
                             <small className="fw-bold text-dark">
                               Parking Details:
                             </small>
-                            <div className="text-muted small d-flex flex-row justify-content-between">
-                              {data.parking.Total_slots > 0 && (
+                            <div className="text-muted flex-row justify-content-between">
+                              {data.bookingData.parking.Total_slots > 0 && (
                                 <>
-                                  <div className="d-flex">
+                                  <div className="d-flex justify-content-between">
                                     <h5>Total Slots</h5>
-                                    <span>{data.parking.Total_slots}</span>
+                                    <span>
+                                      {data.bookingData.parking.Total_slots}
+                                    </span>
                                   </div>
-                                  <div className="d-flex">
+                                  <div className="d-flex justify-content-between">
                                     <h5>Total Price</h5>
-                                    <span>{data.parking.Parking_price}</span>
+                                    <span>
+                                      {data.bookingData.parking.Parking_price}
+                                    </span>
                                   </div>
                                 </>
                               )}
@@ -299,7 +352,7 @@ const ViewBookings = () => {
                                 : data.Booking_type === "hotelandparking"
                                 ? datafromId.hotel_name
                                 : data.Booking_type === "parking"
-                                ? datafromId.name
+                                ? data.parkingData.name
                                 : null}
                             </h5>
                             <Box
@@ -316,7 +369,7 @@ const ViewBookings = () => {
                                   data.Booking_type === "hotel"
                                     ? data.hotelData.rating
                                     : data.Booking_type === "parking"
-                                    ? 5
+                                    ? data.parkingData.rating
                                     : data.Booking_type === "hotelandparking"
                                     ? datafromId.hotel_rating
                                     : 5
@@ -346,7 +399,7 @@ const ViewBookings = () => {
                                       data.Booking_type === "hotel"
                                         ? data.hotelData.rating
                                         : data.Booking_type === "parking"
-                                        ? 5
+                                        ? data.parkingData.rating
                                         : data.Booking_type ===
                                           "hotelandparking"
                                         ? datafromId.hotel_rating
@@ -356,37 +409,20 @@ const ViewBookings = () => {
                                 </Box>
                               }
                             </Box>
-                            <div
-                              className="mt-1 mb-0 text-muted"
-                              style={{ fontSize: "12px" }}
-                            >
-                              <span>{cardData.attr1}</span>
-                              <span className="text-primary"> • </span>
-                              <span>{cardData.attr2}</span>
-                              <span className="text-primary"> • </span>
-                              <span>
-                                {cardData.attr3}
-                                <br />
-                              </span>
-                            </div>
-                            <div
-                              className="mb-1 text-muted small"
-                              style={{ fontSize: "12px" }}
-                            >
-                              <span>{cardData.attr4}</span>
-                              <span className="text-primary"> • </span>
-                              <span>{cardData.attr5}</span>
-                              <span className="text-primary"> • </span>
-                              <span>
-                                {cardData.attr6}
-                                <br />
-                              </span>
-                            </div>
+
+                            {data.Booking_type === "hotel" ? (
+                              <>{showFacilities(data.hotelData)}</>
+                            ) : data.Booking_type === "parking" ? (
+                              <>{showFacilities(data.parkingData)}</>
+                            ) : (
+                              <>{showFacilities(data.hotelAndParkingData)}</>
+                            )}
+
                             <p className="w-100">
                               {data.Booking_type === "hotel" &&
                                 data.hotelData.description}
                               {data.Booking_type === "hotelandparking" &&
-                                datafromId.hotel_description}
+                                data.parkingData.description}
                               {data.Booking_type === "parking" &&
                                 datafromId.description}
                             </p>
@@ -468,43 +504,44 @@ const ViewBookings = () => {
                             Your Price Summary
                           </span>
                         </div>
-                        <div className="row">
-                          <div className="col-md-12">
-                            <h5>Room Booked</h5>
-                            {roomDetails.totalSingle > 0 ? (
-                              <div className="d-flex justify-content-between align-items-center">
-                                <span>Single Room</span>
-                                <span className="fw-bold">
-                                  {`${roomDetails.totalSingle}x Single Room${
-                                    roomDetails.totalSingle > 1 ? "s" : ""
-                                  }`}
-                                </span>
-                              </div>
-                            ) : null}{" "}
-                            {roomDetails.totalTwin > 0 ? (
-                              <div className="d-flex justify-content-between align-items-center ">
-                                <span>Twin Room</span>
-                                <span className="fw-bold">
-                                  {`${roomDetails.totalTwin}x Twin Room${
-                                    roomDetails.totalTwin > 1 ? "s" : ""
-                                  } `}
-                                </span>
-                              </div>
-                            ) : null}{" "}
-                            {roomDetails.totalFamily > 0 ? (
-                              <div className="d-flex justify-content-between align-items-center ">
-                                <span>Family Room</span>
-                                <span className="fw-bold">
-                                  {`${roomDetails.totalFamily}x Family Room${
-                                    roomDetails.totalFamily > 1 ? "s" : ""
-                                  }`}
-                                </span>
-                              </div>
-                            ) : null}{" "}
+                        {data.Booking_type === "hotel" ||
+                        data.Booking_type === "hotelandparking" ? (
+                          <div className="row">
+                            <div className="col-md-12">
+                              <h5>Room Booked</h5>
+                              {roomDetails.totalSingle > 0 ? (
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <span>Single Room</span>
+                                  <span className="fw-bold">
+                                    {`${roomDetails.totalSingle}x Single Room${
+                                      roomDetails.totalSingle > 1 ? "s" : ""
+                                    }`}
+                                  </span>
+                                </div>
+                              ) : null}{" "}
+                              {roomDetails.totalTwin > 0 ? (
+                                <div className="d-flex justify-content-between align-items-center ">
+                                  <span>Twin Room</span>
+                                  <span className="fw-bold">
+                                    {`${roomDetails.totalTwin}x Twin Room${
+                                      roomDetails.totalTwin > 1 ? "s" : ""
+                                    } `}
+                                  </span>
+                                </div>
+                              ) : null}{" "}
+                              {roomDetails.totalFamily > 0 ? (
+                                <div className="d-flex justify-content-between align-items-center ">
+                                  <span>Family Room</span>
+                                  <span className="fw-bold">
+                                    {`${roomDetails.totalFamily}x Family Room${
+                                      roomDetails.totalFamily > 1 ? "s" : ""
+                                    }`}
+                                  </span>
+                                </div>
+                              ) : null}{" "}
+                            </div>
                           </div>
-                        </div>
-                        <hr />
-                        {data.parking && (
+                        ) : (
                           <>
                             <div className="row mt-3">
                               <div className="col-md-12">
@@ -512,15 +549,19 @@ const ViewBookings = () => {
                                 <div className="d-flex justify-content-between align-items-center ">
                                   <span>Total Slots Booked</span>
                                   <span className="fw-bold">
-                                    {`${data.parking.Total_slots} Slot${
-                                      data.parking.Total_slots > 1 ? "s" : ""
+                                    {`${
+                                      data.bookingData.parking.Total_slots
+                                    } Slot${
+                                      data.bookingData.parking.Total_slots > 1
+                                        ? "s"
+                                        : ""
                                     }`}
                                   </span>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center ">
                                   <span>Parking price:</span>
                                   <span className="fw-bold">
-                                    {`${data.parking.Parking_price} PKR`}
+                                    {`${data.bookingData.parking.Parking_price} PKR`}
                                   </span>
                                 </div>
                               </div>
@@ -528,6 +569,31 @@ const ViewBookings = () => {
                             <hr />
                           </>
                         )}
+                        <hr />
+                        {/* {data.parkingData.parking && (
+                          <>
+                            <div className="row mt-3">
+                              <div className="col-md-12">
+                                <h5>Parking Details</h5>
+                                <div className="d-flex justify-content-between align-items-center ">
+                                  <span>Total Slots Booked</span>
+                                  <span className="fw-bold">
+                                    {`${data.parkingData.parking.Total_slots} Slot${
+                                      data.parkingData.Total_slots > 1 ? "s" : ""
+                                    }`}
+                                  </span>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center ">
+                                  <span>Parking price:</span>
+                                  <span className="fw-bold">
+                                    {`${data.parkingData.Parking_price} PKR`}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <hr />
+                          </>
+                        )} */}
 
                         {/* {additionalCharges && (
                       <div className="row mt-3">

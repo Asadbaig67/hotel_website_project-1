@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -11,6 +11,10 @@ import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const UpdateParking = () => {
+  const dispatch = useDispatch();
+  const [value, setValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState("");
+
   // confirm modal code
   const [Imgerror, setImgError] = useState(false);
 
@@ -247,6 +251,21 @@ const UpdateParking = () => {
       console.error(error);
     }
   };
+
+  const { parkingOperatingCity } = useSelector(
+    (state) => state.parkingOperatingCities
+  );
+
+  useEffect(() => {
+    const getParkingCities = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/OperatingProperty/getParkingOperatingCity"
+      );
+      dispatch({ type: "SET_PARKING_CITY", payload: response.data });
+      // console.log(response.data);
+    };
+    getParkingCities();
+  }, []);
 
   console.log("Form Values", formValues);
   console.log("Original State Array", parkingImages);
@@ -546,14 +565,31 @@ const UpdateParking = () => {
                   >
                     City
                   </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="state"
-                    value={formValues.city}
-                    name="city"
-                    required
-                    onChange={handleInputChange}
+                  <Autocomplete
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newValue,
+                      }));
+                      console.log(formValues.city);
+                    }}
+                    clearOnEscape
+                    inputValue={inputValue}
+                    onInputChange={(event, newInputValue) => {
+                      setInputValue(newInputValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newInputValue,
+                      }));
+                      console.log(formValues.city);
+                    }}
+                    id="controllable-states-demo"
+                    options={parkingOperatingCity}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Cities" />
+                    )}
                   />
                 </div>
               </div>

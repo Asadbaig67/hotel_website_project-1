@@ -11,9 +11,17 @@ import axios from "axios";
 import { useEffect } from "react";
 import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const AddParkingForm = () => {
   const [Imgerror, setImgError] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [value, setValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState("");
 
   // Confirm Modal
   const [emptyInput, setEmptyInput] = useState(false);
@@ -71,6 +79,7 @@ const AddParkingForm = () => {
       address: "",
     }));
     setParkingImages([]);
+    navigate("/dashboard");
   };
 
   //Alerts Code
@@ -200,23 +209,41 @@ const AddParkingForm = () => {
     };
 
     try {
-      const response = await fetch(url, options);
-      if (response.status === 200) {
-        setMessage("Parking Added Successfully!!");
-        setLoading(false);
-        setSuccess(true);
-      } else if (response.status === 422) {
-        setMessage("Parking Alreay Exists!!");
-        setSuccess(false);
-        setLoading(false);
-        setError(true);
+      const owner = await axios.get(
+        `http://localhost:5000/user/getuserbyid/${
+          loggedinUser.user.account_type === "admin"
+            ? FinalOwner.id
+            : loggedinUser.user._id
+        }`
+      );
+      if (
+        owner.data.user.account_type === "user" ||
+        (owner.data.user.account_type === "partner" &&
+          owner.data.user.partner_type === "HotelAndParking")
+      ) {
+        const response = await fetch(url, options);
+        if (response.status === 200) {
+          setMessage("Parking Added Successfully!!");
+          setLoading(false);
+          setSuccess(true);
+        } else if (response.status === 422) {
+          setMessage("Parking Alreay Exists!!");
+          setSuccess(false);
+          setLoading(false);
+          setError(true);
+        } else {
+          setMessage("Something Went Wrong!!");
+          setSuccess(false);
+          setLoading(false);
+          setError(true);
+        }
+        const data = await response.json();
       } else {
-        setMessage("Something Went Wrong!!");
+        setMessage("Invalid Owner!!");
         setSuccess(false);
         setLoading(false);
         setError(true);
       }
-      const data = await response.json();
     } catch (error) {
       console.error(error);
     }
@@ -241,6 +268,20 @@ const AddParkingForm = () => {
     if (loggedinUser.user.account_type === "admin") {
       GetOwners();
     }
+  }, []);
+  const { parkingOperatingCity } = useSelector(
+    (state) => state.parkingOperatingCities
+  );
+
+  useEffect(() => {
+    const getParkingCities = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/OperatingProperty/getParkingOperatingCity"
+      );
+      dispatch({ type: "SET_PARKING_CITY", payload: response.data });
+      // console.log(response.data);
+    };
+    getParkingCities();
   }, []);
 
   console.log(formValues.rating);
@@ -616,14 +657,31 @@ const AddParkingForm = () => {
                   >
                     City
                   </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="state"
-                    value={formValues.city}
-                    name="city"
-                    required
-                    onChange={handleInputChange}
+                  <Autocomplete
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newValue,
+                      }));
+                      console.log(formValues.city)
+                    }}
+                    clearOnEscape
+                    inputValue={inputValue}
+                    onInputChange={(event, newInputValue) => {
+                      setInputValue(newInputValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newInputValue,
+                      }));
+                      console.log(formValues.city)
+                    }}
+                    id="controllable-states-demo"
+                    options={parkingOperatingCity}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Cities" />
+                    )}
                   />
                 </div>
               </div>

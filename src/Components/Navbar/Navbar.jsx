@@ -125,7 +125,7 @@ const Navbar = ({ list }) => {
   const [alertShow, setAlertShow] = useState(false);
   const [option, setOption] = useState(options);
   // get location of user
-  const { user } = useSelector((state) => state.user);
+  const { login } = useSelector((state) => state.setLogin);
 
   const handleOption = (name, operation) => {
     setOption((prev) => {
@@ -338,6 +338,11 @@ const Navbar = ({ list }) => {
           dispatch({
             type: "SET_PARKING_DATA",
             payload: parkingList,
+          });
+        } else {
+          dispatch({
+            type: "SET_PARKING_DATA",
+            payload: { message: "No Parking Found" },
           });
         }
         // console.log(parkingList);

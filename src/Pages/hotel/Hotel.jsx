@@ -85,9 +85,20 @@ const Hotel = () => {
     let newSlideNumber;
 
     if (direction === "l") {
-      newSlideNumber = slideNumber === 0 ? 5 : slideNumber - 1;
+      newSlideNumber =
+        slideNumber === 0
+          ? selected_hotel.photos
+            ? selected_hotel.photos.length - 1
+            : selected_hotel.hotel_photos.length - 1
+          : slideNumber - 1;
     } else {
-      newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
+      newSlideNumber =
+        slideNumber ===
+        (selected_hotel.photos
+          ? selected_hotel.photos.length - 1
+          : selected_hotel.hotel_photos.length - 1)
+          ? 0
+          : slideNumber + 1;
     }
 
     setSlideNumber(newSlideNumber);
@@ -209,7 +220,11 @@ const Hotel = () => {
                   onClick={() => handleMove("l")}
                 />
                 <img
-                  src={data.photos[slideNumber]}
+                  src={
+                    selected_hotel.photos
+                      ? selected_hotel.photos[slideNumber]
+                      : selected_hotel.hotel_photos[slideNumber]
+                  }
                   style={{ objectFit: "cover" }}
                   alt=""
                   className="sliderImg"
@@ -279,8 +294,8 @@ const Hotel = () => {
               </div>
             </div>
             <div className="hotelImages">
-              {selected_hotel.hotel_photos
-                ? selected_hotel.hotel_photos.map((photo, i) => {
+              {selected_hotel.photos
+                ? selected_hotel.photos.map((photo, i) => {
                     return (
                       <>
                         <div className="hotelImgWrapper" key={photo}>
@@ -299,7 +314,7 @@ const Hotel = () => {
                       </>
                     );
                   })
-                : selected_hotel.photos.map((photo, i) => {
+                : selected_hotel.hotel_photos.photos.map((photo, i) => {
                     return (
                       <>
                         <div className="hotelImgWrapper" key={photo}>
