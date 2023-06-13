@@ -13,6 +13,8 @@ import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const AddParkingForm = () => {
+  const [Imgerror, setImgError] = useState(false);
+
   // Confirm Modal
   const [emptyInput, setEmptyInput] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -37,6 +39,13 @@ const AddParkingForm = () => {
       setEmptyInput(true);
     } else {
       setEmptyInput(false);
+    }
+    setImgError(false);
+    for (let i = 0; i < parkingImages.length; i++) {
+      if (parkingImages[i].error === true) {
+        setImgError(true);
+        return;
+      }
     }
   };
 
@@ -101,7 +110,11 @@ const AddParkingForm = () => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
     let blobImagesArray = selectedFilesArray.map((file) => {
-      return { file: file, blobUrl: URL.createObjectURL(file) };
+      if (file.size <= 1024 * 1024) {
+        return { file: file, blobURL: URL.createObjectURL(file) };
+      } else {
+        return { file: file, blobURL: URL.createObjectURL(file), error: true };
+      }
     });
     const dummyImages = [...parkingImages];
     for (let i = 0; i < blobImagesArray.length; i++) {
@@ -251,6 +264,47 @@ const AddParkingForm = () => {
               </h1>
             </div>
             <div class="modal-body">
+              <div className="row ">
+                {Imgerror && (
+                  <span className="text-danger d-block">
+                    Following images size is greater than 1MB.
+                  </span>
+                )}
+                {parkingImages &&
+                  parkingImages
+                    .filter((img) => img.error === true)
+                    .map((imageObj, index) => (
+                      <div key={imageObj.blobURL} className="col-md-4 col-sm-4">
+                        <div className={`${style.image_preview} mx-1 my-1`}>
+                          <img
+                            className={style.preview_image}
+                            src={imageObj.blobURL}
+                            alt="upload"
+                          />
+                          <div
+                            className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                          >
+                            <p
+                              className={`${style.image_number} text-light ms-1`}
+                            >
+                              {index + 1}
+                            </p>
+                            {/* <IconButton
+                              aria-label="delete"
+                              size="small"
+                              className={style.delete_button}
+                            >
+                              <DeleteIcon
+                                className="text-light me-1"
+                                fontSize="small"
+                                onClick={() => deleteHandler(imageObj)}
+                              />
+                            </IconButton> */}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+              </div>
               {parkingImages.length > 7 || parkingImages.length < 3 ? (
                 <span className="text-danger d-block">
                   Please select 3-7 images only!!
@@ -266,7 +320,8 @@ const AddParkingForm = () => {
                 ""
               )}
               {!(parkingImages.length > 7 || parkingImages.length < 3) &&
-                !emptyInput && (
+                !emptyInput &&
+                !Imgerror && (
                   <>
                     <span className="d-block">
                       {message === ""
@@ -293,7 +348,8 @@ const AddParkingForm = () => {
                   disabled={
                     parkingImages.length > 7 ||
                     parkingImages.length < 3 ||
-                    emptyInput
+                    emptyInput ||
+                    Imgerror
                   }
                   onClick={handleSubmit}
                 >
@@ -323,8 +379,8 @@ const AddParkingForm = () => {
       </div>
       <div className="d-flex" style={{ marginTop: "50px" }}>
         <AdminSidebar />
-        <div className="mt-5">
-          <div className={`container-fluid  ${IsMobile ? "" : "w-100"} `}>
+        <div className="mt-5" style={{ width: "100vw" }}>
+          <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Parking Form</h1>
             <form className="needs-validation mx-4">
               {loggedinUser.user.account_type === "admin" ? (
@@ -595,7 +651,7 @@ const AddParkingForm = () => {
                           >
                             <img
                               className={`${style.preview_image}`}
-                              src={imageObj.blobUrl}
+                              src={imageObj.blobURL}
                               alt="upload"
                             />
                             <div

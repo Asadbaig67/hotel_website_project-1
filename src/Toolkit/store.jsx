@@ -58,6 +58,7 @@ import { toggleSidebar } from "./reducer/toggleSidebar";
 import { dashboardCard } from "./reducer/setDashboardCard";
 import { SET_LOGIN } from "./reducer/isLogin";
 import { SetHotel } from "./reducer/setHotel";
+import { profileImageReducer } from "./reducer/profileImage";
 
 const persistConfig = {
   key: "root",
@@ -124,6 +125,7 @@ const reducer = combineReducers({
   dashboardCard: dashboardCard,
   setLogin: SET_LOGIN,
   setAddedHotel: SetHotel,
+  profileImage: profileImageReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

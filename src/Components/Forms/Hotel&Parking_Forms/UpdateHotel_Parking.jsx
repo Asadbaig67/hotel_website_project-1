@@ -6,22 +6,85 @@ import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import Stack from "@mui/material/Stack";
-import Collapse from "@mui/material/Collapse";
-import CloseIcon from "@mui/icons-material/Close";
 import style from "../Hotel_Forms/addhotel.module.css";
 import AdminSidebar from "../../adminSidebar/AdminSidebar";
+import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 
 const UpdateHotelAndParking = () => {
-  //Alerts Code
-  const [alertOn, setAlertOn] = useState(false);
-  const [open, setOpen] = useState(true);
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("info");
+  //Confirm Modal Code
+  const [emptyInput, setEmptyInput] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [Imgerror, setImgError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
 
-  const IsMobile = useMediaQuery("(max-width:450px)");
+  const handleClickOpen = () => {
+    if (
+      formValues.hotel_name === "" ||
+      formValues.hotel_title === "" ||
+      formValues.parking_name === "" ||
+      formValues.hotel_rating === "" ||
+      formValues.parking_title === "" ||
+      formValues.parking_total_slots === "" ||
+      formValues.parking_booked_slots === "" ||
+      formValues.hotel_description === "" ||
+      formValues.parking_description === "" ||
+      formValues.parking_price === "" ||
+      formValues.hotel_city === "" ||
+      formValues.hotel_country === "" ||
+      formValues.hotel_address === ""
+    ) {
+      console.log("Empty Input", formValues);
+      setEmptyInput(true);
+    } else {
+      setEmptyInput(false);
+    }
+    setImgError(false);
+    for (let index = 0; index < hotelimages.length; index++) {
+      const image = hotelimages[index];
+      if (image.error === true) {
+        setImgError(true);
+        return;
+      }
+    }
+    for (let index = 0; index < parkingimages.length; index++) {
+      const image = parkingimages[index];
+      if (image.error === true) {
+        setImgError(true);
+        return;
+      }
+    }
+  };
+
+  const handleConditions = () => {
+    setError(false);
+    setMessage("");
+  };
+  const handleSuccess = () => {
+    setSuccess(false);
+    setMessage("");
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      hotel_name: "",
+      hotel_title: "",
+      parking_name: "",
+      hotel_rating: 0,
+      parking_title: "",
+      parking_total_slots: 0,
+      parking_booked_slots: 0,
+      hotel_description: "",
+      parking_description: "",
+      parking_price: 0,
+      hotel_city: "",
+      hotel_country: "",
+      hotel_address: "",
+    }));
+    setHotelimages([]);
+    setParkingimages([]);
+  };
+
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
 
   const defaultFormValues = {
@@ -118,7 +181,11 @@ const UpdateHotelAndParking = () => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
     let ArrayObj = selectedFilesArray.map((file) => {
-      return { file: file, blobURL: URL.createObjectURL(file) };
+      if (file.size <= 1024 * 1024) {
+        return { file: file, blobURL: URL.createObjectURL(file) };
+      } else {
+        return { file: file, blobURL: URL.createObjectURL(file), error: true };
+      }
     });
     let dummyArray = [...hotelimages];
     ArrayObj.forEach((newImageObj) => {
@@ -130,7 +197,11 @@ const UpdateHotelAndParking = () => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
     let ArrayObj = selectedFilesArray.map((file) => {
-      return { file: file, blobURL: URL.createObjectURL(file) };
+      if (file.size <= 1024 * 1024) {
+        return { file: file, blobURL: URL.createObjectURL(file) };
+      } else {
+        return { file: file, blobURL: URL.createObjectURL(file), error: true };
+      }
     });
     let dummyArray = [...parkingimages];
     ArrayObj.forEach((newImagrObj) => {
@@ -140,30 +211,14 @@ const UpdateHotelAndParking = () => {
   };
 
   function deleteHandler(imageObj) {
-    // New Code
     setHotelimages((prevImages) => {
-      prevImages.filter((image) => image !== imageObj);
+      return prevImages.filter((image) => image !== imageObj);
     });
-    // New Code
-
-    // setSelectedImages(selectedImages.filter((e) => e !== imageObj));
-    // URL.revokeObjectURL(image);
-    // const newImages = [...hotelimages];
-    // newImages.splice(image, 1);
-    // setHotelimages(newImages);
   }
   function deleteParkingHandler(imageObj) {
-    // New Code
     setParkingimages((prevImages) => {
-      prevImages.filter((image) => image !== imageObj);
+      return prevImages.filter((image) => image !== imageObj);
     });
-    // New Code
-
-    // setParkingImages(parkingImages.filter((e) => e !== image));
-    // URL.revokeObjectURL(image);
-    // const newImages = [...parkingimages];
-    // newImages.splice(image, 1);
-    // setParkingimages(newImages);
   }
 
   // Add Features Code
@@ -200,6 +255,8 @@ const UpdateHotelAndParking = () => {
   // Add Features Code
 
   const handleSubmit = async (event) => {
+    setLoading(true);
+    setMessage("");
     event.preventDefault();
     const formData = new FormData();
     // formData.append("ownerId", loggedinUser.user._id);
@@ -237,19 +294,19 @@ const UpdateHotelAndParking = () => {
     try {
       const response = await fetch(url, options);
       if (response.status === 200) {
-        setAlertOn(true);
-        setAlertType("success");
-        setAlertMessage("Hotel And Parking Added Successfully");
-        setTimeout(() => {
-          setOpen(false);
-        }, 7000);
+        setMessage("Hotel And Parking Added Successfully!!");
+        setLoading(false);
+        setSuccess(true);
+      } else if (response.status === 422) {
+        setMessage("Hotel And Parking Alreay Exists!!");
+        setSuccess(false);
+        setLoading(false);
+        setError(true);
       } else {
-        setAlertOn(true);
-        setAlertType("error");
-        setAlertMessage("Something went wrong");
-        setTimeout(() => {
-          setOpen(false);
-        }, 7000);
+        setMessage("Something Went Wrong!!");
+        setSuccess(false);
+        setLoading(false);
+        setError(true);
       }
       const data = await response.json();
       console.log(data);
@@ -264,44 +321,162 @@ const UpdateHotelAndParking = () => {
 
   return (
     <>
-      <div className="d-flex">
-        <AdminSidebar />
-        <div className="mt-5">
-          {alertOn && (
-            <Collapse in={open}>
-              <Stack sx={{ width: "100%" }} spacing={1}>
-                <Alert
-                  sx={{
-                    borderRadius: "9999px", // make the alert appear as a pill shape
-                    transition: "transform 0.3s ease-in-out", // add a transition effect
-                    transform: open ? "scale(1)" : "scale(0.7)", // scale the alert based on the open state
-                    mt: 2,
-                    mb: 2,
-                    ml: 2,
-                    mr: 2,
-                  }}
-                  severity={alertType}
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setOpen(false);
-                      }}
-                      sx={{ mt: 1.5 }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Confirm Update Hotel And Parking
+              </h1>
+            </div>
+            <div class="modal-body">
+              <div className="row ">
+                {Imgerror && (
+                  <span className="text-danger d-block">
+                    Following images size is greater than 1MB.
+                  </span>
+                )}
+                {hotelimages &&
+                  hotelimages
+                    .filter((img) => img.error === true)
+                    .map((imageObj, index) => (
+                      <div key={imageObj.blobURL} className="col-md-4 col-sm-4">
+                        <div className={`${style.image_preview} mx-1 my-1`}>
+                          <img
+                            className={style.preview_image}
+                            src={imageObj.blobURL}
+                            alt="upload"
+                          />
+                          <div
+                            className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                          >
+                            <p
+                              className={`${style.image_number} text-light ms-1`}
+                            >
+                              {index + 1}
+                            </p>
+                            {/* <IconButton
+                              aria-label="delete"
+                              size="small"
+                              className={style.delete_button}
+                            >
+                              <DeleteIcon
+                                className="text-light me-1"
+                                fontSize="small"
+                                onClick={() => deleteHandler(imageObj)}
+                              />
+                            </IconButton> */}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                {parkingimages &&
+                  parkingimages
+                    .filter((img) => img.error === true)
+                    .map((imageObj, index) => (
+                      <div key={imageObj.blobURL} className="col-md-4 col-sm-4">
+                        <div className={`${style.image_preview} mx-1 my-1`}>
+                          <img
+                            className={style.preview_image}
+                            src={imageObj.blobURL}
+                            alt="upload"
+                          />
+                          <div
+                            className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                          >
+                            <p
+                              className={`${style.image_number} text-light ms-1`}
+                            >
+                              {index + 1}
+                            </p>
+                            {/* <IconButton
+                              aria-label="delete"
+                              size="small"
+                              className={style.delete_button}
+                            >
+                              <DeleteIcon
+                                className="text-light me-1"
+                                fontSize="small"
+                                onClick={() => deleteHandler(imageObj)}
+                              />
+                            </IconButton> */}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+              </div>
+              {emptyInput ? (
+                <span className="text-danger d-block">
+                  Please fill all the fields!!
+                </span>
+              ) : (
+                ""
+              )}
+              {!emptyInput && !Imgerror && (
+                <>
+                  <span className="d-block">
+                    {message === ""
+                      ? "Are you sure you want to update this hotel?"
+                      : message}
+                  </span>
+                </>
+              )}
+            </div>
+            <div class="modal-footer">
+              {!success && (
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onClick={handleConditions}
+                  data-bs-dismiss="modal"
                 >
-                  <AlertTitle>Add Hotel</AlertTitle>
-                  <strong>{alertMessage}!</strong>
-                </Alert>
-              </Stack>
-            </Collapse>
-          )}
-          <div className={`container  ${IsMobile ? "" : "w-50"} `}>
+                  Cancel
+                </button>
+              )}
+              {!loading && !success && !error && (
+                <Button
+                  variant="contained"
+                  disabled={emptyInput || Imgerror}
+                  onClick={handleSubmit}
+                >
+                  Confirm Update
+                </Button>
+              )}
+              {loading ? (
+                <>
+                  <CircularProgress />
+                </>
+              ) : (
+                ""
+              )}
+              {success && (
+                <>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    data-bs-dismiss="modal"
+                    onClick={handleSuccess}
+                  >
+                    Finish
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="d-flex" style={{ marginTop: "50px" }}>
+        <AdminSidebar />
+        <div className="mt-5" style={{ width: "100vw" }}>
+          <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Update Hotel And Parking</h1>
             <form className="needs-validation mx-4">
               <div className="row mt-2">
@@ -469,7 +644,7 @@ const UpdateHotelAndParking = () => {
                       mode === "light" ? "dark" : "light"
                     }`}
                   >
-                    Parking parking_price
+                    Parking Price
                   </label>
                   <input
                     type="number"
@@ -821,7 +996,7 @@ const UpdateHotelAndParking = () => {
                 </div>
               </div>
               <div className="mt-5 text-center">
-                <button
+                {/* <button
                   className="btn btn-primary btn-lg profile-button mb-4"
                   type="submit"
                   // disabled={
@@ -833,6 +1008,15 @@ const UpdateHotelAndParking = () => {
                   onClick={handleSubmit}
                 >
                   Add Hotel And Parking
+                </button> */}
+                <button
+                  type="button"
+                  class="btn btn-primary btn-lg profile-button mb-4"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                  onClick={handleClickOpen}
+                >
+                  Update Hotel And Parking
                 </button>
               </div>
             </form>

@@ -279,25 +279,45 @@ const Hotel = () => {
               </div>
             </div>
             <div className="hotelImages">
-              {selected_hotel.photos.map((photo, i) => {
-                return (
-                  <>
-                    <div className="hotelImgWrapper" key={photo}>
-                      <img
-                        onClick={() => {
-                          if (!isXtraSmallScreen) {
-                            window.scrollTo(20, 20);
-                            handleOpen(i);
-                          }
-                        }}
-                        src={photo}
-                        alt="hotel_img"
-                        className="hotelImg"
-                      />
-                    </div>
-                  </>
-                );
-              })}
+              {selected_hotel.hotel_photos
+                ? selected_hotel.hotel_photos.map((photo, i) => {
+                    return (
+                      <>
+                        <div className="hotelImgWrapper" key={photo}>
+                          <img
+                            onClick={() => {
+                              if (!isXtraSmallScreen) {
+                                window.scrollTo(20, 20);
+                                handleOpen(i);
+                              }
+                            }}
+                            src={photo}
+                            alt="hotel_img"
+                            className="hotelImg"
+                          />
+                        </div>
+                      </>
+                    );
+                  })
+                : selected_hotel.photos.map((photo, i) => {
+                    return (
+                      <>
+                        <div className="hotelImgWrapper" key={photo}>
+                          <img
+                            onClick={() => {
+                              if (!isXtraSmallScreen) {
+                                window.scrollTo(20, 20);
+                                handleOpen(i);
+                              }
+                            }}
+                            src={photo}
+                            alt="hotel_img"
+                            className="hotelImg"
+                          />
+                        </div>
+                      </>
+                    );
+                  })}
             </div>
             {/* <div className="d-flex flex-wrap justify-content-start align-items-center">
               {data.facilities.map((item, i) => {

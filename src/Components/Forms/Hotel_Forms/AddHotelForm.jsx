@@ -24,6 +24,7 @@ const AddHotelForm = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [Imgerror, setImgError] = useState(false);
   const [message, setMessage] = useState("");
   const [Owner, setOwner] = useState([]);
   const [FinalOwner, setFinalOwner] = useState({});
@@ -45,6 +46,15 @@ const AddHotelForm = () => {
       setEmptyInput(true);
     } else {
       setEmptyInput(false);
+    }
+
+    setImgError(false);
+    for (let index = 0; index < selectedImages.length; index++) {
+      const image = selectedImages[index];
+      if (image.error === true) {
+        setImgError(true);
+        return;
+      }
     }
   };
 
@@ -89,12 +99,18 @@ const AddHotelForm = () => {
   };
 
   const [selectedImages, setSelectedImages] = useState([]);
+  const [largerImage, setLargerImage] = useState([]);
 
   const onSelectFile = (event) => {
     const selectedFiles = event.target.files;
-    const selectedFilesArray = Array.from(selectedFiles);
+    let selectedFilesArray = Array.from(selectedFiles);
+
     let imagesArrayObj = selectedFilesArray.map((file) => {
-      return { file: file, bolbURL: URL.createObjectURL(file) };
+      if (file.size <= 1024 * 1024) {
+        return { file: file, blobURL: URL.createObjectURL(file) };
+      } else {
+        return { file: file, blobURL: URL.createObjectURL(file), error: true };
+      }
     });
     let dummyArray = [...selectedImages];
     imagesArrayObj.forEach((newImage) => {
@@ -248,6 +264,8 @@ const AddHotelForm = () => {
     }
   }, []);
 
+  console.log("Images", selectedImages);
+
   return (
     <>
       <div
@@ -273,6 +291,93 @@ const AddHotelForm = () => {
                 ></button> */}
             </div>
             <div class="modal-body">
+              <div className="row ">
+                {Imgerror && (
+                  <span className="text-danger d-block">
+                    Following images size is greater than 1MB.
+                  </span>
+                )}
+                {selectedImages &&
+                  selectedImages
+                    .filter((img) => img.error === true)
+                    .map((imageObj, index) => (
+                      <div key={imageObj.blobURL} className="col-md-4 col-sm-4">
+                        <div className={`${style.image_preview} mx-1 my-1`}>
+                          <img
+                            className={style.preview_image}
+                            src={imageObj.blobURL}
+                            alt="upload"
+                          />
+                          <div
+                            className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                          >
+                            <p
+                              className={`${style.image_number} text-light ms-1`}
+                            >
+                              {index + 1}
+                            </p>
+                            <IconButton
+                              aria-label="delete"
+                              size="small"
+                              className={style.delete_button}
+                            >
+                              <DeleteIcon
+                                className="text-light me-1"
+                                fontSize="small"
+                                onClick={() => deleteHandler(imageObj)}
+                              />
+                            </IconButton>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+              </div>
+              {/* <div className="row">
+                <div className="col-3">
+                  {selectedImages &&
+                    selectedImages
+                      .filter((img) => img.error === true)
+                      .map((imageObj, index) => {
+                        return (
+                          <>
+                            <small className="text-danger">
+                              Following images size is greater than 1MB
+                            </small>
+                            <div
+                              key={imageObj.blobURL}
+                              className={`${style.image_preview} mx-1 my-1`}
+                            >
+                              <img
+                                className={style.preview_image}
+                                src={imageObj.blobURL}
+                                alt="upload"
+                              />
+                              <div
+                                className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                              >
+                                <p
+                                  className={`${style.image_number} text-light ms-1`}
+                                >
+                                  {index + 1}
+                                </p>
+                                <IconButton
+                                  aria-label="delete"
+                                  size="small"
+                                  className={style.delete_button}
+                                >
+                                  <DeleteIcon
+                                    className="text-light me-1"
+                                    fontSize="small"
+                                    onClick={() => deleteHandler(imageObj)}
+                                  />
+                                </IconButton>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })}
+                </div>
+              </div> */}
               {selectedImages.length < 3 || selectedImages.length > 7 ? (
                 <span className="text-danger d-block">
                   Please select 3-7 images only!!
@@ -288,7 +393,8 @@ const AddHotelForm = () => {
                 ""
               )}
               {!(selectedImages.length < 3 || selectedImages.length > 7) &&
-                !emptyInput && (
+                !emptyInput &&
+                !Imgerror && (
                   <>
                     <span className="d-block">
                       {message === ""
@@ -327,7 +433,8 @@ const AddHotelForm = () => {
                   disabled={
                     selectedImages.length < 3 ||
                     selectedImages.length > 7 ||
-                    emptyInput
+                    emptyInput ||
+                    Imgerror
                   }
                   onClick={handleSubmit}
                 >
@@ -584,12 +691,12 @@ const AddHotelForm = () => {
                       selectedImages.map((imageObj, index) => {
                         return (
                           <div
-                            key={imageObj.bolbURL}
+                            key={imageObj.blobURL}
                             className={`${style.image_preview} mx-1 my-1`}
                           >
                             <img
                               className={style.preview_image}
-                              src={imageObj.bolbURL}
+                              src={imageObj.blobURL}
                               alt="upload"
                             />
                             <div

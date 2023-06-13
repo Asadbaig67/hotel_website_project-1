@@ -21,6 +21,12 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Googlelogo from "../Signin/googlelogo.png";
 import { useDispatch } from "react-redux";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 function Copyright(props) {
   return (
@@ -39,6 +45,18 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const [alertmessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("success");
+  const [AlertTitle, setAlertTitle] = useState("Info");
+
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -97,15 +115,36 @@ export default function SignUp() {
         c_password,
       }),
     });
-    const data = await response.json();
-    if (data) {
+    if (response.status === 200) {
+      setOpen(true);
       setAlertOn(true);
+      // setAlertTitle("Info");
+      setAlertMessage("A verification email is sent to email " + email);
+      setAlertType("success");
+      setEmail("");
+      setPassword("");
+      setFirstName("");
+      setLastName("");
+      setCpassword("");
+    } else if (response.status === 422) {
+      setOpen(true);
+      setAlertOn(true);
+      // setAlertTitle("Error");
+      setAlertMessage("Email already exist!");
+      setAlertType("error");
+    } else {
+      setOpen(true);
+      setAlertOn(true);
+      // setAlertTitle("Error");
+      setAlertMessage("Something went wrong!");
+      setAlertType("error");
     }
-    console.log(data);
+    const data = await response.json();
     // dispatch({ type: "SET_LOGGEDIN_USER", payload: data });
   };
 
   // console.log(email, password, firstName, lastName);
+  console.log(password, c_password);
 
   return (
     <>
@@ -113,7 +152,7 @@ export default function SignUp() {
         <Collapse in={open}>
           <Stack sx={{ width: "100%" }} spacing={1}>
             <Alert
-              severity="info"
+              severity={alertType}
               action={
                 <IconButton
                   aria-label="close"
@@ -127,12 +166,8 @@ export default function SignUp() {
                 </IconButton>
               }
             >
-              <AlertTitle>Info</AlertTitle>
-              This is an info alert —{" "}
-              <strong>
-                A verification email is sent to email <i>'{email}'</i> please
-                verify!
-              </strong>
+              {/* <AlertTitle>{AlertTitle}</AlertTitle> */}
+              This is an {alertType} alert — <strong>{alertmessage}</strong>
             </Alert>
           </Stack>
         </Collapse>
@@ -203,7 +238,64 @@ export default function SignUp() {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                  <FormControl sx={{ width: "100%" }} variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      label="Password"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                      // value={password}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            // onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                  <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Confirm Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={showConfirmPassword ? "text" : "password"}
+                      name="cpassword"
+                      label="Confirm Password"
+                      onChange={(e) => {
+                        setCpassword(e.target.value);
+                      }}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowConfirmPassword}
+                            // onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showConfirmPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                  {/* <TextField
                     required
                     fullWidth
                     name="password"
@@ -227,7 +319,7 @@ export default function SignUp() {
                     type="password"
                     id="password"
                     autoComplete="new-password"
-                  />
+                  /> */}
                 </Grid>
                 {/* <Grid item xs={12}>
                 <FormControlLabel

@@ -141,7 +141,7 @@ const AddRoomForm = () => {
               </Stack>
             </Collapse>
           )}
-          <div className={`container  ${IsMobile ? "" : "w-50"} `}>
+          <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Room Form</h1>
             <form className="needs-validation mx-4">
               <div className="row mt-2">

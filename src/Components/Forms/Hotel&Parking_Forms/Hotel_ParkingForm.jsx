@@ -18,6 +18,8 @@ const AddHotelParkingForm = () => {
   //Confirm Modal Code
   const [emptyInput, setEmptyInput] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [Imgerror, setImgError] = useState(false);
+
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
@@ -43,6 +45,20 @@ const AddHotelParkingForm = () => {
     } else {
       setEmptyInput(false);
     }
+    hotelimages.forEach((imageObj) => {
+      if (imageObj.error === true) {
+        setImgError(true);
+        return;
+      }
+      setImgError(false);
+    });
+    parkingimages.forEach((imageObj) => {
+      if (imageObj.error === true) {
+        setImgError(true);
+        return;
+      }
+      setImgError(false);
+    });
   };
 
   const handleConditions = () => {
@@ -114,7 +130,11 @@ const AddHotelParkingForm = () => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
     let ArrayObj = selectedFilesArray.map((file) => {
-      return { file: file, blobURL: URL.createObjectURL(file) };
+      if (file.size <= 1024 * 1024) {
+        return { file: file, blobURL: URL.createObjectURL(file) };
+      } else {
+        return { file: file, blobURL: URL.createObjectURL(file), error: true };
+      }
     });
     let dummyArray = [...hotelimages];
     ArrayObj.forEach((newImageObj) => {
@@ -126,7 +146,11 @@ const AddHotelParkingForm = () => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
     let ArrayObj = selectedFilesArray.map((file) => {
-      return { file: file, blobURL: URL.createObjectURL(file) };
+      if (file.size <= 1024 * 1024) {
+        return { file: file, blobURL: URL.createObjectURL(file) };
+      } else {
+        return { file: file, blobURL: URL.createObjectURL(file), error: true };
+      }
     });
     let dummyArray = [...parkingimages];
     ArrayObj.forEach((newImagrObj) => {
@@ -292,6 +316,81 @@ const AddHotelParkingForm = () => {
               </h1>
             </div>
             <div class="modal-body">
+              <div className="row ">
+                {Imgerror && (
+                  <span className="text-danger d-block">
+                    Following images size is greater than 1MB.
+                  </span>
+                )}
+                {hotelimages &&
+                  hotelimages
+                    .filter((img) => img.error === true)
+                    .map((imageObj, index) => (
+                      <div key={imageObj.blobURL} className="col-md-4 col-sm-4">
+                        <div className={`${style.image_preview} mx-1 my-1`}>
+                          <img
+                            className={style.preview_image}
+                            src={imageObj.blobURL}
+                            alt="upload"
+                          />
+                          <div
+                            className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                          >
+                            <p
+                              className={`${style.image_number} text-light ms-1`}
+                            >
+                              {index + 1}
+                            </p>
+                            {/* <IconButton
+                              aria-label="delete"
+                              size="small"
+                              className={style.delete_button}
+                            >
+                              <DeleteIcon
+                                className="text-light me-1"
+                                fontSize="small"
+                                onClick={() => deleteHandler(imageObj)}
+                              />
+                            </IconButton> */}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                {parkingimages &&
+                  parkingimages
+                    .filter((img) => img.error === true)
+                    .map((imageObj, index) => (
+                      <div key={imageObj.blobURL} className="col-md-4 col-sm-4">
+                        <div className={`${style.image_preview} mx-1 my-1`}>
+                          <img
+                            className={style.preview_image}
+                            src={imageObj.blobURL}
+                            alt="upload"
+                          />
+                          <div
+                            className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                          >
+                            <p
+                              className={`${style.image_number} text-light ms-1`}
+                            >
+                              {index + 1}
+                            </p>
+                            {/* <IconButton
+                              aria-label="delete"
+                              size="small"
+                              className={style.delete_button}
+                            >
+                              <DeleteIcon
+                                className="text-light me-1"
+                                fontSize="small"
+                                onClick={() => deleteHandler(imageObj)}
+                              />
+                            </IconButton> */}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+              </div>
               {hotelimages.length < 3 ||
               hotelimages.length > 7 ||
               parkingimages.length < 3 ||
@@ -315,7 +414,8 @@ const AddHotelParkingForm = () => {
                 parkingimages.length < 3 ||
                 parkingimages.length > 7
               ) &&
-                !emptyInput && (
+                !emptyInput &&
+                !Imgerror && (
                   <>
                     <span className="d-block">
                       {message === ""
@@ -344,7 +444,8 @@ const AddHotelParkingForm = () => {
                     hotelimages.length > 7 ||
                     parkingimages.length < 3 ||
                     parkingimages.length > 7 ||
-                    emptyInput
+                    emptyInput ||
+                    Imgerror
                   }
                   onClick={handleSubmit}
                 >
@@ -386,8 +487,8 @@ const AddHotelParkingForm = () => {
       </div>
       <div className="d-flex" style={{ marginTop: "50px" }}>
         <AdminSidebar />
-        <div className="mt-5">
-          <div className={`container-fluid  ${IsMobile ? "" : "w-100"} `}>
+        <div className="mt-5" style={{ width: "100vw" }}>
+          <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Hotel And Parking Form</h1>
             <form className="needs-validation mx-4">
               {loggedinUser.user.account_type === "admin" ? (
