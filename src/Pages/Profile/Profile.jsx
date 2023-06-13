@@ -29,7 +29,7 @@ export default function Profile() {
     <>
       <div className="d-flex">
         <AdminSidebar />
-        <div className="mt-5">
+        <div className="container-fluid mt-5">
           <div
             className={`rounded ${mode === "dark" ? "bg-dark" : style.bg}`}
           ></div>
@@ -44,7 +44,7 @@ export default function Profile() {
                 </h1>
               </div> */}
             <div
-              className="col-md-12 p-3 bg-info d-flex "
+              className="col-md-12 p-3 d-flex "
               // style={{ marginLeft: "10px" }}
             >
               <h1

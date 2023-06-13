@@ -25,6 +25,7 @@ const AddHotelForm = () => {
   const [inputValue, setInputValue] = React.useState("");
 
   //Alerts Code
+  const [open, setOpen] = useState(false);
   const [emptyInput, setEmptyInput] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -42,6 +43,7 @@ const AddHotelForm = () => {
   );
 
   const handleClickOpen = () => {
+    setOpen(true);
     if (
       formValues.name === "" ||
       formValues.title === "" ||
@@ -68,6 +70,7 @@ const AddHotelForm = () => {
   };
 
   const handleConditions = () => {
+    setOpen(false);
     setError(false);
     setMessage("");
   };
@@ -84,6 +87,7 @@ const AddHotelForm = () => {
   });
 
   const handleSuccess = () => {
+    setOpen(false);
     setSuccess(false);
     setMessage("");
     setFormValues((prevValues) => ({
@@ -316,7 +320,7 @@ const AddHotelForm = () => {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="staticBackdropLabel">
@@ -523,7 +527,7 @@ const AddHotelForm = () => {
         </div>
       </div>
       <div className="d-flex" style={{ marginTop: "50px" }}>
-        <AdminSidebar />
+        {!open && <AdminSidebar />}
         <div className="mt-5" style={{ width: "100vw" }}>
           <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Hotel Form</h1>

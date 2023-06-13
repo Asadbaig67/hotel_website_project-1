@@ -24,6 +24,7 @@ const AddParkingForm = () => {
   const [inputValue, setInputValue] = React.useState("");
 
   // Confirm Modal
+  const [open, setOpen] = useState(false);
   const [emptyInput, setEmptyInput] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -31,6 +32,7 @@ const AddParkingForm = () => {
   const [message, setMessage] = useState("");
 
   const handleClickOpen = () => {
+    setOpen(true);
     if (
       formValues.name === "" ||
       formValues.title === "" ||
@@ -58,10 +60,12 @@ const AddParkingForm = () => {
   };
 
   const handleConditions = () => {
+    setOpen(false);
     setError(false);
     setMessage("");
   };
   const handleSuccess = () => {
+    setOpen(false);
     setSuccess(false);
     setMessage("");
     setFormValues((prevValues) => ({
@@ -297,7 +301,7 @@ const AddParkingForm = () => {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="staticBackdropLabel">
@@ -419,7 +423,7 @@ const AddParkingForm = () => {
         </div>
       </div>
       <div className="d-flex" style={{ marginTop: "50px" }}>
-        <AdminSidebar />
+        {!open && <AdminSidebar />}
         <div className="mt-5" style={{ width: "100vw" }}>
           <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Parking Form</h1>
@@ -665,7 +669,7 @@ const AddParkingForm = () => {
                         ...prevValues,
                         city: newValue,
                       }));
-                      console.log(formValues.city)
+                      console.log(formValues.city);
                     }}
                     clearOnEscape
                     inputValue={inputValue}
@@ -675,7 +679,7 @@ const AddParkingForm = () => {
                         ...prevValues,
                         city: newInputValue,
                       }));
-                      console.log(formValues.city)
+                      console.log(formValues.city);
                     }}
                     id="controllable-states-demo"
                     options={parkingOperatingCity}

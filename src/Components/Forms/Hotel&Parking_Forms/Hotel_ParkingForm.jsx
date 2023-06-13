@@ -24,6 +24,7 @@ const AddHotelParkingForm = () => {
   const [inputValue, setInputValue] = React.useState("");
 
   //Confirm Modal Code
+  const [open, setOpen] = React.useState(false);
   const [emptyInput, setEmptyInput] = useState(false);
   const [loading, setLoading] = useState(false);
   const [Imgerror, setImgError] = useState(false);
@@ -36,6 +37,7 @@ const AddHotelParkingForm = () => {
   );
 
   const handleClickOpen = () => {
+    setOpen(true);
     if (
       formValues.hotel_name === "" ||
       formValues.hotel_title === "" ||
@@ -73,10 +75,12 @@ const AddHotelParkingForm = () => {
   };
 
   const handleConditions = () => {
+    setOpen(false);
     setError(false);
     setMessage("");
   };
   const handleSuccess = () => {
+    setOpen(false);
     setSuccess(false);
     setMessage("");
     setFormValues((prevValues) => ({
@@ -291,18 +295,17 @@ const AddHotelParkingForm = () => {
           setError(true);
         }
         const data = await response.json();
+        const hotel = data.hotel;
+        dispatch({
+          type: "SET_HOTEL",
+          payload: hotel,
+        });
       } else {
         setMessage("Invalid Owner!!");
         setSuccess(false);
         setLoading(false);
         setError(true);
       }
-      const data = await response.json();
-      const hotel = data.hotel;
-      dispatch({
-        type: "SET_HOTEL",
-        payload: hotel,
-      });
     } catch (error) {
       console.error(error);
     }
@@ -351,7 +354,7 @@ const AddHotelParkingForm = () => {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="staticBackdropLabel">
@@ -529,7 +532,7 @@ const AddHotelParkingForm = () => {
         </div>
       </div>
       <div className="d-flex" style={{ marginTop: "50px" }}>
-        <AdminSidebar />
+        {!open && <AdminSidebar />}
         <div className="mt-5" style={{ width: "100vw" }}>
           <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Hotel And Parking Form</h1>
