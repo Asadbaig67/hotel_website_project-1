@@ -529,6 +529,7 @@ export default function AdminSidebar() {
                         minHeight: 48,
                         justifyContent: open ? "initial" : "center",
                         px: 2.5,
+                        color: `${path === element.link ? "#00838f" : "#000"}`,
                       }}
                     >
                       <ListItemIcon
@@ -536,6 +537,7 @@ export default function AdminSidebar() {
                           minWidth: 0,
                           mr: open ? 3 : "auto",
                           justifyContent: "center",
+                          color: `${path === element.link ? "#00838f" : "#000"}`,
                         }}
                       >
                         {element.icon}
@@ -570,6 +572,7 @@ export default function AdminSidebar() {
                         minHeight: 48,
                         justifyContent: open ? "initial" : "center",
                         px: 2.5,
+                        color: `${path === element.link ? "#00838f" : "#000"}`,
                       }}
                     >
                       <ListItemIcon
@@ -577,6 +580,7 @@ export default function AdminSidebar() {
                           minWidth: 0,
                           mr: open ? 3 : "auto",
                           justifyContent: "center",
+                          color: `${path === element.link ? "#00838f" : "#000"}`,
                         }}
                       >
                         {element.icon}
@@ -609,6 +613,7 @@ export default function AdminSidebar() {
                         minHeight: 48,
                         justifyContent: open ? "initial" : "center",
                         px: 2.5,
+                        color: `${path === element.link ? "#00838f" : "#000"}`,
                       }}
                     >
                       <ListItemIcon
@@ -616,6 +621,7 @@ export default function AdminSidebar() {
                           minWidth: 0,
                           mr: open ? 3 : "auto",
                           justifyContent: "center",
+                          color: `${path === element.link ? "#00838f" : "#000"}`,
                         }}
                       >
                         {element.icon}
@@ -650,6 +656,7 @@ export default function AdminSidebar() {
                         minHeight: 48,
                         justifyContent: open ? "initial" : "center",
                         px: 2.5,
+                        color: `${path === element.link ? "#00838f" : "#000"}`,
                       }}
                     >
                       <ListItemIcon
@@ -657,6 +664,7 @@ export default function AdminSidebar() {
                           minWidth: 0,
                           mr: open ? 3 : "auto",
                           justifyContent: "center",
+                          color: `${path === element.link ? "#00838f" : "#000"}`,
                         }}
                       >
                         {element.icon}

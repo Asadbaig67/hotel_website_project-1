@@ -14,10 +14,15 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const AddHotelForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [value, setValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState("");
 
   //Alerts Code
   const [emptyInput, setEmptyInput] = useState(false);
@@ -30,6 +35,10 @@ const AddHotelForm = () => {
 
   const IsMobile = useMediaQuery("(max-width:450px)");
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+
+  const { hotelOperatingCity } = useSelector(
+    (state) => state.hotelOperatingCities
+  );
 
   const handleClickOpen = () => {
     if (
@@ -78,6 +87,7 @@ const AddHotelForm = () => {
       address: "",
     }));
     setSelectedImages([]);
+    navigate("/dashboard");
   };
 
   const handleInputChange = (event) => {
@@ -199,29 +209,47 @@ const AddHotelForm = () => {
     };
 
     try {
-      const response = await fetch(url, options);
-      if (response.status === 200) {
-        setMessage("Hotel Added Successfully!!");
-        setLoading(false);
-        setSuccess(true);
-      } else if (response.status === 422) {
-        setMessage("Hotel Alreay Exists!!");
-        setSuccess(false);
-        setLoading(false);
-        setError(true);
+      const owner = await axios.get(
+        `http://localhost:5000/user/getuserbyid/${
+          loggedinUser.user.account_type === "admin"
+            ? FinalOwner.id
+            : loggedinUser.user._id
+        }`
+      );
+      if (
+        owner.data.user.account_type === "user" ||
+        (owner.data.user.account_type === "partner" &&
+          owner.data.user.partner_type === "Hotel")
+      ) {
+        const response = await fetch(url, options);
+        if (response.status === 200) {
+          setMessage("Hotel Added Successfully!!");
+          setLoading(false);
+          setSuccess(true);
+        } else if (response.status === 422) {
+          setMessage("Hotel Alreay Exists!!");
+          setSuccess(false);
+          setLoading(false);
+          setError(true);
+        } else {
+          setMessage("Something Went Wrong!!");
+          setSuccess(false);
+          setLoading(false);
+          setError(true);
+        }
+
+        const data = await response.json();
+        const hotel = data.hotel;
+        dispatch({
+          type: "SET_HOTEL",
+          payload: hotel,
+        });
       } else {
-        setMessage("Something Went Wrong!!");
+        setMessage("Invalid Owner!!");
         setSuccess(false);
         setLoading(false);
         setError(true);
       }
-
-      const data = await response.json();
-      const hotel = data.hotel;
-      dispatch({
-        type: "SET_HOTEL",
-        payload: hotel,
-      });
     } catch (error) {
       console.error(error);
     }
@@ -246,6 +274,18 @@ const AddHotelForm = () => {
     if (loggedinUser.user.account_type === "admin") {
       GetOwners();
     }
+  }, []);
+
+  useEffect(() => {
+    const GetHotelCities = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/OperatingProperty/getHotelOperatingCity"
+      );
+      dispatch({ type: "SET_HOTEL_CITY", payload: response.data });
+      // console.log(response.data);
+    };
+
+    GetHotelCities();
   }, []);
 
   return (
@@ -557,14 +597,29 @@ const AddHotelForm = () => {
                   >
                     City
                   </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="state"
-                    value={formValues.city}
-                    name="city"
-                    required
-                    onChange={handleInputChange}
+                  <Autocomplete
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newValue,
+                      }));
+                    }}
+                    clearOnEscape
+                    inputValue={inputValue}
+                    onInputChange={(event, newInputValue) => {
+                      setInputValue(newInputValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newInputValue,
+                      }));
+                    }}
+                    id="controllable-states-demo"
+                    options={hotelOperatingCity}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Controllable" />
+                    )}
                   />
                 </div>
               </div>

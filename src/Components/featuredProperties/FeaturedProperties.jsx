@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Featured_skeleton from "../Skeletons/Featured_skeleton";
+
 const FeaturedProperties = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
@@ -105,50 +106,58 @@ const FeaturedProperties = () => {
       <div className={`container-fluid ${style.fp}`}>
         <div className="row">
           {activePath === "hotel" &&
+            featuredData.length > 0 &&
             featuredData.map((hotel) => {
               return (
-                <div className={`col-lg-3 col-md-6 col-sm-6 col-12 my-2 `}>
-                  <img
-                    src={
-                      hotel.photos && hotel.photos.length > 0
-                        ? hotel.photos[0]
-                        : null
-                    }
-                    alt=""
-                    className={` ${style.fpImg} rounded-2`}
-                  />
-                  <h5 className={`${style.fpName} mt-2`}>{hotel.name}</h5>
-                  <div className="d-flex justify-content-start align-items-center">
-                    <Rating
-                      name="hover-feedback"
-                      value={hotel.rating}
-                      precision={0.5}
-                      emptyIcon={
-                        <StarIcon
-                          style={{ opacity: 0.55 }}
-                          fontSize="inherit"
-                        />
+                <div
+                  className={`${
+                    featuredData.length >= 3 ? "col-lg-3" : null
+                  } col-md-6 col-sm-6 col-12 my-2`}
+                  key={hotel.name}
+                >
+                  <div className="w-100">
+                    <img
+                      src={
+                        hotel.photos && hotel.photos.length > 0
+                          ? hotel.photos[0]
+                          : null
                       }
+                      alt=""
+                      className={` ${style.fpImg} rounded-2`}
                     />
-                    <small className={`${style.fpCity} ms-2 mb-2 text-muted`}>
-                      {hotel.city}
+                    <h5 className={`${style.fpName} mt-2`}>{hotel.name}</h5>
+                    <div className="d-flex justify-content-start align-items-center">
+                      <Rating
+                        name="hover-feedback"
+                        value={hotel.rating}
+                        precision={0.5}
+                        emptyIcon={
+                          <StarIcon
+                            style={{ opacity: 0.55 }}
+                            fontSize="inherit"
+                          />
+                        }
+                      />
+                      <small className={`${style.fpCity} ms-2 mb-2 text-muted`}>
+                        {hotel.city}
+                      </small>
+                    </div>
+                    <small className={`${style.fpPrice}`}>
+                      {hotel.description
+                        ? hotel.description.slice(0, 50)
+                        : "No Description"}
+                      ...
                     </small>
-                  </div>
-                  <small className={`${style.fpPrice}`}>
-                    {hotel.description
-                      ? hotel.description.slice(0, 50)
-                      : "No Description"}
-                    ...
-                  </small>
-                  <div className={style.fpRating}>
-                    <button
-                      className={`btn btn-primary mt-2 ${
-                        isXtraSmallScreen ? "btn-sm" : "btn-md"
-                      } btn-block`}
-                      onClick={() => setHotelData(hotel)}
-                    >
-                      Explore Property
-                    </button>
+                    <div className={style.fpRating}>
+                      <button
+                        className={`btn btn-primary mt-2 ${
+                          isXtraSmallScreen ? "btn-sm" : "btn-md"
+                        } btn-block`}
+                        onClick={() => setHotelData(hotel)}
+                      >
+                        Explore Property
+                      </button>
+                    </div>
                   </div>
                 </div>
                 // <div
@@ -249,7 +258,11 @@ const FeaturedProperties = () => {
             featuredData.length > 0 &&
             featuredData.map((hotel) => {
               return (
-                <div className={`col-lg-3 col-md-6 col-sm-6 col-12 my-2 `}>
+                <div
+                  className={`${
+                    featuredData.length >= 3 ? "col-lg-3" : null
+                  } col-md-6 col-sm-6 col-12 my-2 `}
+                >
                   <img
                     // src={
                     //   hotel.hotel_photos[0] === null

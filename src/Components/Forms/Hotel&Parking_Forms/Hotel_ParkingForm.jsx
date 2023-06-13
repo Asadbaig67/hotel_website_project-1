@@ -11,14 +11,26 @@ import { useEffect } from "react";
 import style from "../Hotel_Forms/addhotel.module.css";
 import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const AddHotelParkingForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [value, setValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState("");
+
   //Confirm Modal Code
   const [emptyInput, setEmptyInput] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
+  const { hotelAndParkingOperatingCity } = useSelector(
+    (state) => state.hotelAndParkingOperatingCities
+  );
 
   const handleClickOpen = () => {
     if (
@@ -68,6 +80,7 @@ const AddHotelParkingForm = () => {
     }));
     setHotelimages([]);
     setParkingimages([]);
+    navigate("/dashboard");
   };
 
   const [Owner, setOwner] = useState([]);
@@ -99,6 +112,7 @@ const AddHotelParkingForm = () => {
       ...prevValues,
       [name]: value,
     }));
+    console.log(value);
   };
 
   const handleOwner = (selectedOwner) => {
@@ -223,23 +237,41 @@ const AddHotelParkingForm = () => {
     };
 
     try {
-      const response = await fetch(url, options);
-      if (response.status === 200) {
-        setMessage("Hotel And Parking Added Successfully!!");
-        setLoading(false);
-        setSuccess(true);
-      } else if (response.status === 422) {
-        setMessage("Hotel And Parking Alreay Exists!!");
-        setSuccess(false);
-        setLoading(false);
-        setError(true);
+      const owner = await axios.get(
+        `http://localhost:5000/user/getuserbyid/${
+          loggedinUser.user.account_type === "admin"
+            ? FinalOwner.id
+            : loggedinUser.user._id
+        }`
+      );
+      if (
+        owner.data.user.account_type === "user" ||
+        (owner.data.user.account_type === "partner" &&
+          owner.data.user.partner_type === "HotelAndParking")
+      ) {
+        const response = await fetch(url, options);
+        if (response.status === 200) {
+          setMessage("Hotel And Parking Added Successfully!!");
+          setLoading(false);
+          setSuccess(true);
+        } else if (response.status === 422) {
+          setMessage("Hotel And Parking Alreay Exists!!");
+          setSuccess(false);
+          setLoading(false);
+          setError(true);
+        } else {
+          setMessage("Something Went Wrong!!");
+          setSuccess(false);
+          setLoading(false);
+          setError(true);
+        }
+        const data = await response.json();
       } else {
-        setMessage("Something Went Wrong!!");
+        setMessage("Invalid Owner!!");
         setSuccess(false);
         setLoading(false);
         setError(true);
       }
-      const data = await response.json();
     } catch (error) {
       console.error(error);
     }
@@ -264,6 +296,17 @@ const AddHotelParkingForm = () => {
     if (loggedinUser.user.account_type === "admin") {
       GetOwners();
     }
+  }, []);
+
+  useEffect(() => {
+    const GetHotelAndParkingCities = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/OperatingProperty/getHotelAndParkingOperatingCity"
+      );
+      dispatch({ type: "SET_HOTEL_AND_PARKING_CITY", payload: response.data });
+      // console.log(response.data);
+    };
+    GetHotelAndParkingCities();
   }, []);
 
   return (
@@ -628,14 +671,29 @@ const AddHotelParkingForm = () => {
                   >
                     City
                   </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="state"
-                    value={formValues.city}
-                    name="city"
-                    required
-                    onChange={handleInputChange}
+                  <Autocomplete
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newValue,
+                      }));
+                    }}
+                    clearOnEscape
+                    inputValue={inputValue}
+                    onInputChange={(event, newInputValue) => {
+                      setInputValue(newInputValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newInputValue,
+                      }));
+                    }}
+                    id="controllable-states-demo"
+                    options={hotelAndParkingOperatingCity}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Controllable" />
+                    )}
                   />
                 </div>
                 <div className="col-md-12 mt-2">

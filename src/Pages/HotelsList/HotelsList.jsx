@@ -290,9 +290,25 @@ const HotelsList = () => {
     } else if (path === "users") {
       // window.location.href = "/adduser";
       navigate("/adduser");
-    } else if (path === "booking") {
+    } else if (
+      path === "hotelbookings" ||
+      path === "upcominghotelbookings" ||
+      path === "cancelbooking"
+    ) {
       // window.location.href = "/addbooking";
-      navigate("/addbooking");
+      navigate("/");
+    } else if (
+      path === "parkingbookings" ||
+      path === "upcomingparkingbookings"
+    ) {
+      // window.location.href = "/addbooking";
+      navigate("/parking");
+    } else if (
+      path === "hotelandparkingbookings" ||
+      path === "upcominghotelandparkingbookings"
+    ) {
+      // window.location.href = "/addbooking";
+      navigate("/HotelAndParking");
     } else if (
       path === "parkings" ||
       path === "parkingRequests" ||
@@ -308,6 +324,7 @@ const HotelsList = () => {
       (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
       // window.location.href = "/hotelparkingform";
+      navigate("/hotelparkingform");
     }
   };
 
@@ -349,6 +366,11 @@ const HotelsList = () => {
                     title="Pending Hotel and Parkings"
                     subtitle="Results"
                   />
+                ) : path === "cancelbooking" ? (
+                  <DatagridHeader
+                    title="Canceled Bookings"
+                    subtitle="Results"
+                  />
                 ) : null
               ) : view === "partner" ? (
                 path === "Property" ? (
@@ -385,6 +407,11 @@ const HotelsList = () => {
                     // </h2>
                     <DatagridHeader
                       title="My Hotel and Parkings Bookings"
+                      subtitle="Results"
+                    />
+                  ) : path === "cancelbooking" ? (
+                    <DatagridHeader
+                      title="Canceled Bookings"
                       subtitle="Results"
                     />
                   ) : null
@@ -465,6 +492,11 @@ const HotelsList = () => {
                   // </h2>
                   <DatagridHeader
                     title="Upcoming Hotel and Parkings Bookings"
+                    subtitle="Results"
+                  />
+                ) : path === "cancelbooking" ? (
+                  <DatagridHeader
+                    title="Canceled Bookings"
                     subtitle="Results"
                   />
                 ) : null
