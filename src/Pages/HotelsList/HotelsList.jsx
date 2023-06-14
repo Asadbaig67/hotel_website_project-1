@@ -330,7 +330,7 @@ const HotelsList = () => {
 
   return (
     <>
-      <div className="d-flex">
+      <div className="d-flex" >
         <AdminSidebar />
         <div className="container-fluid" style={{ marginTop: "70px" }}>
           <div className="row">

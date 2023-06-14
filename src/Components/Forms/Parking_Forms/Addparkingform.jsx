@@ -16,6 +16,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
 const AddParkingForm = () => {
+  const [Imgerror, setImgError] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ const AddParkingForm = () => {
   const [inputValue, setInputValue] = React.useState("");
 
   // Confirm Modal
+  const [open, setOpen] = useState(false);
   const [emptyInput, setEmptyInput] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -30,6 +32,7 @@ const AddParkingForm = () => {
   const [message, setMessage] = useState("");
 
   const handleClickOpen = () => {
+    setOpen(true);
     if (
       formValues.name === "" ||
       formValues.title === "" ||
@@ -47,13 +50,22 @@ const AddParkingForm = () => {
     } else {
       setEmptyInput(false);
     }
+    setImgError(false);
+    for (let i = 0; i < parkingImages.length; i++) {
+      if (parkingImages[i].error === true) {
+        setImgError(true);
+        return;
+      }
+    }
   };
 
   const handleConditions = () => {
+    setOpen(false);
     setError(false);
     setMessage("");
   };
   const handleSuccess = () => {
+    setOpen(false);
     setSuccess(false);
     setMessage("");
     setFormValues((prevValues) => ({
@@ -111,7 +123,11 @@ const AddParkingForm = () => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
     let blobImagesArray = selectedFilesArray.map((file) => {
-      return { file: file, blobUrl: URL.createObjectURL(file) };
+      if (file.size <= 1024 * 1024) {
+        return { file: file, blobURL: URL.createObjectURL(file) };
+      } else {
+        return { file: file, blobURL: URL.createObjectURL(file), error: true };
+      }
     });
     const dummyImages = [...parkingImages];
     for (let i = 0; i < blobImagesArray.length; i++) {
@@ -285,7 +301,7 @@ const AddParkingForm = () => {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="staticBackdropLabel">
@@ -293,6 +309,47 @@ const AddParkingForm = () => {
               </h1>
             </div>
             <div class="modal-body">
+              <div className="row ">
+                {Imgerror && (
+                  <span className="text-danger d-block">
+                    Following images size is greater than 1MB.
+                  </span>
+                )}
+                {parkingImages &&
+                  parkingImages
+                    .filter((img) => img.error === true)
+                    .map((imageObj, index) => (
+                      <div key={imageObj.blobURL} className="col-md-4 col-sm-4">
+                        <div className={`${style.image_preview} mx-1 my-1`}>
+                          <img
+                            className={style.preview_image}
+                            src={imageObj.blobURL}
+                            alt="upload"
+                          />
+                          <div
+                            className={`${style.image_overlay} d-flex flex-row justify-content-between`}
+                          >
+                            <p
+                              className={`${style.image_number} text-light ms-1`}
+                            >
+                              {index + 1}
+                            </p>
+                            {/* <IconButton
+                              aria-label="delete"
+                              size="small"
+                              className={style.delete_button}
+                            >
+                              <DeleteIcon
+                                className="text-light me-1"
+                                fontSize="small"
+                                onClick={() => deleteHandler(imageObj)}
+                              />
+                            </IconButton> */}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+              </div>
               {parkingImages.length > 7 || parkingImages.length < 3 ? (
                 <span className="text-danger d-block">
                   Please select 3-7 images only!!
@@ -308,7 +365,8 @@ const AddParkingForm = () => {
                 ""
               )}
               {!(parkingImages.length > 7 || parkingImages.length < 3) &&
-                !emptyInput && (
+                !emptyInput &&
+                !Imgerror && (
                   <>
                     <span className="d-block">
                       {message === ""
@@ -335,7 +393,8 @@ const AddParkingForm = () => {
                   disabled={
                     parkingImages.length > 7 ||
                     parkingImages.length < 3 ||
-                    emptyInput
+                    emptyInput ||
+                    Imgerror
                   }
                   onClick={handleSubmit}
                 >
@@ -364,9 +423,9 @@ const AddParkingForm = () => {
         </div>
       </div>
       <div className="d-flex" style={{ marginTop: "50px" }}>
-        <AdminSidebar />
-        <div className="mt-5">
-          <div className={`container-fluid  ${IsMobile ? "" : "w-100"} `}>
+        {!open && <AdminSidebar />}
+        <div className="mt-5" style={{ width: "100vw" }}>
+          <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Parking Form</h1>
             <form className="needs-validation mx-4">
               {loggedinUser.user.account_type === "admin" ? (
@@ -610,7 +669,7 @@ const AddParkingForm = () => {
                         ...prevValues,
                         city: newValue,
                       }));
-                      console.log(formValues.city)
+                      console.log(formValues.city);
                     }}
                     clearOnEscape
                     inputValue={inputValue}
@@ -620,7 +679,7 @@ const AddParkingForm = () => {
                         ...prevValues,
                         city: newInputValue,
                       }));
-                      console.log(formValues.city)
+                      console.log(formValues.city);
                     }}
                     id="controllable-states-demo"
                     options={parkingOperatingCity}
@@ -654,7 +713,7 @@ const AddParkingForm = () => {
                           >
                             <img
                               className={`${style.preview_image}`}
-                              src={imageObj.blobUrl}
+                              src={imageObj.blobURL}
                               alt="upload"
                             />
                             <div
