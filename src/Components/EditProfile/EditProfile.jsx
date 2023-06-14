@@ -89,6 +89,10 @@ export default function EditProfile({ profile }) {
     }
     const result = await response.json();
     console.log(result);
+    const user = await axios.get(
+      `http://localhost:5000/user/getuserbyid/${data._id}`
+    );
+    dispatch({ type: "SET_LOGGEDIN_USER", payload: user.data });
   };
 
   if (profileImage.name) {

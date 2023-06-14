@@ -13,9 +13,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const UpdateHotel = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [value, setValue] = React.useState("");
   const [inputValue, setInputValue] = React.useState("");
@@ -52,6 +53,8 @@ const UpdateHotel = () => {
       }
     }
   };
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { user } = loggedinUser;
 
   const handleConditions = () => {
     setError(false);
@@ -71,10 +74,14 @@ const UpdateHotel = () => {
       address: "",
     }));
     setSelectedImages([]);
+    if (user.account_type === "admin") {
+      navigate("/Dashboard");
+    } else if (user.account_type === "partner") {
+      navigate("/Property");
+    }
   };
 
   const IsMobile = useMediaQuery("(max-width:450px)");
-  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
 
   const { hotelOperatingCity } = useSelector(
     (state) => state.hotelOperatingCities
@@ -139,43 +146,8 @@ const UpdateHotel = () => {
     console.log(Responsedata);
   };
 
-  const defaultFeatures = [
-    "Luxurious Rooms and Suites",
-    "Multiple Restaurants and Cafes",
-    "24-hour Room Service",
-    "Fitness Center",
-    "Spa and Wellness Center",
-    "Outdoor Swimming Pool",
-    "Business Center",
-    "Conference and Event Spaces",
-    "Concierge Services",
-    "Valet Parking",
-    "Self-Parking",
-    "Laundry and Dry Cleaning Services",
-    "Complimentary Wi-Fi",
-    "24-hour Front Desk and Security",
-    "Airport Shuttle",
-    "Car Rental Service",
-    "Complimentary Breakfast",
-    "On-site Convenience Store",
-    "Currency Exchange",
-    "Elevator",
-    "Gift Shop",
-    "In-room Safe",
-    "Luggage Storage",
-    "Meeting Rooms",
-    "Newspaper Delivery",
-    "Pet-Friendly Rooms",
-    "Restaurant and Bar",
-    "Room Service",
-    "Safe Deposit Boxes",
-    "Swimming Pool",
-    "Tour Desk",
-    "Wedding Services",
-  ];
-
   // Add Features Code
-  const [features, setFeatures] = useState([...defaultFeatures]);
+  const [features, setFeatures] = useState([...formValues.Facilities]);
   const [newFeature, setNewFeature] = useState("");
 
   const handleAddFeature = (event) => {
@@ -223,7 +195,7 @@ const UpdateHotel = () => {
 
     try {
       const response = await fetch(url, options);
-      if (response.status === 200) {
+      if (response.status === 201) {
         setMessage("Hotel Added Successfully!!");
         setLoading(false);
         setSuccess(true);
@@ -255,8 +227,6 @@ const UpdateHotel = () => {
     };
     GetHotelCities();
   }, []);
-
-  console.log("selectedImages", selectedImages);
 
   return (
     <>
@@ -530,6 +500,7 @@ const UpdateHotel = () => {
                         ...prevValues,
                         city: newValue,
                       }));
+                      console.log(formValues);
                     }}
                     clearOnEscape
                     inputValue={inputValue}
@@ -539,6 +510,7 @@ const UpdateHotel = () => {
                         ...prevValues,
                         city: newInputValue,
                       }));
+                      console.log(formValues);
                     }}
                     id="controllable-states-demo"
                     options={hotelOperatingCity}
@@ -716,7 +688,6 @@ const UpdateHotel = () => {
                   data-bs-target="#staticBackdrop"
                   onClick={handleClickOpen}
                 >
-                  
                   Update Hotel
                 </button>
               </div>
