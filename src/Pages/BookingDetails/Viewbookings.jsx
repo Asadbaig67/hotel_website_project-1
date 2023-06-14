@@ -247,7 +247,7 @@ const ViewBookings = () => {
         console.error(error);
       }
     } else {
-      const hotelandparkingURL = `http://localhost:5000/booking/addHotelAndParkingBooking?userId=${userId}&HotelAndParkingId=${hotelId}&room=${roomArray}&checkIn=${checkIn}&checkOut=${checkOut}&parking=${parking}`;
+      const hotelandparkingURL = `http://localhost:5000/booking/addHotelAndParkingBooking?userId=${userId}&HotelAndParkingId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&parking=${parking}`;
       const requestOptions = {
         method: "POST",
       };

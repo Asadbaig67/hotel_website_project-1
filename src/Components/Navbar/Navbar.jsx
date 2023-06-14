@@ -59,6 +59,7 @@ const Navbar = ({ list }) => {
   // };
 
   // Get Logged In User
+  const { login } = useSelector((state) => state.setLogin);
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   console.log("Logged In User", loggedinUser);
 
@@ -124,7 +125,7 @@ const Navbar = ({ list }) => {
   const [alertShow, setAlertShow] = useState(false);
   const [option, setOption] = useState(options);
   // get location of user
-  const { login } = useSelector((state) => state.setLogin);
+  // const { login } = useSelector((state) => state.setLogin);
 
   const handleOption = (name, operation) => {
     setOption((prev) => {

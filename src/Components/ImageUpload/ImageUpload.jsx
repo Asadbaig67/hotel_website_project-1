@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import "./ImageUpload.css";
 
 const ImgUpload = ({ onChange, src }) => (
@@ -10,60 +11,53 @@ const ImgUpload = ({ onChange, src }) => (
   </label>
 );
 
-class ImageUpload extends React.Component {
-  state = {
-    file: "",
-    imagePreviewUrl:
-      "https://github.com/OlgaKoplik/CodePen/blob/master/profile.jpg?raw=true",
-    name: "",
-    status: "",
-    active: "edit",
-  };
+const ImageUpload = () => {
+  const dispatch = useDispatch();
+  const [file, setFile] = useState("");
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(
+    "https://github.com/OlgaKoplik/CodePen/blob/master/profile.jpg?raw=true"
+  );
+  const [name, setName] = useState("");
+  const [status, setStatus] = useState("");
+  const [active, setActive] = useState("edit");
 
-  photoUpload = (e) => {
+  const photoUpload = (e) => {
     e.preventDefault();
     const reader = new FileReader();
     const file = e.target.files[0];
+    dispatch({ type: "SET_PROFILE_IMAGE", payload: file });
     reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result,
-      });
+      setFile(file);
+      setImagePreviewUrl(reader.result);
     };
     reader.readAsDataURL(file);
   };
-  editName = (e) => {
+
+  const editName = (e) => {
     const name = e.target.value;
-    this.setState({
-      name,
-    });
+    setName(name);
   };
 
-  editStatus = (e) => {
+  const editStatus = (e) => {
     const status = e.target.value;
-    this.setState({
-      status,
-    });
+    setStatus(status);
   };
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    let activeP = this.state.active === "edit" ? "profile" : "edit";
-    this.setState({
-      active: activeP,
-    });
+    let activeP = active === "edit" ? "profile" : "edit";
+    setActive(activeP);
   };
 
-  render() {
-    const { imagePreviewUrl, active } = this.state;
-    return (
-      <div>
-        {active === "edit" ? (
-          <ImgUpload onChange={this.photoUpload} src={imagePreviewUrl} />
-        ) : null}
-      </div>
-    );
-  }
-}
+  console.log(file);
+
+  return (
+    <div>
+      {active === "edit" ? (
+        <ImgUpload onChange={photoUpload} src={imagePreviewUrl} />
+      ) : null}
+    </div>
+  );
+};
 
 export default ImageUpload;

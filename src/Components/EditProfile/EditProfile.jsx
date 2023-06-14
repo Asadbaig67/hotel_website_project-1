@@ -5,9 +5,19 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 
 export default function EditProfile({ profile }) {
+  // confirm modal
+  const [emptyInput, setEmptyInput] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
+
   const { mode } = useSelector((state) => state.mode);
+  const { profileImage } = useSelector((state) => state.profileImage);
   const { user } = profile;
   const dispatch = useDispatch();
   const { profileData } = useSelector((state) => state.dataProfile);
@@ -33,27 +43,143 @@ export default function EditProfile({ profile }) {
     region: profileData.region,
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.patch(
-        `http://localhost:5000/user/update/${data._id}`,
-        data,
-        { new: true }
-      );
-      dispatch({ type: "SET_LOGGEDIN_USER", payload: res.data });
-      if (res.status === 200) {
-        console.log(res.status);
-        Navigate("/profile");
-      }
-    } catch (error) {
-      console.log(error);
+  console.log(data.firstName, data.lastName, data.email, profileImage);
+  const handleClickOpen = () => {
+    if (data.firstName === "" || data.lastName === "" || data.email === "") {
+      setEmptyInput(true);
+    } else {
+      setEmptyInput(false);
     }
   };
 
+  const handleConditions = () => {
+    setError(false);
+    setMessage("");
+  };
+  const handleSuccess = () => {
+    setSuccess(false);
+    setMessage("");
+    Navigate("/profile");
+  };
+
+  const handleSubmit = async (e) => {
+    setLoading(true);
+    setMessage("");
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("id", data._id);
+    formData.append("firstName", data.firstName);
+    formData.append("lastName", data.lastName);
+    formData.append("email", data.email);
+    formData.append("image", profileImage);
+
+    const response = await fetch("http://localhost:5000/user/updateuser", {
+      method: "PUT",
+      body: formData,
+    });
+    if (response.status === 200) {
+      setMessage("Profile Updated Successfully!!");
+      setLoading(false);
+      setSuccess(true);
+    } else {
+      setMessage("Something Went Wrong!!");
+      setSuccess(false);
+      setLoading(false);
+      setError(true);
+    }
+    const result = await response.json();
+    console.log(result);
+  };
+
+  if (profileImage.name) {
+    console.log("image hai boss");
+  }
+
   return (
     <>
-      <form className="needs-validation mx-4" onSubmit={handleSubmit}>
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Confirm Update Profile
+              </h1>
+            </div>
+            <div class="modal-body">
+              {!profileImage.name ? (
+                <span className="text-danger d-block">
+                  Please select profile images!!
+                </span>
+              ) : (
+                ""
+              )}
+              {emptyInput ? (
+                <span className="text-danger d-block">
+                  Please fill all the fields!!
+                </span>
+              ) : (
+                ""
+              )}
+              {profileImage.name && !emptyInput && (
+                <>
+                  <span className="d-block">
+                    {message === ""
+                      ? "Are you sure you want to update profile?"
+                      : message}
+                  </span>
+                </>
+              )}
+            </div>
+            <div class="modal-footer">
+              {!success && (
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onClick={handleConditions}
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+              )}
+              {!loading && !success && !error && (
+                <Button
+                  variant="contained"
+                  disabled={!profileImage.name || emptyInput}
+                  onClick={handleSubmit}
+                >
+                  Confirm Update
+                </Button>
+              )}
+              {loading ? (
+                <>
+                  <CircularProgress />
+                </>
+              ) : (
+                ""
+              )}
+              {success && (
+                <Button
+                  variant="contained"
+                  color="success"
+                  data-bs-dismiss="modal"
+                  onClick={handleSuccess}
+                >
+                  Finish
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      <form className="needs-validation mx-4">
         <div className="row mt-2">
           <div className="col-md-12 row">
             <div className="col-md-5 d-flex justify-content-between px-3 pt-2">
@@ -107,7 +233,7 @@ export default function EditProfile({ profile }) {
           </div>
         </div>
         <div className="row">
-          <div className="col-md-12 mt-2">
+          {/* <div className="col-md-12 mt-2">
             <label
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
             >
@@ -124,7 +250,7 @@ export default function EditProfile({ profile }) {
                 dispatch({ type: "SETPROFILEDATA", payload: data });
               }}
             />
-          </div>
+          </div> */}
           {/* <div className="col-md-12 mt-2">
             <label
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
@@ -291,9 +417,18 @@ export default function EditProfile({ profile }) {
           </div>
         </div> */}
         <div className="mt-5 text-center">
-          <button className="btn btn-primary profile-button mb-4" type="submit">
+          <button
+            type="button"
+            class="btn btn-primary btn-lg profile-button mb-4"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            onClick={handleClickOpen}
+          >
             Save Profile
           </button>
+          {/* <button className="btn btn-primary profile-button mb-4" type="submit">
+            Save Profile
+          </button> */}
         </div>
       </form>
     </>
