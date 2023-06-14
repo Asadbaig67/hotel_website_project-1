@@ -202,7 +202,7 @@ const UpdateHotel = () => {
     formData.append("title", formValues.title);
     formData.append("rating", formValues.rating);
     formData.append("description", formValues.description);
-    formData.append("city", formValues.city);
+    formData.append("city", value);
     formData.append("country", formValues.country);
     formData.append("address", formValues.address);
     // formData.append("ownerId", loggedinUser.user._id);
@@ -224,11 +224,11 @@ const UpdateHotel = () => {
     try {
       const response = await fetch(url, options);
       if (response.status === 200) {
-        setMessage("Hotel Added Successfully!!");
+        setMessage("Hotel Updated Successfully!!");
         setLoading(false);
         setSuccess(true);
       } else if (response.status === 422) {
-        setMessage("Hotel Alreay Exists!!");
+        setMessage("Internal Server Error!!");
         setSuccess(false);
         setLoading(false);
         setError(true);
@@ -256,7 +256,7 @@ const UpdateHotel = () => {
     GetHotelCities();
   }, []);
 
-  console.log("selectedImages", selectedImages);
+  console.log("selectedImages", value);
 
   return (
     <>
@@ -716,7 +716,6 @@ const UpdateHotel = () => {
                   data-bs-target="#staticBackdrop"
                   onClick={handleClickOpen}
                 >
-                  
                   Update Hotel
                 </button>
               </div>

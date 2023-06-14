@@ -234,11 +234,11 @@ const UpdateParking = () => {
     try {
       const response = await fetch(url, options);
       if (response.status === 200) {
-        setMessage("Parking Added Successfully!!");
+        setMessage("Parking Updated Successfully!!");
         setLoading(false);
         setSuccess(true);
       } else if (response.status === 422) {
-        setMessage("Parking Alreay Exists!!");
+        setMessage("Internal Server Error!!");
         setSuccess(false);
         setLoading(false);
         setError(true);

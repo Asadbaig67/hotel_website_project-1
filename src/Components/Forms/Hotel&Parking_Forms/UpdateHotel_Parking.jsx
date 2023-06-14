@@ -302,11 +302,11 @@ const UpdateHotelAndParking = () => {
     try {
       const response = await fetch(url, options);
       if (response.status === 200) {
-        setMessage("Hotel And Parking Added Successfully!!");
+        setMessage("Hotel And Parking Updated Successfully!!");
         setLoading(false);
         setSuccess(true);
       } else if (response.status === 422) {
-        setMessage("Hotel And Parking Alreay Exists!!");
+        setMessage("Internal Server Error!!");
         setSuccess(false);
         setLoading(false);
         setError(true);
