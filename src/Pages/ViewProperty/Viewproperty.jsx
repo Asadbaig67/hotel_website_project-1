@@ -669,7 +669,8 @@ const Viewproperty = () => {
           <div className="mb-2">
             {(user.account_type === "admin" && path === "parkings") ||
             (user.account_type === "admin" && path === "parkingRequests") ||
-            (user.partner_type === "Parking" && path === "Property") ? (
+            (user.partner_type === "Parking" && path === "Property") ||
+            (user.partner_type === "Parking" && path === "PropertyRequests") ? (
               <div className=" my-3">
                 <h3 className="fw-bold fs-5 my-3 text-dark my-2">
                   All Parking Details

@@ -296,7 +296,7 @@ const HotelsList = () => {
       path === "cancelbooking"
     ) {
       // window.location.href = "/addbooking";
-      navigate("/");
+      // navigate("/");
     } else if (
       path === "parkingbookings" ||
       path === "upcomingparkingbookings"

@@ -38,58 +38,11 @@ import Featured_skeleton from "./Components/Skeletons/Featured_skeleton";
 import Viewbookings from "./Pages/BookingDetails/Viewbookings";
 import Viewproperty from "./Pages/ViewProperty/Viewproperty";
 import AdminBookings from "./Pages/BookingDetails/AdminBookings";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import DashboardLoader from "./Components/Loader/DashboardLoader";
 import PrivateRoute from "./Components/Routes/PrivateRoute";
 import PublicRoute from "./Components/Routes/PublicRoute";
 
 function App() {
-  const property = {
-    id: 1,
-    name: "Example Property",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in quam a odio tristique interdum. Fusce efficitur nunc vitae augue euismod pretium.",
-    rating: 4.5,
-    totalRatings: 10,
-    features: ["24/7 Security", "Valet Parking", "Electric Vehicle Charging"],
-    prices: [
-      {
-        id: 1,
-        description: "Hourly Rate",
-        amount: 5.0,
-      },
-      {
-        id: 2,
-        description: "Daily Rate",
-        amount: 25.0,
-      },
-      {
-        id: 3,
-        description: "Weekly Rate",
-        amount: 100.0,
-      },
-    ],
-    pictures: [
-      {
-        id: 1,
-        url: "https://picsum.photos/300/200",
-        alt: "Example Picture 1",
-      },
-      {
-        id: 2,
-        // url: "http://localhost:5000/uploads/ParkingImages/parking2.jpg",
-        url: "https://picsum.photos/300/200",
-        alt: "Example Picture 2",
-      },
-      {
-        id: 3,
-        url: "https://picsum.photos/300/200",
-        alt: "Example Picture 3",
-      },
-    ],
-  };
   return (
     <>
       <Routes>
