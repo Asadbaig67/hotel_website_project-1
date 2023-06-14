@@ -223,7 +223,7 @@ const AddParkingForm = () => {
       if (
         owner.data.user.account_type === "user" ||
         (owner.data.user.account_type === "partner" &&
-          owner.data.user.partner_type === "HotelAndParking")
+          owner.data.user.partner_type === "Parking")
       ) {
         const response = await fetch(url, options);
         if (response.status === 200) {

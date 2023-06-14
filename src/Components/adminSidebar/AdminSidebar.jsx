@@ -219,7 +219,7 @@ export default function AdminSidebar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => navigate("/")}>Home</MenuItem>
+      {/* <MenuItem onClick={() => navigate("/")}>Home</MenuItem> */}
       <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
       <MenuItem onClick={() => navigate("/profile")}>Account settings</MenuItem>
       <MenuItem onClick={handleClickOpen}>Logout</MenuItem>

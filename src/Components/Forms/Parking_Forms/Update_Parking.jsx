@@ -12,8 +12,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const UpdateParking = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [value, setValue] = React.useState("");
   const [inputValue, setInputValue] = React.useState("");
@@ -55,6 +57,9 @@ const UpdateParking = () => {
     }
   };
 
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { user } = loggedinUser;
+
   const handleConditions = () => {
     setError(false);
     setMessage("");
@@ -77,40 +82,17 @@ const UpdateParking = () => {
       address: "",
     }));
     setParkingImages([]);
+    if (user.account_type === "admin") {
+      navigate("/Dashboard");
+    } else if (user.account_type === "partner") {
+      navigate("/Property");
+    }
   };
+  const location = useLocation();
+  const id = location.state.id;
 
-  const defaultFormValues = {
-    Facilities: [
-      "Covered Parking",
-      "Valet Parking",
-      "Self-Parking",
-      "Handicap Parking",
-      "Electric Vehicle Charging Stations",
-      "24-hour Surveillance Cameras",
-      "Bicycle Parking",
-      "Free Parking",
-      "Paid Parking",
-      "Parking Garage",
-    ],
-    _id: "64490a8d6aea5caf2f8c5c49",
-    name: "Shopping Mall Parking",
-    title: "Convenient Parking Near the Mall",
-    total_slots: 50,
-    booked_slots: 1,
-    description:
-      "This parking space is located just steps away from the biggest shopping mall in town and is perfect for shoppers who want to park their car safely and conveniently.",
-    price: 50,
-    photos: [
-      "http://localhost:5000/uploads/ParkingImages/parking13.jpg",
-      "http://localhost:5000/uploads/ParkingImages/parking14.jpg",
-      "http://localhost:5000/uploads/ParkingImages/parking16.jpg",
-    ],
-    city: "New York",
-    rating: 4,
-    country: "USA",
-    address: "456 Airport Rd",
-  };
-
+  const defaultFormValues = id;
+  console.log(defaultFormValues);
   const [formValues, setFormValues] = useState(defaultFormValues);
 
   const handleInputChange = (event) => {
@@ -171,19 +153,6 @@ const UpdateParking = () => {
     URL.revokeObjectURL(image);
   }
 
-  // Add Features Code
-  const defaultParkingFacilities = [
-    "Covered Parking",
-    "Valet Parking",
-    "Self-Parking",
-    "Handicap Parking",
-    "Electric Vehicle Charging Stations",
-    "24-hour Surveillance Cameras",
-    "Bicycle Parking",
-    "Free Parking",
-    "Paid Parking",
-    "Parking Garage",
-  ];
   const [features, setFeatures] = useState([...formValues.Facilities]);
   const [newFeature, setNewFeature] = useState("");
 
@@ -201,9 +170,11 @@ const UpdateParking = () => {
   // Add Features Code
 
   const { mode } = useSelector((state) => state.mode);
-  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  
 
   const handleSubmit = async (event) => {
+    setMessage("");
+    setLoading(true);
     event.preventDefault();
     const formData = new FormData();
     formData.append("name", formValues.name);
@@ -233,12 +204,12 @@ const UpdateParking = () => {
 
     try {
       const response = await fetch(url, options);
-      if (response.status === 200) {
-        setMessage("Parking Added Successfully!!");
+      if (response.status === 201) {
+        setMessage("Hotel Added Successfully!!");
         setLoading(false);
         setSuccess(true);
       } else if (response.status === 422) {
-        setMessage("Parking Alreay Exists!!");
+        setMessage("Hotel Alreay Exists!!");
         setSuccess(false);
         setLoading(false);
         setError(true);
@@ -365,17 +336,16 @@ const UpdateParking = () => {
                   <CircularProgress />
                 </>
               ) : (
-                ""
-              )}
-              {success && (
-                <Button
-                  variant="contained"
-                  color="success"
-                  data-bs-dismiss="modal"
-                  onClick={handleSuccess}
-                >
-                  Finish
-                </Button>
+                success && (
+                  <Button
+                    variant="contained"
+                    color="success"
+                    data-bs-dismiss="modal"
+                    onClick={handleSuccess}
+                  >
+                    Finish
+                  </Button>
+                )
               )}
             </div>
           </div>
