@@ -79,7 +79,7 @@ const SideBar = ({ children }) => {
               to={route.link}
               key={index}
               className="link"
-              activeClassName="active"
+              activeClassName="active_tab"
             >
               <div className="icon">{route.icon}</div>
               <AnimatePresence>
