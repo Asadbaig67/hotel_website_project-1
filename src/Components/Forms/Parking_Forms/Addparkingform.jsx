@@ -14,6 +14,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import Sidebar from "../../Sidebar/SideBar";
 
 const AddParkingForm = () => {
   const [Imgerror, setImgError] = useState(false);
@@ -423,7 +424,7 @@ const AddParkingForm = () => {
         </div>
       </div>
       <div className="d-flex" style={{ marginTop: "50px" }}>
-        {!open && <AdminSidebar />}
+        {!open && <Sidebar />}
         <div className="mt-5" style={{ width: "100vw" }}>
           <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Parking Form</h1>

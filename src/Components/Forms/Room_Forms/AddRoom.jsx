@@ -2,19 +2,13 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import DeleteIcon from "@mui/icons-material/Delete";
-import style from "../Hotel_Forms/addhotel.module.css";
-import { json } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-import SidebarAdmin from "../../AdminDashboardSidebar/AdminDashboardSidebar";
-import Topbar from "../../Topbar/Topbar";
-import AdminSidebar from "../../adminSidebar/AdminSidebar";
+import Sidebar from "../../Sidebar/SideBar";
 
 const AddRoomForm = () => {
   const { hotel } = useSelector((state) => state.setAddedHotel);
@@ -108,7 +102,7 @@ const AddRoomForm = () => {
   return (
     <>
       <div className="d-flex" style={{ marginTop: "50px" }}>
-        <AdminSidebar />
+        <Sidebar />
         <div className="mt-5" style={{ width: "100vw" }}>
           {alertOn && (
             <Collapse in={open}>

@@ -24,6 +24,7 @@ import {
 } from "../../Utilis/DataTableSource";
 import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 import { useDispatch } from "react-redux";
+import Sidebar from "../../Components/Sidebar/SideBar";
 
 const Viewproperty = () => {
   const dispatch = useDispatch();
@@ -424,7 +425,7 @@ const Viewproperty = () => {
         </div>
       </div>
       <div className="d-flex">
-        <AdminSidebar />
+        <Sidebar />
         <div className={`my-3 mt-5 ${styles.property_details}`}>
           <div>
             <div className="d-flex justify-content-between">

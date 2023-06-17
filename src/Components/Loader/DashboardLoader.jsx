@@ -1,11 +1,12 @@
 import React from "react";
 import style from "./dashboardloader.module.css";
 import AdminSidebar from "../adminSidebar/AdminSidebar";
+import Sidebar from "../Sidebar/SideBar";
 
 const DashboardLoader = () => {
   return (
     <div>
-      <AdminSidebar />
+      <Sidebar />
       <div className={style.loader_dash}>
         <div className={style.bar_dash}></div>
         <div className={style.bar_dash}></div>

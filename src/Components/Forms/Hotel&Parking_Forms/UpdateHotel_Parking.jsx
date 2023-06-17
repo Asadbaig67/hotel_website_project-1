@@ -14,6 +14,7 @@ import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useLocation, useNavigate } from "react-router-dom";
+import Sidebar from "../../Sidebar/SideBar";
 
 const UpdateHotelAndParking = () => {
   const navigate = useNavigate();
@@ -455,7 +456,7 @@ const UpdateHotelAndParking = () => {
         </div>
       </div>
       <div className="d-flex" style={{ marginTop: "50px" }}>
-        <AdminSidebar />
+        <Sidebar />
         <div className="mt-5" style={{ width: "100vw" }}>
           <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Update Hotel And Parking</h1>
