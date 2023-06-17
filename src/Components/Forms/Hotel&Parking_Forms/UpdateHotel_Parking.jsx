@@ -43,7 +43,7 @@ const UpdateHotelAndParking = () => {
       formValues.hotel_description === "" ||
       formValues.parking_description === "" ||
       formValues.parking_price === "" ||
-      formValues.hotel_city === "" ||
+      value === null ||
       formValues.hotel_country === "" ||
       formValues.hotel_address === ""
     ) {
@@ -241,7 +241,7 @@ const UpdateHotelAndParking = () => {
     formData.append("parking_description", formValues.parking_description);
     formData.append("hotel_description", formValues.hotel_description);
     formData.append("price", formValues.parking_price);
-    formData.append("city", formValues.hotel_city);
+    formData.append("city", value);
     formData.append("country", formValues.hotel_country);
     formData.append("address", formValues.hotel_address);
     for (let i = 0; i < features.length; i++) {
@@ -264,12 +264,12 @@ const UpdateHotelAndParking = () => {
 
     try {
       const response = await fetch(url, options);
-      if (response.status === 201) {
-        setMessage("Hotel And Parking Added Successfully!!");
+      if (response.status === 200) {
+        setMessage("Hotel And Parking Updated Successfully!!");
         setLoading(false);
         setSuccess(true);
       } else if (response.status === 422) {
-        setMessage("Hotel And Parking Alreay Exists!!");
+        setMessage("Internal Server Error!!");
         setSuccess(false);
         setLoading(false);
         setError(true);
@@ -280,7 +280,7 @@ const UpdateHotelAndParking = () => {
         setError(true);
       }
       const data = await response.json();
-      console.log(data);
+      console.log("The Response data is ", data);
     } catch (error) {
       console.error(error);
     }
@@ -289,6 +289,8 @@ const UpdateHotelAndParking = () => {
   const { hotelAndParkingOperatingCity } = useSelector(
     (state) => state.hotelAndParkingOperatingCities
   );
+
+  console.log("City Is", value);
 
   useEffect(() => {
     const GetHotelAndParkingCities = async () => {

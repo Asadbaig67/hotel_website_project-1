@@ -93,7 +93,7 @@ const Featured = () => {
   };
 
   return (
-    <div>
+    <div className="" >
       <div className={style.featured}>
         <div className={style.featuredItems}>
           <img
@@ -118,7 +118,9 @@ const Featured = () => {
           />
           <div className={style.featuredTitles}>
             <h1 className={style.text_shadow}>Islamabad</h1>
-            <h2 className={style.text_shadow}>{cityCountObj.Islamabad} properties</h2>
+            <h2 className={style.text_shadow}>
+              {cityCountObj.Islamabad} properties
+            </h2>
           </div>
         </div>
       </div>
@@ -133,7 +135,9 @@ const Featured = () => {
             />
             <div className={style.featuredTitles}>
               <h1 className={style.text_shadow}>London</h1>
-              <h2 className={style.text_shadow}>{cityCountObj.London} properties</h2>
+              <h2 className={style.text_shadow}>
+                {cityCountObj.London} properties
+              </h2>
             </div>
           </div>
 
@@ -146,7 +150,9 @@ const Featured = () => {
             />
             <div className={style.featuredTitles}>
               <h1 className={style.text_shadow}>Sydney</h1>
-              <h2 className={style.text_shadow}>{cityCountObj.Sydney} properties</h2>
+              <h2 className={style.text_shadow}>
+                {cityCountObj.Sydney} properties
+              </h2>
             </div>
           </div>
           <div className={style.featuredItem}>
@@ -158,7 +164,9 @@ const Featured = () => {
             />
             <div className={style.featuredTitles}>
               <h1 className={style.text_shadow}>Dubai</h1>
-              <h2 className={style.text_shadow}>{cityCountObj.Dubai} properties</h2>
+              <h2 className={style.text_shadow}>
+                {cityCountObj.Dubai} properties
+              </h2>
             </div>
           </div>
         </>
