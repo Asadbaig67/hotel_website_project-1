@@ -34,14 +34,9 @@ const Home = (props) => {
     }
   };
 
-  
-
   return (
     <div>
       <Navbar list={true} />
-      {/* <div>
-        <button onClick={getUser}>get User</button>
-      </div> */}
       <div className={`${style.homeContainer} container`}>
         <h1
           className={`${style.homeTitle} fw-bold ${

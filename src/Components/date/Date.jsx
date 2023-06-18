@@ -32,11 +32,13 @@ const Dates = () => {
   return (
     <Space direction="vertical" size={12}>
       <RangePicker
+      
         bordered={false}
         format="DD-MM-YYYY"
         disabledDate={disabledDate}
         popupClassName={style.popup}
         placeholder={["Check In", "Check Out"]}
+        inputPrefixCls={style.placeholder}
         onChange={(val) => {
           dispatch({
             type: "SET_DATE",

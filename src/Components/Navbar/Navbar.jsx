@@ -467,15 +467,19 @@ const Navbar = ({ list }) => {
     });
   }, [option]);
 
+  const [color, setColor] = useState("#fff");
+
   useEffect(() => {
     $(window).scroll(() => {
       let scroll = $(window).scrollTop();
       let box = $(`.${style.header_text}`).height();
       let header = $("header").height();
       if (scroll > box - header) {
+        setColor("silver");
         $("header").addClass(`${style.background_header}`);
         $("li a").removeClass(`${style.text_shadow}`);
       } else {
+        setColor("silver");
         $("li a").addClass(`${style.text_shadow}`);
         $("header").removeClass(`${style.background_header}`);
       }
@@ -491,7 +495,7 @@ const Navbar = ({ list }) => {
   return (
     <div className="w-100">
       <header
-        className={`${style.header_area} ${style.header_sticky} ${style.wow} ${
+        className={`${style.header_area}  ${style.header_sticky} ${style.wow} ${
           style.slideInDown
         } ${!list ? "bg-light position-static border-bottom" : ""}`}
         data-wow-duration="0.75s"
@@ -509,7 +513,13 @@ const Navbar = ({ list }) => {
                   />
                 </Link>
                 <ul className={style.nav}>
-                  <li>
+                  <li
+                    style={
+                      activePath === "hotel"
+                        ? { border: "1px solid white", borderColor: color }
+                        : {}
+                    }
+                  >
                     <NavLink
                       to="/"
                       className={`${!list ? "text-dark" : ""}`}
@@ -521,17 +531,26 @@ const Navbar = ({ list }) => {
                       }}
                     >
                       Hotels
-                      <hr
+                      {/* <hr
                         className={`mt-0 ${style.activeTab} ${
                           activePath === "hotel" ? "d-block" : "d-none"
                         }`}
-                      />
+                      /> */}
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
                       to="/parking"
                       className={`${!list ? "text-dark" : ""}`}
+                      style={
+                        activePath === "parking"
+                          ? {
+                              border: "1px solid white",
+                              borderColor: color,
+                              padding: "0px 15px 0px 15px",
+                            }
+                          : {}
+                      }
                       onClick={() => {
                         dispatch({
                           type: "activePath",
@@ -540,16 +559,25 @@ const Navbar = ({ list }) => {
                       }}
                     >
                       Parkings
-                      <hr
+                      {/* <hr
                         className={`mt-0 ${style.activeTab} ${
                           activePath === "parking" ? "d-block" : "d-none"
                         }`}
-                      />
+                      /> */}
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
                       to="/HotelAndParking"
+                      style={
+                        activePath === "hotelAndParking"
+                          ? {
+                              border: "1px solid white",
+                              borderColor: color,
+                              padding: "0px 15px 0px 15px",
+                            }
+                          : {}
+                      }
                       className={`${!list ? "text-dark" : ""}`}
                       onClick={() => {
                         dispatch({
@@ -559,13 +587,13 @@ const Navbar = ({ list }) => {
                       }}
                     >
                       Hotel and Parking
-                      <hr
+                      {/* <hr
                         className={`mt-0 ${style.activeTab} ${
                           activePath === "hotelAndParking"
                             ? "d-block"
                             : "d-none"
                         }`}
-                      />
+                      /> */}
                     </NavLink>
                   </li>
                   {login ? (
@@ -619,7 +647,7 @@ const Navbar = ({ list }) => {
                         </NavLink>
                       </li> */}
                       <li>
-                        <NavLink to="/">
+                        <div>
                           {/* <span className={style.iconShow}>
                             <Avatar
                               alt="Remy Sharp"
@@ -755,7 +783,7 @@ const Navbar = ({ list }) => {
                             </Menu>
                           </React.Fragment>
                           <span className={style.iconHide}>Profile</span>
-                        </NavLink>
+                        </div>
                       </li>
                       {/* <li>
                         <NavLink to="/">
