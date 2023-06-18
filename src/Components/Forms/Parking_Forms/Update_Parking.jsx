@@ -13,6 +13,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import Sidebar from "../../Sidebar/SideBar";
 
 const UpdateParking = () => {
   const navigate = useNavigate();
@@ -435,7 +436,7 @@ const UpdateParking = () => {
         </div>
       </div>
       <div className="d-flex" style={{ marginTop: "50px" }}>
-        {!open && <AdminSidebar />}
+        <Sidebar />
         <div className="mt-5" style={{ width: "100vw" }}>
           <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Update Parking Form</h1>

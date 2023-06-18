@@ -9,104 +9,38 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
 import "./Sidebar.css";
-
-const routes = [
-  {
-    path: "/",
-    name: "Dashboard",
-    icon: <FaHome />,
-  },
-  {
-    path: "/users",
-    name: "Users",
-    icon: <FaUser />,
-  },
-  {
-    path: "/messages",
-    name: "Messages",
-    icon: <MdMessage />,
-  },
-  {
-    path: "/analytics",
-    name: "Analytics",
-    icon: <BiAnalyse />,
-  },
-  {
-    path: "/file-manager",
-    name: "File Manager",
-    icon: <AiTwotoneFileExclamation />,
-    // subRoutes: [
-    //   {
-    //     path: "/settings/profile",
-    //     name: "Profile ",
-    //     icon: <FaUser />,
-    //   },
-    //   {
-    //     path: "/settings/2fa",
-    //     name: "2FA",
-    //     icon: <FaLock />,
-    //   },
-    //   {
-    //     path: "/settings/billing",
-    //     name: "Billing",
-    //     icon: <FaMoneyBill />,
-    //   },
-    // ],
-  },
-  {
-    path: "/order",
-    name: "Order",
-    icon: <BsCartCheck />,
-  },
-  {
-    path: "/settings",
-    name: "Settings",
-    icon: <BiCog />,
-    exact: true,
-    // subRoutes: [
-    //   {
-    //     path: "/settings/profile",
-    //     name: "Profile ",
-    //     icon: <FaUser />,
-    //   },
-    //   {
-    //     path: "/settings/2fa",
-    //     name: "2FA",
-    //     icon: <FaLock />,
-    //   },
-    //   {
-    //     path: "/settings/billing",
-    //     name: "Billing",
-    //     icon: <FaMoneyBill />,
-    //   },
-    // ],
-  },
-  {
-    path: "/saved",
-    name: "Saved",
-    icon: <AiFillHeart />,
-  },
-];
+import {
+  SidebarDataAdminProfile,
+  SidebarDataAdminProfilePending,
+  SidebarDataPatnerProfile,
+  SidebarDataPatnerProfilePending,
+  SidebarDataUserProfile,
+  SidebarDataUserBooking,
+  SidebarDataUserUpcomingBooking,
+} from "../../Utilis/SidebarData";
+import { useSelector } from "react-redux";
 
 const SideBar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  const inputAnimation = {
-    hidden: {
-      width: 0,
-      padding: 0,
-      transition: {
-        duration: 0.2,
-      },
-    },
-    show: {
-      width: "140px",
-      padding: "5px 15px",
-      transition: {
-        duration: 0.2,
-      },
-    },
-  };
+  const { view } = useSelector((state) => state.view);
+
+  // const inputAnimation = {
+  //   hidden: {
+  //     width: 0,
+  //     padding: 0,
+  //     transition: {
+  //       duration: 0.2,
+  //     },
+  //   },
+  //   show: {
+  //     width: "140px",
+  //     padding: "5px 15px",
+  //     transition: {
+  //       duration: 0.2,
+  //     },
+  //   },
+  // };
 
   const showAnimation = {
     hidden: {
@@ -125,20 +59,63 @@ const SideBar = ({ children }) => {
     },
   };
 
+  const sidebarDataFunction = (routes) => {
+    return (
+      <>
+        {routes.map((route, index) => {
+          if (route.subRoutes) {
+            return (
+              <SidebarMenu
+                setIsOpen={setIsOpen}
+                route={route}
+                showAnimation={showAnimation}
+                isOpen={isOpen}
+              />
+            );
+          }
+
+          return (
+            <NavLink
+              to={route.link}
+              key={index}
+              className="link"
+              activeClassName="active_tab"
+            >
+              <div className="icon">{route.icon}</div>
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    variants={showAnimation}
+                    initial="hidden"
+                    animate="show"
+                    exit="hidden"
+                    className="link_text"
+                  >
+                    {route.title}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </NavLink>
+          );
+        })}
+      </>
+    );
+  };
+
   return (
     <>
       <div className="main-container">
         <motion.div
           animate={{
-            width: isOpen ? "200px" : "45px",
+            width: isOpen ? "300px" : "45px",
 
-            transition: {
-              duration: 0.3,
-              type: "spring",
-              damping: 8,
-            },
+            // transition: {
+            //   duration: 0.2,
+            //   type: "spring",
+            //   damping: 8,
+            // },
           }}
-          className={`sidebar `}
+          className={`sidebar`}
         >
           <div className="top_section">
             <AnimatePresence>
@@ -160,42 +137,35 @@ const SideBar = ({ children }) => {
             </div>
           </div>
           <section className="routes">
-            {routes.map((route, index) => {
-              if (route.subRoutes) {
-                return (
-                  <SidebarMenu
-                    setIsOpen={setIsOpen}
-                    route={route}
-                    showAnimation={showAnimation}
-                    isOpen={isOpen}
-                  />
-                );
-              }
-
-              return (
-                <NavLink
-                  to={route.path}
-                  key={index}
-                  className="link"
-                  activeClassName="active"
-                >
-                  <div className="icon">{route.icon}</div>
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        variants={showAnimation}
-                        initial="hidden"
-                        animate="show"
-                        exit="hidden"
-                        className="link_text"
-                      >
-                        {route.name}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </NavLink>
-              );
-            })}
+            {view === "admin" ? (
+              <>
+                {sidebarDataFunction(SidebarDataAdminProfile)}
+                <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
+                  Pending Requests
+                </h3>
+                {sidebarDataFunction(SidebarDataAdminProfilePending)}
+              </>
+            ) : view === "partner" ? (
+              <>
+                {sidebarDataFunction(SidebarDataPatnerProfile)}
+                <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
+                  Pending Requests
+                </h3>
+                {sidebarDataFunction(SidebarDataPatnerProfilePending)}
+              </>
+            ) : view === "user" ? (
+              <>
+                {sidebarDataFunction(SidebarDataUserProfile)}
+                <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
+                  Your Bookings
+                </h3>
+                {sidebarDataFunction(SidebarDataUserBooking)}
+                <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
+                  Your Upcoming Bookings
+                </h3>
+                {sidebarDataFunction(SidebarDataUserUpcomingBooking)}
+              </>
+            ) : null}
           </section>
         </motion.div>
 

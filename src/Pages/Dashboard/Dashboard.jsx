@@ -17,6 +17,7 @@ import ChartData from "../../Components/Chart/Chart";
 import SingleChartData from "../../Components/Chart/SingleDataChart";
 import ChartIndividualData from "../../Components/Chart/ChartIndividual";
 import DashboardLoader from "../../Components/Loader/DashboardLoader";
+import Sidebar from "../../Components/Sidebar/SideBar";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -1033,9 +1034,9 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="container-fluid d-flex w-100">
-        <AdminSidebar />
-        <div className="mt-5 mb-5">
+      <div className="container-fluid d-flex w-100 px-0">
+        <Sidebar />
+        <div className="mt-5 mb-5 w-100">
           <div
             className={`row`}
             // style={{

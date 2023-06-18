@@ -91,7 +91,6 @@ function App() {
           path="/parkingform"
           element={<PrivateRoute Component={AddParkingForm} />}
         />
-        {/* <Route path="/parkingform" element={<AddParkingForm />} /> */}
         <Route path="/skeleton" element={<Featured_skeleton />} />
         <Route path="/singleparking" element={<ParkingPropertyDetails />} />
         <Route
@@ -102,13 +101,10 @@ function App() {
           path="/viewbookingdetails"
           element={<PrivateRoute Component={AdminBookings} />}
         />
-        {/* <Route path="/booking" element={<RoomBooking rooms={rooms} />} /> */}
         <Route
           path="/viewproperty"
           element={<PrivateRoute Component={Viewproperty} />}
         />
-
-        {/* Admin Routes */}
 
         <Route
           path="/dashboard"

@@ -19,6 +19,7 @@ import {
   bookingHotelAndParkingHeader,
 } from "../../Utilis/DataTableSource";
 import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
+import Sidebar from "../../Components/Sidebar/SideBar";
 
 const HotelsList = () => {
   const navigate = useNavigate();
@@ -331,7 +332,7 @@ const HotelsList = () => {
   return (
     <>
       <div className="d-flex" >
-        <AdminSidebar />
+        <Sidebar />
         <div className="container-fluid" style={{ marginTop: "70px" }}>
           <div className="row">
             <div className="col-md-12">

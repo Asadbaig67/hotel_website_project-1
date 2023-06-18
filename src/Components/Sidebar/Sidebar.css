@@ -24,6 +24,7 @@ main {
   color: white;
   height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .top_section {
@@ -36,6 +37,13 @@ main {
 .logo {
   font-size: 18px;
   line-height: 0;
+}
+
+.divider_heading{
+  font-size: 20px;
+  color: #fff;
+  margin: 10px 0;
+  padding: 0 10px;
 }
 
 .bars {
@@ -78,6 +86,7 @@ main {
   gap: 10px;
   padding: 5px 10px;
   border-right: 4px solid transparent;
+  align-items: center;
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 
@@ -87,14 +96,14 @@ main {
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 
-.active {
+.active_tab {
   border-right: 4px solid white;
   background: rgb(45, 51, 89);
 }
 
 .link_text {
   white-space: nowrap;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .menu {
@@ -120,4 +129,8 @@ main {
 .menu_container .link {
   padding-left: 20px;
   border-bottom: #fff 0.5px solid;
+}
+
+.icon{
+  font-size: 16px;
 }

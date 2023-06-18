@@ -274,7 +274,7 @@ export default function AdminSidebar() {
     <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />{" "}
-        <AppBar position="fixed" open={open}>
+        <AppBar position="fixed" open={open} sx={{ marginLeft: 10 }}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -440,7 +440,7 @@ export default function AdminSidebar() {
           {/* </div> */}
           <Divider />
 
-          {open && (
+          {/* {open && (
             <List>
               <div className="d-flex justify-content-center">
                 <img src={user.photo ? user.photo : person} alt="user" />
@@ -454,7 +454,7 @@ export default function AdminSidebar() {
                 </Typography>
               </div>
             </List>
-          )}
+          )} */}
           {view === "admin" ? (
             <>
               <List>
@@ -537,7 +537,9 @@ export default function AdminSidebar() {
                           minWidth: 0,
                           mr: open ? 3 : "auto",
                           justifyContent: "center",
-                          color: `${path === element.link ? "#00838f" : "#000"}`,
+                          color: `${
+                            path === element.link ? "#00838f" : "#000"
+                          }`,
                         }}
                       >
                         {element.icon}
@@ -580,7 +582,9 @@ export default function AdminSidebar() {
                           minWidth: 0,
                           mr: open ? 3 : "auto",
                           justifyContent: "center",
-                          color: `${path === element.link ? "#00838f" : "#000"}`,
+                          color: `${
+                            path === element.link ? "#00838f" : "#000"
+                          }`,
                         }}
                       >
                         {element.icon}
@@ -621,7 +625,9 @@ export default function AdminSidebar() {
                           minWidth: 0,
                           mr: open ? 3 : "auto",
                           justifyContent: "center",
-                          color: `${path === element.link ? "#00838f" : "#000"}`,
+                          color: `${
+                            path === element.link ? "#00838f" : "#000"
+                          }`,
                         }}
                       >
                         {element.icon}
@@ -664,7 +670,9 @@ export default function AdminSidebar() {
                           minWidth: 0,
                           mr: open ? 3 : "auto",
                           justifyContent: "center",
-                          color: `${path === element.link ? "#00838f" : "#000"}`,
+                          color: `${
+                            path === element.link ? "#00838f" : "#000"
+                          }`,
                         }}
                       >
                         {element.icon}
@@ -758,7 +766,7 @@ export default function AdminSidebar() {
             </>
           ) : null}
 
-          <Box className={styles.nav__logout} onClick={handleClickOpen}>
+          {/* <Box className={styles.nav__logout} onClick={handleClickOpen}>
             <List>
               {SidebarDataLogout.map((element, index) => (
                 <ListItem key={index} disablePadding sx={{ display: "block" }}>
@@ -786,7 +794,7 @@ export default function AdminSidebar() {
                 </ListItem>
               ))}
             </List>
-          </Box>
+          </Box> */}
         </Drawer>
       </Box>
       <Dialog
