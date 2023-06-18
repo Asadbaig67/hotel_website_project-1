@@ -7,6 +7,7 @@ import Footer from "../../Components/footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 import Dropdown from "../../Components/dropdown/Dropdown";
+import PageNotFound from "../../Components/No Data Page/PageNotFound";
 
 const List = () => {
   const dispatch = useDispatch();
@@ -170,278 +171,88 @@ const List = () => {
       <Navbar list={false} className="w-100" />
       <div className={`${style.listContainer}`}>
         <div className={`row justify-content-around ${style.listWrapper}`}>
-          <div className={`col-3 ${style.sideSection}`}>
+          <div className={`col-3 ${style.sideSection} `}>
             <div className={`${style.listSearch}`}>
-              <h1 className={style.lsTitle}>Search</h1>
-              <div className={style.lsItem}>
-                <label style={{ color: "white" }}>Destination</label>
-                {/* <input
-                  placeholder={city === "" ? cityHotelAndParking : city}
-                  type="text"
-                  onChange={(e) =>
-                    dispatch({ type: "SET_CITY", payload: e.target.value })
-                  }
-                /> */}
-                <Dropdown name="cityHotel" />
+              <h1 className={`${style.lsTitle} fw-bold text-center fs-4`}>
+                Search
+              </h1>
+              <div className={`${style.lsItem}`}>
+                <label className={`${style.lsLabel}`}>Destination</label>
+                <div className="bg-white p-1 rounded-4">
+                  <Dropdown name="cityHotel" />
+                </div>
               </div>
-              <div className={style.lsItem}>
-                <label style={{ color: "white" }}>Check-in Date</label>
-                <span
-                  style={{ fontSize: "15px" }}
+              <div className={`${style.lsItem}`}>
+                <label className={`${style.lsLabel}`}>Check-in Date</label>
+                {/* <span
+                  className={`${style.lsDate}`}
                   onClick={() => setOpenDate(!openDate)}
                 >
                   {dates[0] ? `${dates[0]} to ${dates[1]}` : null}
-                </span>
-                {openDate && <Dates />}
+                </span> */}
+                <div className="bg-white p-1 rounded-4">{<Dates />}</div>
               </div>
-              <div className={style.lsItem}>
-                <label style={{ color: "white" }}>Options</label>
-                <div className={style.lsOptions}>
-                  {/* <div className={style.lsOptionItem}>
-                    <span className={style.lsOptionText}>
-                      Min price <small>per night</small>
-                    </span>
+              <div className={`${style.lsItem}`}>
+                <label className={`${style.lsLabel}`}>Options</label>
+                <div className={`${style.lsOptions}`}>
+                  <div className={`${style.lsOptionItem}`}>
+                    <span className={`${style.lsOptionText}`}>Adult</span>
                     <input
                       type="number"
-                      onChange={(e) => setMin(e.target.value)}
-                      className={style.lsOptionInput}
-                    />
-                  </div>
-                  <div className={style.lsOptionItem}>
-                    <span className={style.lsOptionText}>
-                      Max price <small>per night</small>
-                    </span>
-                    <input
-                      type="number"
-                      onChange={(e) => setMax(e.target.value)}
-                      className={style.lsOptionInput}
-                    />
-                  </div> */}
-                  <div className={style.lsOptionItem}>
-                    <span className={style.lsOptionText}>Adult</span>
-                    <input
-                      type="number"
-                      // min={1}
                       value={option.adult}
-                      className={style.lsOptionInput}
-                      placeholder={option.adult}
-                      // onChange={(e) =>
-                      //   e.target.value < 1 || e.target.value === ""
-                      //     ? dispatch({
-                      //         type: "SET_OPTION",
-                      //         payload: { ...options, adult: 1 },
-                      //       })
-                      //     : dispatch({
-                      //         type: "SET_OPTION",
-                      //         payload: { ...options, adult: e.target.value },
-                      //       })
-                      // }
                       onChange={(e) => {
                         setOption({ ...option, adult: e.target.value });
-                        // dispatch({
-                        //   type: "SET_OPTION",
-                        //   payload: { ...options, adult: e.target.value },
-                        // });
                       }}
                     />
                   </div>
-                  <div className={style.lsOptionItem}>
-                    <span className={style.lsOptionText}>Children</span>
+                  <div className={`${style.lsOptionItem}`}>
+                    <span className={`${style.lsOptionText}`}>Children</span>
                     <input
                       type="number"
-                      // min={0}
                       value={option.children}
-                      className={style.lsOptionInput}
-                      placeholder={options.children}
-                      // onChange={(e) =>
-                      //   e.target.value < 1 || e.target.value === ""
-                      //     ? dispatch({
-                      //         type: "SET_OPTION",
-                      //         payload: { ...options, children: 1 },
-                      //       })
-                      //     : dispatch({
-                      //         type: "SET_OPTION",
-                      //         payload: { ...options, adult: e.target.value },
-                      //       })
-                      // }
                       onChange={(e) => {
                         setOption({ ...option, children: e.target.value });
-                        // dispatch({
-                        //   type: "SET_OPTION",
-                        //   payload: { ...options, children: e.target.value },
-                        // });
                       }}
                     />
                   </div>
-                  <div className={style.lsOptionItem}>
-                    <span className={style.lsOptionText}>Single Room</span>
+                  <div className={`${style.lsOptionItem}`}>
+                    <span className={`${style.lsOptionText}`}>Single Room</span>
                     <input
                       type="number"
-                      // min={1}
                       value={option.singleRoom}
-                      className={style.lsOptionInput}
-                      // placeholder={
-                      //   options.singleRoom +
-                      //   options.twinRoom +
-                      //   options.familyRoom
-                      // }
-                      // onChange={(e) =>
-                      //   e.target.value < 1 || e.target.value === ""
-                      //     ? dispatch({
-                      //         type: "SET_OPTION",
-                      //         payload: { ...options, SingleRoom: 1 },
-                      //       })
-                      //     : dispatch({
-                      //         type: "SET_OPTION",
-                      //         payload: { ...options, room: e.target.value },
-                      //       })
-                      // }
                       onChange={(e) => {
                         setOption({ ...option, singleRoom: e.target.value });
-                        // dispatch({
-                        //   type: "SET_OPTION",
-                        //   payload: { ...options, singleRoom: e.target.value },
-                        // });
                       }}
                     />
                   </div>
-                  <div className={style.lsOptionItem}>
-                    <span className={style.lsOptionText}>Twin Room</span>
+                  <div className={`${style.lsOptionItem}`}>
+                    <span className={`${style.lsOptionText}`}>Twin Room</span>
                     <input
                       type="number"
-                      // min={1}
                       value={option.twinRoom}
-                      className={style.lsOptionInput}
-                      // placeholder={
-                      //   options.singleRoom +
-                      //   options.twinRoom +
-                      //   options.familyRoom
-                      // }
-                      // onChange={(e) =>
-                      //   e.target.value < 1 || e.target.value === ""
-                      //     ? dispatch({
-                      //         type: "SET_OPTION",
-                      //         payload: { ...options, SingleRoom: 1 },
-                      //       })
-                      //     : dispatch({
-                      //         type: "SET_OPTION",
-                      //         payload: { ...options, room: e.target.value },
-                      //       })
-                      // }
                       onChange={(e) => {
                         setOption({ ...option, twinRoom: e.target.value });
-                        // dispatch({
-                        //   type: "SET_OPTION",
-                        //   payload: { ...options, twinRoom: e.target.value },
-                        // });
                       }}
                     />
                   </div>
-                  <div className={style.lsOptionItem}>
-                    <span className={style.lsOptionText}>Family Room</span>
+                  <div className={`${style.lsOptionItem}`}>
+                    <span className={`${style.lsOptionText}`}>Family Room</span>
                     <input
                       type="number"
-                      // min={1}
                       value={option.familyRoom}
-                      className={style.lsOptionInput}
-                      // placeholder={
-                      //   options.singleRoom +
-                      //   options.twinRoom +
-                      //   options.familyRoom
-                      // }
-                      // onChange={(e) =>
-                      //   e.target.value < 1 || e.target.value === ""
-                      //     ? dispatch({
-                      //         type: "SET_OPTION",
-                      //         payload: { ...options, SingleRoom: 1 },
-                      //       })
-                      //     : dispatch({
-                      //         type: "SET_OPTION",
-                      //         payload: { ...options, room: e.target.value },
-                      //       })
-                      // }
                       onChange={(e) => {
                         setOption({ ...option, familyRoom: e.target.value });
-                        // dispatch({
-                        //   type: "SET_OPTION",
-                        //   payload: { ...options, familyRoom: e.target.value },
-                        // });
                       }}
                     />
                   </div>
                 </div>
               </div>
-              <button className="btn btn-primary " onClick={handleClick}>
+              <button className="btn btn-secondary" onClick={handleClick}>
                 Search
               </button>
             </div>
-            {/* <div className="border border-dark mt-5">
-              <h1
-                className={`border border-dark border-top-0 border-start-0 border-end-0 ${style.filterTitle}`}
-              >
-                Filter
-              </h1>
-              <div className="row">
-                <div className="col-12">
-                  <div
-                    className={`border border-dark border-top-0 border-start-0 border-end-0 ${style.filterItem}`}
-                  >
-                    <h3 className={style.filterItemTitle}>Rating</h3>
-                    {rating.map((item) => {
-                      return (
-                        <div className="form-check" key={item}>
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value={item}
-                            id={`flexCheckRating5${item}`}
-                            onChange={handleOnChangeRating}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor={`flexCheckRating5${item}`}
-                          >
-                            {item} Stars
-                          </label>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className={style.filterItem}>
-                    <h3 className={style.filterItemTitle}>Price</h3>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="flexRadioPrice"
-                        id="flexRadioDefault6"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexRadioDefault6"
-                      >
-                        Min to Max
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="flexRadioPrice"
-                        id="flexRadioDefault7"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexRadioDefault7"
-                      >
-                        Max to Min
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </div>
+
           <div className={`col-8 ${style.listResult}`}>
             {activePath === "hotel" &&
               featured_hotel.length === 0 &&
@@ -449,10 +260,13 @@ const List = () => {
             {activePath === "hotelAndParking" &&
               hotelData.length === 0 &&
               featured_hotel.length === 0 && <Loader />}
-            
+
             {activePath === "hotel" &&
             featured_hotel.message === "No Hotel Found" ? (
-              <h1 className="text-center text-danger">{featured_hotel.message}</h1>
+              // <h1 className="text-center text-danger">
+              //   {featured_hotel.message}
+              // </h1>
+              <PageNotFound />
             ) : (
               activePath === "hotel" &&
               featured_hotel.length > 0 && (
@@ -465,7 +279,7 @@ const List = () => {
             )}
             {activePath === "hotel" &&
             hotelData.message === "No Hotel Found" ? (
-              <h1 className="text-center text-danger">{hotelData.message}</h1>
+              <PageNotFound />
             ) : (
               activePath === "hotel" &&
               hotelData.length > 0 && (
@@ -478,7 +292,7 @@ const List = () => {
             )}
             {activePath === "hotelAndParking" &&
             featured_hotel.message === "No Hotel Found" ? (
-              <h1 className="text-center text-danger">{featured_hotel.message}</h1>
+              <PageNotFound />
             ) : (
               activePath === "hotelAndParking" &&
               featured_hotel.length > 0 && (
@@ -491,7 +305,7 @@ const List = () => {
             )}
             {activePath === "hotelAndParking" &&
             hotelData.message === "No hotels found" ? (
-              <h1 className="text-center text-danger">{hotelData.message}</h1>
+              <PageNotFound />
             ) : (
               activePath === "hotelAndParking" &&
               hotelData.length > 0 && (
@@ -502,7 +316,6 @@ const List = () => {
                 </>
               )
             )}
-            
           </div>
         </div>
       </div>

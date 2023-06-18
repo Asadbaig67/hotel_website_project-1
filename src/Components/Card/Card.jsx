@@ -229,105 +229,112 @@ const Card = (props) => {
   }
 
   return (
-    <div className="w-100 pe-2 rounded-2 mb-3">
-      <div className="row">
-        <div className="col-md-3 col-xl-3 col-sm-12">
-          <div className="h-100 bg-image hover-zoom ripple rounded ripple-surface">
-            <img src={src} className="w-100 h-100" />
-            <div className="hover-overlay">
-              <div
-                className="mask"
-                style={{
-                  backgroundColor: "rgba(253, 253, 253, 0.15)",
-                }}
-              ></div>
+    <>
+      <div className="w-100  pe-2 rounded-2 mb-3">
+        <div className="row bg-white p-3 border rounded-3">
+          <div className="col-md-3 col-xl-3 col-sm-12">
+            <div className="h-100 bg-image hover-zoom ripple rounded ripple-surface">
+              <img src={src} className="w-100 h-100" />
+              <div className="hover-overlay">
+                <div
+                  className="mask"
+                  style={{
+                    backgroundColor: "rgba(253, 253, 253, 0.15)",
+                  }}
+                ></div>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="col-md-6 col-xl-6 col-sm-12 py-1 px-2">
-          <div className="d-flex flex-row justify-content-between">
-            <h5 className="my-xl-0 my-md-0 my-sm-2 flex-grow-1">
-              {name ? name : hotel_name}
-            </h5>
-            <Box
-              className="justify-content-end"
-              sx={{
-                width: 200,
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Rating
-                name="hover-feedback"
-                readOnly
-                value={rating ? rating : hotel_rating}
-                precision={0.5}
-                getLabelText={getLabelText}
-                // onChange={(event, newValue) => {
-                //   setValue(newValue);
-                // }}
-                // onChangeActive={(event, newHover) => {
-                //   setHover(newHover);
-                // }}
-                emptyIcon={
-                  <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-                }
-              />
-              {/* {rating !== null && (
+          <div
+            className={` ${
+              featured_hotel.length > 0
+                ? "col-md-9 col-xl-9"
+                : "col-md-6 col-xl-6"
+            }  col-sm-12 py-1 px-2`}
+          >
+            <div className="d-flex flex-row justify-content-between">
+              <h5 className="my-xl-0 my-md-0 my-sm-2 flex-grow-1">
+                {name ? name : hotel_name}
+              </h5>
+              <Box
+                className="justify-content-end"
+                sx={{
+                  width: 200,
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Rating
+                  name="hover-feedback"
+                  readOnly
+                  value={rating ? rating : hotel_rating}
+                  precision={0.5}
+                  getLabelText={getLabelText}
+                  // onChange={(event, newValue) => {
+                  //   setValue(newValue);
+                  // }}
+                  // onChangeActive={(event, newHover) => {
+                  //   setHover(newHover);
+                  // }}
+                  emptyIcon={
+                    <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                  }
+                />
+                {/* {rating !== null && (
                 <Box sx={{ mb: 1, fontSize: 17 }}>
                   {labels[rating ? rating : hotel_rating]}
                 </Box>
               )} */}
-            </Box>
-          </div>
+              </Box>
+            </div>
 
-          <div className="d-flex flex-row">
-            <span>
-              <Link
-                to="/"
-                className="text-primary fs-8 fw-bold my-0 mx-md-0 mx-0"
-              >
-                {city ? city : hotel_city}
-              </Link>
-            </span>
-            <span>
-              <div to="/" className="fs-8 fw-light my-0 mx-1">
-                {country ? country : hotel_country}
-                {/* {hotel_country ? hotel_country : "Bangladesh"} */}
-              </div>
-            </span>
-          </div>
+            <div className="d-flex flex-row">
+              <span>
+                <Link
+                  to="/"
+                  className="text-primary fs-8 fw-bold my-0 mx-md-0 mx-0"
+                >
+                  {city ? city : hotel_city}
+                </Link>
+              </span>
+              <span>
+                <div to="/" className="fs-8 fw-light my-0 mx-1">
+                  {country ? country : hotel_country}
+                  {/* {hotel_country ? hotel_country : "Bangladesh"} */}
+                </div>
+              </span>
+            </div>
 
-          <div className="mt-1 mb-0 text-muted" style={{ fontSize: "12px" }}>
-            {Facilities.length > 0 && (
-              <>
-                {Facilities.slice(3, 7).map((facility, index) => (
-                  <React.Fragment key={index}>
-                    <span>{facility}</span>
-                    {index !== Facilities.slice(3, 7).length - 1 && (
-                      <span className="text-primary"> • </span>
-                    )}
-                  </React.Fragment>
-                ))}
-              </>
-            )}
-            <br />
-          </div>
-          <div className="mb-1 text-muted small" style={{ fontSize: "12px" }}>
-            {Facilities.length > 0 && (
-              <>
-                {Facilities.slice(0, 3).map((facility, index) => (
-                  <React.Fragment key={index}>
-                    <span>{facility}</span>
-                    {index !== Facilities.slice(0, 3).length - 1 && (
-                      <span className="text-primary"> • </span>
-                    )}
-                  </React.Fragment>
-                ))}
-              </>
-            )}
-            <br />
-            {/* <span>{cardData.attr4}</span>
+            <div className="mt-1 mb-0 text-muted" style={{ fontSize: "12px" }}>
+              {Facilities.length > 0 && (
+                <>
+                  {Facilities.slice(3, 7).map((facility, index) => (
+                    <React.Fragment key={index}>
+                      <span>{facility}</span>
+                      {index !== Facilities.slice(3, 7).length - 1 && (
+                        <span className="text-primary"> • </span>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </>
+              )}
+              <br />
+            </div>
+            <div className="mb-1 text-muted small" style={{ fontSize: "12px" }}>
+              {Facilities.length > 0 && (
+                <>
+                  {Facilities.slice(0, 3).map((facility, index) => (
+                    <React.Fragment key={index}>
+                      <span>{facility}</span>
+                      {index !== Facilities.slice(0, 3).length - 1 && (
+                        <span className="text-primary"> • </span>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </>
+              )}
+              <br />
+              {/* <span>{cardData.attr4}</span>
             <span className="text-primary"> • </span>
             <span>{cardData.attr5}</span>
             <span className="text-primary"> • </span>
@@ -335,45 +342,61 @@ const Card = (props) => {
               {cardData.attr6}
               <br />
             </span> */}
-          </div>
-          <div className="text-muted small">
-            {options.singleRoom > 0
-              ? `${options.singleRoom}x Single Room`
-              : null}{" "}
-            {options.twinRoom > 0 ? ` . ${options.twinRoom}x Twin Room` : null}{" "}
-            {options.familyRoom > 0
-              ? ` . ${options.familyRoom}x Family Room`
-              : null}{" "}
-          </div>
-          <div className={style.hide992}>
-            <small className="text-success d-block fs-7 fw-bold">
-              Free cancellation
-            </small>
-            {/* <small className="fs-7 text-muted">
+            </div>
+            <div className="text-muted small">
+              {options.singleRoom > 0
+                ? `${options.singleRoom}x Single Room`
+                : null}{" "}
+              {options.twinRoom > 0
+                ? ` . ${options.twinRoom}x Twin Room`
+                : null}{" "}
+              {options.familyRoom > 0
+                ? ` . ${options.familyRoom}x Family Room`
+                : null}{" "}
+            </div>
+            <div className={`d-flex flex-row justify-content-between`}>
+              <small className="text-success d-block fs-7 fw-bold">
+                Free cancellation
+              </small>
+              {/* <small className="fs-7 text-muted">
               You can cancel later, so lock in this great price today.
             </small> */}
-            {/* <p className="mb-4 text-truncate mb-md-0">
+              {/* <p className="mb-4 text-truncate mb-md-0">
               {description ? description : hotel_description}
             </p> */}
+              {featured_hotel.length > 0 ? (
+                <button
+                  className="btn btn-outline-primary text-uppercase btn-md"
+                  type="button"
+                  // onClick={setSelectedHotel}
+                  onClick={() => dispatch({ type: "SET_FOCUS", payload: true })}
+                >
+                  Show Prices
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
-        </div>
-        <div
-          className={`col-md-3 col-xl-3 col-sm-12 border-start border-3 pb-2 ${style.border_sm_start_none}`}
-        >
-          <div className="d-flex flex-column h-100 justify-content-end">
-            {featured_hotel.length > 0 ? (
-              ""
-            ) : (
-              <>
-                <small className="fs-6 text-end fw-light text-muted">
-                  {nights && nights} nights
-                </small>
-                <small className="fs-6 text-end fw-light text-muted">
-                  {options.adult} adults, {options.children} children
-                </small>
-                <div className="d-flex ms-auto flex-row align-items-center">
-                  <h4 className="fw-bold mx-1 fs-4">
-                    {/* {options.singleRoom +
+          <div
+            className={`col-md-3 col-xl-3 col-sm-12 ${
+              featured_hotel.length.length > 0 ? "border-start border-3" : ""
+            } pb-2 ${style.border_sm_start_none}`}
+          >
+            <div className="d-flex flex-column h-100 justify-content-end">
+              {featured_hotel.length > 0 ? (
+                ""
+              ) : (
+                <>
+                  <small className="fs-6 text-end fw-light text-muted">
+                    {nights && nights} nights
+                  </small>
+                  <small className="fs-6 text-end fw-light text-muted">
+                    {options.adult} adults, {options.children} children
+                  </small>
+                  <div className="d-flex ms-auto flex-row align-items-center">
+                    <h4 className="fw-bold mx-1 fs-4">
+                      {/* {options.singleRoom +
                       options.twinRoom +
                       options.familyRoom >
                     1
@@ -382,58 +405,62 @@ const Card = (props) => {
                           options.twinRoom +
                           options.familyRoom)
                       : price} */}
-                    ${Total_Price && Total_Price}
-                  </h4>
-                  <span className="text-danger">
-                    <s>
-                      {/* {options.room > 1 ? price * options.room : price + 50}$
-                       */}
-                      ${Total_Price && Total_Price + 2000}
-                    </s>
-                  </span>
-                </div>
-                <small className="text-muted text-end fs-7 fw-light">
-                  +{options.room > 1 ? price * options.room : price + 20}$ Tax
-                  and charges
-                </small>
-              </>
-            )}
-
-            <div className="d-flex flex-column mt-2">
-              {featured_hotel.length > 0 ? (
-                <button
-                  className="btn btn-primary text-uppercase btn-md"
-                  type="button"
-                  // onClick={setSelectedHotel}
-                  onClick={() => dispatch({ type: "SET_FOCUS", payload: true })}
-                >
-                  Show Prices
-                </button>
-              ) : (
-                <>
-                  <button
-                    className="btn btn-primary text-uppercase btn-md"
-                    type="button"
-                    onClick={setSelectedHotel}
-                  >
-                    {/* See Availability
-                     */}
-                    Book room
-                    {options.singleRoom +
-                      options.twinRoom +
-                      options.familyRoom >
-                    1
-                      ? "s"
-                      : ""}
-                  </button>
+                      ${Total_Price && Total_Price}
+                    </h4>
+                    <span className="text-danger">
+                      <s>
+                        {/* {options.room > 1 ? price * options.room : price + 50}$
+                         */}
+                        ${Total_Price && Total_Price + 2000}
+                      </s>
+                    </span>
+                  </div>
+                  <small className="text-muted text-end fs-7 fw-light">
+                    +{options.room > 1 ? price * options.room : price + 20}$ Tax
+                    and charges
+                  </small>
                 </>
               )}
+
+              <div className="d-flex flex-column mt-2">
+                {featured_hotel.length > 0 ? (
+                  // <button
+                  //   className="btn btn-primary text-uppercase btn-md"
+                  //   type="button"
+                  //   // onClick={setSelectedHotel}
+                  //   onClick={() =>
+                  //     dispatch({ type: "SET_FOCUS", payload: true })
+                  //   }
+                  // >
+                  //   Show Prices
+                  // </button>
+                  ""
+                ) : (
+                  <>
+                    <button
+                      className="btn btn-primary text-uppercase btn-md"
+                      type="button"
+                      onClick={setSelectedHotel}
+                    >
+                      {/* See Availability
+                       */}
+                      Book room
+                      {options.singleRoom +
+                        options.twinRoom +
+                        options.familyRoom >
+                      1
+                        ? "s"
+                        : ""}
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
+        {/* <hr className={`my-4 mx-auto ${style.hr}`} /> */}
       </div>
-      <hr className={`my-4 mx-auto ${style.hr}`} />
-    </div>
+    </>
   );
 };
 

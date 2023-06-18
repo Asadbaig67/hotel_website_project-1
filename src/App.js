@@ -20,6 +20,8 @@ import ParkingList from "./Pages/ParkingList/ParkingList";
 import HotelAndParking from "./Pages/HotelAndParking/HotelAndParking";
 import Reactmaps from "./Components/Map/reactMaps";
 import Loader from "./Components/Loader/Loader";
+import SearchBar from "./Components/SearchBar/SearchBar";
+import PageNotFound from "./Components/No Data Page/PageNotFound";
 
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Profile from "./Pages/Profile/Profile";
@@ -46,6 +48,7 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="/search" element={<SearchBar />} />
         <Route path="/signup" element={<PublicRoute Component={Signup} />} />
         <Route path="/signin" element={<PublicRoute Component={Signin} />} />
         <Route path="/forgetpassword" element={<Forgetpass />} />
@@ -54,6 +57,7 @@ function App() {
           path="/reset/password"
           element={<PublicRoute Component={Changepassword} />}
         />
+        <Route path="/notfound" element={<PageNotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/listHotel" element={<List />} />
         <Route path="/singleHotel" element={<Hotel />} />
