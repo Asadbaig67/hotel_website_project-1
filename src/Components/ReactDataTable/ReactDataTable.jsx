@@ -233,6 +233,56 @@ const ReactDataTable = ({ path, user }) => {
       navigate("/updatehotelandparking", { state: { id: id } });
   };
 
+  const Addnew = () => {
+    if (
+      path === "hotels" ||
+      path === "hotelRequests" ||
+      (path === "Property" && user.partner_type === "Hotel") ||
+      (path === "PropertyRequests" && user.partner_type === "Hotel")
+    ) {
+      // window.location.href = "/hotelform";
+      navigate("/hotelform");
+    } else if (path === "users") {
+      // window.location.href = "/adduser";
+      navigate("/adduser");
+    } else if (
+      path === "hotelbookings" ||
+      path === "upcominghotelbookings" ||
+      path === "cancelbooking"
+    ) {
+      // window.location.href = "/addbooking";
+      // navigate("/");
+    } else if (
+      path === "parkingbookings" ||
+      path === "upcomingparkingbookings"
+    ) {
+      // window.location.href = "/addbooking";
+      navigate("/parking");
+    } else if (
+      path === "hotelandparkingbookings" ||
+      path === "upcominghotelandparkingbookings"
+    ) {
+      // window.location.href = "/addbooking";
+      navigate("/HotelAndParking");
+    } else if (
+      path === "parkings" ||
+      path === "parkingRequests" ||
+      (path === "Property" && user.partner_type === "Parking") ||
+      (path === "PropertyRequests" && user.partner_type === "Parking")
+    ) {
+      // window.location.href = "/parkingform";
+      navigate("/parkingform");
+    } else if (
+      path === "HotelsAndParkings" ||
+      path === "hotelAndParkingRequests" ||
+      (path === "Property" && user.partner_type === "HotelAndParking") ||
+      (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
+    ) {
+      // window.location.href = "/hotelparkingform";
+      navigate("/hotelparkingform");
+    }
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -384,14 +434,22 @@ const ReactDataTable = ({ path, user }) => {
                   : path === "bookingRequests"
                   ? "Upcoming Bookings"
                   : null
-                : user.account_type === "user"
-                ? path === "hotelbookings"
-                  ? "Hotel Bookings"
-                  : path === "parkingbookings"
-                  ? "Parking Bookings"
-                  : path === "hotelandparkingbookings"
-                  ? "Hotel And Parking Bookings"
-                  : null
+                : null
+              : user.account_type === "user"
+              ? path === "hotelbookings"
+                ? "Hotel Bookings"
+                : path === "parkingbookings"
+                ? "Parking Bookings"
+                : path === "hotelandparkingbookings"
+                ? "Hotel And Parking Bookings"
+                : path === "upcominghotelbookings"
+                ? "Upcoming Hotel Bookings"
+                : path === "upcomingparkingbookings"
+                ? "Upcoming Parking Bookings"
+                : path === "upcominghotelandparkingbookings"
+                ? "Upcoming Hotel And Parking Bookings"
+                : path === "cancelbooking"
+                ? "Canceled Bookings"
                 : null
               : null
           }
@@ -418,6 +476,14 @@ const ReactDataTable = ({ path, user }) => {
               : header.concat(viewColumn, deleteColumn)
           }
           data={list}
+          actions={
+            <button
+              className="btn btn-primary fw-bold"
+              onClick={Addnew}
+            >
+              Add new
+            </button>
+          }
           pagination
           fixedHeader
           fixedHeaderScrollHeight="450px"
