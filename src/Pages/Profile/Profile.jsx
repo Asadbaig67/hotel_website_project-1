@@ -7,6 +7,7 @@ import ProfileView from "../../Components/ProfileView/ProfileView";
 import EditProfile from "../../Components/EditProfile/EditProfile";
 import ChangePassword from "../../Components/changePassword/changePassword";
 import { useMediaQuery } from "@mui/material";
+import Sidebar from "../../Components/Sidebar/SideBar";
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ export default function Profile() {
   return (
     <>
       <div className="d-flex">
-        <AdminSidebar />
+        <Sidebar />
         <div className="container-fluid mt-5">
           <div
             className={`rounded ${mode === "dark" ? "bg-dark" : style.bg}`}
