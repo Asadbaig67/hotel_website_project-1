@@ -7,7 +7,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import style from "../Hotel_Forms/addhotel.module.css";
 import Button from "@mui/material/Button";
-import AdminSidebar from "../../adminSidebar/AdminSidebar";
+// import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";

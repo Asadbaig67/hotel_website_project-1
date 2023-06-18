@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "./Profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import userImg from "../../images/user.png";
-import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
+// import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 import ProfileView from "../../Components/ProfileView/ProfileView";
 import EditProfile from "../../Components/EditProfile/EditProfile";
 import ChangePassword from "../../Components/changePassword/changePassword";

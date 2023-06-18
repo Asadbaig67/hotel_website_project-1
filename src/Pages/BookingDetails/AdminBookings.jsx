@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
-import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
+// import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
+import Sidebar from "../../Components/Sidebar/SideBar";
 
 // export default ViewBookings;
 const ViewBookings = () => {
@@ -193,7 +194,7 @@ const ViewBookings = () => {
   return (
     <>
       <div className="d-flex">
-        <AdminSidebar />
+        <Sidebar />
         {loading ? (
           <h1>Loading</h1>
         ) : (
