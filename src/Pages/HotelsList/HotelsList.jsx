@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import DatagridHeader from "../../Components/DatagridHeader/DatagridHeader";
+import ReactDataTable from "../../Components/ReactDataTable/ReactDataTable";
 
 import {
   hotelsHeader,
@@ -17,8 +18,9 @@ import {
   bookingHotelHeader,
   bookingParkingHeader,
   bookingHotelAndParkingHeader,
+  userHeader1
 } from "../../Utilis/DataTableSource";
-import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
+// import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 import Sidebar from "../../Components/Sidebar/SideBar";
 
 const HotelsList = () => {
@@ -48,7 +50,7 @@ const HotelsList = () => {
         type: "SETURL",
         payload: "http://localhost:5000/user/getall",
       });
-      dispatch({ type: "SETHEADER", payload: userHeader });
+      dispatch({ type: "SETHEADER", payload: userHeader1 });
     } else if (path === "booking") {
       dispatch({
         type: "SETURL",
@@ -520,7 +522,7 @@ const HotelsList = () => {
                 </div>
                 <div className="col-md-12">
                   <div className="table-responsive">
-                    <DataTable path={path} user={user} />
+                    <ReactDataTable path={path} user={user} />
                   </div>
                 </div>
               </div>

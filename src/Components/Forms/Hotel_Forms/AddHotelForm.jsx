@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import AdminSidebar from "../../adminSidebar/AdminSidebar";
+// import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
 import style from "./addhotel.module.css";

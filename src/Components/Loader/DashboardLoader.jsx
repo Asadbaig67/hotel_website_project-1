@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./dashboardloader.module.css";
-import AdminSidebar from "../adminSidebar/AdminSidebar";
+// import AdminSidebar from "../adminSidebar/AdminSidebar";
 import Sidebar from "../Sidebar/SideBar";
 
 const DashboardLoader = () => {

@@ -1,10 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
-import { MdMessage } from "react-icons/md";
-import { BiAnalyse, BiSearch } from "react-icons/bi";
-import { BiCog } from "react-icons/bi";
-import { AiFillHeart, AiTwotoneFileExclamation } from "react-icons/ai";
-import { BsCartCheck } from "react-icons/bs";
+import { FaBars } from "react-icons/fa";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
@@ -79,7 +74,7 @@ const SideBar = ({ children }) => {
               to={route.link}
               key={index}
               className="link"
-              activeClassName="active_tab"
+              activeClassName="active"
             >
               <div className="icon">{route.icon}</div>
               <AnimatePresence>
@@ -169,7 +164,14 @@ const SideBar = ({ children }) => {
           </section>
         </motion.div>
 
-        <main>{children}</main>
+        <main
+          style={{
+            margin: `${isOpen ? "150px" : "25px"}`,
+            transitionDelay: `${isOpen ? "0.1s" : "0.2s"}`,
+          }}
+        >
+          {children}
+        </main>
       </div>
     </>
   );

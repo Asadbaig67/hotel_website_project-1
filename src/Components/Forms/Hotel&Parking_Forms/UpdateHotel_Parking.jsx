@@ -7,7 +7,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
 import style from "../Hotel_Forms/addhotel.module.css";
-import AdminSidebar from "../../adminSidebar/AdminSidebar";
+// import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 import axios from "axios";
