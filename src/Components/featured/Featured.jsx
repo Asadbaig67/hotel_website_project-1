@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
+import { useMediaQuery } from "@mui/material";
 
 const Featured = () => {
   const Navigate = useNavigate();
@@ -18,6 +19,8 @@ const Featured = () => {
   };
 
   const { activePath } = useSelector((state) => state.activePath);
+
+  const IsLargeScreen = useMediaQuery("(min-width:900px)");
 
   const getCityCount = async (city) => {
     try {
@@ -93,8 +96,8 @@ const Featured = () => {
   };
 
   return (
-    <div className="" >
-      <div className={style.featured}>
+    <div className=" ">
+      <div className={`${style.featured} `}>
         <div className={style.featuredItems}>
           <img
             src="https://cf.bstatic.com/xdata/images/city/max500/957801.webp?k=a969e39bcd40cdcc21786ba92826063e3cb09bf307bcfeac2aa392b838e9b7a5&o="

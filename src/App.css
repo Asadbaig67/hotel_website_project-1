@@ -1,0 +1,331 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+/* 
+---------------------------------------------
+reset
+--------------------------------------------- 
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+div pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+figure,
+header,
+nav,
+section,
+article,
+aside,
+footer,
+figcaption {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
+
+/* clear fix */
+.grid:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* ---- .grid-item ---- */
+
+.grid-sizer,
+.grid-item {
+  width: 50%;
+}
+
+.grid-item {
+  float: left;
+}
+
+.grid-item img {
+  display: block;
+  max-width: 100%;
+}
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.clearfix {
+  display: inline-block;
+}
+
+html[xmlns] .clearfix {
+  display: block;
+}
+
+* html .clearfix {
+  height: 1%;
+}
+
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+header,
+nav,
+section,
+article,
+aside,
+footer,
+hgroup {
+  display: block;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  /* background-color: #fff; */
+  -ms-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+ul {
+  margin-bottom: 0px;
+}
+
+p {
+  font-size: 15px;
+  line-height: 30px;
+  color: #2a2a2a;
+}
+
+img {
+  margin-bottom: -3px;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* 
+---------------------------------------------
+global styles
+--------------------------------------------- 
+*/
+html,
+body {
+  background: #fff;
+  font-family: "Montserrat", sans-serif;
+}
+
+::selection {
+  background: #03a4ed;
+  color: #fff;
+}
+
+::-moz-selection {
+  background: #03a4ed;
+  color: #fff;
+}
+
+/*---------------------
+  About US
+-----------------------*/
+
+/*---------------------
+  Contact Section
+-----------------------*/
+
+.contact-section {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.contact-text h2 {
+  font-size: 44px;
+  color: #19191a;
+  margin-bottom: 24px;
+}
+.contact-text p {
+  color: #707079;
+}
+.contact-text table tbody tr td {
+  font-size: 16px;
+  color: #19191a;
+  line-height: 36px;
+  font-weight: 500;
+}
+.contact-text table tbody tr td.c-o {
+  color: #707079;
+  width: 75px;
+}
+.contact-form input {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #e1e1e1;
+  font-size: 16px;
+  color: #aaaab3;
+  padding-left: 25px;
+  margin-bottom: 28px;
+}
+.contact-form input::-webkit-input-placeholder {
+  color: #aaaab3;
+}
+.contact-form input::-moz-placeholder {
+  color: #aaaab3;
+}
+.contact-form input:-ms-input-placeholder {
+  color: #aaaab3;
+}
+.contact-form input::-ms-input-placeholder {
+  color: #aaaab3;
+}
+.contact-form input::placeholder {
+  color: #aaaab3;
+}
+.contact-form textarea {
+  width: 100%;
+  height: 150px;
+  border: 1px solid #e1e1e1;
+  font-size: 16px;
+  color: #aaaab3;
+  padding-left: 25px;
+  padding-top: 12px;
+  margin-bottom: 33px;
+  resize: none;
+}
+.contact-form textarea::-webkit-input-placeholder {
+  color: #aaaab3;
+}
+.contact-form textarea::-moz-placeholder {
+  color: #aaaab3;
+}
+.contact-form textarea:-ms-input-placeholder {
+  color: #aaaab3;
+}
+.contact-form textarea::-ms-input-placeholder {
+  color: #aaaab3;
+}
+.contact-form textarea::placeholder {
+  color: #aaaab3;
+}
+.contact-form button {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ffffff;
+  letter-spacing: 2px;
+  background: #dfa974;
+  border: none;
+  padding: 14px 34px 13px;
+  display: inline-block;
+}
+.map {
+  height: 470px;
+  -webkit-box-shadow: 0px 14px 35px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 14px 35px rgba(0, 0, 0, 0.15);
+  margin-top: 75px;
+}
+.map iframe {
+  width: 100%;
+}
+
+@media (max-width: 991px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+  .mobile-top-fix {
+    margin-top: 30px;
+    margin-bottom: 0px;
+  }
+  .mobile-bottom-fix {
+    margin-bottom: 30px;
+  }
+  .mobile-bottom-fix-big {
+    margin-bottom: 60px;
+  }
+}
+
+/* For WebKit based browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 10px; /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Set the background color of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Set the color of the scrollbar thumb */
+  border-radius: 5px; /* Add rounded corners to the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Set the color of the scrollbar thumb on hover */
+}

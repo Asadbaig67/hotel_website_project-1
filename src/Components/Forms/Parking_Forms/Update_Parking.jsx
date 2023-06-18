@@ -30,8 +30,15 @@ const UpdateParking = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
+  // Confirm Modal Delete Images
+  const [open, setOpen] = useState(false);
+  const [deleteImage, setDeleteImage] = useState("");
+  const [delImgSuccess, setDelImgSuccess] = useState(false);
+  const [imgMessage, setImgMessage] = useState("");
+  const [delfail, setDelFail] = useState(false);
 
   const handleClickOpen = () => {
+    setOpen(true);
     if (
       formValues.name === "" ||
       formValues.title === "" ||
@@ -62,10 +69,12 @@ const UpdateParking = () => {
   const { user } = loggedinUser;
 
   const handleConditions = () => {
+    setOpen(false);
     setError(false);
     setMessage("");
   };
   const handleSuccess = () => {
+    setOpen(false);
     setSuccess(false);
     setMessage("");
     setFormValues((prevValues) => ({
@@ -125,13 +134,12 @@ const UpdateParking = () => {
   };
 
   // Delete Available Images from backend
-  const DeleteImages = async (image) => {
-    alert(
-      `Are you Sure You Want to Delete This Image? It will be permanently deleted from the Server!`
-    );
+  const DeleteImages = async () => {
+    setLoading(true);
+    setImgMessage("");
 
     let url = `http://localhost:5000/parking/deleteparkingimage/${defaultFormValues._id}`;
-    const data = { link: image.blobURL }; // Request body data as an object
+    const data = { link: deleteImage }; // Request body data as an object
     const options = {
       method: "DELETE", // Replace with the desired HTTP method (e.g., POST, PUT, DELETE)
       headers: {
@@ -141,6 +149,17 @@ const UpdateParking = () => {
     };
 
     const response = await fetch(url, options);
+    if (response.status === 200) {
+      setLoading(false);
+      setDelImgSuccess(true);
+      setImgMessage(
+        "Image Deleted Successfully!! You have to login again to see the changes"
+      );
+    } else {
+      setLoading(false);
+      setDelFail(true);
+      setImgMessage("Something Went Wrong!!");
+    }
     const Responsedata = await response.json();
     console.log(Responsedata);
   };
@@ -171,7 +190,6 @@ const UpdateParking = () => {
   // Add Features Code
 
   const { mode } = useSelector((state) => state.mode);
-  
 
   const handleSubmit = async (event) => {
     setMessage("");
@@ -242,11 +260,76 @@ const UpdateParking = () => {
     getParkingCities();
   }, []);
 
-  console.log("Form Values", formValues);
-  console.log("Original State Array", parkingImages);
+  console.log("Selected Images", deleteImage);
 
   return (
     <>
+      <div
+        class="modal fade"
+        id="staticBackdrop1"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Confirm Delete Image
+              </h1>
+            </div>
+            <div class="modal-body">
+              <span className="d-block">
+                {imgMessage === ""
+                  ? "Are you sure you want to delete this photo?"
+                  : imgMessage}
+              </span>
+            </div>
+            <div class="modal-footer">
+              {!delImgSuccess && (
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  onClick={() => {
+                    setDeleteImage("");
+                    setDelFail(false);
+                    setOpen(false);
+                  }}
+                >
+                  Cancel
+                </button>
+              )}
+              {!loading && !delImgSuccess && !delfail && (
+                <Button variant="contained" onClick={DeleteImages}>
+                  Confirm Delete
+                </Button>
+              )}
+              {loading ? (
+                <>
+                  <CircularProgress />
+                </>
+              ) : (
+                ""
+              )}
+              {delImgSuccess && (
+                <>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    data-bs-dismiss="modal"
+                    onClick={() => window.location.reload()}
+                  >
+                    Finish
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
       <div
         class="modal fade"
         id="staticBackdrop"
@@ -576,10 +659,6 @@ const UpdateParking = () => {
                 >
                   Available Images
                 </label>
-                <small className="text-muted">
-                  {" "}
-                  Please select 3-7 images only{" "}
-                </small>
                 <div className="col-md-12 col-sm-4">
                   <div className={`${style.image_selector}`}>
                     {formValues.photos &&
@@ -606,10 +685,15 @@ const UpdateParking = () => {
                                 aria-label="delete"
                                 size="small"
                                 className={`${style.delete_button}`}
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop1"
                               >
                                 <DeleteIcon
                                   className="text-light me-1"
-                                  onClick={() => DeleteImages(image)}
+                                  onClick={() => {
+                                    setDeleteImage(image);
+                                    setOpen(true);
+                                  }}
                                   fontSize="small"
                                 />
                               </IconButton>
