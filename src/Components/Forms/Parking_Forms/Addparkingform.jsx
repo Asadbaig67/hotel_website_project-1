@@ -9,7 +9,7 @@ import style from "../Hotel_Forms/addhotel.module.css";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useEffect } from "react";
-import AdminSidebar from "../../adminSidebar/AdminSidebar";
+// import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";

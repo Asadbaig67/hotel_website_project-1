@@ -43,6 +43,7 @@ import AdminBookings from "./Pages/BookingDetails/AdminBookings";
 import DashboardLoader from "./Components/Loader/DashboardLoader";
 import PrivateRoute from "./Components/Routes/PrivateRoute";
 import PublicRoute from "./Components/Routes/PublicRoute";
+// import ReactDataTable from "./Components/ReactDataTable/ReactDataTable";
 
 function App() {
   return (
@@ -221,6 +222,7 @@ function App() {
           element={<PrivateRoute Component={UpdateParking} />}
         />
       </Routes>
+      {/* <ReactDataTable /> */}
     </>
   );
 }
