@@ -625,10 +625,9 @@ export default function Dashboard() {
   const card = (argument) => {
     return argument.map((element, i) => {
       return (
-        <div className="col-md-3" key={element.key}>
+        <div className="col-md-3 col-sm-6 mb-4" key={element.key}>
           <Link
-            className={`${style.card1} rounded-3 pb-3`}
-            style={{ height: "87%" }}
+            className={`${style.card1} rounded-3 pb-3 d-block h-100`}
             to={element.link}
           >
             <h3 className="h-50">{element.title}</h3>
@@ -1034,9 +1033,12 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="container-fluid d-flex w-100 px-0">
+      <div className="d-flex px-0">
         <Sidebar />
-        <div className="mt-5 mb-5 w-100">
+        <div
+          className="mt-5 mb-5 container"
+          // style={{ width: "1300px", marginLeft: "60px" }}
+        >
           <div
             className={`row`}
             // style={{
@@ -1163,26 +1165,40 @@ export default function Dashboard() {
               ) : null}
             </div>
 
-            <div className={`row w-100 justify-content-center mt-4`}>
-              {card(cardData)}
+            <div className="container">
+              <div className="row justify-content-center mt-4">
+                {card(cardData)}
+              </div>
             </div>
           </div>
 
           {/* Charts */}
           {view === "admin" ? (
             <>
-              {adminChartList(listingChartData)}
-              {adminChartList(bookingChartData)}
+              <div className="row">
+                <div className="col-12">{adminChartList(listingChartData)}</div>
+                <div className="col-12">{adminChartList(bookingChartData)}</div>
+              </div>
             </>
           ) : view === "partner" ? (
             <>
-              {partnerindividualChartList(partnerIndividualData)}
-              {partnerChartData(partnerCombinedData)}
+              <div className="row">
+                <div className="col-12">
+                  {partnerindividualChartList(partnerIndividualData)}
+                </div>
+                <div className="col-12">
+                  {partnerChartData(partnerCombinedData)}
+                </div>
+              </div>
             </>
           ) : (
             <>
-              {adminChartList(listingChartData)}
-              {partnerChartData(userCombinedData)}
+              <div className="row">
+                <div className="col-12">{adminChartList(listingChartData)}</div>
+                <div className="col-12">
+                  {partnerChartData(userCombinedData)}
+                </div>
+              </div>
             </>
           )}
 

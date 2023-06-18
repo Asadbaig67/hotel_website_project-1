@@ -54,7 +54,7 @@ class SingleChartData extends Component {
               options={this.state.options}
               series={this.state.series}
               type={this.props.type}
-              width="500"
+              height={350}
             />
           </div>
         </div>
