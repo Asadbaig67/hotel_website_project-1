@@ -513,13 +513,7 @@ const Navbar = ({ list }) => {
                   />
                 </Link>
                 <ul className={style.nav}>
-                  <li
-                    style={
-                      activePath === "hotel"
-                        ? { border: "1px solid white", borderColor: color }
-                        : {}
-                    }
-                  >
+                  <li>
                     <NavLink
                       to="/"
                       className={`${!list ? "text-dark" : ""}`}
@@ -531,26 +525,17 @@ const Navbar = ({ list }) => {
                       }}
                     >
                       Hotels
-                      {/* <hr
+                      <hr
                         className={`mt-0 ${style.activeTab} ${
                           activePath === "hotel" ? "d-block" : "d-none"
                         }`}
-                      /> */}
+                      />
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
                       to="/parking"
                       className={`${!list ? "text-dark" : ""}`}
-                      style={
-                        activePath === "parking"
-                          ? {
-                              border: "1px solid white",
-                              borderColor: color,
-                              padding: "0px 15px 0px 15px",
-                            }
-                          : {}
-                      }
                       onClick={() => {
                         dispatch({
                           type: "activePath",
@@ -559,25 +544,16 @@ const Navbar = ({ list }) => {
                       }}
                     >
                       Parkings
-                      {/* <hr
+                      <hr
                         className={`mt-0 ${style.activeTab} ${
                           activePath === "parking" ? "d-block" : "d-none"
                         }`}
-                      /> */}
+                      />
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
                       to="/HotelAndParking"
-                      style={
-                        activePath === "hotelAndParking"
-                          ? {
-                              border: "1px solid white",
-                              borderColor: color,
-                              padding: "0px 15px 0px 15px",
-                            }
-                          : {}
-                      }
                       className={`${!list ? "text-dark" : ""}`}
                       onClick={() => {
                         dispatch({
@@ -587,13 +563,13 @@ const Navbar = ({ list }) => {
                       }}
                     >
                       Hotel and Parking
-                      {/* <hr
+                      <hr
                         className={`mt-0 ${style.activeTab} ${
                           activePath === "hotelAndParking"
                             ? "d-block"
                             : "d-none"
                         }`}
-                      /> */}
+                      />
                     </NavLink>
                   </li>
                   {login ? (
