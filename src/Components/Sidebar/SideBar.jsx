@@ -110,6 +110,7 @@ const SideBar = ({ children }) => {
             //   damping: 8,
             // },
           }}
+          style={{ zIndex: "6" }}
           className={`sidebar`}
         >
           <div className="top_section">
@@ -166,7 +167,7 @@ const SideBar = ({ children }) => {
 
         <main
           style={{
-            margin: `${isOpen ? "150px" : "25px"}`,
+            margin: `${isOpen ? "150px" : "13px"}`,
             transitionDelay: `${isOpen ? "0.1s" : "0.2s"}`,
           }}
         >

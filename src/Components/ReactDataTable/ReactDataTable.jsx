@@ -303,7 +303,7 @@ const ReactDataTable = ({ path, user }) => {
     name: "Action",
     cell: (row) => (
       <button
-        className="btn btn-info"
+        className="btn btn-info btn-sm"
         onClick={() => {
           handleUpdate(row);
         }}
@@ -317,7 +317,7 @@ const ReactDataTable = ({ path, user }) => {
     name: "Action",
     cell: (row) => (
       <button
-        className="btn btn-danger"
+        className="btn btn-danger btn-sm"
         onClick={() => {
           handleClickOpen();
           setDialogData({ id: row._id, action: "delete" });
@@ -331,7 +331,10 @@ const ReactDataTable = ({ path, user }) => {
   const viewColumn = {
     name: "Action",
     cell: (row) => (
-      <button className="btn btn-primary" onClick={() => handleView(row._id)}>
+      <button
+        className="btn btn-primary btn-sm"
+        onClick={() => handleView(row._id)}
+      >
         View
       </button>
     ),
@@ -376,7 +379,7 @@ const ReactDataTable = ({ path, user }) => {
 
   return (
     <>
-      <div>
+      <div style={{ width: widthdata }}>
         <DataTable
           title={
             user.account_type === "admin"
@@ -477,10 +480,7 @@ const ReactDataTable = ({ path, user }) => {
           }
           data={list}
           actions={
-            <button
-              className="btn btn-primary fw-bold me-3 mt-2"
-              onClick={Addnew}
-            >
+            <button className="btn btn-primary fw-bold" onClick={Addnew}>
               Add new
             </button>
           }
