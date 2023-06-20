@@ -622,6 +622,51 @@ export default function Dashboard() {
     setAnchorEl(null);
   };
 
+  // const card = (argument) => {
+  //   return argument.map((element, i) => {
+  //     return (
+  //       <div className="col-md-3" key={element.key}>
+  //         <Link
+  //           className={`${style.card1} rounded-3 pb-3`}
+  //           style={{ height: "87%" }}
+  //           to={element.link}
+  //         >
+  //           <h3 className="h-50">{element.title}</h3>
+  //           <p
+  //             className={`bolder text-center mb-5 ${style.card1_description} ${
+  //               i === 0
+  //                 ? style.red
+  //                 : i === 1
+  //                 ? style.blue
+  //                 : i === 2
+  //                 ? style.green
+  //                 : i === 3
+  //                 ? style.yellow
+  //                 : i === 4
+  //                 ? style.red
+  //                 : i === 5
+  //                 ? style.blue
+  //                 : i === 6
+  //                 ? style.green
+  //                 : i === 7
+  //                 ? style.yellow
+  //                 : ""
+  //             }`}
+  //           >
+  //             {element.description}
+  //             <div className="fs-5 mt-3 text-secondary">{element.name}</div>
+  //           </p>
+  //           <Link className={style.go_corner} to={element.link}>
+  //             <div className={style.go_arrow}>→</div>
+  //           </Link>
+  //         </Link>
+  //       </div>
+  //     );
+  //   });
+  // };
+
+  // New Card
+
   const card = (argument) => {
     return argument.map((element, i) => {
       return (
@@ -1033,26 +1078,13 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="d-flex px-0">
+      <div className="d-flex">
         <Sidebar />
         <div
-          className="mt-5 mb-5 container"
-          // style={{ width: "1300px", marginLeft: "60px" }}
+          className="container-fluid mt-3 mb-5"
+          style={{ marginRight: "10px" }}
         >
-          <div
-            className={`row`}
-            // style={{
-            //   marginTop: IsLarge
-            //     ? "80px"
-            //     : IsMedium
-            //     ? "100px"
-            //     : IsSmall
-            //     ? "120px"
-            //     : IsMobile
-            //     ? "200px"
-            //     : "80px",
-            // }}
-          >
+          <div className={`row`}>
             <div className="col-md-12 p-3 d-flex justify-content-between flex-column">
               <h1
                 className={`fs-1 fw-bold text-${
@@ -1165,11 +1197,7 @@ export default function Dashboard() {
               ) : null}
             </div>
 
-            <div className="container">
-              <div className="row justify-content-center mt-4">
-                {card(cardData)}
-              </div>
-            </div>
+            <div className="row mt-4">{card(cardData)}</div>
           </div>
 
           {/* Charts */}

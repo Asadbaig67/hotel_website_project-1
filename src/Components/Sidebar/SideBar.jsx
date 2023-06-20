@@ -99,7 +99,7 @@ const SideBar = ({ children }) => {
 
   return (
     <>
-      <div className="main-container " style={{ position: "fixed" }}>
+      <div className="main-container">
         <motion.div
           animate={{
             width: isOpen ? "300px" : "45px",
@@ -110,6 +110,7 @@ const SideBar = ({ children }) => {
             //   damping: 8,
             // },
           }}
+          style={{ zIndex: "6" }}
           className={`sidebar`}
         >
           <div className="top_section">
@@ -166,7 +167,7 @@ const SideBar = ({ children }) => {
 
         <main
           style={{
-            margin: `${isOpen ? "150px" : "25px"}`,
+            margin: `${isOpen ? "150px" : "13px"}`,
             transitionDelay: `${isOpen ? "0.1s" : "0.2s"}`,
           }}
         >
