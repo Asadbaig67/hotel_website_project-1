@@ -478,7 +478,7 @@ const ReactDataTable = ({ path, user }) => {
           data={list}
           actions={
             <button
-              className="btn btn-primary fw-bold"
+              className="btn btn-primary fw-bold me-3 mt-2"
               onClick={Addnew}
             >
               Add new
