@@ -20,7 +20,7 @@ const Featured = () => {
 
   const { activePath } = useSelector((state) => state.activePath);
 
-  const IsLargeScreen = useMediaQuery("(min-width:900px)");
+  const IsLargeScreen = useMediaQuery("(min-width:1100px)");
 
   const getCityCount = async (city) => {
     try {
@@ -96,7 +96,7 @@ const Featured = () => {
   };
 
   return (
-    <div className=" ">
+    <div className={`container ${IsLargeScreen ? "ms-5" : ""} `}>
       <div className={`${style.featured} `}>
         <div className={style.featuredItems}>
           <img

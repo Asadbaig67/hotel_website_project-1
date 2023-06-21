@@ -8,6 +8,7 @@ import { useMediaQuery } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import DatagridHeader from "../../Components/DatagridHeader/DatagridHeader";
 import ReactDataTable from "../../Components/ReactDataTable/ReactDataTable";
+import AdminNav from "../../Components/AdminNavbar/AdminNav";
 
 import {
   hotelsHeader1,
@@ -332,6 +333,9 @@ const HotelsList = () => {
 
   return (
     <>
+      <div>
+        <AdminNav />
+      </div>
       <div className="d-flex" style={{ background: "#fff" }}>
         <Sidebar />
         <div className="container-fluid" style={{ marginTop: "70px" }}>

@@ -43,6 +43,7 @@ import AdminBookings from "./Pages/BookingDetails/AdminBookings";
 import DashboardLoader from "./Components/Loader/DashboardLoader";
 import PrivateRoute from "./Components/Routes/PrivateRoute";
 import PublicRoute from "./Components/Routes/PublicRoute";
+import AdminNav from "./Components/AdminNavbar/AdminNav";
 // import ReactDataTable from "./Components/ReactDataTable/ReactDataTable";
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
           path="/addRoom"
           element={<PrivateRoute Component={RoomForm} />}
         />
+        <Route path="/navbaradmin" element={<AdminNav />} />
         <Route path="/parking" element={<Parking />} />
         <Route path="/loader" element={<Loader />} />
         <Route path="/dashboardloader" element={<DashboardLoader />} />

@@ -99,7 +99,8 @@ const SideBar = ({ children }) => {
 
   return (
     <>
-      <div className="main-container">
+      <div className="main-container h-100">
+        
         <motion.div
           animate={{
             width: isOpen ? "300px" : "45px",
@@ -113,7 +114,7 @@ const SideBar = ({ children }) => {
           style={{ zIndex: "6" }}
           className={`sidebar`}
         >
-          <div className="top_section">
+          <div className="top_section ms-1">
             <AnimatePresence>
               {isOpen && (
                 <motion.h1
@@ -123,7 +124,7 @@ const SideBar = ({ children }) => {
                   exit="hidden"
                   className="logo"
                 >
-                  DoSomeCoding
+                  Admin
                 </motion.h1>
               )}
             </AnimatePresence>

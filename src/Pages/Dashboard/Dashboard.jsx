@@ -18,6 +18,7 @@ import SingleChartData from "../../Components/Chart/SingleDataChart";
 import ChartIndividualData from "../../Components/Chart/ChartIndividual";
 import DashboardLoader from "../../Components/Loader/DashboardLoader";
 import Sidebar from "../../Components/Sidebar/SideBar";
+import AdminNav from "../../Components/AdminNavbar/AdminNav";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -1078,11 +1079,14 @@ export default function Dashboard() {
 
   return (
     <>
+      <div>
+        <AdminNav />
+      </div>
       <div className="d-flex">
         <Sidebar />
         <div
-          className="container-fluid mt-3 mb-5"
-          style={{ marginRight: "10px" }}
+          className="container-fluid mb-5"
+          style={{ marginRight: "10px", marginTop: "50px" }}
         >
           <div className={`row`}>
             <div className="col-md-12 p-3 d-flex justify-content-between flex-column">
