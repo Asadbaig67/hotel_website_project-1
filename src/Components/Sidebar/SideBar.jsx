@@ -13,11 +13,13 @@ import {
   SidebarDataUserBooking,
   SidebarDataUserUpcomingBooking,
 } from "../../Utilis/SidebarData";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const SideBar = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
+  // const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { isOpen } = useSelector((state) => state.openSidebar);
+  const toggle = () => dispatch({ type: "TOGGLESIDEBAR", payload: !isOpen });
   const { view } = useSelector((state) => state.view);
 
   // const inputAnimation = {
@@ -58,16 +60,16 @@ const SideBar = ({ children }) => {
     return (
       <>
         {routes.map((route, index) => {
-          if (route.subRoutes) {
-            return (
-              <SidebarMenu
-                setIsOpen={setIsOpen}
-                route={route}
-                showAnimation={showAnimation}
-                isOpen={isOpen}
-              />
-            );
-          }
+          // if (route.subRoutes) {
+          //   return (
+          //     <SidebarMenu
+          //       setIsOpen={setIsOpen}
+          //       route={route}
+          //       showAnimation={showAnimation}
+          //       isOpen={isOpen}
+          //     />
+          //   );
+          // }
 
           return (
             <NavLink

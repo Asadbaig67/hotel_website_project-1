@@ -195,239 +195,236 @@ const ViewBookings = () => {
     <>
       <div className="d-flex">
         <Sidebar />
-        {loading ? (
+        {/* {loading ? (
           <h1>Loading</h1>
-        ) : (
-          <div className="container mt-5">
-            <div className="row">
-              <div className="col-md-4">
-                <div className="py-2">
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="text-center">
-                        <h1 className="mb-3 card-title fw-bold bg-info rounded-3 p-3 text-dark">
-                          Your Booking Details
-                        </h1>
-                      </div>
-                      <div>
-                        <div className="d-flex justify-content-between ">
-                          <div className="d-flex my-1">
-                            <i className="fas fa-calendar-alt mt-1"></i>
-                            <span className="mx-1 ">{startDate}</span>
-                          </div>
-                          <div className="d-flex my-1">
-                            <i className="fas fa-calendar-alt mt-1"></i>
-                            <span className="mx-1 ">{endDate}</span>
-                          </div>
+        ) : ( */}
+        <div className="container mt-5">
+          <div className="row">
+            <div className="col-md-4">
+              <div className="py-2">
+                <div className="card">
+                  <div className="card-body">
+                    <div className="text-center">
+                      <h1 className="mb-3 card-title fw-bold bg-info rounded-3 p-3 text-dark">
+                        Your Booking Details
+                      </h1>
+                    </div>
+                    <div>
+                      <div className="d-flex justify-content-between ">
+                        <div className="d-flex my-1">
+                          <i className="fas fa-calendar-alt mt-1"></i>
+                          <span className="mx-1 ">{startDate}</span>
                         </div>
+                        <div className="d-flex my-1">
+                          <i className="fas fa-calendar-alt mt-1"></i>
+                          <span className="mx-1 ">{endDate}</span>
+                        </div>
+                      </div>
+                      <div className="d-flex justify-content-between my-1">
+                        <i className="fas fa-moon"></i>
+                        <span>{Nights ? `${Nights} Nights` : ""} </span>
+                      </div>
+                      {data.Booking_type === "hotel" ||
+                      data.Booking_type === "hotelandparking" ? (
                         <div className="d-flex justify-content-between my-1">
-                          <i className="fas fa-moon"></i>
-                          <span>{Nights ? `${Nights} Nights` : ""} </span>
+                          <i className="fas fa-users"></i>
+                          <span>
+                            {data.bookingData.persons
+                              ? `${data.bookingData.persons.adults} Adults`
+                              : ""}
+                            {data.bookingData.persons
+                              ? `,${data.bookingData.persons.children} Child`
+                              : ""}
+                          </span>
                         </div>
-                        {data.Booking_type === "hotel" ||
-                        data.Booking_type === "hotelandparking" ? (
-                          <div className="d-flex justify-content-between my-1">
-                            <i className="fas fa-users"></i>
-                            <span>
-                              {data.bookingData.persons
-                                ? `${data.bookingData.persons.adults} Adults`
-                                : ""}
-                              {data.bookingData.persons
-                                ? `,${data.bookingData.persons.children} Child`
-                                : ""}
-                            </span>
+                      ) : null}
+                    </div>
+                    <hr />
+                    <div>
+                      {(data.Booking_type === "hotel" ||
+                        data.Booking_type === "hotelandparking") && (
+                        <>
+                          <small className="fw-bold text-dark">
+                            Rooms Details:
+                          </small>
+                          <div className="text-muted small">
+                            {roomDetails.totalSingle > 0 && (
+                              <div>
+                                {roomDetails.totalSingle}x Single Room : Room
+                                Numbers:{" "}
+                                {roomDetails.singleRoomsArray.join(", ")}
+                              </div>
+                            )}
+                            {roomDetails.totalTwin > 0 && (
+                              <div>
+                                {roomDetails.totalTwin}x Twin Room : Room
+                                Numbers: {roomDetails.twinRoomsArray.join(", ")}
+                              </div>
+                            )}
+                            {roomDetails.totalFamily > 0 ? (
+                              <div>
+                                {roomDetails.totalFamily}x Family Room : Room
+                                Numbers:{" "}
+                                {roomDetails.familyRoomsArray.join(", ")}
+                              </div>
+                            ) : (
+                              ""
+                            )}
                           </div>
-                        ) : null}
-                      </div>
-                      <hr />
-                      <div>
-                        {(data.Booking_type === "hotel" ||
-                          data.Booking_type === "hotelandparking") && (
-                          <>
-                            <small className="fw-bold text-dark">
-                              Rooms Details:
-                            </small>
-                            <div className="text-muted small">
-                              {roomDetails.totalSingle > 0 && (
-                                <div>
-                                  {roomDetails.totalSingle}x Single Room : Room
-                                  Numbers:{" "}
-                                  {roomDetails.singleRoomsArray.join(", ")}
+                        </>
+                      )}
+                      {data.parkingData && (
+                        <>
+                          <small className="fw-bold text-dark">
+                            Parking Details:
+                          </small>
+                          <div className="text-muted flex-row justify-content-between">
+                            {data.bookingData.parking.Total_slots > 0 && (
+                              <>
+                                <div className="d-flex justify-content-between">
+                                  <h5>Total Slots</h5>
+                                  <span>
+                                    {data.bookingData.parking.Total_slots}
+                                  </span>
                                 </div>
-                              )}
-                              {roomDetails.totalTwin > 0 && (
-                                <div>
-                                  {roomDetails.totalTwin}x Twin Room : Room
-                                  Numbers:{" "}
-                                  {roomDetails.twinRoomsArray.join(", ")}
+                                <div className="d-flex justify-content-between">
+                                  <h5>Total Price</h5>
+                                  <span>
+                                    {data.bookingData.parking.Parking_price}
+                                  </span>
                                 </div>
-                              )}
-                              {roomDetails.totalFamily > 0 ? (
-                                <div>
-                                  {roomDetails.totalFamily}x Family Room : Room
-                                  Numbers:{" "}
-                                  {roomDetails.familyRoomsArray.join(", ")}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </>
-                        )}
-                        {data.parkingData && (
-                          <>
-                            <small className="fw-bold text-dark">
-                              Parking Details:
-                            </small>
-                            <div className="text-muted flex-row justify-content-between">
-                              {data.bookingData.parking.Total_slots > 0 && (
-                                <>
-                                  <div className="d-flex justify-content-between">
-                                    <h5>Total Slots</h5>
-                                    <span>
-                                      {data.bookingData.parking.Total_slots}
-                                    </span>
-                                  </div>
-                                  <div className="d-flex justify-content-between">
-                                    <h5>Total Price</h5>
-                                    <span>
-                                      {data.bookingData.parking.Parking_price}
-                                    </span>
-                                  </div>
-                                </>
-                              )}
-                            </div>
-                          </>
-                        )}
-                      </div>
+                              </>
+                            )}
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div className="col-md-8">
-                <div className="py-2 d-flex flex-column">
-                  <div className="justify-content-center">
-                    <div className="card shadow-0 border rounded-3">
-                      <div className="card-body">
-                        <div className="row text-center">
-                          <h1 className="mb-3 fw-bold d-inline bg-info rounded-3 p-3 text-dark">
-                            {data.Booking_type === "hotel"
-                              ? "Hotel"
-                              : data.Booking_type === "parking"
-                              ? "Parking"
-                              : data.Booking_type === "hotelandparking"
-                              ? "Hotel And Parking"
-                              : ""}
-                            Details
-                          </h1>
-                        </div>
-                        <div className="row">
-                          <div className="col-md-3 col-xl-3 col-sm-12">
-                            <div className="h-100 bg-image hover-zoom ripple rounded ripple-surface">
-                              <img
-                                src={cardPicture}
-                                className=""
-                                style={{
-                                  objectFit: "cover",
-                                  // imageRendering: "crisp-edges",
-                                }}
-                              />
-                              <Link to="/">
-                                <div className="hover-overlay">
-                                  <div
-                                    className="mask"
-                                    style={{
-                                      backgroundColor:
-                                        "rgba(253, 253, 253, 0.15)",
-                                    }}
-                                  ></div>
-                                </div>
-                              </Link>
-                            </div>
-                          </div>
-                          <div className="col-md-9 col-lg-9 col-xl-9">
-                            <h5>
-                              {data.Booking_type === "hotel"
-                                ? data.hotelData.name
-                                : data.Booking_type === "hotelandparking"
-                                ? datafromId.hotel_name
-                                : data.Booking_type === "parking"
-                                ? data.parkingData.name
-                                : null}
-                            </h5>
-                            <Box
-                              className="justify-content-start"
-                              sx={{
-                                width: 200,
-                                display: "flex",
-                                alignItems: "center",
+            <div className="col-md-8">
+              <div className="py-2 d-flex flex-column">
+                <div className="justify-content-center">
+                  <div className="card shadow-0 border rounded-3">
+                    <div className="card-body">
+                      <div className="row text-center">
+                        <h1 className="mb-3 fw-bold d-inline bg-info rounded-3 p-3 text-dark">
+                          {data.Booking_type === "hotel"
+                            ? "Hotel"
+                            : data.Booking_type === "parking"
+                            ? "Parking"
+                            : data.Booking_type === "hotelandparking"
+                            ? "Hotel And Parking"
+                            : ""}
+                          Details
+                        </h1>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-3 col-xl-3 col-sm-12">
+                          <div className="h-100 bg-image hover-zoom ripple rounded ripple-surface">
+                            <img
+                              src={cardPicture}
+                              className=""
+                              style={{
+                                objectFit: "cover",
+                                // imageRendering: "crisp-edges",
                               }}
-                            >
-                              <Rating
-                                name="hover-feedback"
-                                value={
-                                  data.Booking_type === "hotel"
-                                    ? data.hotelData.rating
-                                    : data.Booking_type === "parking"
-                                    ? data.parkingData.rating
-                                    : data.Booking_type === "hotelandparking"
-                                    ? datafromId.hotel_rating
-                                    : 5
-                                }
-                                precision={1}
-                                getLabelText={getLabelText}
-                                // onChange={(event, newValue) => {
-                                //   setValue(newValue);
-                                // }}
-                                // onChangeActive={(event, newHover) => {
-                                //   setHover(newHover);
-                                // }}
-                                emptyIcon={
-                                  <StarIcon
-                                    style={{ opacity: 0.55 }}
-                                    fontSize="inherit"
-                                  />
-                                }
-                              />
-                              {
-                                <Box
-                                  className="ms-3"
-                                  sx={{ mb: 1, fontSize: 17 }}
-                                >
-                                  {
-                                    labels[
-                                      data.Booking_type === "hotel"
-                                        ? data.hotelData.rating
-                                        : data.Booking_type === "parking"
-                                        ? data.parkingData.rating
-                                        : data.Booking_type ===
-                                          "hotelandparking"
-                                        ? datafromId.hotel_rating
-                                        : 5
-                                    ]
-                                  }
-                                </Box>
-                              }
-                            </Box>
-
-                            {data.Booking_type === "hotel" ? (
-                              <>{showFacilities(data.hotelData)}</>
-                            ) : data.Booking_type === "parking" ? (
-                              <>{showFacilities(data.parkingData)}</>
-                            ) : (
-                              <>{showFacilities(data.hotelAndParkingData)}</>
-                            )}
-
-                            <p className="w-100">
-                              {data.Booking_type === "hotel" &&
-                                data.hotelData.description}
-                              {data.Booking_type === "hotelandparking" &&
-                                data.parkingData.description}
-                              {data.Booking_type === "parking" &&
-                                datafromId.description}
-                            </p>
+                            />
+                            <Link to="/">
+                              <div className="hover-overlay">
+                                <div
+                                  className="mask"
+                                  style={{
+                                    backgroundColor:
+                                      "rgba(253, 253, 253, 0.15)",
+                                  }}
+                                ></div>
+                              </div>
+                            </Link>
                           </div>
+                        </div>
+                        <div className="col-md-9 col-lg-9 col-xl-9">
+                          <h5>
+                            {data.Booking_type === "hotel"
+                              ? data.hotelData.name
+                              : data.Booking_type === "hotelandparking"
+                              ? data.hotelAndParkingData.hotel_name
+                              : data.Booking_type === "parking"
+                              ? data.parkingData.name
+                              : null}
+                          </h5>
+                          <Box
+                            className="justify-content-start"
+                            sx={{
+                              width: 200,
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Rating
+                              name="hover-feedback"
+                              value={
+                                data.Booking_type === "hotel"
+                                  ? data.hotelData.rating
+                                  : data.Booking_type === "parking"
+                                  ? data.parkingData.rating
+                                  : data.Booking_type === "hotelandparking"
+                                  ? data.hotelAndParkingData.hotel_rating
+                                  : 5
+                              }
+                              precision={1}
+                              getLabelText={getLabelText}
+                              // onChange={(event, newValue) => {
+                              //   setValue(newValue);
+                              // }}
+                              // onChangeActive={(event, newHover) => {
+                              //   setHover(newHover);
+                              // }}
+                              emptyIcon={
+                                <StarIcon
+                                  style={{ opacity: 0.55 }}
+                                  fontSize="inherit"
+                                />
+                              }
+                            />
+                            {
+                              <Box
+                                className="ms-3"
+                                sx={{ mb: 1, fontSize: 17 }}
+                              >
+                                {
+                                  labels[
+                                    data.Booking_type === "hotel"
+                                      ? data.hotelData.rating
+                                      : data.Booking_type === "parking"
+                                      ? data.parkingData.rating
+                                      : data.Booking_type === "hotelandparking"
+                                      ? data.hotelAndParkingData.hotel_rating
+                                      : 5
+                                  ]
+                                }
+                              </Box>
+                            }
+                          </Box>
+
+                          {data.Booking_type === "hotel" ? (
+                            <>{showFacilities(data.hotelData)}</>
+                          ) : data.Booking_type === "parking" ? (
+                            <>{showFacilities(data.parkingData)}</>
+                          ) : (
+                            <>{showFacilities(data.hotelAndParkingData)}</>
+                          )}
+
+                          <p className="w-100">
+                            {data.Booking_type === "hotel" &&
+                              data.hotelData.description}
+                            {data.Booking_type === "hotelandparking" &&
+                              data.hotelAndParkingData.description}
+                            {data.Booking_type === "parking" &&
+                              data.parkingData.description}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -435,12 +432,13 @@ const ViewBookings = () => {
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="row">
-              <div className="">
-                <div className="py-2">
-                  <div className="justify-content-center">
-                    {/* <div className="card shadow-0 border rounded-3">
+          <div className="row">
+            <div className="">
+              <div className="py-2">
+                <div className="justify-content-center">
+                  {/* <div className="card shadow-0 border rounded-3">
                   <div className="card-body">
                     <div className="row text-center mb-4">
                       <h1 className="mb-0">Price Summary</h1>
@@ -498,80 +496,80 @@ const ViewBookings = () => {
                     </div>
                   </div>
                 </div> */}
-                    <div className="card border rounded-3 shadow">
-                      <div className="card-body">
-                        <div className="text-center mb-4">
-                          <span className="mb-0 fw-bold text-center fs-2 border-bottom border-dark text-dark">
-                            Your Price Summary
-                          </span>
-                        </div>
-                        {data.Booking_type === "hotel" ||
-                        data.Booking_type === "hotelandparking" ? (
-                          <div className="row">
-                            <div className="col-md-12">
-                              <h5>Room Booked</h5>
-                              {roomDetails.totalSingle > 0 ? (
-                                <div className="d-flex justify-content-between align-items-center">
-                                  <span>Single Room</span>
-                                  <span className="fw-bold">
-                                    {`${roomDetails.totalSingle}x Single Room${
-                                      roomDetails.totalSingle > 1 ? "s" : ""
-                                    }`}
-                                  </span>
-                                </div>
-                              ) : null}{" "}
-                              {roomDetails.totalTwin > 0 ? (
-                                <div className="d-flex justify-content-between align-items-center ">
-                                  <span>Twin Room</span>
-                                  <span className="fw-bold">
-                                    {`${roomDetails.totalTwin}x Twin Room${
-                                      roomDetails.totalTwin > 1 ? "s" : ""
-                                    } `}
-                                  </span>
-                                </div>
-                              ) : null}{" "}
-                              {roomDetails.totalFamily > 0 ? (
-                                <div className="d-flex justify-content-between align-items-center ">
-                                  <span>Family Room</span>
-                                  <span className="fw-bold">
-                                    {`${roomDetails.totalFamily}x Family Room${
-                                      roomDetails.totalFamily > 1 ? "s" : ""
-                                    }`}
-                                  </span>
-                                </div>
-                              ) : null}{" "}
-                            </div>
+                  <div className="card border rounded-3 shadow">
+                    <div className="card-body">
+                      <div className="text-center mb-4">
+                        <span className="mb-0 fw-bold text-center fs-2 border-bottom border-dark text-dark">
+                          Your Price Summary
+                        </span>
+                      </div>
+                      {data.Booking_type === "hotel" ||
+                      data.Booking_type === "hotelandparking" ? (
+                        <div className="row">
+                          <div className="col-md-12">
+                            <h5>Room Booked</h5>
+                            {roomDetails.totalSingle > 0 ? (
+                              <div className="d-flex justify-content-between align-items-center">
+                                <span>Single Room</span>
+                                <span className="fw-bold">
+                                  {`${roomDetails.totalSingle}x Single Room${
+                                    roomDetails.totalSingle > 1 ? "s" : ""
+                                  }`}
+                                </span>
+                              </div>
+                            ) : null}{" "}
+                            {roomDetails.totalTwin > 0 ? (
+                              <div className="d-flex justify-content-between align-items-center ">
+                                <span>Twin Room</span>
+                                <span className="fw-bold">
+                                  {`${roomDetails.totalTwin}x Twin Room${
+                                    roomDetails.totalTwin > 1 ? "s" : ""
+                                  } `}
+                                </span>
+                              </div>
+                            ) : null}{" "}
+                            {roomDetails.totalFamily > 0 ? (
+                              <div className="d-flex justify-content-between align-items-center ">
+                                <span>Family Room</span>
+                                <span className="fw-bold">
+                                  {`${roomDetails.totalFamily}x Family Room${
+                                    roomDetails.totalFamily > 1 ? "s" : ""
+                                  }`}
+                                </span>
+                              </div>
+                            ) : null}{" "}
                           </div>
-                        ) : (
-                          <>
-                            <div className="row mt-3">
-                              <div className="col-md-12">
-                                <h5>Parking Details</h5>
-                                <div className="d-flex justify-content-between align-items-center ">
-                                  <span>Total Slots Booked</span>
-                                  <span className="fw-bold">
-                                    {`${
-                                      data.bookingData.parking.Total_slots
-                                    } Slot${
-                                      data.bookingData.parking.Total_slots > 1
-                                        ? "s"
-                                        : ""
-                                    }`}
-                                  </span>
-                                </div>
-                                <div className="d-flex justify-content-between align-items-center ">
-                                  <span>Parking price:</span>
-                                  <span className="fw-bold">
-                                    {`${data.bookingData.parking.Parking_price} PKR`}
-                                  </span>
-                                </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="row mt-3">
+                            <div className="col-md-12">
+                              <h5>Parking Details</h5>
+                              <div className="d-flex justify-content-between align-items-center ">
+                                <span>Total Slots Booked</span>
+                                <span className="fw-bold">
+                                  {`${
+                                    data.bookingData.parking.Total_slots
+                                  } Slot${
+                                    data.bookingData.parking.Total_slots > 1
+                                      ? "s"
+                                      : ""
+                                  }`}
+                                </span>
+                              </div>
+                              <div className="d-flex justify-content-between align-items-center ">
+                                <span>Parking price:</span>
+                                <span className="fw-bold">
+                                  {`${data.bookingData.parking.Parking_price} PKR`}
+                                </span>
                               </div>
                             </div>
-                            <hr />
-                          </>
-                        )}
-                        <hr />
-                        {/* {data.parkingData.parking && (
+                          </div>
+                          <hr />
+                        </>
+                      )}
+                      <hr />
+                      {/* {data.parkingData.parking && (
                           <>
                             <div className="row mt-3">
                               <div className="col-md-12">
@@ -596,7 +594,7 @@ const ViewBookings = () => {
                           </>
                         )} */}
 
-                        {/* {additionalCharges && (
+                      {/* {additionalCharges && (
                       <div className="row mt-3">
                         <div className="col-md-12">
                           <h5>Additional Charges</h5>
@@ -609,7 +607,7 @@ const ViewBookings = () => {
                         </div>
                       </div>
                     )} */}
-                        {/* <div className="row mt-3">
+                      {/* <div className="row mt-3">
                       <div className="col-md-12">
                         <h5>Tax Details</h5>
                         <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
@@ -618,23 +616,22 @@ const ViewBookings = () => {
                         </div>
                       </div>
                     </div> */}
-                        <div
-                          className="row mt-4 p-4 rounded-1"
-                          style={{ backgroundColor: "#ebf3ff" }}
-                        >
-                          <div className="col-md-12">
-                            <span className="text-dark fw-bold fs-2 border-bottom border-dark fs-2">
-                              Total Price{" "}
-                            </span>
-                            <div className="border-bottom pb-2">
-                              <div className="d-flex justify-content-between align-items-center text-white p-2">
-                                <div className="fw-bold fs-4 text-dark"></div>
-                                <div>
-                                  <span className="fw-bold text-dark fs-3">
-                                    PKR {data.total_price}
-                                  </span>
-                                  <br />
-                                </div>
+                      <div
+                        className="row mt-4 p-4 rounded-1"
+                        style={{ backgroundColor: "#ebf3ff" }}
+                      >
+                        <div className="col-md-12">
+                          <span className="text-dark fw-bold fs-2 border-bottom border-dark fs-2">
+                            Total Price{" "}
+                          </span>
+                          <div className="border-bottom pb-2">
+                            <div className="d-flex justify-content-between align-items-center text-white p-2">
+                              <div className="fw-bold fs-4 text-dark"></div>
+                              <div>
+                                <span className="fw-bold text-dark fs-3">
+                                  PKR {data.total_price}
+                                </span>
+                                <br />
                               </div>
                             </div>
                           </div>
@@ -646,7 +643,8 @@ const ViewBookings = () => {
               </div>
             </div>
           </div>
-        )}
+        </div>
+        {/* )} */}
       </div>
 
       {/* <Footer /> */}

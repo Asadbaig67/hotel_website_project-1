@@ -52,11 +52,7 @@ export default function Profile() {
               className="col-md-12 p-3 d-flex "
               // style={{ marginLeft: "10px" }}
             >
-              <h1
-                className={`fs-1 fw-bold mx-auto text-${
-                  mode === "light" ? "dark" : "light"
-                }`}
-              >
+              <h1 className={`fs-1 fw-bold ${style.heading} mx-auto `}>
                 Profile
               </h1>
             </div>

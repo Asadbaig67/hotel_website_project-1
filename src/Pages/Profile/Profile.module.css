@@ -19,3 +19,8 @@
 .bg{
     background-color: #f6f9ff;
 }
+
+.heading {
+    font-family: 'Playfair Display', serif;
+    color: #00838f;
+  }
