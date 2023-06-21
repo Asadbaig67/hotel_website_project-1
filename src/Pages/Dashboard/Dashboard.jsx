@@ -710,14 +710,15 @@ export default function Dashboard() {
   };
 
   const adminChartList = (data) => {
-    console.log(data);
     return (
       <div className="mt-5 mb-3 mx-4">
         <div
           className="row justify-content-center p-4 rounded-3"
           style={{ backgroundColor: "#dfebf6" }}
         >
-          <Typography variant="h6">Property Listing Summary</Typography>
+          <Typography variant="h6">
+            {view === "admin" ? "Property Listing Summary" : "Bookings Summary"}
+          </Typography>
           <div className="col-md-6">
             <ChartData
               data1={{
@@ -1081,11 +1082,80 @@ export default function Dashboard() {
       <div className="d-flex">
         <Sidebar />
         <div
-          className="container-fluid mt-3 mb-5"
-          style={{ marginRight: "10px" }}
+          className="container-fluid mb-5"
+          // style={{ marginRight: "10px" }}
         >
           <div className={`row`}>
-            <div className="col-md-12 p-3 d-flex justify-content-between flex-column">
+            {user.account_type === "user" ? (
+              <div className="col-lg-2 col-md-2 col-sm-4 col-6 ms-auto">
+                <button className="btn btn-info w-100" onClick={handleOpen}>
+                  List your property
+                </button>
+                <Menu
+                  anchorEl={anchorEl}
+                  id="account-menu"
+                  open={open}
+                  onClose={handleClose}
+                  onClick={handleClose}
+                  PaperProps={{
+                    elevation: 0,
+                    sx: {
+                      overflow: "visible",
+                      filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                      mt: 1.5,
+                      "& .MuiAvatar-root": {
+                        width: 32,
+                        height: 32,
+                        ml: -0.5,
+                        mr: 1,
+                      },
+                      "&:before": {
+                        content: '""',
+                        display: "block",
+                        position: "absolute",
+                        top: 0,
+                        right: 14,
+                        width: 10,
+                        height: 10,
+                        bgcolor: "background.paper",
+                        transform: "translateY(-50%) rotate(45deg)",
+                        zIndex: 0,
+                      },
+                    },
+                  }}
+                  transformOrigin={{ horizontal: "right", vertical: "top" }}
+                  anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                >
+                  <MenuItem onClick={() => navigate("/hotelform")}>
+                    <div className="d-flex">
+                      <HotelIcon />
+                      <Typography>Hotel Partner</Typography>
+                    </div>
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate("/parkingform")}>
+                    <div className="d-flex">
+                      <LocalParkingIcon />
+                      <Typography>Parking Partner</Typography>
+                    </div>
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate("/hotelparkingform")}>
+                    <div className="d-flex">
+                      <HotelIcon />
+                      <Typography>Hotel and Parking Partner</Typography>
+                    </div>
+                  </MenuItem>
+                </Menu>
+              </div>
+            ) : null}
+            <div className="col-12 justify-content-center">
+              <h1
+                className={`text-center fs-1 ${style.heading} fw-bold`}
+                // style={{ color: "rgb(0, 7, 61)" }}
+              >
+                Summary
+              </h1>
+            </div>
+            {/* <div className="col-md-12 p-3 d-flex justify-content-between flex-column">
               <h1
                 className={`fs-1 fw-bold text-${
                   mode === "light" ? "dark" : "light"
@@ -1095,14 +1165,14 @@ export default function Dashboard() {
               </h1>
               <div>
                 <div className="d-flex align-items-center">
-                  {/* {user.photo ? ( */}
+                  
                   <img
                     src={user.photo ? user.photo : person}
                     className="rounded-circle"
                     style={{ width: "80px", height: "80px" }}
                     alt="user"
                   />
-                  {/* // ) : null} */}
+                  
                   <div className="ms-2">
                     <h1 className="fs-1 fw-bolder">
                       Welcome Back,{" "}
@@ -1128,9 +1198,9 @@ export default function Dashboard() {
                         ) : null}
                       </span>
                     </h5>
-                    {/* <h3 className={`fs-2 fw-semibold ${style.date}`}>
+                    <h3 className={`fs-2 fw-semibold ${style.date}`}>
                       {new Date(Date.now()).toLocaleString().split(",")[0]}
-                    </h3> */}
+                    </h3> 
                   </div>
                 </div>
               </div>
@@ -1195,7 +1265,7 @@ export default function Dashboard() {
                   </Menu>
                 </div>
               ) : null}
-            </div>
+            </div> */}
 
             <div className="row mt-4">{card(cardData)}</div>
           </div>

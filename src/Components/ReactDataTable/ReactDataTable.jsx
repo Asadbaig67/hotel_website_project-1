@@ -23,6 +23,7 @@ const ReactDataTable = ({ path, user }) => {
   const navigate = useNavigate();
   const { header } = useSelector((state) => state.setHeader);
   const { url } = useSelector((state) => state.setDataUrl);
+  const { isOpen } = useSelector((state) => state.openSidebar);
   const dispatch = useDispatch();
 
   const isMobile = useMediaQuery("(max-width: 400px)");
@@ -379,7 +380,10 @@ const ReactDataTable = ({ path, user }) => {
 
   return (
     <>
-      <div style={{ width: widthdata }}>
+      <div
+        style={{ width: `${!isOpen || isDesktop ? widthdata : ""}` }}
+        className={`${isDesktop ? "col-11" : "col-12"}`}
+      >
         <DataTable
           title={
             user.account_type === "admin"

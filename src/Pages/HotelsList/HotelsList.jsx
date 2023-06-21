@@ -519,7 +519,7 @@ const HotelsList = () => {
                   </div>
                 </div> */}
                 <div className="col-md-12">
-                  <div className="table-responsive">
+                  <div className="table-responsive row">
                     <ReactDataTable path={path} user={user} />
                   </div>
                 </div>
