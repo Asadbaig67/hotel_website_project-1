@@ -169,7 +169,7 @@ const SideBar = ({ children }) => {
 
         <main
           style={{
-            marginLeft: `${isOpen ? "150px" : "13px"}`,
+            margin: `${isOpen ? "150px" : "13px"}`,
             transitionDelay: `${isOpen ? "0.1s" : "0.2s"}`,
           }}
         >
