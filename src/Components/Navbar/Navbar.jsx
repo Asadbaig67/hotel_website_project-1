@@ -45,7 +45,7 @@ const Navbar = ({ list }) => {
   // get logged in user from database
 
   // const GetUserFromBacked = async () => {
-  //   const url = "http://localhost:5000/user/protected";
+  //   const url = "http://46.32.232.208:5000/user/protected";
   //   const options = {
   //     method: "GET",
   //     headers: {
@@ -328,7 +328,7 @@ const Navbar = ({ list }) => {
 
     if (path === "/parking") {
       try {
-        const url = `http://localhost:5000/parking/search?city=${cityParking}&vehicles=${c}`;
+        const url = `http://46.32.232.208:5000/parking/search?city=${cityParking}&vehicles=${c}`;
         const response = await fetch(url, {
           method: "GET",
           // credentials: "include",

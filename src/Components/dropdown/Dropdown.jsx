@@ -25,7 +25,7 @@ const Dropdown = (props) => {
   useEffect(() => {
     const GetHotelCities = async () => {
       const response = await axios.get(
-        "http://localhost:5000/OperatingProperty/getHotelOperatingCity"
+        "http://46.32.232.208:5000/OperatingProperty/getHotelOperatingCity"
       );
       dispatch({ type: "SET_HOTEL_CITY", payload: response.data });
       // console.log(response.data);
@@ -33,7 +33,7 @@ const Dropdown = (props) => {
 
     const getParkingCities = async () => {
       const response = await axios.get(
-        "http://localhost:5000/OperatingProperty/getParkingOperatingCity"
+        "http://46.32.232.208:5000/OperatingProperty/getParkingOperatingCity"
       );
       dispatch({ type: "SET_PARKING_CITY", payload: response.data });
       // console.log(response.data);
@@ -41,7 +41,7 @@ const Dropdown = (props) => {
 
     const GetHotelAndParkingCities = async () => {
       const response = await axios.get(
-        "http://localhost:5000/OperatingProperty/getHotelAndParkingOperatingCity"
+        "http://46.32.232.208:5000/OperatingProperty/getHotelAndParkingOperatingCity"
       );
       dispatch({ type: "SET_HOTEL_AND_PARKING_CITY", payload: response.data });
       // console.log(response.data);

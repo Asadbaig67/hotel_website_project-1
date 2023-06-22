@@ -44,18 +44,18 @@ const ViewBookings = () => {
       // console.log("dataaaa", data);
       if (data.Booking_type === "hotel") {
         // console.log(data.hotelId);
-        url = `http://localhost:5000/hotels/gethotelbyid/${data.hotelData._id}`;
+        url = `http://46.32.232.208:5000/hotels/gethotelbyid/${data.hotelData._id}`;
         const response = await axios.get(url);
         // console.log("res", response.data);
 
         setDatafromId(response.data);
       } else if (data.Booking_type === "hotelandparking") {
-        url = `http://localhost:5000/hotelandparking/gethotelandparkingById/${data.HotelAndParkingId}`;
+        url = `http://46.32.232.208:5000/hotelandparking/gethotelandparkingById/${data.HotelAndParkingId}`;
         const response = await axios.get(url);
         // console.log("res", response.data);
         setDatafromId(response.data);
       } else {
-        url = `http://localhost:5000/parking/getParkingById/${data.parkingData._id}`;
+        url = `http://46.32.232.208:5000/parking/getParkingById/${data.parkingData._id}`;
         const response = await axios.get(url);
         // console.log("res", response.data);
         setDatafromId(response.data);

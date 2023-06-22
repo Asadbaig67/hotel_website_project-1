@@ -229,7 +229,7 @@ const ViewBookings = () => {
   const HandleBooking = async () => {
     // Api Request
     if (!booked_property.parking_name) {
-      const hotelURL = `http://localhost:5000/booking/addBooking?userId=${userId}&hotelId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&adults=${options.adult}&children=${options.children}`;
+      const hotelURL = `http://46.32.232.208:5000/booking/addBooking?userId=${userId}&hotelId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&adults=${options.adult}&children=${options.children}`;
       const requestOptions = {
         method: "POST",
       };
@@ -247,7 +247,7 @@ const ViewBookings = () => {
         console.error(error);
       }
     } else {
-      const hotelandparkingURL = `http://localhost:5000/booking/addHotelAndParkingBooking?userId=${userId}&HotelAndParkingId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&parking=${parking}`;
+      const hotelandparkingURL = `http://46.32.232.208:5000/booking/addHotelAndParkingBooking?userId=${userId}&HotelAndParkingId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&parking=${parking}`;
       const requestOptions = {
         method: "POST",
       };

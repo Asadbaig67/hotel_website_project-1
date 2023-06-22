@@ -73,7 +73,7 @@ export default function EditProfile({ profile }) {
     formData.append("email", data.email);
     formData.append("image", profileImage);
 
-    const response = await fetch("http://localhost:5000/user/updateuser", {
+    const response = await fetch("http://46.32.232.208:5000/user/updateuser", {
       method: "PUT",
       body: formData,
     });
@@ -90,7 +90,7 @@ export default function EditProfile({ profile }) {
     const result = await response.json();
     console.log(result);
     const user = await axios.get(
-      `http://localhost:5000/user/getuserbyid/${data._id}`
+      `http://46.32.232.208:5000/user/getuserbyid/${data._id}`
     );
     dispatch({ type: "SET_LOGGEDIN_USER", payload: user.data });
   };

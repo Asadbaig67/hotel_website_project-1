@@ -35,7 +35,7 @@ const Topbar = () => {
   useEffect(() => {
     const fetchNotification = async () => {
       const data = await axios.get(
-        `http://localhost:5000/notification/getNotification/${user._id}`
+        `http://46.32.232.208:5000/notification/getNotification/${user._id}`
       );
       dispatch({ type: "SET_NOTIFICATION", payload: data.data });
     };

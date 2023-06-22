@@ -48,19 +48,19 @@ export default function Dashboard() {
       hotelAndParking = [];
     if (addHotelOperatingCity) {
       hotel = await axios.put(
-        `http://localhost:5000/OperatingProperty/addOperatingHotelCity`,
+        `http://46.32.232.208:5000/OperatingProperty/addOperatingHotelCity`,
         { type: "Hotel", city: name }
       );
     }
     if (addParkingOperatingCity) {
       parking = await axios.put(
-        `http://localhost:5000/OperatingProperty/addOperatingHotelCity`,
+        `http://46.32.232.208:5000/OperatingProperty/addOperatingHotelCity`,
         { type: "Parking", city: name }
       );
     }
     if (addHotelAndParkingOperatingCity) {
       hotelAndParking = await axios.put(
-        `http://localhost:5000/OperatingProperty/addOperatingHotelCity`,
+        `http://46.32.232.208:5000/OperatingProperty/addOperatingHotelCity`,
         { type: "HotelAndParking", city: name }
       );
     }
@@ -98,34 +98,34 @@ export default function Dashboard() {
     try {
       if (view === "admin") {
         const hotelNum = await axios.get(
-          "http://localhost:5000/hotels/getallhotels"
+          "http://46.32.232.208:5000/hotels/getallhotels"
         );
 
         const parkingNum = await axios.get(
-          "http://localhost:5000/parking/getallparkings"
+          "http://46.32.232.208:5000/parking/getallparkings"
         );
 
         const hotelAndParkingNum = await axios.get(
-          "http://localhost:5000/hotelandparking/getallhotelandparkings"
+          "http://46.32.232.208:5000/hotelandparking/getallhotelandparkings"
         );
 
         const bookingsNum = await axios.get(
-          "http://localhost:5000/booking/getAllPreviousBookings"
+          "http://46.32.232.208:5000/booking/getAllPreviousBookings"
         );
         const pendingHotelNum = await axios.get(
-          "http://localhost:5000/hotels/getPendinghotels"
+          "http://46.32.232.208:5000/hotels/getPendinghotels"
         );
 
         const pendingParkingNum = await axios.get(
-          "http://localhost:5000/parking/getpendingparkings"
+          "http://46.32.232.208:5000/parking/getpendingparkings"
         );
 
         const pendingHotelAndParkingNum = await axios.get(
-          "http://localhost:5000/hotelandparking/getPendinghotelandparkings"
+          "http://46.32.232.208:5000/hotelandparking/getPendinghotelandparkings"
         );
 
         const upcomingBookingsNum = await axios.get(
-          "http://localhost:5000/booking/getAllUpcommingBookings"
+          "http://46.32.232.208:5000/booking/getAllUpcommingBookings"
         );
 
         dispatch({
@@ -202,18 +202,18 @@ export default function Dashboard() {
       } else if (view === "partner") {
         if (user.partner_type === "Hotel") {
           const hotelNum = await axios.get(
-            `http://localhost:5000/hotels/getApprovedhotelbyonwerid/${user._id}`
+            `http://46.32.232.208:5000/hotels/getApprovedhotelbyonwerid/${user._id}`
           );
 
           const bookingsNum = await axios.get(
-            `http://localhost:5000/booking/getPreviousBookingsByHotelOwnerId/${user._id}`
+            `http://46.32.232.208:5000/booking/getPreviousBookingsByHotelOwnerId/${user._id}`
           );
           const pendingHotelNum = await axios.get(
-            `http://localhost:5000/hotels/getUnapprovedhotelbyonwerid/${user._id}`
+            `http://46.32.232.208:5000/hotels/getUnapprovedhotelbyonwerid/${user._id}`
           );
 
           const upcomingbBookingsNum = await axios.get(
-            `http://localhost:5000/booking/getUpcommingBookingsByHotelOwnerId/${user._id}`
+            `http://46.32.232.208:5000/booking/getUpcommingBookingsByHotelOwnerId/${user._id}`
           );
 
           dispatch({
@@ -257,19 +257,19 @@ export default function Dashboard() {
           ];
         } else if (user.partner_type === "Parking") {
           const parkingNum = await axios.get(
-            `http://localhost:5000/parking/getApprovedParkingByOwnerId/${user._id}`
+            `http://46.32.232.208:5000/parking/getApprovedParkingByOwnerId/${user._id}`
           );
 
           const bookingsNum = await axios.get(
-            `http://localhost:5000/booking/getPreviousBookingsByParkingOwnerId/${user._id}`
+            `http://46.32.232.208:5000/booking/getPreviousBookingsByParkingOwnerId/${user._id}`
           );
 
           const pendingParkingNum = await axios.get(
-            `http://localhost:5000/parking/getUnapprovedParkingByOwnerId/${user._id}`
+            `http://46.32.232.208:5000/parking/getUnapprovedParkingByOwnerId/${user._id}`
           );
 
           const upcomingbBookingsNum = await axios.get(
-            `http://localhost:5000/booking/getUpcommingBookingsByParkingOwnerId/${user._id}`
+            `http://46.32.232.208:5000/booking/getUpcommingBookingsByParkingOwnerId/${user._id}`
           );
 
           dispatch({
@@ -313,19 +313,19 @@ export default function Dashboard() {
           ];
         } else if (user.partner_type === "HotelAndParking") {
           const hotelAndParkingNum = await axios.get(
-            `http://localhost:5000/hotelandparking/getApprovedhotelandparkingbyownerid/${user._id}`
+            `http://46.32.232.208:5000/hotelandparking/getApprovedhotelandparkingbyownerid/${user._id}`
           );
 
           const bookingsNum = await axios.get(
-            `http://localhost:5000/booking/getPreviousBookingsByHotelAndParkingOwnerId/${user._id}`
+            `http://46.32.232.208:5000/booking/getPreviousBookingsByHotelAndParkingOwnerId/${user._id}`
           );
 
           const pendingHotelAndParkingNum = await axios.get(
-            `http://localhost:5000/hotelandparking/getUnapprovedhotelandparkingbyownerid/${user._id}`
+            `http://46.32.232.208:5000/hotelandparking/getUnapprovedhotelandparkingbyownerid/${user._id}`
           );
 
           const upcomingbBookingsNum = await axios.get(
-            `http://localhost:5000/booking/getUpcomingBookingHotelandParkingByUserId/${user._id}`
+            `http://46.32.232.208:5000/booking/getUpcomingBookingHotelandParkingByUserId/${user._id}`
           );
 
           dispatch({
@@ -370,30 +370,30 @@ export default function Dashboard() {
         }
       } else if (view === "user") {
         const prevHotelBookingNum = await axios.get(
-          `http://localhost:5000/booking/getPreviousBookingHotelByUserId/${user._id}`
+          `http://46.32.232.208:5000/booking/getPreviousBookingHotelByUserId/${user._id}`
         );
         const prevParkingBookingNum = await axios.get(
-          `http://localhost:5000/booking/getPreviousBookingParkingByUserId/${user._id}`
+          `http://46.32.232.208:5000/booking/getPreviousBookingParkingByUserId/${user._id}`
         );
         const prevHotelAndParkingBookingNum = await axios.get(
-          `http://localhost:5000/booking/getPreviousBookingHotelandParkingByUserId/${user._id}`
+          `http://46.32.232.208:5000/booking/getPreviousBookingHotelandParkingByUserId/${user._id}`
         );
 
         const prevTotalBookingNum = await axios.get(
-          `http://localhost:5000/booking/getAllPreviousBookingsByUserId/${user._id}`
+          `http://46.32.232.208:5000/booking/getAllPreviousBookingsByUserId/${user._id}`
         );
         const upcomingHotelBookingNum = await axios.get(
-          `http://localhost:5000/booking/getUpcomingBookingHotelByUserId/${user._id}`
+          `http://46.32.232.208:5000/booking/getUpcomingBookingHotelByUserId/${user._id}`
         );
         const upcomingParkingBookingNum = await axios.get(
-          `http://localhost:5000/booking/getUpcomingBookingParkingByUserId/${user._id}`
+          `http://46.32.232.208:5000/booking/getUpcomingBookingParkingByUserId/${user._id}`
         );
         const upcomingHotelAndParkingBookingNum = await axios.get(
-          `http://localhost:5000/booking/getUpcomingBookingHotelandParkingByUserId/${user._id}`
+          `http://46.32.232.208:5000/booking/getUpcomingBookingHotelandParkingByUserId/${user._id}`
         );
 
         const upcomingTotalBookingNum = await axios.get(
-          `http://localhost:5000/booking/getAllUpcommingBookingsByUserId/${user._id}`
+          `http://46.32.232.208:5000/booking/getAllUpcommingBookingsByUserId/${user._id}`
         );
 
         dispatch({
@@ -477,19 +477,19 @@ export default function Dashboard() {
     try {
       if (view === "admin") {
         const [hotel, parking, hotelAndParking] = await Promise.all([
-          axios.get("http://localhost:5000/hotels/chart/hotelData"),
-          axios.get("http://localhost:5000/parking/chart/parkingData"),
+          axios.get("http://46.32.232.208:5000/hotels/chart/hotelData"),
+          axios.get("http://46.32.232.208:5000/parking/chart/parkingData"),
           axios.get(
-            "http://localhost:5000/hotelandparking/chart/hotelandparkingData"
+            "http://46.32.232.208:5000/hotelandparking/chart/hotelandparkingData"
           ),
         ]);
 
         const [hotelBooking, parkingBooking, hotelAndParkingBooking] =
           await Promise.all([
-            axios.get("http://localhost:5000/booking/chart/Allhotelbookings"),
-            axios.get("http://localhost:5000/booking/chart/Allparkingbookings"),
+            axios.get("http://46.32.232.208:5000/booking/chart/Allhotelbookings"),
+            axios.get("http://46.32.232.208:5000/booking/chart/Allparkingbookings"),
             axios.get(
-              "http://localhost:5000/booking/chart/Allhotelandparkingbookings"
+              "http://46.32.232.208:5000/booking/chart/Allhotelandparkingbookings"
             ),
           ]);
 
@@ -514,11 +514,11 @@ export default function Dashboard() {
       } else if (view === "partner") {
         if (user.partner_type === "Hotel") {
           const hotelCombinedBookings = await axios.get(
-            `http://localhost:5000/booking/chart/combinedpartnerhotel/${user._id}`
+            `http://46.32.232.208:5000/booking/chart/combinedpartnerhotel/${user._id}`
           );
 
           const hotelIndividualBookings = await axios.get(
-            `http://localhost:5000/booking/chart/hotelbookings/${user._id}`
+            `http://46.32.232.208:5000/booking/chart/hotelbookings/${user._id}`
           );
 
           setPartnerIndividualData(hotelIndividualBookings.data);
@@ -528,11 +528,11 @@ export default function Dashboard() {
           });
         } else if (user.partner_type === "Parking") {
           const parkingCombinedBookings = await axios.get(
-            `http://localhost:5000/booking/chart/combinedpartnerparking/${user._id}`
+            `http://46.32.232.208:5000/booking/chart/combinedpartnerparking/${user._id}`
           );
 
           const parkingIndividualBookings = await axios.get(
-            `http://localhost:5000/booking/chart/parkingbookings/${user._id}`
+            `http://46.32.232.208:5000/booking/chart/parkingbookings/${user._id}`
           );
 
           setPartnerIndividualData(parkingIndividualBookings.data);
@@ -542,11 +542,11 @@ export default function Dashboard() {
           });
         } else if (user.partner_type === "HotelAndParking") {
           const hotelAndParkingCombinedBookings = await axios.get(
-            `http://localhost:5000/booking/chart/combinedpartnerhotelparking/${user._id}`
+            `http://46.32.232.208:5000/booking/chart/combinedpartnerhotelparking/${user._id}`
           );
 
           const hotelAndParkingIndividualBookings = await axios.get(
-            `http://localhost:5000/booking/chart/hotelandparkingbookings/${user._id}`
+            `http://46.32.232.208:5000/booking/chart/hotelandparkingbookings/${user._id}`
           );
 
           setPartnerIndividualData(hotelAndParkingIndividualBookings.data);
@@ -563,16 +563,16 @@ export default function Dashboard() {
           userHotelAndParkingBooking,
         ] = await Promise.all([
           axios.get(
-            `http://localhost:5000/booking/chart/userallbookings/${user._id}`
+            `http://46.32.232.208:5000/booking/chart/userallbookings/${user._id}`
           ),
           axios.get(
-            `http://localhost:5000/booking/chart/userhotelbookings/${user._id}`
+            `http://46.32.232.208:5000/booking/chart/userhotelbookings/${user._id}`
           ),
           axios.get(
-            `http://localhost:5000/booking/chart/userparkingbookings/${user._id}`
+            `http://46.32.232.208:5000/booking/chart/userparkingbookings/${user._id}`
           ),
           axios.get(
-            `http://localhost:5000/booking/chart/userhotelandparkingbookings/${user._id}`
+            `http://46.32.232.208:5000/booking/chart/userhotelandparkingbookings/${user._id}`
           ),
         ]);
         setUserCombinedData({
@@ -1347,7 +1347,7 @@ export default function Dashboard() {
                       path={path}
                       user={user}
                       type={"hotel"}
-                      url={`http://localhost:5000/OperatingProperty/getHotelOperatingCityObj`}
+                      url={`http://46.32.232.208:5000/OperatingProperty/getHotelOperatingCityObj`}
                     />
                   </div>
                   <div className="col-md-6">
@@ -1358,7 +1358,7 @@ export default function Dashboard() {
                       path={path}
                       user={user}
                       type={"parking"}
-                      url={`http://localhost:5000/OperatingProperty/getParkingOperatingCityObj`}
+                      url={`http://46.32.232.208:5000/OperatingProperty/getParkingOperatingCityObj`}
                     />
                   </div>
                   <div className="col-md-6 mt-3">
@@ -1369,7 +1369,7 @@ export default function Dashboard() {
                       path={path}
                       user={user}
                       type={"hotelAndParking"}
-                      url={`http://localhost:5000/OperatingProperty/getHotelAndParkingOperatingCityObj`}
+                      url={`http://46.32.232.208:5000/OperatingProperty/getHotelAndParkingOperatingCityObj`}
                     />
                   </div>
                 </div>
