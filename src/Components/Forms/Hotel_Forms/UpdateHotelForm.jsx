@@ -140,7 +140,7 @@ const UpdateHotel = () => {
     setLoading(true);
     setImgMessage("");
 
-    let url = `http://localhost:5000/hotels/deletehotelImage/${defaultFormValues._id}`;
+    let url = `http://46.32.232.208:5000/hotels/deletehotelImage/${defaultFormValues._id}`;
     const data = { link: deleteImage }; // Request body data as an object
     const options = {
       method: "DELETE", // Replace with the desired HTTP method (e.g., POST, PUT, DELETE)
@@ -206,7 +206,7 @@ const UpdateHotel = () => {
     for (let i = 0; i < selectedImages.length; i++) {
       formData.append("photos", selectedImages[i].file);
     }
-    const url = `http://localhost:5000/hotels/updatehoteldata/${formValues._id}`;
+    const url = `http://46.32.232.208:5000/hotels/updatehoteldata/${formValues._id}`;
 
     const options = {
       method: "PATCH",
@@ -240,7 +240,7 @@ const UpdateHotel = () => {
   useEffect(() => {
     const GetHotelCities = async () => {
       const response = await axios.get(
-        "http://localhost:5000/OperatingProperty/getHotelOperatingCity"
+        "http://46.32.232.208:5000/OperatingProperty/getHotelOperatingCity"
       );
       dispatch({ type: "SET_HOTEL_CITY", payload: response.data });
       // console.log(response.data);

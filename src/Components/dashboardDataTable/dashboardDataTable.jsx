@@ -33,17 +33,17 @@ const DashboardDataTable = ({ path, user, type, url }) => {
     let res;
     if (type === "hotel") {
       res = await axios.delete(
-        `http://localhost:5000/OperatingProperty/deleteOperatingCity`,
+        `http://46.32.232.208:5000/OperatingProperty/deleteOperatingCity`,
         { data: { type: "hotel", cityId: id } }
       );
     } else if (type === "parking") {
       res = await axios.delete(
-        `http://localhost:5000/OperatingProperty/deleteOperatingCity`,
+        `http://46.32.232.208:5000/OperatingProperty/deleteOperatingCity`,
         { data: { type: "parking", cityId: id } }
       );
     } else if (type === "hotelAndParking") {
       res = await axios.delete(
-        `http://localhost:5000/OperatingProperty/deleteOperatingCity`,
+        `http://46.32.232.208:5000/OperatingProperty/deleteOperatingCity`,
         { data: { type: "hotelandparking", cityId: id } }
       );
     }

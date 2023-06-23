@@ -54,8 +54,8 @@ const AddRoomForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const url = "http://localhost:5000/room/addroom";
-    const urlHotelAndParking = "http://localhost:5000/room/addhotelparkingroom";
+    const url = "http://46.32.232.208:5000/room/addroom";
+    const urlHotelAndParking = "http://46.32.232.208:5000/room/addhotelparkingroom";
 
     const data = {
       // hotelId: "64308b2d8926b91b79d17f69",

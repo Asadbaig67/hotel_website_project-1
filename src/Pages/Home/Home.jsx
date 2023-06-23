@@ -12,7 +12,7 @@ import { useMediaQuery } from "@mui/material";
 const Home = (props) => {
   const isXtraSmallScreen = useMediaQuery("(max-width: 450px)");
   const logout = () => {
-    window.open(`http://localhost:5000/user/logout`, "_self");
+    window.open(`http://46.32.232.208:5000/user/logout`, "_self");
   };
 
   // State For Logged In User
@@ -21,7 +21,7 @@ const Home = (props) => {
   // Api Request To Get Logged In User
   const getUser = async () => {
     try {
-      const url = `http://localhost:5000/user/login`;
+      const url = `http://46.32.232.208:5000/user/login`;
       const response = await fetch(url, {
         method: "GET",
         credentials: "include",

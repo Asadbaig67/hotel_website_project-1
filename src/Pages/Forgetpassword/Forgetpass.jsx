@@ -52,7 +52,7 @@ const Forgetpass = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch("http://localhost:5000/otp/sendotp", {
+    const response = await fetch("http://46.32.232.208:5000/otp/sendotp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

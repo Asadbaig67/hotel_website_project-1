@@ -222,7 +222,7 @@ const AddHotelForm = () => {
     for (let i = 0; i < selectedImages.length; i++) {
       formData.append("photos", selectedImages[i].file);
     }
-    const url = "http://localhost:5000/hotels/addhotel";
+    const url = "http://46.32.232.208:5000/hotels/addhotel";
 
     const options = {
       method: "POST",
@@ -231,7 +231,7 @@ const AddHotelForm = () => {
 
     try {
       const owner = await axios.get(
-        `http://localhost:5000/user/getuserbyid/${
+        `http://46.32.232.208:5000/user/getuserbyid/${
           loggedinUser.user.account_type === "admin"
             ? FinalOwner.id
             : loggedinUser.user._id
@@ -277,7 +277,7 @@ const AddHotelForm = () => {
   };
 
   const GetOwners = async () => {
-    const url = "http://localhost:5000/user/getuseridandname";
+    const url = "http://46.32.232.208:5000/user/getuseridandname";
     const params = {
       form_type: "hotel",
     };
@@ -301,7 +301,7 @@ const AddHotelForm = () => {
   useEffect(() => {
     const GetHotelCities = async () => {
       const response = await axios.get(
-        "http://localhost:5000/OperatingProperty/getHotelOperatingCity"
+        "http://46.32.232.208:5000/OperatingProperty/getHotelOperatingCity"
       );
       dispatch({ type: "SET_HOTEL_CITY", payload: response.data });
       // console.log(response.data);

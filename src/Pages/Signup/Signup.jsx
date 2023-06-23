@@ -68,7 +68,7 @@ export default function SignUp() {
   const [open, setOpen] = useState(true);
 
   const googleAuth = async () => {
-    // const url = `http://localhost:5000/user/google`;
+    // const url = `http://46.32.232.208:5000/user/google`;
     // const options = {
     //   method: "GET",
     //   headers: {
@@ -94,13 +94,13 @@ export default function SignUp() {
     //   console.error("Error during authentication:", error);
     // }
 
-    window.open(`http://localhost:5000/user/google`);
+    window.open(`http://46.32.232.208:5000/user/google`);
   };
 
   const handleOnclik = async (event) => {
     console.log("clicked");
     event.preventDefault();
-    const response = await fetch("http://localhost:5000/user/registeration", {
+    const response = await fetch("http://46.32.232.208:5000/user/registeration", {
       method: "POST",
       // credentials: "include",
       headers: {

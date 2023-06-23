@@ -206,7 +206,7 @@ const AddParkingForm = () => {
     for (let i = 0; i < parkingImages.length; i++) {
       formData.append("photos", parkingImages[i].file);
     }
-    const url = "http://localhost:5000/parking/addparking";
+    const url = "http://46.32.232.208:5000/parking/addparking";
 
     const options = {
       method: "POST",
@@ -215,7 +215,7 @@ const AddParkingForm = () => {
 
     try {
       const owner = await axios.get(
-        `http://localhost:5000/user/getuserbyid/${
+        `http://46.32.232.208:5000/user/getuserbyid/${
           loggedinUser.user.account_type === "admin"
             ? FinalOwner.id
             : loggedinUser.user._id
@@ -255,7 +255,7 @@ const AddParkingForm = () => {
   };
 
   const GetOwners = async () => {
-    const url = "http://localhost:5000/user/getuseridandname";
+    const url = "http://46.32.232.208:5000/user/getuseridandname";
     const params = {
       form_type: "parking",
     };
@@ -281,7 +281,7 @@ const AddParkingForm = () => {
   useEffect(() => {
     const getParkingCities = async () => {
       const response = await axios.get(
-        "http://localhost:5000/OperatingProperty/getParkingOperatingCity"
+        "http://46.32.232.208:5000/OperatingProperty/getParkingOperatingCity"
       );
       dispatch({ type: "SET_PARKING_CITY", payload: response.data });
       // console.log(response.data);

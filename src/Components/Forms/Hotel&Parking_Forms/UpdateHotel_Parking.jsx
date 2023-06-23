@@ -131,7 +131,7 @@ const UpdateHotelAndParking = () => {
     setLoading(true);
     setImgMessage("");
 
-    let url = `http://localhost:5000/hotelandparking/deletehotelimage/${defaultFormValues._id}`;
+    let url = `http://46.32.232.208:5000/hotelandparking/deletehotelimage/${defaultFormValues._id}`;
     const data = { link: deleteImage.image }; // Request body data as an object
     const options = {
       method: "DELETE", // Replace with the desired HTTP method (e.g., POST, PUT, DELETE)
@@ -161,7 +161,7 @@ const UpdateHotelAndParking = () => {
     setLoading(true);
     setImgMessage("");
 
-    let url = `http://localhost:5000/hotelandparking/deleteparkingimage/${defaultFormValues._id}`;
+    let url = `http://46.32.232.208:5000/hotelandparking/deleteparkingimage/${defaultFormValues._id}`;
     const data = { link: deleteImage.image }; // Request body data as an object
     const options = {
       method: "DELETE", // Replace with the desired HTTP method (e.g., POST, PUT, DELETE)
@@ -284,7 +284,7 @@ const UpdateHotelAndParking = () => {
     for (let i = 0; i < parkingimages.length; i++) {
       formData.append("parkingPhotos", parkingimages[i].file);
     }
-    const url = `http://localhost:5000/hotelandparking/updatehotelandparkingdata/${formValues._id}`;
+    const url = `http://46.32.232.208:5000/hotelandparking/updatehotelandparkingdata/${formValues._id}`;
 
     const options = {
       method: "PATCH",
@@ -324,7 +324,7 @@ const UpdateHotelAndParking = () => {
   useEffect(() => {
     const GetHotelAndParkingCities = async () => {
       const response = await axios.get(
-        "http://localhost:5000/OperatingProperty/getHotelAndParkingOperatingCity"
+        "http://46.32.232.208:5000/OperatingProperty/getHotelAndParkingOperatingCity"
       );
       dispatch({ type: "SET_HOTEL_AND_PARKING_CITY", payload: response.data });
       // console.log(response.data);

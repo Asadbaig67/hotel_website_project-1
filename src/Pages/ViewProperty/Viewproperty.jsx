@@ -82,7 +82,7 @@ const Viewproperty = () => {
 
   const handleUpdate = async (id) => {
     // navigate("/updateRoom", { state: { id } });
-    const url = `http://localhost:5000/room/updateroom/${id}`;
+    const url = `http://46.32.232.208:5000/room/updateroom/${id}`;
     const options = {
       method: "PATCH",
       headers: {
@@ -103,7 +103,7 @@ const Viewproperty = () => {
 
   const handleRoomDelete = async (id, room) => {
     // navigate("/updateRoom", { state: { id } });
-    const url = `http://localhost:5000/room/deleterooms/${id}`;
+    const url = `http://46.32.232.208:5000/room/deleterooms/${id}`;
     const options = {
       method: "DELETE",
       headers: {
@@ -125,24 +125,24 @@ const Viewproperty = () => {
     if (user.account_type === "admin") {
       if (path === "hotels" || path === "hotelRequests") {
         res = await axios.delete(
-          `http://localhost:5000/room/deleteroombyidfromhotel?hotelId=${data._id}&roomId=${id}`
+          `http://46.32.232.208:5000/room/deleteroombyidfromhotel?hotelId=${data._id}&roomId=${id}`
         );
       } else if (
         path === "HotelsAndParkings" ||
         path === "hotelAndParkingRequests"
       ) {
         res = await axios.delete(
-          `http://localhost:5000/room/deleteroombyidfromhotelandparking?hotelAndParkingId=${data._id}&roomId=${id}`
+          `http://46.32.232.208:5000/room/deleteroombyidfromhotelandparking?hotelAndParkingId=${data._id}&roomId=${id}`
         );
       }
     } else if (user.account_type === "partner") {
       if (user.partner_type === "Hotel") {
         res = await axios.delete(
-          `http://localhost:5000/room/deleteroombyidfromhotel?hotelId=${data._id}&roomId=${id}`
+          `http://46.32.232.208:5000/room/deleteroombyidfromhotel?hotelId=${data._id}&roomId=${id}`
         );
       } else if (user.partner_type === "HotelAndParking") {
         res = await axios.delete(
-          `http://localhost:5000/room/deleteroombyidfromhotelandparking?hotelAndParkingId=${data._id}&roomId=${id}`
+          `http://46.32.232.208:5000/room/deleteroombyidfromhotelandparking?hotelAndParkingId=${data._id}&roomId=${id}`
         );
       }
     }
@@ -201,7 +201,7 @@ const Viewproperty = () => {
     const roomPromises = data.rooms.map(async (room) => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/room/getroombyid/${room}`
+          `http://46.32.232.208:5000/room/getroombyid/${room}`
         );
         if (response.status === 200) {
           return response.data;
@@ -233,18 +233,18 @@ const Viewproperty = () => {
       let bookings;
       if (path === "hotels" || user.partner_type === "Hotel") {
         bookings = await axios.get(
-          `http://localhost:5000/booking/getBookingByHotelId/${data._id}`
+          `http://46.32.232.208:5000/booking/getBookingByHotelId/${data._id}`
         );
       } else if (path === "parkings" || user.partner_type === "Parking") {
         bookings = await axios.get(
-          `http://localhost:5000/booking/getBookingByParkingId/${data._id}`
+          `http://46.32.232.208:5000/booking/getBookingByParkingId/${data._id}`
         );
       } else if (
         path === "HotelsAndParkings" ||
         user.partner_type === "HotelAndParking"
       ) {
         bookings = await axios.get(
-          `http://localhost:5000/booking/getBookingByHotelAndParkingId/${data._id}`
+          `http://46.32.232.208:5000/booking/getBookingByHotelAndParkingId/${data._id}`
         );
       }
       console.log(bookings.data);

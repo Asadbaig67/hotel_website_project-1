@@ -37,7 +37,7 @@ const Signin = () => {
 
   const googleAuth = async (event) => {
     event.preventDefault();
-    const url = "http://localhost:5000/user/auth/example";
+    const url = "http://46.32.232.208:5000/user/auth/example";
     const options = {
       method: "GET",
       withCredentials: true,
@@ -47,7 +47,7 @@ const Signin = () => {
     const data = response.data;
     console.log(data);
 
-    // const data = window.open(`http://localhost:5000/user/google`, "_self");
+    // const data = window.open(`http://46.32.232.208:5000/user/google`, "_self");
     // console.log("data is From backend", data);
   };
 
@@ -117,7 +117,7 @@ const Signin = () => {
 
   // const handleSubmit = async (event) => {
   //   event.preventDefault();
-  //   const response = await fetch("http://localhost:5000/user/userlogin", {
+  //   const response = await fetch("http://46.32.232.208:5000/user/userlogin", {
   //     method: "POST",
   //     credentials: "include",
   //     headers: {
@@ -148,7 +148,7 @@ const Signin = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/user/userlogin",
+        "http://46.32.232.208:5000/user/userlogin",
         {
           email,
           password,

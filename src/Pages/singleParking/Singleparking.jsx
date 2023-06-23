@@ -90,7 +90,7 @@ function ParkingPropertyDetails() {
   console.log("Parking = ", parking);
   const HandleBooking = async () => {
     // Api Request
-    const parkingURL = `http://localhost:5000/booking/addParkingBooking?userId=${userId}&parkingId=${parkingId}&checkIn=${checkInDateFormatted}&checkOut=${checkOutDateFormatted}&parking=${parking}`;
+    const parkingURL = `http://46.32.232.208:5000/booking/addParkingBooking?userId=${userId}&parkingId=${parkingId}&checkIn=${checkInDateFormatted}&checkOut=${checkOutDateFormatted}&parking=${parking}`;
     const requestOptions = {
       method: "POST",
     };

@@ -138,7 +138,7 @@ const UpdateParking = () => {
     setLoading(true);
     setImgMessage("");
 
-    let url = `http://localhost:5000/parking/deleteparkingimage/${defaultFormValues._id}`;
+    let url = `http://46.32.232.208:5000/parking/deleteparkingimage/${defaultFormValues._id}`;
     const data = { link: deleteImage }; // Request body data as an object
     const options = {
       method: "DELETE", // Replace with the desired HTTP method (e.g., POST, PUT, DELETE)
@@ -214,7 +214,7 @@ const UpdateParking = () => {
     for (let i = 0; i < parkingImages.length; i++) {
       formData.append("photos", parkingImages[i].file);
     }
-    const url = `http://localhost:5000/parking/updateparkingdata/${formValues._id}`;
+    const url = `http://46.32.232.208:5000/parking/updateparkingdata/${formValues._id}`;
 
     const options = {
       method: "PATCH",
@@ -252,7 +252,7 @@ const UpdateParking = () => {
   useEffect(() => {
     const getParkingCities = async () => {
       const response = await axios.get(
-        "http://localhost:5000/OperatingProperty/getParkingOperatingCity"
+        "http://46.32.232.208:5000/OperatingProperty/getParkingOperatingCity"
       );
       dispatch({ type: "SET_PARKING_CITY", payload: response.data });
       // console.log(response.data);

@@ -20,12 +20,12 @@ const Featured = () => {
 
   const { activePath } = useSelector((state) => state.activePath);
 
-  const IsLargeScreen = useMediaQuery("(min-width:900px)");
+  const IsLargeScreen = useMediaQuery("(min-width:1100px)");
 
   const getCityCount = async (city) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/hotels/getcountofapprovedhotelbycity/${city}`
+        `http://46.32.232.208:5000/hotels/getcountofapprovedhotelbycity/${city}`
       );
       if (response.status === 200) {
         return response.data.count;
@@ -62,7 +62,7 @@ const Featured = () => {
       try {
         dispatch({ type: "SET_HOTEL_DATA", payload: [] });
         const response = await fetch(
-          `http://localhost:5000/hotels/gethotelbycity/${city}`
+          `http://46.32.232.208:5000/hotels/gethotelbycity/${city}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -79,7 +79,7 @@ const Featured = () => {
       try {
         dispatch({ type: "SET_HOTEL_DATA", payload: [] });
         const response = await fetch(
-          `http://localhost:5000/hotelandparking/cityhotel/${city}`
+          `http://46.32.232.208:5000/hotelandparking/cityhotel/${city}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -96,7 +96,7 @@ const Featured = () => {
   };
 
   return (
-    <div className=" ">
+    <div className={`container ${IsLargeScreen ? "ms-5" : ""} `}>
       <div className={`${style.featured} `}>
         <div className={style.featuredItems}>
           <img

@@ -13,7 +13,7 @@ const MailList = () => {
 
   const HandleClick = async (e) => {
     e.preventDefault();
-    let url = "http://localhost:5000/newsletter/subscribe";
+    let url = "http://46.32.232.208:5000/newsletter/subscribe";
     try {
       const response = await axios.post(url, { email });
       console.log(response.data); // Handle the response data as needed
