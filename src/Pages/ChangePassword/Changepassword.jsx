@@ -57,6 +57,7 @@ const Changepassword = () => {
   const [cnewpassword, setCpassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showCPassword, setShowCPassword] = useState(false);
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   const handleCpasswordChange = (event) => {
     setCpassword(event.target.value);
@@ -75,7 +76,7 @@ const Changepassword = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch("http://46.32.232.208:5000/otp/resetpassword", {
+    const response = await fetch(`http://46.32.232.208:5000/otp/resetpassword`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -101,9 +102,7 @@ const Changepassword = () => {
         "Password Updated Successfully! You are being redirected to Signin Page"
       );
       setAlertOn(true);
-      // setTimeout(() => {
-      //   setAlertOn(true);
-      // }, 2000);
+      
       setTimeout(() => {
         Navigate("/Signin");
       }, 5000);

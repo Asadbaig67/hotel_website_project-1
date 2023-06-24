@@ -8,7 +8,6 @@ import Hotel from "./Pages/hotel/Hotel";
 import Signin from "./Pages/Signin/Signin";
 import Signup from "./Pages/Signup/Signup";
 import Forgetpass from "./Pages/Forgetpassword/Forgetpass";
-import Otpverify from "./Pages/OtpVerification/Otpverify";
 import Changepassword from "./Pages/ChangePassword/Changepassword";
 // import Map from "./Components/Map/Map";
 import List from "./Pages/list/List";
@@ -54,7 +53,6 @@ function App() {
         <Route path="/signup" element={<PublicRoute Component={Signup} />} />
         <Route path="/signin" element={<PublicRoute Component={Signin} />} />
         <Route path="/forgetpassword" element={<Forgetpass />} />
-        <Route path="/otpverify" element={<Otpverify />} />
         <Route
           path="/reset/password"
           element={<PublicRoute Component={Changepassword} />}

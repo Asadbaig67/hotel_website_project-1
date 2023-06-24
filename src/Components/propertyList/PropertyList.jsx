@@ -1,8 +1,6 @@
-// import useFetch from "../../hooks/useFetch";
 import style from "./propertyList.module.css";
 
 const PropertyList = () => {
-  // const { data, loading, error } = useFetch("/hotels/countByType");
   const loading = false;
   const data = [
     {

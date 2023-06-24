@@ -5,14 +5,7 @@ import { useSelector } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 
 const ParkingList = () => {
-  // const { parking_data } = useSelector((state) => state.getStaticParking);
   const { parkingData } = useSelector((state) => state.getParkingsfrombackend);
-  // const { cityParking } = useSelector((state) => state.searchParkingCity);
-
-  // console.log(parkingData);
-  // let filtered_data = parking_data.filter(
-  //   (item) => item.city.toLowerCase() === cityParking.toLowerCase()
-  // );
 
   return (
     <div style={{ overflowX: "hidden" }}>

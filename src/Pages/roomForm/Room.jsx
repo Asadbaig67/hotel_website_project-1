@@ -5,8 +5,7 @@ const RoomForm = () => {
   const dispatch = useDispatch();
   const { roomData } = useSelector((state) => state.setRoomData);
 
-//   const [singlefile, setsingleFile] = useState();
-//   const [multiplefile, setmultipleFile] = useState();
+
 
   const [room, setRoom] = useState({
     title: "",
@@ -23,16 +22,6 @@ const RoomForm = () => {
     setRoom({ ...room, [e.target.name]: value });
   };
 
-//   const handleSingleFileChange = (e) => {
-//     if (e.target.files) {
-//       setsingleFile(e.target.files[0]);
-//     }
-//   };
-//   const handleMultipleFileChange = (e) => {
-//     if (e.target.files) {
-//       setmultipleFile(e.target.files);
-//     }
-//   };
 
   const handleClick = (e) => {
     e.preventDefault();

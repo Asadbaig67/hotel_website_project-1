@@ -1,29 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100&family=Lato:wght@300&family=Montserrat:wght@300&family=Open+Sans:wght@300&family=Playfair+Display+SC&family=Smooch&family=Ubuntu:wght@300&display=swap");
-/* .custom {
 
-  height: 400px;
-  font-family: 'playfair display sc', serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url("./images/modal-bg.png");
-  /* background-color: rgb(178, 194, 214); */
-/* } 
-
-.custom_input{
-  
-    display: block;
-    outline: none;
-    border: none;
-    height: 2em;
-    font-size: 16px;
-    margin-bottom: 1px;
-    border-bottom: 1px solid #333;
-} */
-/* .custom_input:focus {
-  border-bottom: 1px solid #282f35;
-  box-shadow: 0 1px 0 0 #282f35;
-} */
 .custom {
   height: 400px;
   font-family: "playfair display sc", serif;

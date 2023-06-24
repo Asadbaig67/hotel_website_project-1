@@ -1,11 +1,9 @@
 .footer {
-  /* width: 100%; */
   font-size: 12px;
   margin-top: 20px;
 }
 
 .fLists {
-  /* width: 90%; */
   margin-bottom: 50px;
 }
 
@@ -27,7 +25,6 @@
 .fText {
   text-align: center;
   color: white;
-  /* padding-bottom: 4px; */
 }
 .insta {
   border: 1px solid black;

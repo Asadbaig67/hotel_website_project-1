@@ -8,19 +8,10 @@ import axios from "axios";
 const DashboardDataTable = ({ path, user, type, url }) => {
   const { header } = useSelector((state) => state.setHeader);
   const { data, loading, error } = useFetch(url);
-  // let cityData = [];
-  // data.map((item, i) => {
-  //   cityData[i] = [];
-  //   item.cities.map((cityItem, j) => {
-  //     cityData[i][j] = {
-  //       _id: cityItem._id,
-  //       type: item.type,
-  //       city: cityItem.city,
-  //       createdAt: cityItem.createdAt,
-  //     };
-  //   });
-  // });
-  // cityData = cityData.flat();
+  
+
+
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   let filteredData = data;
   const [list, setList] = useState([]);
@@ -33,17 +24,17 @@ const DashboardDataTable = ({ path, user, type, url }) => {
     let res;
     if (type === "hotel") {
       res = await axios.delete(
-        `http://46.32.232.208:5000/OperatingProperty/deleteOperatingCity`,
+        `${api}/OperatingProperty/deleteOperatingCity`,
         { data: { type: "hotel", cityId: id } }
       );
     } else if (type === "parking") {
       res = await axios.delete(
-        `http://46.32.232.208:5000/OperatingProperty/deleteOperatingCity`,
+        `${api}/OperatingProperty/deleteOperatingCity`,
         { data: { type: "parking", cityId: id } }
       );
     } else if (type === "hotelAndParking") {
       res = await axios.delete(
-        `http://46.32.232.208:5000/OperatingProperty/deleteOperatingCity`,
+        `${api}/OperatingProperty/deleteOperatingCity`,
         { data: { type: "hotelandparking", cityId: id } }
       );
     }
@@ -87,7 +78,6 @@ const DashboardDataTable = ({ path, user, type, url }) => {
           },
         }}
         pageSizeOptions={[5]}
-        // checkboxSelection
         disableRowSelectionOnClick
         getRowId={(row) => row._id}
         loading={loading}

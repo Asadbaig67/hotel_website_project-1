@@ -10,7 +10,6 @@ const { RangePicker } = DatePicker;
 const ParkingDate = () => {
   const dispatch = useDispatch();
   const { dates } = useSelector((state) => state.searchParkingDate);
-  // console.log(dates);
   const range = (start, end) => {
     const result = [];
     for (let i = start; i < end; i++) {
@@ -127,7 +126,6 @@ const ParkingDate = () => {
         }}
         format="DD-MM-YYYY HH:00"
         onChange={handleDateChange}
-        // onOpenChange={handlePickerClick}
       />
     </Space>
   );

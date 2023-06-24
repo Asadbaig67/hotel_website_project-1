@@ -1,32 +1,19 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
 
 const ParkingCard = (props) => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const {
-    // name,
-    // description,
-    // city,
-    // country,
-    // total_slots,
-    // booked_slots,
-    // price,
-    // pic,
+    
     availableSlots,
     parking,
   } = props.data;
 
   const { name, city, country, description, price, title, photos, rating } =
     parking;
-  const card = {
-    title: "Card title",
-    rating: "4.5",
-    desc: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-    price: "$100",
-  };
+
 
   const HandleClick = () => {
     dispatch({ type: "SET_SELECTED_PARKING", payload: props.data });
@@ -36,47 +23,7 @@ const ParkingCard = (props) => {
   return (
     <>
       <div className="card my-3 shadow mx-4">
-        {/* <div
-          id="carouselExampleControls"
-          className="carousel slide"
-          data-bs-ride="carousel"
-        >
-          <div className="carousel-inner">
-            <div className="carousel-item active">
-              <img src={image} className="d-block w-100" alt="..." />
-            </div>
-            <div className="carousel-item">
-              <img src={image} className="d-block w-100" alt="..." />
-            </div>
-            <div className="carousel-item">
-              <img src={image} className="d-block w-100" alt="..." />
-            </div>
-          </div>
-          <button
-            className="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="prev"
-          >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="next"
-          >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Next</span>
-          </button>
-        </div> */}
+        
         <img
           src={photos[0]}
           height="220"

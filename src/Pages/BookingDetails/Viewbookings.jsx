@@ -42,30 +42,25 @@ const ViewBookings = () => {
 
   const { cardData } = useSelector((state) => state.setCardData);
   const { options } = useSelector((state) => state.searchOption);
-  console.log(options);
   const { booked_property } = useSelector((state) => state.getBookedDetails);
-  console.log("Booked Rooms Array =", booked_property.Rooms);
   const { dates } = useSelector((state) => state.searchDate);
   const datesParking = useSelector((state) => state.searchParkingDate.dates);
   const { c } = useSelector((state) => state.searchVehicle);
-  console.log(booked_property);
+
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
 
-  // const roomType = "Deluxe Room";
   const roomPrice = 150;
-  // const parkingBooked = true;
   const parkingPrice = 20;
   const additionalCharges = true;
   const additionalChargesDescription = "Room Service";
   const additionalChargesPrice = 20;
   const taxDescription = "Tax (10%)";
   const taxPrice = 200;
-  // const totalPrice = roomPrice + parkingPrice + additionalChargesPrice + taxPrice;
-  // const Startdate = new Date(dates[0]);
-  // const Enddate = new Date(dates[1]);
+  
 
   let src;
   if (booked_property.photos && booked_property.photos[0]) {
@@ -79,10 +74,8 @@ const ViewBookings = () => {
   const twinRoomsArray = [];
   const familyRoomsArray = [];
   const Rooms = booked_property.Rooms;
-  console.log("Rooms =", Rooms);
   let room, room_no;
 
-  console.log("Options =", options.singleRoom);
 
   if (options.singleRoom > 0) {
     for (let i = 0; i < Rooms.length; i++) {
@@ -195,7 +188,6 @@ const ViewBookings = () => {
   }
 
   roomArray = JSON.stringify(roomArray);
-  // console.log("Room Array stringinfied=", roomArray);
 
   if (booked_property.parking_name) {
     parking = {
@@ -229,38 +221,34 @@ const ViewBookings = () => {
   const HandleBooking = async () => {
     // Api Request
     if (!booked_property.parking_name) {
-      const hotelURL = `http://46.32.232.208:5000/booking/addBooking?userId=${userId}&hotelId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&adults=${options.adult}&children=${options.children}`;
+      const hotelURL = `${api}/booking/addBooking?userId=${userId}&hotelId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&adults=${options.adult}&children=${options.children}`;
       const requestOptions = {
         method: "POST",
       };
       try {
         const response = await fetch(hotelURL, requestOptions);
         const data = await response.json();
-        console.log(data);
         if (response.ok) {
           alert("Booking Successful");
         } else {
           alert("Booking Failed");
         }
-        console.log(data);
       } catch (error) {
         console.error(error);
       }
     } else {
-      const hotelandparkingURL = `http://46.32.232.208:5000/booking/addHotelAndParkingBooking?userId=${userId}&HotelAndParkingId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&parking=${parking}`;
+      const hotelandparkingURL = `${api}/booking/addHotelAndParkingBooking?userId=${userId}&HotelAndParkingId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&parking=${parking}`;
       const requestOptions = {
         method: "POST",
       };
       try {
         const response = await fetch(hotelandparkingURL, requestOptions);
         const data = await response.json();
-        console.log(data);
         if (response.ok) {
           alert("Booking Successful");
         } else {
           alert("Booking Failed");
         }
-        console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -296,56 +284,7 @@ const ViewBookings = () => {
         <div className="row">
           <div className="col-md-4">
             <div className="py-2">
-              {/* <div className="card">
-                <div className="card-body">
-                  <div className="">
-                    <h5 className="mb-3 card-title fw-bold text-dark">
-                      Your Booking Details
-                    </h5>
-                  </div>
-                  <div>
-                    <div className="d-flex justify-content-between ">
-                      <div className="d-flex my-1">
-                        <i className="fas fa-calendar-alt mt-1"></i>
-                        <span className="mx-1 ">{dates[0]}</span>
-                      </div>
-                      <div className="d-flex my-1">
-                        <i className="fas fa-calendar-alt mt-1"></i>
-                        <span className="mx-1 ">{dates[1]}</span>
-                      </div>
-                    </div>
-                    <div className="d-flex justify-content-between my-1">
-                      <i className="fas fa-moon"></i>
-                      <span>{booked_property.Nights} Nights</span>
-                    </div>
-                    <div className="d-flex justify-content-between my-1">
-                      <i className="fas fa-users"></i>
-                      <span>
-                        {options.adult} Adults, {options.children} Child
-                      </span>
-                    </div>
-                  </div>
-                  <hr />
-                  <div>
-                    <small className="fw-bold text-dark">You selected :</small>
-
-                    <div className="text-muted small">
-                      {options.singleRoom > 0
-                        ? `${options.singleRoom}x Single Room`
-                        : null}{" "}
-                      {options.twinRoom > 0
-                        ? `- ${options.twinRoom}x Twin Room`
-                        : null}{" "}
-                      {options.familyRoom > 0
-                        ? `- ${options.familyRoom}x Family Room`
-                        : null}{" "}
-                    </div>
-                    <Link to="/listhotel" className="small">
-                      Change Your Selection
-                    </Link>
-                  </div>
-                </div>
-              </div> */}
+              
               <div className="">
                 <div className="card-body">
                   <div className="text-center">
@@ -453,12 +392,7 @@ const ViewBookings = () => {
                             }
                             precision={1}
                             getLabelText={getLabelText}
-                            // onChange={(event, newValue) => {
-                            //   setValue(newValue);
-                            // }}
-                            // onChangeActive={(event, newHover) => {
-                            //   setHover(newHover);
-                            // }}
+                            
                             emptyIcon={
                               <StarIcon
                                 style={{ opacity: 0.55 }}
@@ -519,14 +453,7 @@ const ViewBookings = () => {
                             </>
                           )}
                           <br />
-                          {/* <span>{cardData.attr4}</span>
-            <span className="text-primary"> • </span>
-            <span>{cardData.attr5}</span>
-            <span className="text-primary"> • </span>
-            <span>
-              {cardData.attr6}
-              <br />
-            </span> */}
+                          
                         </div>
                         <p className="w-100 fst-italic text-muted">
                           {booked_property

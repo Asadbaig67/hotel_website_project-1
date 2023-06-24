@@ -49,15 +49,7 @@ const Roomcard = (props) => {
           <div className="carousel-item active">
             <img src={pic} className="card-img-top" alt="Wild Landscape" />
           </div>
-          {/* <div className="carousel-item active">
-            <img src={listing2} className="card-img-top" alt="Wild Landscape" />
-          </div>
-          <div className="carousel-item">
-            <img src={listing3} className="card-img-top" alt="Camera" />
-          </div>
-          <div className="carousel-item">
-            <img src={listing4} className="card-img-top" alt="Exotic Fruits" />
-          </div> */}
+
         </div>
         <button
           className="carousel-control-prev"

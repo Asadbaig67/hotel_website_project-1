@@ -10,9 +10,10 @@ import style from "./home.module.css";
 import { useMediaQuery } from "@mui/material";
 
 const Home = (props) => {
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   const isXtraSmallScreen = useMediaQuery("(max-width: 450px)");
   const logout = () => {
-    window.open(`http://46.32.232.208:5000/user/logout`, "_self");
+    window.open(`${api}/user/logout`, "_self");
   };
 
   // State For Logged In User
@@ -21,16 +22,15 @@ const Home = (props) => {
   // Api Request To Get Logged In User
   const getUser = async () => {
     try {
-      const url = `http://46.32.232.208:5000/user/login`;
+      const url = `${api}/user/login`;
       const response = await fetch(url, {
         method: "GET",
         credentials: "include",
       });
       const data = await response.json();
-      console.log(data);
       setUser(data);
     } catch (error) {
-      console.log("You get The Error ", error);
+      console.log(error);
     }
   };
 
@@ -47,10 +47,7 @@ const Home = (props) => {
         </h1>
 
         <Featured />
-        {/* <h1 className={`${style.homeTitle} container`}>
-          Browse by property type
-        </h1>
-        <PropertyList /> */}
+
         <h1
           className={`${style.homeTitle}  fw-bold ${
             isXtraSmallScreen ? "fs-4" : "fs-3"

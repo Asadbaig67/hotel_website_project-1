@@ -11,20 +11,7 @@ const Dates = () => {
   const { RangePicker } = DatePicker;
   const dispatch = useDispatch();
 
-  // const { dateFocus } = useSelector((state) => state.getFocus);
-  // console.log(dateFocus);
-  // const datePickerRef = useRef(null);
-
-  // if (dateFocus) {
-  //   if (datePickerRef.current !== null) {
-  //     console.log("i am getting called");
-  //     datePickerRef.current.focus();
-  //   }
-  // } else {
-  //   if (datePickerRef.current !== null) {
-  //     datePickerRef.current.blur();
-  //   }
-  // }
+  
 
   const disabledDate = (current) => {
     return current && current < dayjs().endOf("day");

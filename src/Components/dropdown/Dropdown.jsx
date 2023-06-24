@@ -18,6 +18,9 @@ const Dropdown = (props) => {
     (state) => state.hotelAndParkingOperatingCities
   );
 
+
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
+
   const dispatch = useDispatch();
 
   const { name } = props;
@@ -25,26 +28,23 @@ const Dropdown = (props) => {
   useEffect(() => {
     const GetHotelCities = async () => {
       const response = await axios.get(
-        "http://46.32.232.208:5000/OperatingProperty/getHotelOperatingCity"
+        `${api}/OperatingProperty/getHotelOperatingCity`
       );
       dispatch({ type: "SET_HOTEL_CITY", payload: response.data });
-      // console.log(response.data);
     };
 
     const getParkingCities = async () => {
       const response = await axios.get(
-        "http://46.32.232.208:5000/OperatingProperty/getParkingOperatingCity"
+        `${api}/OperatingProperty/getParkingOperatingCity`
       );
       dispatch({ type: "SET_PARKING_CITY", payload: response.data });
-      // console.log(response.data);
     };
 
     const GetHotelAndParkingCities = async () => {
       const response = await axios.get(
-        "http://46.32.232.208:5000/OperatingProperty/getHotelAndParkingOperatingCity"
+        `${api}/OperatingProperty/getHotelAndParkingOperatingCity`
       );
       dispatch({ type: "SET_HOTEL_AND_PARKING_CITY", payload: response.data });
-      // console.log(response.data);
     };
     GetHotelCities();
     getParkingCities();
@@ -58,8 +58,7 @@ const Dropdown = (props) => {
       style={{ width: "100%", backgroundColor: "white" }}
       placeholder={"Select the city"}
       optionFilterProp="children"
-      // filterOption={(input, option) => (option?.label ?? "").includes(input)}
-      // option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      
       filterOption={(input, option) =>
         option?.label.toLowerCase().slice(0, input.length) ===
         input.toLowerCase()

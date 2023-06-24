@@ -8,7 +8,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
 import Button from "@mui/material/Button";
 import style from "./addhotel.module.css";
-// import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -47,7 +46,6 @@ const UpdateHotel = () => {
       formValues.country === "" ||
       formValues.address === ""
     ) {
-      console.log("Empty Input", formValues);
       setEmptyInput(true);
     } else {
       setEmptyInput(false);
@@ -100,7 +98,6 @@ const UpdateHotel = () => {
   const id = location.state.id;
 
   const defaultFormValues = id;
-  console.log(defaultFormValues);
   const [formValues, setFormValues] = useState(defaultFormValues);
 
   const handleInputChange = (event) => {
@@ -140,7 +137,7 @@ const UpdateHotel = () => {
     setLoading(true);
     setImgMessage("");
 
-    let url = `http://46.32.232.208:5000/hotels/deletehotelImage/${defaultFormValues._id}`;
+    let url = `${api}/hotels/deletehotelImage/${defaultFormValues._id}`;
     const data = { link: deleteImage }; // Request body data as an object
     const options = {
       method: "DELETE", // Replace with the desired HTTP method (e.g., POST, PUT, DELETE)
@@ -163,7 +160,6 @@ const UpdateHotel = () => {
       setImgMessage("Something Went Wrong!!");
     }
     const Responsedata = await response.json();
-    console.log(Responsedata);
   };
 
   // Add Features Code
@@ -183,6 +179,7 @@ const UpdateHotel = () => {
   };
   // Add Features Code
 
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   const { mode } = useSelector((state) => state.mode);
 
   const handleSubmit = async (event) => {
@@ -206,7 +203,7 @@ const UpdateHotel = () => {
     for (let i = 0; i < selectedImages.length; i++) {
       formData.append("photos", selectedImages[i].file);
     }
-    const url = `http://46.32.232.208:5000/hotels/updatehoteldata/${formValues._id}`;
+    const url = `${api}/hotels/updatehoteldata/${formValues._id}`;
 
     const options = {
       method: "PATCH",
@@ -231,7 +228,6 @@ const UpdateHotel = () => {
         setError(true);
       }
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -240,10 +236,9 @@ const UpdateHotel = () => {
   useEffect(() => {
     const GetHotelCities = async () => {
       const response = await axios.get(
-        "http://46.32.232.208:5000/OperatingProperty/getHotelOperatingCity"
+        `${api}/OperatingProperty/getHotelOperatingCity`
       );
       dispatch({ type: "SET_HOTEL_CITY", payload: response.data });
-      // console.log(response.data);
     };
     GetHotelCities();
   }, []);
@@ -486,34 +481,7 @@ const UpdateHotel = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                {/* <div
-                  className={`container ${
-                    selectedImages.length < 10 ? "d-none" : ""
-                  } text-center my-3`}
-                >
-                  {formValues.photos.length > 0 &&
-                    (formValues.photos.length > 10 ? (
-                      <p className="text-danger">
-                        You can't upload more than 10 images! <br />
-                        <span>
-                          please delete <b> {formValues.photos.length - 10} </b>{" "}
-                          of them
-                        </span>
-                      </p>
-                    ) : (
-                      <div className="">
-                        <button
-                          className={`btn btn-primary btn-md`}
-                          onClick={() => {
-                            console.log(formValues.photos);
-                          }}
-                        >
-                          UPLOAD {formValues.photos.length} IMAGE
-                          {formValues.photos.length === 1 ? "" : "S"}
-                        </button>
-                      </div>
-                    ))}
-                </div> */}
+                
                 <div className="col-md-12 mt-2">
                   <label
                     className={`labels text-${
@@ -586,7 +554,6 @@ const UpdateHotel = () => {
                         ...prevValues,
                         city: newValue,
                       }));
-                      console.log(formValues);
                     }}
                     clearOnEscape
                     inputValue={inputValue}
@@ -596,7 +563,6 @@ const UpdateHotel = () => {
                         ...prevValues,
                         city: newInputValue,
                       }));
-                      console.log(formValues);
                     }}
                     id="controllable-states-demo"
                     options={hotelOperatingCity}
@@ -764,14 +730,7 @@ const UpdateHotel = () => {
                 </div>
               </div>
               <div className="mt-5 text-center">
-                {/* <button
-                  className="btn btn-primary btn-lg profile-button mb-4"
-                  type="submit"
-                  // disabled={files.length < 3 || files.length > 7}
-                  onClick={handleSubmit}
-                >
-                  Add Hotel
-                </button> */}
+                
                 <button
                   type="button"
                   class="btn btn-primary btn-lg profile-button mb-4"

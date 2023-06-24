@@ -12,6 +12,7 @@ import Sidebar from "../../Sidebar/SideBar";
 
 const AddRoomForm = () => {
   const { hotel } = useSelector((state) => state.setAddedHotel);
+  console.log("This is Hotel", hotel);
 
   //Alerts Code
   const [alertOn, setAlertOn] = useState(false);
@@ -26,6 +27,8 @@ const AddRoomForm = () => {
     price: "",
     desc: "",
   });
+
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   // Upload Images Code And Preview Code
   const handleInputChange = (event) => {
@@ -47,18 +50,13 @@ const AddRoomForm = () => {
     return room !== null;
   });
 
-  console.log("Room No:", roomsArray);
-  console.log("Room Type:", formValues.type);
-  console.log("Room Price:", formValues.price);
-  console.log("Room Desc:", formValues.desc);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const url = "http://46.32.232.208:5000/room/addroom";
-    const urlHotelAndParking = "http://46.32.232.208:5000/room/addhotelparkingroom";
+    const url = `${api}/room/addroom`;
+    const urlHotelAndParking =
+      `${api}/room/addhotelparkingroom`;
 
     const data = {
-      // hotelId: "64308b2d8926b91b79d17f69",
       hotelId: hotel._id,
       room_no: roomsArray,
       type: formValues.type,
@@ -93,7 +91,6 @@ const AddRoomForm = () => {
           setOpen(false);
         }, 7000);
       }
-      console.log("Data", response.data);
     } catch (error) {
       console.error(error);
     }
@@ -206,90 +203,7 @@ const AddRoomForm = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                {/* <div className="row">
-                <label
-                  htmlFor=""
-                  className={`labels mt-2 text-${
-                    mode === "light" ? "dark" : "light"
-                  }`}
-                >
-                  Upload Room Images
-                </label>
-                <div className="col-md-12 col-sm-4">
-                  <div className="image-selector">
-                    {selectedImages &&
-                      selectedImages.map((image, index) => {
-                        return (
-                          <div key={image} className={`image-preview mx-1 my-1`}>
-                            <img
-                              className="preview-image"
-                              src={image}
-                              alt="upload"
-                            />
-                            <div className="image-overlay d-flex flex-row justify-content-between">
-                              <p className="image-number text-light ms-1">
-                                {index + 1}
-                              </p>
-                              <IconButton
-                                aria-label="delete"
-                                size="small"
-                                className="delete-button"
-                              >
-                                <DeleteIcon
-                                  className="text-light me-1"
-                                  onClick={() => deleteHandler(image)}
-                                  fontSize="small"
-                                />
-                              </IconButton>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    <IconButton
-                      color="secondary"
-                      aria-label="upload picture"
-                      component="label"
-                      className="add-button"
-                    >
-                      <input
-                        hidden
-                        onChange={onSelectFile}
-                        accept="image/png , image/jpeg"
-                        type="file"
-                        multiple
-                      />
-                      <AddPhotoAlternateIcon />
-                    </IconButton>
-                  </div>
-                </div>
-              </div>
-              <div
-                className={`container ${
-                  selectedImages.length < 10 ? "d-none" : ""
-                } text-center my-3`}
-              >
-                {selectedImages.length > 0 &&
-                  (selectedImages.length > 10 ? (
-                    <p className="text-danger">
-                      You can't upload more than 10 images! <br />
-                      <span>
-                        please delete <b> {selectedImages.length - 10} </b> of them
-                      </span>
-                    </p>
-                  ) : (
-                    <div className="">
-                      <button
-                        className={`btn btn-primary btn-md`}
-                        onClick={() => {
-                          console.log(selectedImages);
-                        }}
-                      >
-                        UPLOAD {selectedImages.length} IMAGE
-                        {selectedImages.length === 1 ? "" : "S"}
-                      </button>
-                    </div>
-                  ))}
-              </div> */}
+
                 <div className="col-md-12 mt-2">
                   <label
                     className={`labels text-${

@@ -7,13 +7,10 @@ const AdminNav = () => {
       style={{
         zIndex: "4",
         position: "fixed",
-        // width: "100%",
         marginLeft: "45px",
         top: "0",
         left: "0",
         right: "0",
-        // height: "60px",
-        // marginRight: "90px",
         backgroundColor: "#00073d",
       }}
     >

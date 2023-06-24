@@ -42,26 +42,10 @@ import Logout from "@mui/icons-material/Logout";
 import axios from "axios";
 
 const Navbar = ({ list }) => {
-  // get logged in user from database
-
-  // const GetUserFromBacked = async () => {
-  //   const url = "http://46.32.232.208:5000/user/protected";
-  //   const options = {
-  //     method: "GET",
-  //     headers: {
-  //       withCredentials: true,
-  //     },
-  //   };
-  //   const response = await fetch(url, options);
-  //   const { user } = await response.json();
-  //   console.log("Bai mil hi nhi rha user", user);
-  //   dispatch({ type: "SET_LOGGEDIN_USER", payload: user });
-  // };
 
   // Get Logged In User
   const { login } = useSelector((state) => state.setLogin);
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
-  console.log("Logged In User", loggedinUser);
 
   // Dashboard Access And Logout
   const [sidetooltip, setTooltip] = useState(null);
@@ -124,9 +108,8 @@ const Navbar = ({ list }) => {
   const [openOptions, setOpenOptions] = useState(false);
   const [alertShow, setAlertShow] = useState(false);
   const [option, setOption] = useState(options);
-  // get location of user
-  // const { login } = useSelector((state) => state.setLogin);
-
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
+  
   const handleOption = (name, operation) => {
     setOption((prev) => {
       return {
@@ -328,7 +311,7 @@ const Navbar = ({ list }) => {
 
     if (path === "/parking") {
       try {
-        const url = `http://46.32.232.208:5000/parking/search?city=${cityParking}&vehicles=${c}`;
+        const url = `${api}/parking/search?city=${cityParking}&vehicles=${c}`;
         const response = await fetch(url, {
           method: "GET",
           // credentials: "include",
@@ -345,9 +328,7 @@ const Navbar = ({ list }) => {
             payload: { message: "No Parking Found" },
           });
         }
-        // console.log(parkingList);
       } catch (error) {
-        console.log("You get The Error ", error);
       }
     }
   };
@@ -358,17 +339,8 @@ const Navbar = ({ list }) => {
     dispatch({ type: "LOGIN", payload: false });
     navigate("/");
   };
-  // const HandleRedirectDashboard = () => {
-  //   dispatch({ type: "SET_REDIRECT_ROUTE", payload: "dashboard" });
-  //   // navigate("/signin");
-  // };
-  // const HandleRedirectSignin = () => {
-  //   dispatch({ type: "SET_REDIRECT_ROUTE", payload: "/" });
-  //   // navigate("/signin");
-  // };
 
   useEffect(() => {
-    // console.log(cityParking, c, datesParking);
     if (path === "/" || path === "/listHotel" || path === "/singleHotel") {
       dispatch({
         type: "activePath",
@@ -486,7 +458,6 @@ const Navbar = ({ list }) => {
     });
   }, []);
 
-  // console.log("User", loggedinUser);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -574,62 +545,10 @@ const Navbar = ({ list }) => {
                   </li>
                   {login ? (
                     <>
-                      {/* <li>
-                        <NavLink to="/">
-                          <span className={style.iconShow}>
-                            <Badge
-                              color="primary"
-                              badgeContent={1000}
-                              max={999}
-                            >
-                              <NotificationsIcon
-                                className={`${!list ? "text-dark" : ""}`}
-                                aria-describedby={id1}
-                                variant="contained"
-                                onClick={handleClick1}
-                              />
-                            </Badge>
-                            <Popover
-                              id={id1}
-                              open={open1}
-                              anchorEl={anchorEl1}
-                              onClose={handleClose1}
-                              anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "center",
-                              }}
-                              transformOrigin={{
-                                vertical: "top",
-                                horizontal: "center",
-                              }}
-                            >
-                              <Typography sx={{ p: 2 }}>
-                                <h4>Hello World 1</h4>
-                                The content of the Popover.1
-                              </Typography>
-                            </Popover>
-                          </span>
-                          <span className={style.iconHide}>
-                            <Button
-                              className={style.iconHide}
-                              sx={{ color: "#191a20" }}
-                              aria-describedby={id1}
-                              // variant="contained"
-                              onClick={handleClick1}
-                            >
-                              Notifications
-                            </Button>
-                          </span>
-                        </NavLink>
-                      </li> */}
+                      
                       <li>
                         <div>
-                          {/* <span className={style.iconShow}>
-                            <Avatar
-                              alt="Remy Sharp"
-                              src="/static/images/avatar/1.jpg"
-                            />
-                          </span> */}
+                          
                           <React.Fragment>
                             <Box
                               sx={{
@@ -697,35 +616,20 @@ const Navbar = ({ list }) => {
                                 vertical: "bottom",
                               }}
                             >
-                              {/* <MenuItem onClick={handleonClose}>
-                                <Avatar /> Dashboard
-                              </MenuItem> */}
+                              
                               <MenuItem onClick={handleonClose}>
                                 <Avatar />{" "}
                                 <Link
                                   className="text-dark"
-                                  // to={HandleRedirectDashboard}
-                                  // to="/signin"
+                                  
                                   to={loggedinUser ? "/dashboard" : "/signin"}
-                                  // onClick={HandleRedirectDashboard}
-                                  // to={loggedinUser ? "/dashboard" : "/signin"}
+                                  
                                 >
                                   My Dashboard
                                 </Link>
                               </MenuItem>
                               <Divider />
-                              {/* <MenuItem onClick={handleonClose}>
-                                <ListItemIcon>
-                                  <PersonAdd fontSize="small" />
-                                </ListItemIcon>
-                                Add another account
-                              </MenuItem>
-                              <MenuItem onClick={handleonClose}>
-                                <ListItemIcon>
-                                  <Settings fontSize="small" />
-                                </ListItemIcon>
-                                Settings
-                              </MenuItem> */}
+                              
                               <MenuItem onClick={handleonClose}>
                                 {loggedinUser ? (
                                   <>
@@ -742,13 +646,11 @@ const Navbar = ({ list }) => {
                                   </>
                                 ) : (
                                   <>
-                                    {/* to={HandleRedirectSignin} */}
                                     <ListItemIcon>
                                       <Logout fontSize="small" />
                                     </ListItemIcon>
                                     <Link
                                       to="/signin"
-                                      // onClick={HandleRedirectSignin}
                                       className="text-dark"
                                     >
                                       Sign-in
@@ -761,11 +663,7 @@ const Navbar = ({ list }) => {
                           <span className={style.iconHide}>Profile</span>
                         </div>
                       </li>
-                      {/* <li>
-                        <NavLink to="/">
-                          <LogoutIcon /> Logout
-                        </NavLink>
-                      </li> */}
+                      
                     </>
                   ) : (
                     <>
@@ -785,9 +683,7 @@ const Navbar = ({ list }) => {
 
                   <li>
                     <span className={style.main_white_button}>
-                      {/* <NavLink to="/listproperty">
-                        <AddIcon /> Add Your Property
-                      </NavLink> */}
+                      
                     </span>
                   </li>
                 </ul>
@@ -817,7 +713,6 @@ const Navbar = ({ list }) => {
                 navSearch ? hotel : nav2 ? hotelparking : parking
               })`,
             }}
-            // onClick={() => setOpenOptions(false)}
           >
             <div className="container">
               <div className="row">
@@ -906,191 +801,6 @@ const Navbar = ({ list }) => {
                               </div>
                             </span>
                             {openOptions && (
-                              // <div
-                              //   className={`shadow-lg w-100 ${style.options}`}
-                              // >
-                              //   <div className="row">
-                              //     <div className="ms-1 me-5 ms-2 col-md-4 ">
-                              //       <h5 className="text-start my-1">
-                              //         Set Person
-                              //       </h5>
-                              //       <div className={style.optionItem}>
-                              //         <span
-                              //           className={`${style.optionText} `}
-                              //           style={{ marginRight: "35px" }}
-                              //         >
-                              //           Adult
-                              //         </span>
-                              //         <div className={style.optionCounter}>
-                              //           <button
-                              //             disabled={options.adult <= 1}
-                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                              //             onClick={() =>
-                              //               handleOption("adult", "d")
-                              //             }
-                              //           >
-                              //             <RemoveIcon />
-                              //           </button>
-                              //           <span
-                              //             className={style.optionCounterNumber}
-                              //           >
-                              //             {options.adult}
-                              //           </span>
-                              //           <button
-                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                              //             onClick={() =>
-                              //               handleOption("adult", "i")
-                              //             }
-                              //           >
-                              //             <AddIcon />
-                              //           </button>
-                              //         </div>
-                              //       </div>
-                              //       <div className={style.optionItem}>
-                              //         <span
-                              //           className={`${style.optionText} `}
-                              //           style={{ marginRight: "10px" }}
-                              //         >
-                              //           Children
-                              //         </span>
-                              //         <div className={style.optionCounter}>
-                              //           <button
-                              //             disabled={options.children <= 0}
-                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                              //             onClick={() =>
-                              //               handleOption("children", "d")
-                              //             }
-                              //           >
-                              //             <RemoveIcon />
-                              //           </button>
-                              //           <span
-                              //             className={style.optionCounterNumber}
-                              //           >
-                              //             {options.children}
-                              //           </span>
-                              //           <button
-                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                              //             onClick={() =>
-                              //               handleOption("children", "i")
-                              //             }
-                              //           >
-                              //             <AddIcon />
-                              //           </button>
-                              //         </div>
-                              //       </div>
-                              //     </div>
-                              //     <hr
-                              //       className={`my-2 ${
-                              //         isTablet ? "" : "d-none"
-                              //       }`}
-                              //     />
-                              //     <div
-                              //       className={`${
-                              //         !isTablet ? "border-start" : ""
-                              //       } ms-1 col-md-4`}
-                              //     >
-                              //       <h5 className="text-start my-1">
-                              //         Set Rooms
-                              //       </h5>
-                              //       <div className={style.optionItem}>
-                              //         <span
-                              //           className={style.optionText}
-                              //           style={{ marginRight: "9px" }}
-                              //         >
-                              //           Single Room
-                              //         </span>
-                              //         <div className={style.optionCounter}>
-                              //           <button
-                              //             disabled={options.singleRoom <= 0}
-                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                              //             onClick={() =>
-                              //               handleOption("singleRoom", "d")
-                              //             }
-                              //           >
-                              //             <RemoveIcon />
-                              //           </button>
-                              //           <span
-                              //             className={style.optionCounterNumber}
-                              //           >
-                              //             {options.singleRoom}
-                              //           </span>
-                              //           <button
-                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                              //             onClick={() =>
-                              //               handleOption("singleRoom", "i")
-                              //             }
-                              //           >
-                              //             <AddIcon />
-                              //           </button>
-                              //         </div>
-                              //       </div>
-                              //       <div className={style.optionItem}>
-                              //         <span
-                              //           className={style.optionText}
-                              //           style={{ marginRight: "21px" }}
-                              //         >
-                              //           Twin Room
-                              //         </span>
-                              //         <div className={style.optionCounter}>
-                              //           <button
-                              //             disabled={options.twinRoom <= 0}
-                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                              //             onClick={() =>
-                              //               handleOption("twinRoom", "d")
-                              //             }
-                              //           >
-                              //             <RemoveIcon />
-                              //           </button>
-                              //           <span
-                              //             className={style.optionCounterNumber}
-                              //           >
-                              //             {options.twinRoom}
-                              //           </span>
-                              //           <button
-                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                              //             onClick={() =>
-                              //               handleOption("twinRoom", "i")
-                              //             }
-                              //           >
-                              //             <AddIcon />
-                              //           </button>
-                              //         </div>
-                              //       </div>
-                              //       <div className={style.optionItem}>
-                              //         <span
-                              //           className={style.optionText}
-                              //           style={{ marginRight: "5px" }}
-                              //         >
-                              //           Family Room
-                              //         </span>
-                              //         <div className={style.optionCounter}>
-                              //           <button
-                              //             disabled={options.familyRoom <= 0}
-                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                              //             onClick={() =>
-                              //               handleOption("familyRoom", "d")
-                              //             }
-                              //           >
-                              //             <RemoveIcon />
-                              //           </button>
-                              //           <span
-                              //             className={style.optionCounterNumber}
-                              //           >
-                              //             {options.familyRoom}
-                              //           </span>
-                              //           <button
-                              //             className={`btn btn-primary d-flex justify-content-center align-items-center ${style.optionCounterButton}`}
-                              //             onClick={() =>
-                              //               handleOption("familyRoom", "i")
-                              //             }
-                              //           >
-                              //             <AddIcon />
-                              //           </button>
-                              //         </div>
-                              //       </div>
-                              //     </div>
-                              //   </div>
-                              // </div>
                               <div className={`shadow-lg ${style.options}`}>
                                 <div className="row">
                                   <div className="ms-1 me-5 ms-2 col-md-4 ">
@@ -1235,7 +945,7 @@ const Navbar = ({ list }) => {
                                     <div className={`${style.optionItem}`}>
                                       <span
                                         className={style.optionText}
-                                        style={{ marginRight: "5px" }}
+                                        style={{ marginRight: "8px" }}
                                       >
                                         Family Room
                                       </span>
@@ -1451,7 +1161,7 @@ const Navbar = ({ list }) => {
                                       <div className={style.optionItem}>
                                         <span
                                           className={style.optionText}
-                                          style={{ marginRight: "5px" }}
+                                          style={{ marginRight: "8px" }}
                                         >
                                           Family Room
                                         </span>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import style from "./Profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import userImg from "../../images/user.png";
-// import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 import ProfileView from "../../Components/ProfileView/ProfileView";
 import EditProfile from "../../Components/EditProfile/EditProfile";
 import ChangePassword from "../../Components/changePassword/changePassword";
@@ -39,15 +38,6 @@ export default function Profile() {
             className={`rounded ${mode === "dark" ? "bg-dark" : style.bg}`}
           ></div>
           <div className="row">
-            {/* <div className="col-md-11 ms-auto mt-4">
-                <h1
-                  className={`text-right fs-1 text-${
-                    mode === "light" ? "dark" : "light"
-                  }`}
-                >
-                  Profile
-                </h1>
-              </div> */}
             <div
               className="col-md-12 p-3 d-flex "
               // style={{ marginLeft: "10px" }}
@@ -147,27 +137,6 @@ export default function Profile() {
                       <hr className={`${style.hr} mt-2 mb-0 text-primary`} />
                     )}
                   </div>
-
-                  {/* <ul class="nav nav-tabs">
-                      <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
-                          Active
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">
-                          Link
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">
-                          Link
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link disabled">Disabled</a>
-                      </li>
-                    </ul> */}
 
                   <div className="col-md-12">
                     <hr className="mt-0" />
