@@ -21,13 +21,9 @@ const List = () => {
   const checkout = dates[1];
 
   const { activePath } = useSelector((state) => state.activePath);
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
-  // if (window.scroll(0, 0)) {
-  //   document.body.style.width = "100vw";
-  // }
-
-  // For Hotel and parking
-  // Getting City For Hotel and Parking
+  
   const { cityHotelAndParking } = useSelector(
     (state) => state.searchHotelAndParkingCity
   );
@@ -54,29 +50,9 @@ const List = () => {
   const [option, setOption] = useState(options);
   const [openDate, setOpenDate] = useState(false);
 
-  // console.log("Values Are ", {
-  //   city,
-  //   checkin,
-  //   checkout,
-  //   adult,
-  //   dates,
-  //   children,
-  //   singleRoom,
-  //   twinRoom,
-  //   familyRoom,
-  // });
+  
 
-  // const [min, setMin] = useState(undefined);
-  // const [max, setMax] = useState(undefined);
-
-  // const checkCity = (hotel_data) => {
-  //   return hotel_data.city.toLowerCase() === city.toLowerCase();
-  // };
-
-  // let filtered_data = [];
-  // if (hotel_data) {
-  //   filtered_data = hotel_data.filter(checkCity);
-  // }
+  
 
   const handleClick = () => {
     dispatch({ type: "SET_OPTION", payload: option });
@@ -86,7 +62,7 @@ const List = () => {
   const getHotels = async () => {
     try {
       dispatch({ type: "SET_FEATURED_DATA", payload: [] });
-      const url = `http://46.32.232.208:5000/hotels/search?city=${city}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleRoom}&twinRoom=${twinRoom}&familyRoom=${familyRoom}`;
+      const url = `${api}/hotels/search?city=${city}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleRoom}&twinRoom=${twinRoom}&familyRoom=${familyRoom}`;
       const response = await fetch(url, {
         method: "GET",
         // credentials: "include",
@@ -101,8 +77,8 @@ const List = () => {
   const getHotelAndParking = async () => {
     try {
       dispatch({ type: "SET_FEATURED_DATA", payload: [] });
-      // const url = `http://46.32.232.208:5000/hotelandparking/search?city=${cityHotelAndParking}&checkIn=2023-03-11T00:00:00.000Z&checkOut=2023-03-14T00:00:00.000Z&adult=4&children=2&singleRoom=1&twinRoom=1&familyRoom=1&vehicle=5`;
-      const url = `http://46.32.232.208:5000/hotelandparking/search?city=${cityHotelAndParking}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleRoom}&twinRoom=${twinRoom}&familyRoom=${familyRoom}&vehicles=${c}`;
+      // const url = `${api}/hotelandparking/search?city=${cityHotelAndParking}&checkIn=2023-03-11T00:00:00.000Z&checkOut=2023-03-14T00:00:00.000Z&adult=4&children=2&singleRoom=1&twinRoom=1&familyRoom=1&vehicle=5`;
+      const url = `${api}/hotelandparking/search?city=${cityHotelAndParking}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleRoom}&twinRoom=${twinRoom}&familyRoom=${familyRoom}&vehicles=${c}`;
       const response = await fetch(url, {
         method: "GET",
         // credentials: "include",
@@ -118,7 +94,6 @@ const List = () => {
   const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
 
   const [dataList, setDataList] = useState(hotelData);
-  const rating = [1, 2, 3, 4, 5];
   let selectedRatings = [];
 
   const handleOnChangeRating = (e) => {
@@ -139,21 +114,7 @@ const List = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const filteredData = () => {
-  //     console.log(selectedRatings);
-  //     if (selectedRatings.length === 0) {
-  //       setDataList(hotelData);
-  //     } else {
-  //       const filter = hotelData.filter((item) =>
-  //         selectedRatings.includes(item.rating)
-  //       );
-  //       setDataList(filter);
-  //     }
-  //   };
-  //   filteredData();
-  // }, [selectedRatings, dataList]);
-
+  
   useEffect(() => {
     if (activePath === "hotel" && featured_hotel.length === 0) {
       getHotels();
@@ -163,8 +124,7 @@ const List = () => {
     }
   }, [activePath]);
 
-  console.log("Hotel Data ", hotelData);
-  console.log("Featured Hotel ", dataList);
+  
 
   return (
     <div className="container-fluid w-100">
@@ -184,12 +144,7 @@ const List = () => {
               </div>
               <div className={`${style.lsItem}`}>
                 <label className={`${style.lsLabel}`}>Check-in Date</label>
-                {/* <span
-                  className={`${style.lsDate}`}
-                  onClick={() => setOpenDate(!openDate)}
-                >
-                  {dates[0] ? `${dates[0]} to ${dates[1]}` : null}
-                </span> */}
+                
                 <div className="bg-white p-1 rounded-4">{<Dates />}</div>
               </div>
               <div className={`${style.lsItem}`}>
@@ -263,9 +218,7 @@ const List = () => {
 
             {activePath === "hotel" &&
             featured_hotel.message === "No Hotel Found" ? (
-              // <h1 className="text-center text-danger">
-              //   {featured_hotel.message}
-              // </h1>
+              
               <PageNotFound />
             ) : (
               activePath === "hotel" &&

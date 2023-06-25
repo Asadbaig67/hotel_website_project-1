@@ -26,6 +26,7 @@ const FeaturedProperties = () => {
     5: "Excellent+",
   };
 
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   const [featuredData, setfeaturedData] = useState([]);
   const { activePath } = useSelector((state) => state.activePath);
 
@@ -33,14 +34,12 @@ const FeaturedProperties = () => {
     if (activePath === "hotel") {
       try {
         const response = await fetch(
-          `http://46.32.232.208:5000/hotels/gettophotels`
+          `${api}/hotels/gettophotels`
         );
         if (response.ok) {
           const data = await response.json();
-          // console.log(data);
-          // dispatch({ type: "SET_FEATURED_DATA", payload: data });
+
           setfeaturedData(data);
-          // Navigate("/singleHotel");
         } else {
           throw new Error("Request failed");
         }
@@ -50,7 +49,7 @@ const FeaturedProperties = () => {
     } else if (activePath === "hotelAndParking") {
       try {
         const response = await fetch(
-          `http://46.32.232.208:5000/hotelandparking/gettophotelandparkings`
+          `${api}/hotelandparking/gettophotelandparkings`
         );
         if (response.ok) {
           const data = await response.json();
@@ -66,8 +65,6 @@ const FeaturedProperties = () => {
   };
 
   const setHotelData = (hotel) => {
-    // console.log("data inside Sethoteldata function", hotel);
-    // dispatch({ type: "SET_SELECTED_HOTEL", payload: hotel });
     dispatch({
       type: "setHotelData",
       payload: hotel,
@@ -81,24 +78,8 @@ const FeaturedProperties = () => {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
 
-  // const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
-  // featured_hotel.forEach((hotel) => {
-  //   if (
-  //     !hotel.photos &&
-  //     !hotel.photos.length > 0 &&
-  //     !hotel.hotel_photos
-  //     !hotel.hotel_photos.length > 0
-  //   ) {
-  //     dispatch({ type: "SET_FEATURED_DATA", payload: [] });
-  //   }
-  //   console.log("hotel", hotel.photos);
-  //   console.log("hotel and parking", hotel.hotel_photos);
-  // });
-
-  // console.log("featured_hotel", featured_hotel);
   useEffect(() => {
     HandleClick();
-    // dispatch({ type: "SET_FEATURED_DATA", payload: [] });
   }, [activePath]);
 
   return (
@@ -129,6 +110,7 @@ const FeaturedProperties = () => {
                     <div className="d-flex justify-content-start align-items-center">
                       <Rating
                         name="hover-feedback"
+                        readOnly
                         value={hotel.rating}
                         precision={0.5}
                         emptyIcon={
@@ -160,98 +142,6 @@ const FeaturedProperties = () => {
                     </div>
                   </div>
                 </div>
-                // <div
-                //   className={`col-lg-3 col-md-6 col-sm-6 col-12 my-2 mx-auto`}
-                // >
-                //   <img
-                //     src={
-                //       hotel.photos && hotel.photos.length > 0
-                //         ? hotel.photos[0]
-                //         : null
-                //     }
-                //     alt=""
-                //     className={` ${style.fpImg} rounded-2`}
-                //   />
-                //   <h5 className={`${style.fpName} mt-2`}>{hotel.name}</h5>
-                //   <div className="d-flex justify-content-start align-items-center">
-                //     <Rating
-                //       name="hover-feedback"
-                //       value={hotel.rating}
-                //       precision={0.5}
-                //       emptyIcon={
-                //         <StarIcon
-                //           style={{ opacity: 0.55 }}
-                //           fontSize="inherit"
-                //         />
-                //       }
-                //     />
-                //     <small className={`${style.fpCity} ms-2 mb-2 text-muted`}>
-                //       {hotel.city}
-                //     </small>
-                //   </div>
-                //   <small className={`${style.fpPrice}`}>
-                //     {hotel.description
-                //       ? hotel.description.slice(0, 60)
-                //       : "No Description"}
-                //     ...
-                //   </small>
-                //   <div className={style.fpRating}>
-                //     <button
-                //       className={`btn btn-primary mt-2 ${
-                //         isXtraSmallScreen ? "btn-sm" : "btn-md"
-                //       } btn-block`}
-                //       onClick={() => setHotelData(hotel)}
-                //     >
-                //       Explore Property
-                //     </button>
-                //   </div>
-                // </div>
-                // <div
-                //   className={`col-lg-3 col-md-6 col-sm-6 col-12 my-2 mx-auto`}
-                // >
-                //   <img
-                //     src={
-                //       hotel.photos && hotel.photos.length > 0
-                //         ? hotel.photos[0]
-                //         : null
-                //     }
-                //     alt=""
-                //     className={` ${style.fpImg} rounded-2`}
-                //   />
-                //   <h5 className={`${style.fpName} mt-2`}>{hotel.name}</h5>
-                //   <div className="d-flex justify-content-start align-items-center">
-                //     <Rating
-                //       name="hover-feedback"
-                //       value={hotel.rating}
-                //       precision={0.5}
-                //       emptyIcon={
-                //         <StarIcon
-                //           style={{ opacity: 0.55 }}
-                //           fontSize="inherit"
-                //         />
-                //       }
-                //     />
-                //     <small className={`${style.fpCity} ms-2 mb-2 text-muted`}>
-                //       {hotel.city}
-                //     </small>
-                //   </div>
-                //   <small className={`${style.fpPrice}`}>
-                //     {hotel.description
-                //       ? hotel.description.slice(0, 60)
-                //       : "No Description"}
-                //     ...
-                //   </small>
-                //   <div className={style.fpRating}>
-                //     <button
-                //       className={`btn btn-primary mt-2 ${
-                //         isXtraSmallScreen ? "btn-sm" : "btn-md"
-                //       } btn-block`}
-                //       onClick={() => setHotelData(hotel)}
-                //     >
-                //       Explore Property
-                //     </button>
-                //   </div>
-                // </div>
               );
             })}
           {activePath === "hotelAndParking" &&
@@ -264,11 +154,7 @@ const FeaturedProperties = () => {
                   } col-md-6 col-sm-6 col-12 my-2 `}
                 >
                   <img
-                    // src={
-                    //   hotel.hotel_photos[0] === null
-                    //     ? hotel.hotel_photos[0]
-                    //     : null
-                    // }
+                    
                     src={
                       hotel.hotel_photos && hotel.hotel_photos.length > 0
                         ? hotel.hotel_photos[0]

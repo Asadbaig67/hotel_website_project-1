@@ -26,16 +26,9 @@ const Listing = () => {
       return URL.createObjectURL(file);
     });
 
-    // Set the state to the new array of objects
-    // imagesArray.map((image) => {
-    //   selectedImages.push(image);
-    // });
 
-    // console.log(selectedImages);
     setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-    // console.log(selectedImages);
-
-    // FOR BUG IN CHROME
+    
     event.target.value = "";
   };
 
@@ -72,17 +65,7 @@ const Listing = () => {
       type: "setuserdata",
       payload: user,
     });
-    // dispatch({
-    //   type: "settitlefile",
-    //   payload: singlefile,
-    // });
-    // dispatch({
-    //   type: "settitlefile",
-    //   payload: multiplefile,
-    // });
-    // setTimeout(() => {
-    //   showdata();
-    // }, 5000);
+
   };
 
   return (
@@ -295,21 +278,7 @@ const Listing = () => {
               </div>
             </div>
           </div>
-          {/* <section>
-            <label className={`${style.labelitem}`}>
-              + Add Images
-              <br />
-              <span>up to 10 images</span>
-              <input
-                type="file"
-                name="images"
-                onChange={onSelectFile}
-                multiple
-                accept="image/png , image/jpeg, image/webp"
-              />
-            </label>
-            <br />
-          </section> */}
+          
         </div>
       </div>
     </>

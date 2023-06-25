@@ -9,8 +9,7 @@ import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
-// import { useSelector } from "react-redux";
-// import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
 import { useMediaQuery } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { DataGrid } from "@mui/x-data-grid";
@@ -22,7 +21,6 @@ import {
   bookingHotelHeader,
   bookingParkingHeader,
 } from "../../Utilis/DataTableSource";
-// import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 import { useDispatch } from "react-redux";
 import Sidebar from "../../Components/Sidebar/SideBar";
 
@@ -36,12 +34,12 @@ const Viewproperty = () => {
 
   const [roomdata, setRoomdata] = useState({});
   const [newRooms, setNewRooms] = useState("");
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   const handlenewRoomChange = (event) => {
     setNewRooms(event.target.value);
   };
 
-  // const [formValues, setFormValues] = useState(roomdata);
   const [formValues, setFormValues] = useState({
     room_no: "",
     type: "",
@@ -82,7 +80,7 @@ const Viewproperty = () => {
 
   const handleUpdate = async (id) => {
     // navigate("/updateRoom", { state: { id } });
-    const url = `http://46.32.232.208:5000/room/updateroom/${id}`;
+    const url = `${api}/room/updateroom/${id}`;
     const options = {
       method: "PATCH",
       headers: {
@@ -103,7 +101,7 @@ const Viewproperty = () => {
 
   const handleRoomDelete = async (id, room) => {
     // navigate("/updateRoom", { state: { id } });
-    const url = `http://46.32.232.208:5000/room/deleterooms/${id}`;
+    const url = `${api}/room/deleterooms/${id}`;
     const options = {
       method: "DELETE",
       headers: {
@@ -125,24 +123,24 @@ const Viewproperty = () => {
     if (user.account_type === "admin") {
       if (path === "hotels" || path === "hotelRequests") {
         res = await axios.delete(
-          `http://46.32.232.208:5000/room/deleteroombyidfromhotel?hotelId=${data._id}&roomId=${id}`
+          `${api}/room/deleteroombyidfromhotel?hotelId=${data._id}&roomId=${id}`
         );
       } else if (
         path === "HotelsAndParkings" ||
         path === "hotelAndParkingRequests"
       ) {
         res = await axios.delete(
-          `http://46.32.232.208:5000/room/deleteroombyidfromhotelandparking?hotelAndParkingId=${data._id}&roomId=${id}`
+          `${api}/room/deleteroombyidfromhotelandparking?hotelAndParkingId=${data._id}&roomId=${id}`
         );
       }
     } else if (user.account_type === "partner") {
       if (user.partner_type === "Hotel") {
         res = await axios.delete(
-          `http://46.32.232.208:5000/room/deleteroombyidfromhotel?hotelId=${data._id}&roomId=${id}`
+          `${api}/room/deleteroombyidfromhotel?hotelId=${data._id}&roomId=${id}`
         );
       } else if (user.partner_type === "HotelAndParking") {
         res = await axios.delete(
-          `http://46.32.232.208:5000/room/deleteroombyidfromhotelandparking?hotelAndParkingId=${data._id}&roomId=${id}`
+          `${api}/room/deleteroombyidfromhotelandparking?hotelAndParkingId=${data._id}&roomId=${id}`
         );
       }
     }
@@ -201,15 +199,13 @@ const Viewproperty = () => {
     const roomPromises = data.rooms.map(async (room) => {
       try {
         const response = await axios.get(
-          `http://46.32.232.208:5000/room/getroombyid/${room}`
+          `${api}/room/getroombyid/${room}`
         );
         if (response.status === 200) {
           return response.data;
         }
       } catch (error) {
         if (error.response && error.response.status === 404) {
-          // Handle the 404 error or skip the iteration
-          console.log(`Room ${room} not found. Skipping...`);
           return null; // Skip current iteration
         } else {
           // Handle other errors
@@ -233,21 +229,20 @@ const Viewproperty = () => {
       let bookings;
       if (path === "hotels" || user.partner_type === "Hotel") {
         bookings = await axios.get(
-          `http://46.32.232.208:5000/booking/getBookingByHotelId/${data._id}`
+          `${api}/booking/getBookingByHotelId/${data._id}`
         );
       } else if (path === "parkings" || user.partner_type === "Parking") {
         bookings = await axios.get(
-          `http://46.32.232.208:5000/booking/getBookingByParkingId/${data._id}`
+          `${api}/booking/getBookingByParkingId/${data._id}`
         );
       } else if (
         path === "HotelsAndParkings" ||
         user.partner_type === "HotelAndParking"
       ) {
         bookings = await axios.get(
-          `http://46.32.232.208:5000/booking/getBookingByHotelAndParkingId/${data._id}`
+          `${api}/booking/getBookingByHotelAndParkingId/${data._id}`
         );
       }
-      console.log(bookings.data);
       if (bookings) setBooking(bookings.data);
     };
     fetchBooking();
@@ -432,7 +427,6 @@ const Viewproperty = () => {
               <h2 className={`${styles.property_name} mb-2`}>
                 {data.name || data.hotel_name}
               </h2>
-              {/* <button className="btn btn-primary btn-lg ">Book Now</button> */}
             </div>
             <div className={styles.property_ratings}>
               <Box
@@ -445,6 +439,7 @@ const Viewproperty = () => {
               >
                 <Rating
                   name="hover-feedback"
+                  readOnly
                   value={
                     data
                       ? data.rating
@@ -456,12 +451,6 @@ const Viewproperty = () => {
                   }
                   precision={1}
                   getLabelText={getLabelText}
-                  // onChange={(event, newValue) => {
-                  //   setValue(newValue);
-                  // }}
-                  // onChangeActive={(event, newHover) => {
-                  //   setHover(newHover);
-                  // }}
                   emptyIcon={
                     <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
                   }
@@ -543,7 +532,7 @@ const Viewproperty = () => {
           {/* Modal Code */}
           <div
             className="modal fade"
-            id="exampleModal"
+            id="exampleModal1"
             tabIndex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
@@ -643,7 +632,7 @@ const Viewproperty = () => {
                     type="button"
                     className="btn btn-unstyled"
                     data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
+                    data-bs-target="#exampleModal1"
                   >
                     <img
                       src={picture}
@@ -657,7 +646,7 @@ const Viewproperty = () => {
                     type="button"
                     className="btn btn-unstyled"
                     data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
+                    data-bs-target="#exampleModal1"
                   >
                     <img
                       src={picture}
@@ -750,9 +739,6 @@ const Viewproperty = () => {
           </div>
         </div>
       </div>
-      {/* <div>
-        <Footer />
-      </div> */}
     </>
   );
 };

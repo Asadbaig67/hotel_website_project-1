@@ -7,7 +7,6 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import style from "../Hotel_Forms/addhotel.module.css";
 import Button from "@mui/material/Button";
-// import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -51,7 +50,6 @@ const UpdateParking = () => {
       formValues.country === "" ||
       formValues.address === ""
     ) {
-      console.log("Empty Input", formValues);
       setEmptyInput(true);
     } else {
       setEmptyInput(false);
@@ -102,7 +100,7 @@ const UpdateParking = () => {
   const id = location.state.id;
 
   const defaultFormValues = id;
-  console.log(defaultFormValues);
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   const [formValues, setFormValues] = useState(defaultFormValues);
 
   const handleInputChange = (event) => {
@@ -138,7 +136,7 @@ const UpdateParking = () => {
     setLoading(true);
     setImgMessage("");
 
-    let url = `http://46.32.232.208:5000/parking/deleteparkingimage/${defaultFormValues._id}`;
+    let url = `${api}/parking/deleteparkingimage/${defaultFormValues._id}`;
     const data = { link: deleteImage }; // Request body data as an object
     const options = {
       method: "DELETE", // Replace with the desired HTTP method (e.g., POST, PUT, DELETE)
@@ -161,7 +159,6 @@ const UpdateParking = () => {
       setImgMessage("Something Went Wrong!!");
     }
     const Responsedata = await response.json();
-    console.log(Responsedata);
   };
 
   // Function to remove an image from the array of images
@@ -214,7 +211,7 @@ const UpdateParking = () => {
     for (let i = 0; i < parkingImages.length; i++) {
       formData.append("photos", parkingImages[i].file);
     }
-    const url = `http://46.32.232.208:5000/parking/updateparkingdata/${formValues._id}`;
+    const url = `${api}/parking/updateparkingdata/${formValues._id}`;
 
     const options = {
       method: "PATCH",
@@ -239,7 +236,6 @@ const UpdateParking = () => {
         setError(true);
       }
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -252,15 +248,13 @@ const UpdateParking = () => {
   useEffect(() => {
     const getParkingCities = async () => {
       const response = await axios.get(
-        "http://46.32.232.208:5000/OperatingProperty/getParkingOperatingCity"
+        `${api}/OperatingProperty/getParkingOperatingCity`
       );
       dispatch({ type: "SET_PARKING_CITY", payload: response.data });
-      // console.log(response.data);
     };
     getParkingCities();
   }, []);
 
-  console.log("Selected Images", deleteImage);
 
   return (
     <>
@@ -630,7 +624,6 @@ const UpdateParking = () => {
                         ...prevValues,
                         city: newValue,
                       }));
-                      console.log(formValues.city);
                     }}
                     clearOnEscape
                     inputValue={inputValue}
@@ -640,7 +633,6 @@ const UpdateParking = () => {
                         ...prevValues,
                         city: newInputValue,
                       }));
-                      console.log(formValues.city);
                     }}
                     id="controllable-states-demo"
                     options={parkingOperatingCity}

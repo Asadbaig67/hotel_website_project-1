@@ -22,10 +22,12 @@ const Featured = () => {
 
   const IsLargeScreen = useMediaQuery("(min-width:1100px)");
 
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
+
   const getCityCount = async (city) => {
     try {
       const response = await axios.get(
-        `http://46.32.232.208:5000/hotels/getcountofapprovedhotelbycity/${city}`
+        `${api}/hotels/getcountofapprovedhotelbycity/${city}`
       );
       if (response.status === 200) {
         return response.data.count;
@@ -62,7 +64,7 @@ const Featured = () => {
       try {
         dispatch({ type: "SET_HOTEL_DATA", payload: [] });
         const response = await fetch(
-          `http://46.32.232.208:5000/hotels/gethotelbycity/${city}`
+          `${api}/hotels/gethotelbycity/${city}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -79,7 +81,7 @@ const Featured = () => {
       try {
         dispatch({ type: "SET_HOTEL_DATA", payload: [] });
         const response = await fetch(
-          `http://46.32.232.208:5000/hotelandparking/cityhotel/${city}`
+          `${api}/hotelandparking/cityhotel/${city}`
         );
         if (response.ok) {
           const data = await response.json();

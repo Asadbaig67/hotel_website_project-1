@@ -45,6 +45,7 @@ const Forgetpass = () => {
   }
 
   const [email, setEmail] = useState("");
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -52,7 +53,7 @@ const Forgetpass = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch("http://46.32.232.208:5000/otp/sendotp", {
+    const response = await fetch(`${api}/otp/sendotp`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

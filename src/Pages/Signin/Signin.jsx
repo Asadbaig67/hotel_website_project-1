@@ -35,20 +35,17 @@ const Signin = () => {
     event.preventDefault();
   };
 
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
+
   const googleAuth = async (event) => {
     event.preventDefault();
-    const url = "http://46.32.232.208:5000/user/auth/example";
+    const url = `${api}/user/auth/example`;
     const options = {
       method: "GET",
       withCredentials: true,
-      // credentials: true,
     };
     const response = await axios(url, options);
     const data = response.data;
-    console.log(data);
-
-    // const data = window.open(`http://46.32.232.208:5000/user/google`, "_self");
-    // console.log("data is From backend", data);
   };
 
   const [progress, setProgress] = React.useState(0);
@@ -69,16 +66,6 @@ const Signin = () => {
       }
     };
   });
-
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     progressRef.current();
-  //   }, 500);
-
-  //   return () => {
-  //     clearInterval(timer);
-  //   };
-  // }, []);
 
   // code for loader top
   const theme = createTheme();
@@ -102,7 +89,6 @@ const Signin = () => {
 
   const { activePath } = useSelector((state) => state.activePath);
   const { redirectRoute } = useSelector((state) => state.getRedirectRoute);
-  // console.log("Redirect Route", redirectRoute);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -115,29 +101,6 @@ const Signin = () => {
     setPassword(event.target.value);
   };
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const response = await fetch("http://46.32.232.208:5000/user/userlogin", {
-  //     method: "POST",
-  //     credentials: "include",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ email, password }),
-  //   });
-  //   const data = await response.json();
-  //   dispatch({ type: "SET_LOGGEDIN_USER", payload: data });
-  //   dispatch({ type: "SETVIEWTYPE", payload: data.user.account_type });
-  //   if (response.status === 200) {
-  //     if (redirectRoute === "dashboard") {
-  //       Navigate("/dashboard");
-  //     }
-  //     if (redirectRoute === "/") {
-  //       Navigate("/");
-  //     }
-  //   }
-  // };
-
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -148,7 +111,7 @@ const Signin = () => {
 
     try {
       const response = await axios.post(
-        "http://46.32.232.208:5000/user/userlogin",
+        `${api}/user/userlogin`,
         {
           email,
           password,
@@ -191,13 +154,6 @@ const Signin = () => {
 
   return (
     <>
-      {/* <Box sx={{ width: "100%" }}>
-        <LinearProgress
-          variant="buffer"
-          value={progress}
-          valueBuffer={buffer}
-        />
-      </Box> */}
       {loading && (
         <Box sx={{ width: "100%" }}>
           <LinearProgress
@@ -242,18 +198,7 @@ const Signin = () => {
                 autoComplete="email"
                 autoFocus
               />
-              {/* <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                value={password}
-                onChange={handlePasswordChange}
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              /> */}
+
               <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">
                   Password

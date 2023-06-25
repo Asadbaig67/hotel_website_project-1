@@ -9,7 +9,6 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import { useEffect } from "react";
 import style from "../Hotel_Forms/addhotel.module.css";
-// import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import { Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
@@ -54,7 +53,6 @@ const AddHotelParkingForm = () => {
       formValues.country === "" ||
       formValues.address === ""
     ) {
-      console.log("Empty Input", formValues);
       setEmptyInput(true);
     } else {
       setEmptyInput(false);
@@ -134,7 +132,6 @@ const AddHotelParkingForm = () => {
       ...prevValues,
       [name]: value,
     }));
-    console.log(value);
   };
 
   const handleOwner = (selectedOwner) => {
@@ -216,6 +213,7 @@ const AddHotelParkingForm = () => {
     }
   };
 
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   const handleRemoveFeature = (featureToRemove) => {
     setFeatures(features.filter((feature) => feature !== featureToRemove));
   };
@@ -259,7 +257,7 @@ const AddHotelParkingForm = () => {
     for (let i = 0; i < parkingimages.length; i++) {
       formData.append("parking_photos", parkingimages[i].file);
     }
-    const url = "http://46.32.232.208:5000/hotelandparking/addhotelandparking";
+    const url = `${api}/hotelandparking/addhotelandparking`;
 
     const options = {
       method: "POST",
@@ -268,7 +266,7 @@ const AddHotelParkingForm = () => {
 
     try {
       const owner = await axios.get(
-        `http://46.32.232.208:5000/user/getuserbyid/${
+        `${api}/user/getuserbyid/${
           loggedinUser.user.account_type === "admin"
             ? FinalOwner.id
             : loggedinUser.user._id
@@ -313,7 +311,7 @@ const AddHotelParkingForm = () => {
   };
 
   const GetOwners = async () => {
-    const url = "http://46.32.232.208:5000/user/getuseridandname";
+    const url = `${api}/user/getuseridandname`;
     const params = {
       form_type: "hotelandparking",
     };
@@ -336,10 +334,9 @@ const AddHotelParkingForm = () => {
   useEffect(() => {
     const GetHotelAndParkingCities = async () => {
       const response = await axios.get(
-        "http://46.32.232.208:5000/OperatingProperty/getHotelAndParkingOperatingCity"
+        `${api}/OperatingProperty/getHotelAndParkingOperatingCity`
       );
       dispatch({ type: "SET_HOTEL_AND_PARKING_CITY", payload: response.data });
-      // console.log(response.data);
     };
     GetHotelAndParkingCities();
   }, []);
@@ -388,17 +385,6 @@ const AddHotelParkingForm = () => {
                             >
                               {index + 1}
                             </p>
-                            {/* <IconButton
-                              aria-label="delete"
-                              size="small"
-                              className={style.delete_button}
-                            >
-                              <DeleteIcon
-                                className="text-light me-1"
-                                fontSize="small"
-                                onClick={() => deleteHandler(imageObj)}
-                              />
-                            </IconButton> */}
                           </div>
                         </div>
                       </div>
@@ -422,17 +408,6 @@ const AddHotelParkingForm = () => {
                             >
                               {index + 1}
                             </p>
-                            {/* <IconButton
-                              aria-label="delete"
-                              size="small"
-                              className={style.delete_button}
-                            >
-                              <DeleteIcon
-                                className="text-light me-1"
-                                fontSize="small"
-                                onClick={() => deleteHandler(imageObj)}
-                              />
-                            </IconButton> */}
                           </div>
                         </div>
                       </div>
@@ -548,13 +523,9 @@ const AddHotelParkingForm = () => {
                       id="validationCustom012"
                       value={FinalOwner.id}
                       required
-                      // disabled
                     >
                       <option value="1">Owner Id</option>
                       <option value={FinalOwner.id}>{FinalOwner.id}</option>
-                      {/* <option value="Single">Single</option>
-                <option value="Twin">Twin</option>
-                <option value="Family">Family</option> */}
                     </select>
                   </div>
                   <div className="col-md-6">
@@ -1032,19 +1003,6 @@ const AddHotelParkingForm = () => {
                 >
                   Add Hotel And Parking
                 </button>
-                {/* <button
-                  className="btn btn-primary btn-lg profile-button mb-4"
-                  type="submit"
-                  disabled={
-                    hotelimages.length < 3 ||
-                    hotelimages.length > 7 ||
-                    parkingimages.length < 3 ||
-                    parkingimages.length > 7
-                  }
-                  onClick={handleSubmit}
-                >
-                  Add Hotel And Parking
-                </button> */}
               </div>
             </form>
           </div>

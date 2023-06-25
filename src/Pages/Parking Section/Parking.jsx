@@ -113,9 +113,7 @@ const Parking = () => {
                   may need – we're here to make your parking booking experience
                   a breeze.
                 </p>
-                <button className={`${isXtraSmallScreen ? "mt-3" : "mt-3"}`}>
-                  Read More
-                </button>
+                
               </div>
             </div>
           </div>

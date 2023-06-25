@@ -17,8 +17,7 @@ const ImageUpload = () => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(
     "https://github.com/OlgaKoplik/CodePen/blob/master/profile.jpg?raw=true"
   );
-  const [name, setName] = useState("");
-  const [status, setStatus] = useState("");
+  
   const [active, setActive] = useState("edit");
 
   const photoUpload = (e) => {
@@ -33,23 +32,6 @@ const ImageUpload = () => {
     reader.readAsDataURL(file);
   };
 
-  const editName = (e) => {
-    const name = e.target.value;
-    setName(name);
-  };
-
-  const editStatus = (e) => {
-    const status = e.target.value;
-    setStatus(status);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let activeP = active === "edit" ? "profile" : "edit";
-    setActive(activeP);
-  };
-
-  console.log(file);
 
   return (
     <div>

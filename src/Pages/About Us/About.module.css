@@ -73,9 +73,10 @@
 /* .gallery_section {
   padding-bottom: 80px;
 } */
-.gallery_section .section_title {
-  /* margin-bottom: 38px; */
-}
+/* .gallery_section .section_title {
+  margin-bottom: 38px;
+} */
+
 .gallery_item {
   position: relative;
   height: 279px;

@@ -122,12 +122,12 @@ const About = () => {
               <div className="row mx-1">
                 <div className="col-lg-4 col-md-6">
                   <div
-                    className={`${style.hp_room_item} ${style.set_bg}`}
+                    className={`${style.hp_room_item} ${style.gallery_item} ${style.set_bg}`}
                     style={{ backgroundImage: `url(${Hotel21})` }}
                   >
                     <div className={style.hr_text}>
-                      <h3>Single Room</h3>
-                      <h2>
+                      <h3 className="fw-bold fs-3">Single Room</h3>
+                      <h2 className="fs-4 ">
                         199$<span>/Pernight</span>
                       </h2>
                       <table>
@@ -138,7 +138,7 @@ const About = () => {
                           </tr>
                           <tr>
                             <td className={style.r_o}>Capacity:</td>
-                            <td>Max persion 5</td>
+                            <td>Max persion 2</td>
                           </tr>
                           <tr>
                             <td className={style.r_o}>Bed:</td>
@@ -150,20 +150,17 @@ const About = () => {
                           </tr>
                         </tbody>
                       </table>
-                      <a href="#" className="primary-btn">
-                        More Details
-                      </a>
                     </div>
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-6">
                   <div
-                    className={`${style.hp_room_item} ${style.set_bg}`}
+                    className={`${style.hp_room_item} ${style.gallery_item} ${style.set_bg}`}
                     style={{ backgroundImage: `url(${Hotel23})` }}
                   >
                     <div className={style.hr_text}>
-                      <h3>Twin Room</h3>
-                      <h2>
+                      <h3 className="fw-bold fs-3">Twin Room</h3>
+                      <h2 className="fs-4">
                         159$<span>/Pernight</span>
                       </h2>
                       <table>
@@ -174,7 +171,7 @@ const About = () => {
                           </tr>
                           <tr>
                             <td className={style.r_o}>Capacity:</td>
-                            <td>Max persion 5</td>
+                            <td>Max persion 3</td>
                           </tr>
                           <tr>
                             <td className={style.r_o}>Bed:</td>
@@ -186,21 +183,18 @@ const About = () => {
                           </tr>
                         </tbody>
                       </table>
-                      <a href="#" className="primary-btn">
-                        More Details
-                      </a>
                     </div>
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-6">
                   <div
-                    className={`${style.hp_room_item} ${style.set_bg}`}
+                    className={`${style.hp_room_item} ${style.gallery_item} ${style.set_bg}`}
                     style={{ backgroundImage: `url(${Hotel25})` }}
                   >
                     <div className={style.hr_text}>
-                      <h3>Family Room</h3>
-                      <h2>
-                        198$<span>/Pernight</span>
+                      <h3 className="fw-bold fs-3">Family Room</h3>
+                      <h2 className="fs-4">
+                        198$<span className="">/Pernight</span>
                       </h2>
                       <table>
                         <tbody>
@@ -222,9 +216,6 @@ const About = () => {
                           </tr>
                         </tbody>
                       </table>
-                      <a href="#" className={style.primary_btn}>
-                        More Details
-                      </a>
                     </div>
                   </div>
                 </div>

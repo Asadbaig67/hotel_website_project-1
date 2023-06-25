@@ -3,19 +3,13 @@ section {
 }
 
 .labelitem {
-  /* margin: 0 auto; */
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: center; */
-  /* align-items: center; */
+ 
   display: block;
-  /* border: 1px solid black; */
   border-radius: 20px;
   width: 4rem;
   height: 4rem;
   cursor: pointer;
-  /* overflow: hidden; */
-  /* font-size: large; */
+
 }
 
 .labelitem span {
@@ -37,8 +31,7 @@ img {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: center; */
-  /* align-items: center; */
+
 }
 
 .image {
@@ -78,11 +71,7 @@ img {
   background-color: green;
 }
 
-/* label:hover,
-.upload-btn:hover {
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
-    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-} */
+
 
 .error {
   text-align: center;

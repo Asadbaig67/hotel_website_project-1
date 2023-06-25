@@ -7,7 +7,6 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
 import style from "../Hotel_Forms/addhotel.module.css";
-// import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 import axios from "axios";
@@ -125,13 +124,12 @@ const UpdateHotelAndParking = () => {
     }));
   };
 
-  console.log("Form Values", deleteImage);
 
   const DeleteHotelImages = async () => {
     setLoading(true);
     setImgMessage("");
 
-    let url = `http://46.32.232.208:5000/hotelandparking/deletehotelimage/${defaultFormValues._id}`;
+    let url = `${api}/hotelandparking/deletehotelimage/${defaultFormValues._id}`;
     const data = { link: deleteImage.image }; // Request body data as an object
     const options = {
       method: "DELETE", // Replace with the desired HTTP method (e.g., POST, PUT, DELETE)
@@ -161,7 +159,7 @@ const UpdateHotelAndParking = () => {
     setLoading(true);
     setImgMessage("");
 
-    let url = `http://46.32.232.208:5000/hotelandparking/deleteparkingimage/${defaultFormValues._id}`;
+    let url = `${api}/hotelandparking/deleteparkingimage/${defaultFormValues._id}`;
     const data = { link: deleteImage.image }; // Request body data as an object
     const options = {
       method: "DELETE", // Replace with the desired HTTP method (e.g., POST, PUT, DELETE)
@@ -238,6 +236,7 @@ const UpdateHotelAndParking = () => {
     });
   }
 
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   const [features, setFeatures] = useState([...formValues.Facilities]);
   const [newFeature, setNewFeature] = useState("");
 
@@ -284,7 +283,7 @@ const UpdateHotelAndParking = () => {
     for (let i = 0; i < parkingimages.length; i++) {
       formData.append("parkingPhotos", parkingimages[i].file);
     }
-    const url = `http://46.32.232.208:5000/hotelandparking/updatehotelandparkingdata/${formValues._id}`;
+    const url = `${api}/hotelandparking/updatehotelandparkingdata/${formValues._id}`;
 
     const options = {
       method: "PATCH",
@@ -309,7 +308,6 @@ const UpdateHotelAndParking = () => {
         setError(true);
       }
       const data = await response.json();
-      console.log("The Response data is ", data);
     } catch (error) {
       console.error(error);
     }
@@ -319,15 +317,13 @@ const UpdateHotelAndParking = () => {
     (state) => state.hotelAndParkingOperatingCities
   );
 
-  console.log("selected images", deleteImage);
 
   useEffect(() => {
     const GetHotelAndParkingCities = async () => {
       const response = await axios.get(
-        "http://46.32.232.208:5000/OperatingProperty/getHotelAndParkingOperatingCity"
+        `${api}/OperatingProperty/getHotelAndParkingOperatingCity`
       );
       dispatch({ type: "SET_HOTEL_AND_PARKING_CITY", payload: response.data });
-      // console.log(response.data);
     };
     GetHotelAndParkingCities();
   }, []);
@@ -451,17 +447,7 @@ const UpdateHotelAndParking = () => {
                             >
                               {index + 1}
                             </p>
-                            {/* <IconButton
-                              aria-label="delete"
-                              size="small"
-                              className={style.delete_button}
-                            >
-                              <DeleteIcon
-                                className="text-light me-1"
-                                fontSize="small"
-                                onClick={() => deleteHandler(imageObj)}
-                              />
-                            </IconButton> */}
+                            
                           </div>
                         </div>
                       </div>
@@ -485,17 +471,7 @@ const UpdateHotelAndParking = () => {
                             >
                               {index + 1}
                             </p>
-                            {/* <IconButton
-                              aria-label="delete"
-                              size="small"
-                              className={style.delete_button}
-                            >
-                              <DeleteIcon
-                                className="text-light me-1"
-                                fontSize="small"
-                                onClick={() => deleteHandler(imageObj)}
-                              />
-                            </IconButton> */}
+                            
                           </div>
                         </div>
                       </div>
@@ -1114,19 +1090,7 @@ const UpdateHotelAndParking = () => {
                 </div>
               </div>
               <div className="mt-5 text-center">
-                {/* <button
-                  className="btn btn-primary btn-lg profile-button mb-4"
-                  type="submit"
-                  // disabled={
-                  //   hotelimages.length < 3 ||
-                  //   hotelimages.length > 7 ||
-                  //   parkingimages.length < 3 ||
-                  //   parkingimages.length > 7
-                  // }
-                  onClick={handleSubmit}
-                >
-                  Add Hotel And Parking
-                </button> */}
+               
                 <button
                   type="button"
                   class="btn btn-primary btn-lg profile-button mb-4"

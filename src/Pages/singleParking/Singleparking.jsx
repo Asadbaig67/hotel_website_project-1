@@ -87,10 +87,11 @@ function ParkingPropertyDetails() {
     return `${Value} Star${Value !== 1 ? "s" : ""}, ${labels[Value]}`;
   }
 
-  console.log("Parking = ", parking);
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
+
   const HandleBooking = async () => {
     // Api Request
-    const parkingURL = `http://46.32.232.208:5000/booking/addParkingBooking?userId=${userId}&parkingId=${parkingId}&checkIn=${checkInDateFormatted}&checkOut=${checkOutDateFormatted}&parking=${parking}`;
+    const parkingURL = `${api}/booking/addParkingBooking?userId=${userId}&parkingId=${parkingId}&checkIn=${checkInDateFormatted}&checkOut=${checkOutDateFormatted}&parking=${parking}`;
     const requestOptions = {
       method: "POST",
     };

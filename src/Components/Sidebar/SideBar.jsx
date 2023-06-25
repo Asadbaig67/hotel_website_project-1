@@ -16,28 +16,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 const SideBar = ({ children }) => {
-  // const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const { isOpen } = useSelector((state) => state.openSidebar);
   const toggle = () => dispatch({ type: "TOGGLESIDEBAR", payload: !isOpen });
   const { view } = useSelector((state) => state.view);
-
-  // const inputAnimation = {
-  //   hidden: {
-  //     width: 0,
-  //     padding: 0,
-  //     transition: {
-  //       duration: 0.2,
-  //     },
-  //   },
-  //   show: {
-  //     width: "140px",
-  //     padding: "5px 15px",
-  //     transition: {
-  //       duration: 0.2,
-  //     },
-  //   },
-  // };
 
   const showAnimation = {
     hidden: {
@@ -60,23 +42,12 @@ const SideBar = ({ children }) => {
     return (
       <>
         {routes.map((route, index) => {
-          // if (route.subRoutes) {
-          //   return (
-          //     <SidebarMenu
-          //       setIsOpen={setIsOpen}
-          //       route={route}
-          //       showAnimation={showAnimation}
-          //       isOpen={isOpen}
-          //     />
-          //   );
-          // }
-
           return (
             <NavLink
               to={route.link}
               key={index}
               className="link"
-              activeClassName="active"
+              activeClassName="activee"
             >
               <div className="icon">{route.icon}</div>
               <AnimatePresence>
@@ -102,16 +73,9 @@ const SideBar = ({ children }) => {
   return (
     <>
       <div className="main-container h-100">
-        
         <motion.div
           animate={{
             width: isOpen ? "300px" : "45px",
-
-            // transition: {
-            //   duration: 0.2,
-            //   type: "spring",
-            //   damping: 8,
-            // },
           }}
           style={{ zIndex: "6" }}
           className={`sidebar`}

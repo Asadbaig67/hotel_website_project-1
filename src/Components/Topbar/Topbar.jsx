@@ -20,9 +20,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Badge from "@mui/material/Badge";
 
 const Topbar = () => {
-  //   const theme = useTheme();
-  //   const colors = tokens(theme.palette.mode);
-  //   const colorMode = useContext(ColorModeContext);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
@@ -31,11 +29,12 @@ const Topbar = () => {
   const { notification } = useSelector((state) => state.setNotification);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   useEffect(() => {
     const fetchNotification = async () => {
       const data = await axios.get(
-        `http://46.32.232.208:5000/notification/getNotification/${user._id}`
+        `${api}/notification/getNotification/${user._id}`
       );
       dispatch({ type: "SET_NOTIFICATION", payload: data.data });
     };
@@ -44,7 +43,6 @@ const Topbar = () => {
 
   const handleNotication = async (event) => {
     setAnchorEl(event.currentTarget);
-    console.log(notification);
   };
 
   const handleClose = () => {
@@ -66,7 +64,6 @@ const Topbar = () => {
       {/* SEARCH BAR */}
       <Box
         display="flex"
-        // backgroundColor={colors.primary[400]}
         borderRadius="3px"
       >
         <div className="container-fluid">
@@ -84,12 +81,10 @@ const Topbar = () => {
       <Box display="flex">
         <IconButton>
           <DarkModeOutlinedIcon />
-          {/* <LightModeOutlinedIcon /> */}
         </IconButton>
         <IconButton>
           <Button
             aria-describedby={id}
-            // variant="contained"
             onClick={handleNotication}
           >
             <Badge color="primary" badgeContent={notification.length} max={99}>
@@ -158,7 +153,6 @@ const Topbar = () => {
             </List>
           </Popover>
         </IconButton>
-        {/* <IconButton><SettingsOutlinedIcon /></IconButton> */}
         <IconButton>
           <div>
             <a

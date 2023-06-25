@@ -31,14 +31,6 @@ const RatingFilter = () => {
       dispatch({ type: "SET_HOTEL_DATA", payload: filteredData(hotelData) });
     }
   }, []);
-
-  // ...rest of your code...
-
-  //   useEffect(() => {
-  //     filteredData(hotelData);
-  //     dispatch({ type: "SET_HOTEL_DATA", payload: filteredData(hotelData) });
-  //     // setDataList(filteredData(hotelData));
-  //   }, [selectedRatings, hotelData]);
   return (
     <>
       {rating.map((item) => {

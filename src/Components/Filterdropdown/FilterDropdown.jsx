@@ -14,16 +14,9 @@ const Dropdown = (props) => {
       style={{ width: "100%" }}
       allowClear
       placeholder={props.placeholder}
-      // value={
-      //   name === "cityHotel"
-      //     ? city
-      //     : name === "cityParking"
-      //     ? cityParking
-      //     : cityHotelAndParking
-      // }
+      
       optionFilterProp="children"
-      // filterOption={(input, option) => (option?.label ?? "").includes(input)}
-      // option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      
       filterOption={(input, option) =>
         option?.label.toLowerCase().slice(0, input.length) ===
         input.toLowerCase()

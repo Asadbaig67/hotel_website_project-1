@@ -39,9 +39,6 @@ const RoomBooking = ({ rooms }) => {
     }
   };
 
-  //   const handleRoomNumberChange = (e) => {
-  //     setSelectedRoomNumber(parseInt(e.target.value));
-  //   };
 
   const handleParkingNameChange = (e) => {
     setParkingName(e.target.value);
@@ -74,33 +71,7 @@ const RoomBooking = ({ rooms }) => {
             ))}
           </select>
         </div>
-        {/* {selectedRoom && (
-          <div className="selected-room-container">
-            <h3>{selectedRoom.room.type}</h3>
-            <ul>
-              {selectedRoom.room.room_no.map((room) => (
-                <li key={room.number}>
-                  <label>
-                    <input
-                      type="radio"
-                      name="roomNumber"
-                      value={room.number}
-                      checked={selectedRoomNumber === room.number}
-                      onChange={handleRoomNumberChange}
-                    />
-                    Room No {room.number}{" "}
-                    {room.available ? (
-                      <span className="text-success">Available</span>
-                    ) : (
-                      <span className="text-danger">Not Available</span>
-                    )}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-        )} */}
+        
         {selectedRoom && (
           <div className="selected-room-container">
             <h3>{selectedRoom.room.type}</h3>

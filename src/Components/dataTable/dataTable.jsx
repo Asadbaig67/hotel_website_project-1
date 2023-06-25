@@ -42,6 +42,8 @@ const DataTable = ({ path, user }) => {
     setList(filteredData);
   }, [filteredData]);
 
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
+
   const handleDelete = async (id) => {
     let data;
     if (
@@ -51,10 +53,10 @@ const DataTable = ({ path, user }) => {
       (path === "PropertyRequests" && user.partner_type === "Hotel")
     ) {
       data = await axios.delete(
-        `http://46.32.232.208:5000/hotels/deletehotel/${id}`
+        `${api}/hotels/deletehotel/${id}`
       );
     } else if (path === "users") {
-      data = await axios.delete(`http://46.32.232.208:5000/user/delete/${id}`);
+      data = await axios.delete(`${api}/user/delete/${id}`);
     } else if (
       path === "parkings" ||
       path === "parkingRequests" ||
@@ -62,7 +64,7 @@ const DataTable = ({ path, user }) => {
       (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
       data = await axios.delete(
-        `http://46.32.232.208:5000/parking/deleteparking/${id}`
+        `${api}/parking/deleteparking/${id}`
       );
     } else if (
       path === "HotelsAndParkings" ||
@@ -71,7 +73,7 @@ const DataTable = ({ path, user }) => {
       (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
       data = await axios.delete(
-        `http://46.32.232.208:5000/hotelandparking/deletehotelandparking/${id}`
+        `${api}/hotelandparking/deletehotelandparking/${id}`
       );
     } else if (
       path === "bookings" ||
@@ -82,7 +84,7 @@ const DataTable = ({ path, user }) => {
       path === "hotelandparkingbookings"
     ) {
       data = await axios.delete(
-        `http://46.32.232.208:5000/booking/deletebooking/${id}`
+        `${api}/booking/deletebooking/${id}`
       );
     }
     if (data) setList(list.filter((item) => item._id !== id));
@@ -97,14 +99,14 @@ const DataTable = ({ path, user }) => {
       (path === "Property" && user.partner_type === "Hotel") ||
       (path === "PropertyRequests" && user.partner_type === "Hotel")
     ) {
-      data = await axios.get(`http://46.32.232.208:5000/hotels/gethotelbyid/${id}`);
+      data = await axios.get(`${api}/hotels/gethotelbyid/${id}`);
       if (data) {
         navigate("/viewproperty", {
           state: { data: data.data, user: user, path: path },
         });
       }
     } else if (path === "users") {
-      data = await axios.get(`http://46.32.232.208:5000/user/getuserbyid/${id}`);
+      data = await axios.get(`${api}/user/getuserbyid/${id}`);
       if (data) {
         navigate("/viewproperty", {
           state: { data: data.data, user: user, path: path },
@@ -117,7 +119,7 @@ const DataTable = ({ path, user }) => {
       (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
       data = await axios.get(
-        `http://46.32.232.208:5000/parking/getParkingById/${id}`
+        `${api}/parking/getParkingById/${id}`
       );
       if (data) {
         navigate("/viewproperty", {
@@ -131,7 +133,7 @@ const DataTable = ({ path, user }) => {
       (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
       data = await axios.get(
-        `http://46.32.232.208:5000/hotelandparking/gethotelandparkingbyid/${id}`
+        `${api}/hotelandparking/gethotelandparkingbyid/${id}`
       );
       if (data) {
         navigate("/viewproperty", {
@@ -146,7 +148,7 @@ const DataTable = ({ path, user }) => {
       path === "parkingbookings" ||
       path === "hotelandparkingbookings"
     ) {
-      data = await axios.get(`http://46.32.232.208:5000/booking/getBooking/${id}`);
+      data = await axios.get(`${api}/booking/getBooking/${id}`);
       if (data) {
         navigate("/viewbookingdetails", {
           state: { data: data.data, user: user, path: path },
@@ -158,14 +160,14 @@ const DataTable = ({ path, user }) => {
   const handleApprove = async (id) => {
     let data;
     if (path === "hotelRequests") {
-      data = await axios.put(`http://46.32.232.208:5000/hotels/approvehotel/${id}`);
+      data = await axios.put(`${api}/hotels/approvehotel/${id}`);
     } else if (path === "parkingRequests") {
       data = await axios.put(
-        `http://46.32.232.208:5000/parking/approveParking/${id}`
+        `${api}/parking/approveParking/${id}`
       );
     } else if (path === "hotelAndParkingRequests") {
       data = await axios.put(
-        `http://46.32.232.208:5000/hotelandparking/approveHotelAndParking/${id}`
+        `${api}/hotelandparking/approveHotelAndParking/${id}`
       );
     }
     if (data) setList(list.filter((item) => item._id !== id));
@@ -176,15 +178,15 @@ const DataTable = ({ path, user }) => {
     let data;
     if (path === "upcominghotelbookings") {
       data = await axios.delete(
-        `http://46.32.232.208:5000/booking/cancelHotelReservation/${id}`
+        `${api}/booking/cancelHotelReservation/${id}`
       );
     } else if (path === "upcomingparkingbookings") {
       data = await axios.delete(
-        `http://46.32.232.208:5000/booking/cancelParkingReservation/${id}`
+        `${api}/booking/cancelParkingReservation/${id}`
       );
     } else if (path === "upcominghotelandparkingbookings") {
       data = await axios.delete(
-        `http://46.32.232.208:5000/booking/cancelHotelAndParkingReservation/${id}`
+        `${api}/booking/cancelHotelAndParkingReservation/${id}`
       );
     }
     if (data) setList(list.filter((item) => item._id !== id));
@@ -194,17 +196,17 @@ const DataTable = ({ path, user }) => {
     let data;
     if (path === "hotelRequests") {
       data = await axios.put(
-        `http://46.32.232.208:5000/hotels/approvehotelAndUpdateRating/${id}`,
+        `${api}/hotels/approvehotelAndUpdateRating/${id}`,
         { rating: rating }
       );
     } else if (path === "parkingRequests") {
       data = await axios.put(
-        `http://46.32.232.208:5000/parking/approveParkingAndUpdateRating/${id}`,
+        `${api}/parking/approveParkingAndUpdateRating/${id}`,
         { rating: rating }
       );
     } else if (path === "hotelAndParkingRequests") {
       data = await axios.put(
-        `http://46.32.232.208:5000/hotelandparking/approveHotelAndParkingAndUpdateRating/${id}`,
+        `${api}/hotelandparking/approveHotelAndParkingAndUpdateRating/${id}`,
         { hotel_rating: rating }
       );
     }

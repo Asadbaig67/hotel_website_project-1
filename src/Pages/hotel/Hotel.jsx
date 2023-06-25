@@ -21,27 +21,20 @@ import { useMediaQuery } from "@mui/material";
 // import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-// import { SearchContext } from "../../context/SearchContext";
-// import { AuthContext } from "../../context/AuthContext";
-// import Reserve from "../../components/reserve/Reserve";
+
 
 const Hotel = () => {
-  // const location = useLocation();
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  // const { city } = useSelector((state) => state.searchCity);
-  // const { dates } = useSelector((state) => state.searchDate);
+  
   const { options } = useSelector((state) => state.searchOption);
   const { c } = useSelector((state) => state.searchVehicle);
-  // console.log(options);
   const { room_data } = useSelector((state) => state.getStaticroom);
   const { activePath } = useSelector((state) => state.activePath);
-  // console.log("Selected Option are =", options);
   const { selected_hotel } = useSelector((state) => state.getSelectedHotel);
 
   if (selected_hotel) {
-    // console.log("Selected Hotel =", selected_hotel);
-    // console.log("Selected Hotel Rooms =", selected_hotel.Rooms);
+    
   }
   let Facilities = [];
   if (selected_hotel.Facilities) {
@@ -51,13 +44,7 @@ const Hotel = () => {
   // const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
-  // const [openModal, setOpenModal] = useState(false);
-
-  // const { data, loading, error } = useFetch(`/hotels/find/${id}`);
-  // const { user } = useContext(AuthContext);
-  // const navigate = useNavigate();
-
-  // const { dates, options } = useContext(SearchContext);
+  
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
@@ -66,8 +53,7 @@ const Hotel = () => {
     return diffDays;
   }
 
-  // const days = dayDifference(dates[0].endDate, dates[0].startDate);
-  // Calculating available parking slots
+  
   let availableParkingSlots =
     selected_hotel.parking_total_slots - selected_hotel.parking_booked_slots;
   let parkingPrice = 0;
@@ -80,7 +66,6 @@ const Hotel = () => {
     setOpen(true);
   };
 
-  // to move modal left and right
   const handleMove = (direction) => {
     let newSlideNumber;
 
@@ -159,13 +144,6 @@ const Hotel = () => {
     rating: "4.5",
   };
 
-  const handleClick = () => {
-    // if (user) {
-    //   setOpenModal(true);
-    // } else {
-    //   navigate("/login");
-    // }
-  };
 
   // To handle see more button
   let [limit, setLimit] = useState(6);
@@ -174,8 +152,7 @@ const Hotel = () => {
   };
 
   const HandleBook = () => {
-    // set BookedSelction data
-    // const updatedHotel = { ...selected_hotel };
+    
     dispatch({
       type: "SET_BOOKED_PROPERTY",
       payload: selected_hotel,
@@ -196,7 +173,6 @@ const Hotel = () => {
     return () => window.removeEventListener("scroll", disableScroll);
   }, [open]);
 
-  console.log("limit", limit);
 
   return (
     <div style={{ overflow: "hidden" }}>
@@ -260,11 +236,7 @@ const Hotel = () => {
                       : "Dubai"}
                   </span>
                   <span className="text-primary fw-bold">
-                    {/* {selected_hotel.city
-                      ? selected_hotel.city
-                      : selected_hotel.hotel_city
-                      ? selected_hotel.hotel_city
-                      : ""} */}
+
                     {selected_hotel
                       ? selected_hotel.hotel_city
                         ? selected_hotel.hotel_city
@@ -334,103 +306,9 @@ const Hotel = () => {
                     );
                   })}
             </div>
-            {/* <div className="d-flex flex-wrap justify-content-start align-items-center">
-              {data.facilities.map((item, i) => {
-                if (i <= 12)
-                  return (
-                    <span
-                      className="m-2 align-self-stretch text-dark fw-light border border-secondary font-size"
-                      key={i}
-                    >
-                      {item}
-                    </span>
-                  );
-                return null;
-              })}
-            </div> */}
-            {/* <div className="flex-wrap d-flex justify-content-start">
-              {data.facilities.map((item, i) => {
-                if (i <= 12)
-                  return (
-                    <span
-                      className="m-2 align-self-stretch text-dark fw-light border border-secondary font_size"
-                      key={i}
-                    >
-                      {item}
-                    </span>
-                  );
-                return null;
-              })}
-            </div> */}
-
+            
             <div className="shadow p-3 mt-3">
-              {/* <div className="row">
-                <div className="col-12 mb-2 pb-2 border-bottom">
-                  <h5>Enjoy some extra spaces</h5>
-                </div>
-                <div
-                  className="col-6 border-end mt-3"
-                  style={{ fontSize: "12px" }}
-                >
-                  <div>
-                    8 ×{" "}
-                    <Link to="/" className="fw-semibold">
-                      King Room
-                    </Link>
-                  </div>
-                  <div>
-                    Price for: <Person />
-                    <Person />
-                  </div>
-                  <div>
-                    <b>Each unit has:</b>
-                    <br /> Bed: 1 king bed
-                  </div>
-                  <div className="text-success fw-normal">
-                    Free cancellation until 2:00 PM on Feb 15, 2023
-                  </div>
-                  <div className="text-success fw-normal">
-                    NO PREPAYMENT NEEDED – pay at the property
-                  </div>
-                  <RestaurantMenuIcon />
-                  <span className="ms-2">Breakfast PKR 5,513 (optional)</span>
-                </div>
-
-                <div className="col-2 border-end">
-                  <div className="fw-bolder fs-5">
-                    {selected_hotel.price
-                      ? selected_hotel.price + 20
-                      : data.price}
-                    ${availableParkingSlots ? "+5$" : ""}
-                  </div>
-                  <div style={{ fontSize: "12px" }}>
-                    Includes taxes and fees
-                  </div>
-                </div>
-
-                <div className="col-4">
-                  <small>8 nights, 13 adults, 3 children</small>{" "}
-                  <div className="fw-bolder fs-5">
-                    {selected_hotel.price
-                      ? selected_hotel.price + 20
-                      : data.price}
-                    ${availableParkingSlots ? "+5$" : ""}
-                  </div>
-                  <small className="d-block">Includes taxes and fees</small>
-                  {availableParkingSlots ? (
-                    <small className="d-block">Extra 5$ for parking</small>
-                  ) : (
-                    ""
-                  )}
-                  <button className="btn btn-primary mt-3 w-100 mb-2">
-                    Reserve your selection
-                  </button>
-                  <div style={{ fontSize: "12px" }}>
-                    Don't worry – clicking this button won't charge you
-                    anything!
-                  </div>
-                </div>
-              </div> */}
+              
               <div className="row">
                 <div className="col-12 mb-2 pb-2 border-bottom">
                   <h5>Enjoy some extra spaces</h5>
@@ -478,9 +356,7 @@ const Hotel = () => {
                           <span className="mx-1">
                             <i className="fas fa-user"></i>
                           </span>
-                          {/* <span className="mx-1">
-                            <i className="fas fa-user"></i>
-                          </span> */}
+                          
                         </div>
                       </div>
                       <div>
@@ -543,9 +419,7 @@ const Hotel = () => {
                           </small>
                         )}
                     </div>
-                    {/* <div className="mt-2" style={{ fontSize: "12px" }}>
-                      Includes taxes and fees
-                    </div> */}
+                    
                   </div>
                 </div>
                 <div className={`col-md-4 ${isXtraSmallScreen ? "mt-0" : ""}`}>
@@ -555,10 +429,7 @@ const Hotel = () => {
                       {options.children} children
                     </div>
                     <div className="fw-bold fs-5">
-                      {/* $
-                      {selected_hotel.price
-                        ? selected_hotel.price + 20
-                        : data.price} */}
+                    
                       {selected_hotel.Total_Price && (
                         <small>
                           Total Price = $
@@ -584,9 +455,7 @@ const Hotel = () => {
                     !selected_hotel.StandardPrice ? (
                       <div className="mt-2" style={{ fontSize: "12px" }}>
                         Extra{" "}
-                        {/* {selected_hotel.parking_price
-                            ? selected_hotel.parking_price * c
-                            : ""} */}
+                       
                         {parkingPrice}$ for parking
                       </div>
                     ) : null}
@@ -606,53 +475,7 @@ const Hotel = () => {
             </div>
 
             <div className="hotelDetails">
-              {/* <div className="hotelDetailsTexts">
-                <h1 className="hotelTitle">
-                  {selected_hotel ? selected_hotel.name : data.title}
-                </h1>
-                <p className="hotelDesc text-dark fs-6 fw-light">
-                  {selected_hotel ? selected_hotel.description : data.desc}
-                </p>
-                <div>
-                  <h5 className="my-3">Most popular facilities</h5>
-                  <div className="d-flex flex-wrap text-success">
-                    {data.facilities.map((item, i) => {
-                      {
-                        if (i <= limit)
-                          return (
-                            <>
-                              <div key={i}>
-                                <div
-                                  className={`bg-info text-light px-2 py-1 me-3 mb-2 rounded-pill`}
-                                >
-                                  {item}
-                                </div>
-                              </div>
-                            </>
-                          );
-                      }
-                    })}
-
-                    {limit < data.facilities.length && (
-                      <div
-                        onClick={handleSeemore}
-                        className="my-auto text-info text-decoration-underline cursor_pointer"
-                      >
-                        See More
-                      </div>
-                    )}
-
-                    {limit === data.facilities.length && (
-                      <div
-                        onClick={handleSeemore}
-                        className="my-auto text-info text-decoration-underline cursor_pointer"
-                      >
-                        See Less
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div> */}
+              
               <div className="hotelDetailsTexts">
                 <h1 className="hotelTitle">
                   {/* {selected_hotel ? selected_hotel.name : data.title} */}
@@ -675,46 +498,7 @@ const Hotel = () => {
                     : null}
                 </p>
 
-                {/* <div>
-                  <h5 className="my-3">Most popular facilities</h5>
-                  <div className="d-flex flex-wrap text-success">
-                    {Facilities &&
-                      Facilities.map((item, i) => {
-                        {
-                          if (i <= limit)
-                            return (
-                              <>
-                                <div key={i}>
-                                  <div
-                                    className={`bg-info text-light py-1 mb-2 rounded-pill me-3 px-2 fs-6`}
-                                  >
-                                    {item}
-                                  </div>
-                                </div>
-                              </>
-                            );
-                        }
-                      })}
-
-                    {limit < Facilities.length && (
-                      <div
-                        onClick={handleSeemore}
-                        className="my-auto text-info text-decoration-underline cursor_pointer"
-                      >
-                        See More
-                      </div>
-                    )}
-
-                    {limit === Facilities.length && (
-                      <div
-                        onClick={handleSeemore}
-                        className="my-auto text-info text-decoration-underline cursor_pointer"
-                      >
-                        See Less
-                      </div>
-                    )}
-                  </div>
-                </div> */}
+                
                 <div
                   className=" my-2"
                   style={{
@@ -776,16 +560,7 @@ const Hotel = () => {
               </div>
 
               <div className="hotelDetailsPrice">
-                {/* <h1>Perfect for a {days}-night stay!</h1>
-                <span>
-                  Located in the real heart of Krakow, this property has an
-                  excellent location score of 9.8!
-                </span>
-                <h2>
-                  <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
-                  nights)
-                </h2>
-                <button onClick={handleClick}>Reserve or Book Now!</button> */}
+                
                 <div className="fw-bold">Property Highlights</div>
                 <div className="fw-bold">
                   Perfect for an {selected_hotel.Nights}-night stay!
@@ -841,23 +616,7 @@ const Hotel = () => {
           </div>
         </div>
       )}
-      {/* <div className="row">
-        {room_data.map((item) => {
-          return (
-            <Roomcard
-              data={item}
-              hotel={
-                selected_hotel.name
-                  ? selected_hotel.name
-                  : selected_hotel.hotel_name
-                  ? selected_hotel.hotel_name
-                  : data.title
-              }
-              key={item.name}
-            />
-          );
-        })}
-      </div> */}
+     
       <Footer />
     </div>
   );

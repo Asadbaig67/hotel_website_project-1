@@ -9,7 +9,6 @@ import style from "../Hotel_Forms/addhotel.module.css";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useEffect } from "react";
-// import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
@@ -46,7 +45,6 @@ const AddParkingForm = () => {
       formValues.country === "" ||
       formValues.address === ""
     ) {
-      console.log("Empty Input", formValues);
       setEmptyInput(true);
     } else {
       setEmptyInput(false);
@@ -169,6 +167,7 @@ const AddParkingForm = () => {
     }
   };
 
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   const handleRemoveFeature = (featureToRemove) => {
     setFeatures(features.filter((feature) => feature !== featureToRemove));
   };
@@ -206,7 +205,7 @@ const AddParkingForm = () => {
     for (let i = 0; i < parkingImages.length; i++) {
       formData.append("photos", parkingImages[i].file);
     }
-    const url = "http://46.32.232.208:5000/parking/addparking";
+    const url = `http://46.32.232.208:5000/parking/addparking`;
 
     const options = {
       method: "POST",
@@ -255,7 +254,7 @@ const AddParkingForm = () => {
   };
 
   const GetOwners = async () => {
-    const url = "http://46.32.232.208:5000/user/getuseridandname";
+    const url = `http://46.32.232.208:5000/user/getuseridandname`;
     const params = {
       form_type: "parking",
     };
@@ -281,15 +280,13 @@ const AddParkingForm = () => {
   useEffect(() => {
     const getParkingCities = async () => {
       const response = await axios.get(
-        "http://46.32.232.208:5000/OperatingProperty/getParkingOperatingCity"
+        `http://46.32.232.208:5000/OperatingProperty/getParkingOperatingCity`
       );
       dispatch({ type: "SET_PARKING_CITY", payload: response.data });
-      // console.log(response.data);
     };
     getParkingCities();
   }, []);
 
-  console.log(formValues.rating);
 
   return (
     <>
@@ -670,7 +667,6 @@ const AddParkingForm = () => {
                         ...prevValues,
                         city: newValue,
                       }));
-                      console.log(formValues.city);
                     }}
                     clearOnEscape
                     inputValue={inputValue}
@@ -680,7 +676,6 @@ const AddParkingForm = () => {
                         ...prevValues,
                         city: newInputValue,
                       }));
-                      console.log(formValues.city);
                     }}
                     id="controllable-states-demo"
                     options={parkingOperatingCity}

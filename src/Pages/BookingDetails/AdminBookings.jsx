@@ -7,10 +7,8 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
-// import AdminSidebar from "../../Components/adminSidebar/AdminSidebar";
 import Sidebar from "../../Components/Sidebar/SideBar";
 
-// export default ViewBookings;
 const ViewBookings = () => {
   const labels = {
     0.5: "Useless",
@@ -37,27 +35,23 @@ const ViewBookings = () => {
 
   // Hotel data,parking data, hotelandparking data
   const [datafromId, setDatafromId] = useState({});
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   const FetchDatafromId = async () => {
     let url = "";
     if (data) {
-      // console.log("dataaaa", data);
       if (data.Booking_type === "hotel") {
-        // console.log(data.hotelId);
-        url = `http://46.32.232.208:5000/hotels/gethotelbyid/${data.hotelData._id}`;
+        url = `${api}/hotels/gethotelbyid/${data.hotelData._id}`;
         const response = await axios.get(url);
-        // console.log("res", response.data);
 
         setDatafromId(response.data);
       } else if (data.Booking_type === "hotelandparking") {
-        url = `http://46.32.232.208:5000/hotelandparking/gethotelandparkingById/${data.HotelAndParkingId}`;
+        url = `${api}/hotelandparking/gethotelandparkingById/${data.HotelAndParkingId}`;
         const response = await axios.get(url);
-        // console.log("res", response.data);
         setDatafromId(response.data);
       } else {
-        url = `http://46.32.232.208:5000/parking/getParkingById/${data.parkingData._id}`;
+        url = `${api}/parking/getParkingById/${data.parkingData._id}`;
         const response = await axios.get(url);
-        // console.log("res", response.data);
         setDatafromId(response.data);
       }
     }
@@ -78,8 +72,6 @@ const ViewBookings = () => {
     }
   }
 
-  // console.log(cardPicture);
-
   useEffect(() => {
     FetchDatafromId();
   }, []);
@@ -92,7 +84,6 @@ const ViewBookings = () => {
     startDateObject.getTime() - endDateObject.getTime()
   );
   Nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
-  // console.log(Nights);
 
   const startDateString = startDateObject
     .toISOString()
@@ -195,9 +186,7 @@ const ViewBookings = () => {
     <>
       <div className="d-flex">
         <Sidebar />
-        {/* {loading ? (
-          <h1>Loading</h1>
-        ) : ( */}
+
         <div className="container mt-5">
           <div className="row">
             <div className="col-md-4">
@@ -438,64 +427,6 @@ const ViewBookings = () => {
             <div className="">
               <div className="py-2">
                 <div className="justify-content-center">
-                  {/* <div className="card shadow-0 border rounded-3">
-                  <div className="card-body">
-                    <div className="row text-center mb-4">
-                      <h1 className="mb-0">Price Summary</h1>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <h5>Room Booked</h5>
-                        <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                          <span>Room type: {roomType}</span>
-                          <span className="fw-bold">${roomPrice}</span>
-                        </div>
-                      </div>
-                    </div>
-                    {parkingBooked && (
-                      <div className="row mt-3">
-                        <div className="col-md-12">
-                          <h5>Parking</h5>
-                          <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                            <span>Parking price:</span>
-                            <span className="fw-bold">${parkingPrice}</span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    {additionalCharges && (
-                      <div className="row mt-3">
-                        <div className="col-md-12">
-                          <h5>Additional Charges</h5>
-                          <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                            <span>{additionalChargesDescription}:</span>
-                            <span className="fw-bold">
-                              ${additionalChargesPrice}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    <div className="row mt-3">
-                      <div className="col-md-12">
-                        <h5>Tax Details</h5>
-                        <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                          <span>{taxDescription}:</span>
-                          <span className="fw-bold">${taxPrice}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row mt-4">
-                      <div className="col-md-12">
-                        <h5>Total Price</h5>
-                        <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                          <span>Total:</span>
-                          <span className="fw-bold">${totalPrice}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
                   <div className="card border rounded-3 shadow">
                     <div className="card-body">
                       <div className="text-center mb-4">
@@ -569,53 +500,7 @@ const ViewBookings = () => {
                         </>
                       )}
                       <hr />
-                      {/* {data.parkingData.parking && (
-                          <>
-                            <div className="row mt-3">
-                              <div className="col-md-12">
-                                <h5>Parking Details</h5>
-                                <div className="d-flex justify-content-between align-items-center ">
-                                  <span>Total Slots Booked</span>
-                                  <span className="fw-bold">
-                                    {`${data.parkingData.parking.Total_slots} Slot${
-                                      data.parkingData.Total_slots > 1 ? "s" : ""
-                                    }`}
-                                  </span>
-                                </div>
-                                <div className="d-flex justify-content-between align-items-center ">
-                                  <span>Parking price:</span>
-                                  <span className="fw-bold">
-                                    {`${data.parkingData.Parking_price} PKR`}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <hr />
-                          </>
-                        )} */}
 
-                      {/* {additionalCharges && (
-                      <div className="row mt-3">
-                        <div className="col-md-12">
-                          <h5>Additional Charges</h5>
-                          <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                            <span>{additionalChargesDescription}:</span>
-                            <span className="fw-bold">
-                              ${additionalChargesPrice}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )} */}
-                      {/* <div className="row mt-3">
-                      <div className="col-md-12">
-                        <h5>Tax Details</h5>
-                        <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-                          <span>{taxDescription}:</span>
-                          <span className="fw-bold">${taxPrice}</span>
-                        </div>
-                      </div>
-                    </div> */}
                       <div
                         className="row mt-4 p-4 rounded-1"
                         style={{ backgroundColor: "#ebf3ff" }}
@@ -644,10 +529,7 @@ const ViewBookings = () => {
             </div>
           </div>
         </div>
-        {/* )} */}
       </div>
-
-      {/* <Footer /> */}
     </>
   );
 };

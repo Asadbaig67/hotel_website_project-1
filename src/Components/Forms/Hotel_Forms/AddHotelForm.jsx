@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-// import AdminSidebar from "../../adminSidebar/AdminSidebar";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
 import style from "./addhotel.module.css";
@@ -37,6 +36,7 @@ const AddHotelForm = () => {
   const [FinalOwner, setFinalOwner] = useState({});
 
   const IsMobile = useMediaQuery("(max-width:450px)");
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
 
   const { hotelOperatingCity } = useSelector(
@@ -54,7 +54,6 @@ const AddHotelForm = () => {
       formValues.country === "" ||
       formValues.address === ""
     ) {
-      console.log("Empty Input", formValues);
       setEmptyInput(true);
     } else {
       setEmptyInput(false);
@@ -222,7 +221,7 @@ const AddHotelForm = () => {
     for (let i = 0; i < selectedImages.length; i++) {
       formData.append("photos", selectedImages[i].file);
     }
-    const url = "http://46.32.232.208:5000/hotels/addhotel";
+    const url = `${api}/hotels/addhotel`;
 
     const options = {
       method: "POST",
@@ -231,7 +230,7 @@ const AddHotelForm = () => {
 
     try {
       const owner = await axios.get(
-        `http://46.32.232.208:5000/user/getuserbyid/${
+        `${api}/user/getuserbyid/${
           loggedinUser.user.account_type === "admin"
             ? FinalOwner.id
             : loggedinUser.user._id
@@ -277,7 +276,7 @@ const AddHotelForm = () => {
   };
 
   const GetOwners = async () => {
-    const url = "http://46.32.232.208:5000/user/getuseridandname";
+    const url = `${api}/user/getuseridandname`;
     const params = {
       form_type: "hotel",
     };
@@ -297,14 +296,12 @@ const AddHotelForm = () => {
     }
   }, []);
 
-  console.log("Images", selectedImages);
   useEffect(() => {
     const GetHotelCities = async () => {
       const response = await axios.get(
-        "http://46.32.232.208:5000/OperatingProperty/getHotelOperatingCity"
+        `${api}/OperatingProperty/getHotelOperatingCity`
       );
       dispatch({ type: "SET_HOTEL_CITY", payload: response.data });
-      // console.log(response.data);
     };
 
     GetHotelCities();
@@ -327,12 +324,6 @@ const AddHotelForm = () => {
               <h1 class="modal-title fs-5" id="staticBackdropLabel">
                 Confirm Add Hotel
               </h1>
-              {/* <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button> */}
             </div>
             <div class="modal-body">
               <div className="row ">
@@ -360,7 +351,7 @@ const AddHotelForm = () => {
                             >
                               {index + 1}
                             </p>
-                            <IconButton
+                            {/* <IconButton
                               aria-label="delete"
                               size="small"
                               className={style.delete_button}
@@ -370,58 +361,13 @@ const AddHotelForm = () => {
                                 fontSize="small"
                                 onClick={() => deleteHandler(imageObj)}
                               />
-                            </IconButton>
+                            </IconButton> */}
                           </div>
                         </div>
                       </div>
                     ))}
               </div>
-              {/* <div className="row">
-                <div className="col-3">
-                  {selectedImages &&
-                    selectedImages
-                      .filter((img) => img.error === true)
-                      .map((imageObj, index) => {
-                        return (
-                          <>
-                            <small className="text-danger">
-                              Following images size is greater than 1MB
-                            </small>
-                            <div
-                              key={imageObj.blobURL}
-                              className={`${style.image_preview} mx-1 my-1`}
-                            >
-                              <img
-                                className={style.preview_image}
-                                src={imageObj.blobURL}
-                                alt="upload"
-                              />
-                              <div
-                                className={`${style.image_overlay} d-flex flex-row justify-content-between`}
-                              >
-                                <p
-                                  className={`${style.image_number} text-light ms-1`}
-                                >
-                                  {index + 1}
-                                </p>
-                                <IconButton
-                                  aria-label="delete"
-                                  size="small"
-                                  className={style.delete_button}
-                                >
-                                  <DeleteIcon
-                                    className="text-light me-1"
-                                    fontSize="small"
-                                    onClick={() => deleteHandler(imageObj)}
-                                  />
-                                </IconButton>
-                              </div>
-                            </div>
-                          </>
-                        );
-                      })}
-                </div>
-              </div> */}
+
               {selectedImages.length < 3 || selectedImages.length > 7 ? (
                 <span className="text-danger d-block">
                   Please select 3-7 images only!!
@@ -447,20 +393,8 @@ const AddHotelForm = () => {
                     </span>
                   </>
                 )}
-              {/* <span className="d-block">{message}</span> */}
-              {/* <div className="text-center">
-                <CircularProgress />
-                <Fab aria-label="save" color="primary" sx={buttonSx}>
-                  <CheckIcon />
-                </Fab>
-              </div> */}
             </div>
             <div class="modal-footer">
-              {/* {!success && (
-                  <Button variant="contained" onClick={handleClose}>
-                    Cancel
-                  </Button>
-                )} */}
               {!success && (
                 <button
                   type="button"
@@ -499,7 +433,6 @@ const AddHotelForm = () => {
                       variant="contained"
                       color="secondary"
                       data-bs-dismiss="modal"
-                      onClick={handleSuccess}
                     >
                       Add Rooms
                     </Button>
@@ -514,15 +447,6 @@ const AddHotelForm = () => {
                   </Button>
                 </>
               )}
-              {/* {!loading && success && (
-                  <Button
-                    variant="contained"
-                    color="success"
-                    data-bs-dismiss="modal"
-                  >
-                    Finish
-                  </Button>
-                )} */}
             </div>
           </div>
         </div>
@@ -547,9 +471,6 @@ const AddHotelForm = () => {
                     >
                       <option value="1">Owner Id</option>
                       <option value={FinalOwner.id}>{FinalOwner.id}</option>
-                      {/* <option value="Single">Single</option>
-                  <option value="Twin">Twin</option>
-                  <option value="Family">Family</option> */}
                     </select>
                   </div>
                   <div className="col-md-6">

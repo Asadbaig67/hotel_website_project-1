@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import "../css/signup.css";
-// import { Navigate } from "react-router-dom";
+
 import axios from "axios";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { useNavigate } from "react-router-dom";
@@ -43,7 +42,6 @@ export default function EditProfile({ profile }) {
     region: profileData.region,
   };
 
-  console.log(data.firstName, data.lastName, data.email, profileImage);
   const handleClickOpen = () => {
     if (data.firstName === "" || data.lastName === "" || data.email === "") {
       setEmptyInput(true);
@@ -51,6 +49,8 @@ export default function EditProfile({ profile }) {
       setEmptyInput(false);
     }
   };
+
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   const handleConditions = () => {
     setError(false);
@@ -73,7 +73,7 @@ export default function EditProfile({ profile }) {
     formData.append("email", data.email);
     formData.append("image", profileImage);
 
-    const response = await fetch("http://46.32.232.208:5000/user/updateuser", {
+    const response = await fetch(`${api}/user/updateuser`, {
       method: "PUT",
       body: formData,
     });
@@ -88,16 +88,11 @@ export default function EditProfile({ profile }) {
       setError(true);
     }
     const result = await response.json();
-    console.log(result);
     const user = await axios.get(
-      `http://46.32.232.208:5000/user/getuserbyid/${data._id}`
+      `${api}/user/getuserbyid/${data._id}`
     );
     dispatch({ type: "SET_LOGGEDIN_USER", payload: user.data });
   };
-
-  if (profileImage.name) {
-    console.log("image hai boss");
-  }
 
   return (
     <>
@@ -228,7 +223,6 @@ export default function EditProfile({ profile }) {
               className="form-control"
               placeholder="surname"
               value={data.lastName}
-              //required
               onChange={(e) => {
                 data.lastName = e.target.value;
                 dispatch({ type: "SETPROFILEDATA", payload: data });
@@ -237,114 +231,6 @@ export default function EditProfile({ profile }) {
           </div>
         </div>
         <div className="row">
-          {/* <div className="col-md-12 mt-2">
-            <label
-              className={`labels text-${mode === "light" ? "dark" : "light"}`}
-            >
-              Mobile Number
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="enter phone number"
-              value={data.mobile}
-              //required
-              onChange={(e) => {
-                data.mobile = e.target.value;
-                dispatch({ type: "SETPROFILEDATA", payload: data });
-              }}
-            />
-          </div> */}
-          {/* <div className="col-md-12 mt-2">
-            <label
-              className={`labels text-${mode === "light" ? "dark" : "light"}`}
-            >
-              Address Line 1
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="enter address line 1"
-              value={data.addressLine1}
-              //required
-              onChange={(e) => {
-                data.addressLine1 = e.target.value;
-                dispatch({ type: "SETPROFILEDATA", payload: data });
-              }}
-            />
-          </div>
-          <div className="col-md-12 mt-2">
-            <label
-              className={`labels text-${mode === "light" ? "dark" : "light"}`}
-            >
-              Address Line 2
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="enter address line 2"
-              value={data.addressLine2}
-              //required
-              onChange={(e) => {
-                data.addressLine2 = e.target.value;
-                dispatch({ type: "SETPROFILEDATA", payload: data });
-              }}
-            />
-          </div>
-          <div className="col-md-12 mt-2">
-            <label
-              className={`labels text-${mode === "light" ? "dark" : "light"}`}
-            >
-              Postcode
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Postal Code"
-              value={data.postalCode}
-              //required
-              onChange={(e) => {
-                data.postalCode = e.target.value;
-                dispatch({ type: "SETPROFILEDATA", payload: data });
-              }}
-            />
-          </div>
-          <div className="col-md-12 mt-2">
-            <label
-              className={`labels text-${mode === "light" ? "dark" : "light"}`}
-            >
-              State
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="State"
-              value={data.state}
-              //required
-              onChange={(e) => {
-                data.state = e.target.value;
-                dispatch({ type: "SETPROFILEDATA", payload: data });
-              }}
-            />
-          </div>
-          <div className="col-md-12 mt-2">
-            <label
-              className={`labels text-${mode === "light" ? "dark" : "light"}`}
-            >
-              Area
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Area"
-              value={data.area}
-              //required
-              onChange={(e) => {
-                data.area = e.target.value;
-                dispatch({ type: "SETPROFILEDATA", payload: data });
-              }}
-            />
-          </div> */}
           <div className="col-md-12 mt-2">
             <label
               className={`labels text-${mode === "light" ? "dark" : "light"}`}
@@ -363,63 +249,8 @@ export default function EditProfile({ profile }) {
               }}
             />
           </div>
-          {/* <div className="col-md-12 mt-2">
-            <label
-              className={`labels text-${mode === "light" ? "dark" : "light"}`}
-            >
-              Education
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="education"
-              value={data.education}
-              //required
-              onChange={(e) => {
-                data.education = e.target.value;
-                dispatch({ type: "SETPROFILEDATA", payload: data });
-              }}
-            />
-          </div> */}
         </div>
-        {/* <div className="row mt-3">
-          <div className="col-md-6">
-            <label
-              className={`labels text-${mode === "light" ? "dark" : "light"}`}
-            >
-              Country
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="country"
-              value={data.country}
-              //required
-              onChange={(e) => {
-                data.country = e.target.value;
-                dispatch({ type: "SETPROFILEDATA", payload: data });
-              }}
-            />
-          </div>
-          <div className="col-md-6">
-            <label
-              className={`labels text-${mode === "light" ? "dark" : "light"}`}
-            >
-              State/Region
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="state"
-              value={data.region}
-              //required
-              onChange={(e) => {
-                data.region = e.target.value;
-                dispatch({ type: "SETPROFILEDATA", payload: data });
-              }}
-            />
-          </div>
-        </div> */}
+
         <div className="mt-5 text-center">
           <button
             type="button"
@@ -430,9 +261,6 @@ export default function EditProfile({ profile }) {
           >
             Save Profile
           </button>
-          {/* <button className="btn btn-primary profile-button mb-4" type="submit">
-            Save Profile
-          </button> */}
         </div>
       </form>
     </>

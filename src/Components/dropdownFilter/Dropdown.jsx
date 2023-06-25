@@ -63,7 +63,6 @@ const DropdownFilter = (props) => {
             payload: value,
           });
           if (typeValue === undefined) {
-            console.log("andr aa rha h ");
             dispatch({
               type: "DISABLE",
               payload: {

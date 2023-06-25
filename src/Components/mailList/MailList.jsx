@@ -6,6 +6,7 @@ import axios from "axios";
 const MailList = () => {
   const isXtraSmallScreen = useMediaQuery("(max-width: 450px)");
   const [email, setEmail] = useState("");
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   const HandleChange = (e) => {
     setEmail(e.target.value);
@@ -13,10 +14,9 @@ const MailList = () => {
 
   const HandleClick = async (e) => {
     e.preventDefault();
-    let url = "http://46.32.232.208:5000/newsletter/subscribe";
+    let url = `${api}/newsletter/subscribe`;
     try {
       const response = await axios.post(url, { email });
-      console.log(response.data); // Handle the response data as needed
     } catch (error) {
       console.error(error); // Handle any errors that occurred during the request
     }
