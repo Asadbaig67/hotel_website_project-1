@@ -13,6 +13,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../../Sidebar/SideBar";
+import AdminNav from "../../AdminNavbar/AdminNav";
 
 const UpdateParking = () => {
   const navigate = useNavigate();
@@ -258,6 +259,9 @@ const UpdateParking = () => {
 
   return (
     <>
+      <div>
+        <AdminNav />
+      </div>
       <div
         class="modal fade"
         id="staticBackdrop1"

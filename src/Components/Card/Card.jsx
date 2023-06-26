@@ -14,9 +14,7 @@ const Card = (props) => {
   const { activePath } = useSelector((state) => state.activePath);
   const { options } = useSelector((state) => state.searchOption);
 
-
   const { dates } = useSelector((state) => state.searchDate);
-
 
   // Nights Calculation
 
@@ -33,9 +31,6 @@ const Card = (props) => {
     const timeDiff = Math.abs(endingDate.getTime() - startingDate.getTime());
     nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
   }
-
-
-
 
   let name,
     rating,
@@ -60,12 +55,12 @@ const Card = (props) => {
       rooms.forEach((element) => {
         let { room } = element;
         if (options.singleRoom !== 0 && room.type === "Single") {
-          Total_Price += options.singleRoom * room.price;
-          SingleRoomPrice = options.singleRoom * room.price * nights;
+          Total_Price += options.singleRoom * room.price * nights;
+          SingleRoomPrice = options.singleRoom * room.price;
         }
         if (options.twinRoom !== 0 && room.type === "Twin") {
           Total_Price += options.twinRoom * room.price;
-          TwinRoomPrice = options.twinRoom * room.price * nights;
+          TwinRoomPrice = options.twinRoom * room.price;
         }
         if (options.familyRoom !== 0 && room.type === "Family") {
           Total_Price += options.familyRoom * room.price;
@@ -85,15 +80,15 @@ const Card = (props) => {
       rooms.forEach((element) => {
         let { room } = element;
         if (options.singleRoom !== 0 && room.type === "Single") {
-          Total_Price += options.singleRoom * room.price;
+          Total_Price += options.singleRoom * room.price * nights;
           SingleRoomPrice = room.price;
         }
         if (options.twinRoom !== 0 && room.type === "Twin") {
-          Total_Price += options.twinRoom * room.price;
+          Total_Price += options.twinRoom * room.price * nights;
           TwinRoomPrice = room.price;
         }
         if (options.familyRoom !== 0 && room.type === "Family") {
-          Total_Price += options.familyRoom * room.price;
+          Total_Price += options.familyRoom * room.price * nights;
           FamilyRoomPrice = room.price;
         }
       });
@@ -108,8 +103,6 @@ const Card = (props) => {
     parking_total_slots = hotel.parking_total_slots;
     parking_booked_slots = hotel.parking_booked_slots;
   }
-
-  
 
   let Facilities = [];
   if (props.item.hotel.Facilities) {
@@ -169,6 +162,8 @@ const Card = (props) => {
   } else {
     src = null;
   }
+
+  console.log("Total price for 2 nights = ", Total_Price);
 
   return (
     <>

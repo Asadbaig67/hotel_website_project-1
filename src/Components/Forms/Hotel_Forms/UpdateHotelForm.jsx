@@ -14,6 +14,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../../Sidebar/SideBar";
+import AdminNav from "../../AdminNavbar/AdminNav";
 
 const UpdateHotel = () => {
   const navigate = useNavigate();
@@ -245,6 +246,9 @@ const UpdateHotel = () => {
 
   return (
     <>
+      <div>
+        <AdminNav />
+      </div>
       <div
         class="modal fade"
         id="staticBackdrop1"
@@ -481,7 +485,7 @@ const UpdateHotel = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                
+
                 <div className="col-md-12 mt-2">
                   <label
                     className={`labels text-${
@@ -730,7 +734,6 @@ const UpdateHotel = () => {
                 </div>
               </div>
               <div className="mt-5 text-center">
-                
                 <button
                   type="button"
                   class="btn btn-primary btn-lg profile-button mb-4"

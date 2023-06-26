@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Sidebar from "../../Sidebar/SideBar";
+import AdminNav from "../../AdminNavbar/AdminNav";
 
 const AddHotelParkingForm = () => {
   const dispatch = useDispatch();
@@ -343,6 +344,9 @@ const AddHotelParkingForm = () => {
 
   return (
     <>
+    <div>
+      <AdminNav />
+    </div>
       <div
         class="modal fade"
         id="staticBackdrop"

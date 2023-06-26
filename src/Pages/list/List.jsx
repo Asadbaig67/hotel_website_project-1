@@ -23,7 +23,6 @@ const List = () => {
   const { activePath } = useSelector((state) => state.activePath);
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
-  
   const { cityHotelAndParking } = useSelector(
     (state) => state.searchHotelAndParkingCity
   );
@@ -50,10 +49,6 @@ const List = () => {
   const [option, setOption] = useState(options);
   const [openDate, setOpenDate] = useState(false);
 
-  
-
-  
-
   const handleClick = () => {
     dispatch({ type: "SET_OPTION", payload: option });
     activePath === "hotel" ? getHotels() : getHotelAndParking();
@@ -61,6 +56,7 @@ const List = () => {
 
   const getHotels = async () => {
     try {
+      dispatch({ type: "SET_HOTEL_DATA", payload: [] });
       dispatch({ type: "SET_FEATURED_DATA", payload: [] });
       const url = `${api}/hotels/search?city=${city}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleRoom}&twinRoom=${twinRoom}&familyRoom=${familyRoom}`;
       const response = await fetch(url, {
@@ -76,6 +72,7 @@ const List = () => {
   };
   const getHotelAndParking = async () => {
     try {
+      dispatch({ type: "SET_HOTEL_DATA", payload: [] });
       dispatch({ type: "SET_FEATURED_DATA", payload: [] });
       // const url = `${api}/hotelandparking/search?city=${cityHotelAndParking}&checkIn=2023-03-11T00:00:00.000Z&checkOut=2023-03-14T00:00:00.000Z&adult=4&children=2&singleRoom=1&twinRoom=1&familyRoom=1&vehicle=5`;
       const url = `${api}/hotelandparking/search?city=${cityHotelAndParking}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleRoom}&twinRoom=${twinRoom}&familyRoom=${familyRoom}&vehicles=${c}`;
@@ -114,7 +111,6 @@ const List = () => {
     }
   };
 
-  
   useEffect(() => {
     if (activePath === "hotel" && featured_hotel.length === 0) {
       getHotels();
@@ -123,8 +119,6 @@ const List = () => {
       getHotelAndParking();
     }
   }, [activePath]);
-
-  
 
   return (
     <div className="container-fluid w-100">
@@ -144,7 +138,7 @@ const List = () => {
               </div>
               <div className={`${style.lsItem}`}>
                 <label className={`${style.lsLabel}`}>Check-in Date</label>
-                
+
                 <div className="bg-white p-1 rounded-4">{<Dates />}</div>
               </div>
               <div className={`${style.lsItem}`}>
@@ -218,7 +212,6 @@ const List = () => {
 
             {activePath === "hotel" &&
             featured_hotel.message === "No Hotel Found" ? (
-              
               <PageNotFound />
             ) : (
               activePath === "hotel" &&

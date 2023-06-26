@@ -1,18 +1,24 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import Stack from "@mui/material/Stack";
-import Collapse from "@mui/material/Collapse";
-import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import AdminNav from "../../AdminNavbar/AdminNav";
 import Sidebar from "../../Sidebar/SideBar";
+import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 
 const AddRoomForm = () => {
+  const Navigate = useNavigate();
   const { hotel } = useSelector((state) => state.setAddedHotel);
-  console.log("This is Hotel", hotel);
+
+  // Confirm Modal Code
+  const [emptyInput, setEmptyInput] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
+  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   //Alerts Code
   const [alertOn, setAlertOn] = useState(false);
@@ -28,7 +34,36 @@ const AddRoomForm = () => {
     desc: "",
   });
 
-  const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
+  // Modal Functions
+  const handleClickOpen = () => {
+    if (
+      formValues.room_no === "" ||
+      formValues.type === "" ||
+      formValues.price === "" ||
+      formValues.desc === ""
+    ) {
+      setEmptyInput(true);
+    } else {
+      setEmptyInput(false);
+    }
+  };
+
+  const handleConditions = () => {
+    setError(false);
+    setMessage("");
+  };
+  const handleSuccess = () => {
+    setSuccess(false);
+    setMessage("");
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      room_no: "",
+      type: "",
+      price: "",
+      desc: "",
+    }));
+    Navigate("/dashboard");
+  };
 
   // Upload Images Code And Preview Code
   const handleInputChange = (event) => {
@@ -51,10 +86,11 @@ const AddRoomForm = () => {
   });
 
   const handleSubmit = async (event) => {
+    setLoading(true);
+    setMessage("");
     event.preventDefault();
     const url = `${api}/room/addroom`;
-    const urlHotelAndParking =
-      `${api}/room/addhotelparkingroom`;
+    const urlHotelAndParking = `${api}/room/addhotelparkingroom`;
 
     const data = {
       hotelId: hotel._id,
@@ -68,29 +104,22 @@ const AddRoomForm = () => {
       let response;
       if (hotel.name) response = await axios.post(url, data);
       else response = await axios.post(urlHotelAndParking, data);
-      if (response.status === 201) {
-        setAlertOn(true);
-        setAlertType("warning");
-        setAlertMessage("Room Already Exist!!");
-        setTimeout(() => {
-          setOpen(false);
-        }, 10000);
-      }
-      if (response.data || response.status === 200) {
-        setAlertOn(true);
-        setAlertType("success");
-        setAlertMessage("Room Added Successfully!!");
-        setTimeout(() => {
-          setOpen(false);
-        }, 7000);
+      if (response.status === 200) {
+        setMessage("Rooms Added Successfully!!");
+        setLoading(false);
+        setSuccess(true);
+      } else if (response.status === 422) {
+        setMessage("Room Alreay Exists!!");
+        setSuccess(false);
+        setLoading(false);
+        setError(true);
       } else {
-        setAlertOn(true);
-        setAlertType("error");
-        setAlertMessage("Something went wrong");
-        setTimeout(() => {
-          setOpen(false);
-        }, 7000);
+        setMessage("Something Went Wrong!!");
+        setSuccess(false);
+        setLoading(false);
+        setError(true);
       }
+      console.log(response.status);
     } catch (error) {
       console.error(error);
     }
@@ -98,43 +127,87 @@ const AddRoomForm = () => {
 
   return (
     <>
-      <div className="d-flex" style={{ marginTop: "50px" }}>
-        <Sidebar />
-        <div className="mt-5" style={{ width: "100vw" }}>
-          {alertOn && (
-            <Collapse in={open}>
-              <Stack sx={{ width: "100%" }} spacing={1}>
-                <Alert
-                  sx={{
-                    borderRadius: "9999px", // make the alert appear as a pill shape
-                    transition: "transform 0.3s ease-in-out", // add a transition effect
-                    transform: open ? "scale(1)" : "scale(0.7)", // scale the alert based on the open state
-                    mt: 2,
-                    mb: 2,
-                    ml: 2,
-                    mr: 2,
-                  }}
-                  severity={alertType}
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setOpen(false);
-                      }}
-                      sx={{ mt: 1.5 }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Confirm Add Room to {hotel.name}
+              </h1>
+            </div>
+            <div class="modal-body">
+              {emptyInput ? (
+                <span className="text-danger d-block">
+                  Please fill all the fields!!
+                </span>
+              ) : (
+                ""
+              )}
+              {!emptyInput && (
+                <>
+                  <span className="d-block">
+                    {message === ""
+                      ? "Are you sure you want to add Rooms"
+                      : message}
+                  </span>
+                </>
+              )}
+            </div>
+            <div class="modal-footer">
+              {!success && (
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onClick={handleConditions}
+                  data-bs-dismiss="modal"
                 >
-                  <AlertTitle>Add Room</AlertTitle>
-                  <strong>{alertMessage}!</strong>
-                </Alert>
-              </Stack>
-            </Collapse>
-          )}
+                  Cancel
+                </button>
+              )}
+              {!loading && !success && !error && (
+                <Button
+                  variant="contained"
+                  disabled={emptyInput}
+                  onClick={handleSubmit}
+                >
+                  Confirm Add
+                </Button>
+              )}
+              {loading ? (
+                <>
+                  <CircularProgress />
+                </>
+              ) : (
+                ""
+              )}
+              {success && (
+                <Button
+                  variant="contained"
+                  color="success"
+                  data-bs-dismiss="modal"
+                  onClick={handleSuccess}
+                >
+                  Finish
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="">
+        <AdminNav />
+      </div>
+      <div className="d-flex">
+        <Sidebar />
+        <div className="" style={{ width: "100vw", marginTop: "70px" }}>
           <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Room Form</h1>
             <form className="needs-validation mx-4">
@@ -223,10 +296,19 @@ const AddRoomForm = () => {
                 </div>
               </div>
               <div className="mt-5 text-center">
-                <button
+                {/* <button
                   className="btn btn-primary btn-lg profile-button mb-4"
                   type="submit"
                   onClick={handleSubmit}
+                >
+                  Add Room
+                </button> */}
+                <button
+                  type="button"
+                  class="btn btn-primary btn-lg profile-button mb-4"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                  onClick={handleClickOpen}
                 >
                   Add Room
                 </button>

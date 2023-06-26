@@ -22,11 +22,10 @@ import { useMediaQuery } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-
 const Hotel = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  
+
   const { options } = useSelector((state) => state.searchOption);
   const { c } = useSelector((state) => state.searchVehicle);
   const { room_data } = useSelector((state) => state.getStaticroom);
@@ -34,7 +33,6 @@ const Hotel = () => {
   const { selected_hotel } = useSelector((state) => state.getSelectedHotel);
 
   if (selected_hotel) {
-    
   }
   let Facilities = [];
   if (selected_hotel.Facilities) {
@@ -44,7 +42,6 @@ const Hotel = () => {
   // const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
-  
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
@@ -53,7 +50,6 @@ const Hotel = () => {
     return diffDays;
   }
 
-  
   let availableParkingSlots =
     selected_hotel.parking_total_slots - selected_hotel.parking_booked_slots;
   let parkingPrice = 0;
@@ -144,7 +140,6 @@ const Hotel = () => {
     rating: "4.5",
   };
 
-
   // To handle see more button
   let [limit, setLimit] = useState(6);
   const handleSeemore = () => {
@@ -152,7 +147,6 @@ const Hotel = () => {
   };
 
   const HandleBook = () => {
-    
     dispatch({
       type: "SET_BOOKED_PROPERTY",
       payload: selected_hotel,
@@ -172,7 +166,6 @@ const Hotel = () => {
     window.addEventListener("scroll", disableScroll);
     return () => window.removeEventListener("scroll", disableScroll);
   }, [open]);
-
 
   return (
     <div style={{ overflow: "hidden" }}>
@@ -236,7 +229,6 @@ const Hotel = () => {
                       : "Dubai"}
                   </span>
                   <span className="text-primary fw-bold">
-
                     {selected_hotel
                       ? selected_hotel.hotel_city
                         ? selected_hotel.hotel_city
@@ -306,9 +298,8 @@ const Hotel = () => {
                     );
                   })}
             </div>
-            
+
             <div className="shadow p-3 mt-3">
-              
               <div className="row">
                 <div className="col-12 mb-2 pb-2 border-bottom">
                   <h5>Enjoy some extra spaces</h5>
@@ -356,7 +347,6 @@ const Hotel = () => {
                           <span className="mx-1">
                             <i className="fas fa-user"></i>
                           </span>
-                          
                         </div>
                       </div>
                       <div>
@@ -419,7 +409,6 @@ const Hotel = () => {
                           </small>
                         )}
                     </div>
-                    
                   </div>
                 </div>
                 <div className={`col-md-4 ${isXtraSmallScreen ? "mt-0" : ""}`}>
@@ -429,7 +418,6 @@ const Hotel = () => {
                       {options.children} children
                     </div>
                     <div className="fw-bold fs-5">
-                    
                       {selected_hotel.Total_Price && (
                         <small>
                           Total Price = $
@@ -454,9 +442,7 @@ const Hotel = () => {
                     activePath === "hotelAndParking" &&
                     !selected_hotel.StandardPrice ? (
                       <div className="mt-2" style={{ fontSize: "12px" }}>
-                        Extra{" "}
-                       
-                        {parkingPrice}$ for parking
+                        Extra {parkingPrice}$ for parking
                       </div>
                     ) : null}
                     <button
@@ -475,7 +461,6 @@ const Hotel = () => {
             </div>
 
             <div className="hotelDetails">
-              
               <div className="hotelDetailsTexts">
                 <h1 className="hotelTitle">
                   {/* {selected_hotel ? selected_hotel.name : data.title} */}
@@ -498,7 +483,6 @@ const Hotel = () => {
                     : null}
                 </p>
 
-                
                 <div
                   className=" my-2"
                   style={{
@@ -560,7 +544,6 @@ const Hotel = () => {
               </div>
 
               <div className="hotelDetailsPrice">
-                
                 <div className="fw-bold">Property Highlights</div>
                 <div className="fw-bold">
                   Perfect for an {selected_hotel.Nights}-night stay!
@@ -569,8 +552,8 @@ const Hotel = () => {
                   <ul>
                     <li className="mb-1 d-flex">
                       <LocationOnOutlinedIcon className="me-1" />
-                      Located in the heart of London, this hotel has an
-                      excellent location score of 9.6
+                      Top location: Highly rated by recent guests (
+                      {selected_hotel.rating})
                     </li>
                     <li className="mb-1 d-flex">
                       <BedIcon className="me-1" />
@@ -593,8 +576,13 @@ const Hotel = () => {
                 <div style={{ fontSize: "12px" }}>
                   <div className="fw-bold mb-1">Rooms with:</div>
                   <div className="d-flex">
-                    <ApartmentIcon />
-                    City view
+                    <ul>
+                      {Facilities.slice(0, 4).map((feature, i) => (
+                        <li key={feature} className="me-2">
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
                 <div style={{ fontSize: "12px" }}>
@@ -616,7 +604,7 @@ const Hotel = () => {
           </div>
         </div>
       )}
-     
+
       <Footer />
     </div>
   );
