@@ -359,7 +359,7 @@ const Hotel = () => {
                           
                         </div>
                       </div>
-                      <div>
+                      {/* <div>
                         <b>Each unit has:</b>
                         <br />
                         Bed: 1 king bed
@@ -375,7 +375,7 @@ const Hotel = () => {
                         <span className="ms-2">
                           Breakfast PKR 5,513 (optional)
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

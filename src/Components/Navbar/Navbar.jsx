@@ -42,7 +42,6 @@ import Logout from "@mui/icons-material/Logout";
 import axios from "axios";
 
 const Navbar = ({ list }) => {
-
   // Get Logged In User
   const { login } = useSelector((state) => state.setLogin);
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
@@ -109,7 +108,7 @@ const Navbar = ({ list }) => {
   const [alertShow, setAlertShow] = useState(false);
   const [option, setOption] = useState(options);
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
-  
+
   const handleOption = (name, operation) => {
     setOption((prev) => {
       return {
@@ -328,8 +327,7 @@ const Navbar = ({ list }) => {
             payload: { message: "No Parking Found" },
           });
         }
-      } catch (error) {
-      }
+      } catch (error) {}
     }
   };
 
@@ -359,6 +357,11 @@ const Navbar = ({ list }) => {
       dispatch({
         type: "activePath",
         payload: "hotelAndParking",
+      });
+    } else {
+      dispatch({
+        type: "activePath",
+        payload: "",
       });
     }
 
@@ -458,7 +461,6 @@ const Navbar = ({ list }) => {
     });
   }, []);
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
@@ -472,7 +474,7 @@ const Navbar = ({ list }) => {
         data-wow-duration="0.75s"
         data-wow-delay="0s"
       >
-        <div className="Container pe-2">
+        <div className={`${style.Container} pe-2`}>
           <div className="row">
             <div className="col-12">
               <nav className={style.main_nav}>
@@ -545,10 +547,26 @@ const Navbar = ({ list }) => {
                   </li>
                   {login ? (
                     <>
-                      
+                      <li>
+                        <button
+                          onClick={() => {
+                            navigate("/contact");
+                          }}
+                          className={`${style.iconShow} btn btn-primary rounded`}
+                        >
+                          Contact us
+                        </button>
+                      </li>
+                      <NavLink
+                        to="/contact"
+                        className={`${!list ? "text-dark" : ""} ${
+                          style.iconHide
+                        }`}
+                      >
+                        Contact us
+                      </NavLink>
                       <li>
                         <div>
-                          
                           <React.Fragment>
                             <Box
                               sx={{
@@ -559,6 +577,7 @@ const Navbar = ({ list }) => {
                             >
                               <Tooltip title="Account">
                                 <IconButton
+                                  className={style.iconShow}
                                   onClick={handleonClick}
                                   size="small"
                                   sx={{ ml: 2 }}
@@ -616,20 +635,17 @@ const Navbar = ({ list }) => {
                                 vertical: "bottom",
                               }}
                             >
-                              
                               <MenuItem onClick={handleonClose}>
                                 <Avatar />{" "}
                                 <Link
                                   className="text-dark"
-                                  
                                   to={loggedinUser ? "/dashboard" : "/signin"}
-                                  
                                 >
                                   My Dashboard
                                 </Link>
                               </MenuItem>
                               <Divider />
-                              
+
                               <MenuItem onClick={handleonClose}>
                                 {loggedinUser ? (
                                   <>
@@ -649,10 +665,7 @@ const Navbar = ({ list }) => {
                                     <ListItemIcon>
                                       <Logout fontSize="small" />
                                     </ListItemIcon>
-                                    <Link
-                                      to="/signin"
-                                      className="text-dark"
-                                    >
+                                    <Link to="/signin" className="text-dark">
                                       Sign-in
                                     </Link>
                                   </>
@@ -660,19 +673,18 @@ const Navbar = ({ list }) => {
                               </MenuItem>
                             </Menu>
                           </React.Fragment>
-                          <span className={style.iconHide}>Profile</span>
+                          <span
+                            className={style.iconHide}
+                            onClick={handleonClick}
+                          >
+                            Profile
+                          </span>
                         </div>
                       </li>
-                      
                     </>
                   ) : (
                     <>
                       {" "}
-                      <li>
-                        <NavLink to="/signup" className={style.text_shadow}>
-                          Sign Up
-                        </NavLink>
-                      </li>
                       <li>
                         <NavLink to="/signin" className={style.text_shadow}>
                           Sign In
@@ -682,9 +694,7 @@ const Navbar = ({ list }) => {
                   )}
 
                   <li>
-                    <span className={style.main_white_button}>
-                      
-                    </span>
+                    <span className={style.main_white_button}></span>
                   </li>
                 </ul>
                 <a
