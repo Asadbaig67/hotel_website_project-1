@@ -32,7 +32,7 @@ export default function Dashboard() {
   const { mode } = useSelector((state) => state.mode);
   const { view } = useSelector((state) => state.view);
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
-  
+
   const [addHotelOperatingCity, setaddHotelOperatingCity] = useState(false);
   const [addParkingOperatingCity, setaddParkingOperatingCity] = useState(false);
   const [addHotelAndParkingOperatingCity, setaddHotelAndParkingOperatingCity] =
@@ -93,13 +93,9 @@ export default function Dashboard() {
     let admin = [];
     try {
       if (view === "admin") {
-        const hotelNum = await axios.get(
-          `${api}/hotels/getallhotels`
-        );
+        const hotelNum = await axios.get(`${api}/hotels/getallhotels`);
 
-        const parkingNum = await axios.get(
-          `${api}/parking/getallparkings`
-        );
+        const parkingNum = await axios.get(`${api}/parking/getallparkings`);
 
         const hotelAndParkingNum = await axios.get(
           `${api}/hotelandparking/getallhotelandparkings`
@@ -475,18 +471,14 @@ export default function Dashboard() {
         const [hotel, parking, hotelAndParking] = await Promise.all([
           axios.get(`${api}/hotels/chart/hotelData`),
           axios.get(`${api}/parking/chart/parkingData`),
-          axios.get(
-            `${api}/hotelandparking/chart/hotelandparkingData`
-          ),
+          axios.get(`${api}/hotelandparking/chart/hotelandparkingData`),
         ]);
 
         const [hotelBooking, parkingBooking, hotelAndParkingBooking] =
           await Promise.all([
             axios.get(`${api}/booking/chart/Allhotelbookings`),
             axios.get(`${api}/booking/chart/Allparkingbookings`),
-            axios.get(
-              `${api}/booking/chart/Allhotelandparkingbookings`
-            ),
+            axios.get(`${api}/booking/chart/Allhotelandparkingbookings`),
           ]);
 
         const data = {
@@ -558,15 +550,9 @@ export default function Dashboard() {
           userParkingBooking,
           userHotelAndParkingBooking,
         ] = await Promise.all([
-          axios.get(
-            `${api}/booking/chart/userallbookings/${user._id}`
-          ),
-          axios.get(
-            `${api}/booking/chart/userhotelbookings/${user._id}`
-          ),
-          axios.get(
-            `${api}/booking/chart/userparkingbookings/${user._id}`
-          ),
+          axios.get(`${api}/booking/chart/userallbookings/${user._id}`),
+          axios.get(`${api}/booking/chart/userhotelbookings/${user._id}`),
+          axios.get(`${api}/booking/chart/userparkingbookings/${user._id}`),
           axios.get(
             `${api}/booking/chart/userhotelandparkingbookings/${user._id}`
           ),
@@ -618,7 +604,6 @@ export default function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
 
   // New Card
 
@@ -1041,7 +1026,11 @@ export default function Dashboard() {
         <Sidebar />
         <div
           className="container-fluid mb-5"
-          style={{ marginRight: "10px", marginTop: "50px" }}
+          style={{
+            // marginRight: "10px",
+            marginTop: "50px",
+            marginLeft: "25px",
+          }}
         >
           <div className={`row`}>
             {user.account_type === "user" ? (
@@ -1113,7 +1102,6 @@ export default function Dashboard() {
                 Summary
               </h1>
             </div>
-            
 
             <div className="row mt-4">{card(cardData)}</div>
           </div>

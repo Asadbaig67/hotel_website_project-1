@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Sidebar from "../../Sidebar/SideBar";
+import AdminNav from "../../AdminNavbar/AdminNav";
 
 const AddParkingForm = () => {
   const [Imgerror, setImgError] = useState(false);
@@ -290,6 +291,9 @@ const AddParkingForm = () => {
 
   return (
     <>
+    <div>
+      <AdminNav />
+    </div>
       <div
         class="modal fade"
         id="staticBackdrop"

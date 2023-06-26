@@ -16,6 +16,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Sidebar from "../../Sidebar/SideBar";
+import AdminNav from "../../AdminNavbar/AdminNav";
 
 const AddHotelForm = () => {
   const navigate = useNavigate();
@@ -309,6 +310,9 @@ const AddHotelForm = () => {
 
   return (
     <>
+      <div>
+        <AdminNav />
+      </div>
       <div
         class="modal fade"
         id="staticBackdrop"

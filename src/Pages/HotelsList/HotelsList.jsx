@@ -57,8 +57,7 @@ const HotelsList = () => {
     } else if (path === "HotelsAndParkings") {
       dispatch({
         type: "SETURL",
-        payload:
-          `${api}/hotelandparking/getallhotelandparkings`,
+        payload: `${api}/hotelandparking/getallhotelandparkings`,
       });
       dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader1 });
     } else if (path === "hotelRequests") {
@@ -76,8 +75,7 @@ const HotelsList = () => {
     } else if (path === "hotelAndParkingRequests") {
       dispatch({
         type: "SETURL",
-        payload:
-          `${api}/hotelandparking/getPendinghotelandparkings`,
+        payload: `${api}/hotelandparking/getPendinghotelandparkings`,
       });
       dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader1 });
     } else if (path === "cancelbooking") {
@@ -284,7 +282,10 @@ const HotelsList = () => {
       </div>
       <div className="d-flex" style={{ background: "#fff" }}>
         <Sidebar />
-        <div className="container-fluid" style={{ marginTop: "70px" }}>
+        <div
+          className="container-fluid"
+          style={{ marginTop: "70px", marginLeft: "25px" }}
+        >
           <div className="row">
             <div className="col-md-12"></div>
             <div className="col-md-12">

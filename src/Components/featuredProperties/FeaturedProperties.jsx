@@ -33,9 +33,7 @@ const FeaturedProperties = () => {
   const HandleClick = async (city) => {
     if (activePath === "hotel") {
       try {
-        const response = await fetch(
-          `${api}/hotels/gettophotels`
-        );
+        const response = await fetch(`${api}/hotels/gettophotels`);
         if (response.ok) {
           const data = await response.json();
 
@@ -154,7 +152,6 @@ const FeaturedProperties = () => {
                   } col-md-6 col-sm-6 col-12 my-2 `}
                 >
                   <img
-                    
                     src={
                       hotel.hotel_photos && hotel.hotel_photos.length > 0
                         ? hotel.hotel_photos[0]

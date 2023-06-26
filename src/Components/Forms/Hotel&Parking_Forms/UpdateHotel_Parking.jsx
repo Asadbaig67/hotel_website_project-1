@@ -15,6 +15,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { useLocation, useNavigate } from "react-router-dom";
 import { set } from "date-fns";
 import Sidebar from "../../Sidebar/SideBar";
+import AdminNav from "../../AdminNavbar/AdminNav";
 
 const UpdateHotelAndParking = () => {
   const navigate = useNavigate();
@@ -330,6 +331,9 @@ const UpdateHotelAndParking = () => {
 
   return (
     <>
+    <div>
+      <AdminNav />
+    </div>
       <div
         class="modal fade"
         id="staticBackdrop1"
