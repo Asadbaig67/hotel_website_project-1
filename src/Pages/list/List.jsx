@@ -120,6 +120,8 @@ const List = () => {
     }
   }, [activePath]);
 
+  console.log("featured_hotel form list page", featured_hotel);
+
   return (
     <div className="container-fluid w-100">
       <Navbar list={false} className="w-100" />

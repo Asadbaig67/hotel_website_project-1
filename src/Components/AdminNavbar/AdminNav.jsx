@@ -15,7 +15,7 @@ const AdminNav = () => {
       }}
     >
       <div class="container-fluid">
-        <a class="navbar-brand fs-3 p-0 text-light" style={{ fontFamily: "sans-serif" }}>
+        <a class="navbar-brand fs-3 p-0 mx-auto text-light" style={{ fontFamily: "sans-serif" }}>
           Desalis
         </a>
         <button

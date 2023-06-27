@@ -167,6 +167,8 @@ const Hotel = () => {
     return () => window.removeEventListener("scroll", disableScroll);
   }, [open]);
 
+  console.log("Selected Hotel Is", selected_hotel);
+
   return (
     <div style={{ overflow: "hidden" }}>
       <Navbar list={false} />
@@ -278,7 +280,7 @@ const Hotel = () => {
                       </>
                     );
                   })
-                : selected_hotel.hotel_photos.photos.map((photo, i) => {
+                : selected_hotel.hotel_photos.map((photo, i) => {
                     return (
                       <>
                         <div className="hotelImgWrapper" key={photo}>
