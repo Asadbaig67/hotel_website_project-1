@@ -125,7 +125,6 @@ const UpdateHotelAndParking = () => {
     }));
   };
 
-
   const DeleteHotelImages = async () => {
     setLoading(true);
     setImgMessage("");
@@ -318,7 +317,6 @@ const UpdateHotelAndParking = () => {
     (state) => state.hotelAndParkingOperatingCities
   );
 
-
   useEffect(() => {
     const GetHotelAndParkingCities = async () => {
       const response = await axios.get(
@@ -331,9 +329,9 @@ const UpdateHotelAndParking = () => {
 
   return (
     <>
-    <div>
-      <AdminNav />
-    </div>
+      <div>
+        <AdminNav />
+      </div>
       <div
         class="modal fade"
         id="staticBackdrop1"
@@ -451,7 +449,6 @@ const UpdateHotelAndParking = () => {
                             >
                               {index + 1}
                             </p>
-                            
                           </div>
                         </div>
                       </div>
@@ -475,7 +472,6 @@ const UpdateHotelAndParking = () => {
                             >
                               {index + 1}
                             </p>
-                            
                           </div>
                         </div>
                       </div>
@@ -541,9 +537,9 @@ const UpdateHotelAndParking = () => {
           </div>
         </div>
       </div>
-      <div className="d-flex" style={{ marginTop: "50px" }}>
+      <div className="d-flex">
         <Sidebar />
-        <div className="mt-5" style={{ width: "100vw" }}>
+        <div style={{ width: "100vw", marginTop: "70px" }}>
           <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Update Hotel And Parking</h1>
             <form className="needs-validation mx-4">
@@ -1094,7 +1090,6 @@ const UpdateHotelAndParking = () => {
                 </div>
               </div>
               <div className="mt-5 text-center">
-               
                 <button
                   type="button"
                   class="btn btn-primary btn-lg profile-button mb-4"

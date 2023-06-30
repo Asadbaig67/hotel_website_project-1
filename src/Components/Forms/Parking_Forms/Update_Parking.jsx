@@ -256,7 +256,6 @@ const UpdateParking = () => {
     getParkingCities();
   }, []);
 
-
   return (
     <>
       <div>
@@ -433,9 +432,9 @@ const UpdateParking = () => {
           </div>
         </div>
       </div>
-      <div className="d-flex" style={{ marginTop: "50px" }}>
+      <div className="d-flex">
         <Sidebar />
-        <div className="mt-5" style={{ width: "100vw" }}>
+        <div style={{ width: "100vw", marginTop: "70px" }}>
           <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Update Parking Form</h1>
             <form className="needs-validation mx-4">
