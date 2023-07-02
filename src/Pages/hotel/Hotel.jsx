@@ -28,9 +28,13 @@ const Hotel = () => {
 
   const { options } = useSelector((state) => state.searchOption);
   const { c } = useSelector((state) => state.searchVehicle);
+  const { dates } = useSelector((state) => state.searchDate);
+
   const { room_data } = useSelector((state) => state.getStaticroom);
   const { activePath } = useSelector((state) => state.activePath);
   const { selected_hotel } = useSelector((state) => state.getSelectedHotel);
+
+  console.log("Selected Hotel Dates", dates);
 
   if (selected_hotel) {
   }
@@ -167,8 +171,6 @@ const Hotel = () => {
     return () => window.removeEventListener("scroll", disableScroll);
   }, [open]);
 
-  console.log("Selected Hotel Is", selected_hotel);
-
   return (
     <div style={{ overflow: "hidden" }}>
       <Navbar list={false} />
@@ -254,6 +256,7 @@ const Hotel = () => {
                     isXtraSmallScreen ? "my-1" : ""
                   }`}
                   onClick={HandleBook}
+                  disabled={dates.length === 0}
                 >
                   Reserve or Book Now!
                 </button>
@@ -450,6 +453,7 @@ const Hotel = () => {
                     <button
                       className="btn btn-primary btn-block mt-3 mb-2"
                       onClick={HandleBook}
+                      disabled={dates.length === 0}
                     >
                       Reserve your selection
                     </button>
@@ -595,7 +599,12 @@ const Hotel = () => {
                     properties.
                   </div>
                 </div>
-                <button className="btn btn-primary" onClick={HandleBook}>
+
+                <button
+                  className="btn btn-primary"
+                  disabled={dates.length === 0}
+                  onClick={HandleBook}
+                >
                   Reserve for {options.adult} adults,{options.children} children{" "}
                   <small className="fw-light">
                     (for pkr {selected_hotel.Total_Price})

@@ -109,8 +109,6 @@ const Card = (props) => {
     Facilities = [...props.item.hotel.Facilities];
   }
 
-  console.log("Facilities", dates);
-
   const labels = {
     0.5: "Useless",
     1: "Useless+",
@@ -165,7 +163,6 @@ const Card = (props) => {
     src = null;
   }
 
-  console.log("active path", activePath);
 
   return (
     <>

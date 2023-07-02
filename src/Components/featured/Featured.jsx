@@ -63,14 +63,12 @@ const Featured = () => {
     if (activePath === "hotel") {
       try {
         dispatch({ type: "SET_HOTEL_DATA", payload: [] });
-        const response = await fetch(
-          `${api}/hotels/gethotelbycity/${city}`
-        );
+        const response = await fetch(`${api}/hotels/gethotelbycity/${city}`);
         if (response.ok) {
           const data = await response.json();
           dispatch({ type: "SET_FEATURED_DATA", payload: data });
 
-          Navigate("/listhotel");
+          Navigate("/listHotel");
         } else {
           throw new Error("Request failed");
         }

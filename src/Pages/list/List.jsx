@@ -120,7 +120,9 @@ const List = () => {
     }
   }, [activePath]);
 
-  console.log("featured_hotel form list page", featured_hotel);
+  console.log("Active Path = ", activePath);
+  console.log("Featured Hotel = ", featured_hotel.length);
+  console.log("Hotel Data = ", hotelData.length);
 
   return (
     <div className="container-fluid w-100">
@@ -196,6 +198,24 @@ const List = () => {
                       }}
                     />
                   </div>
+                  {activePath === "hotelAndParking" && (
+                    <div className={`${style.lsOptionItem}`}>
+                      <span className={`${style.lsOptionText}`}>
+                        No of Vehicles
+                      </span>
+                      <input
+                        type="number"
+                        value={c}
+                        name="vehicle"
+                        onChange={(e) =>
+                          dispatch({
+                            type: "INCREMENT",
+                            payload: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
               <button className="btn btn-secondary" onClick={handleClick}>
