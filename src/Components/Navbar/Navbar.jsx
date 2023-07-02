@@ -1216,7 +1216,6 @@ const Navbar = ({ list }) => {
                                 placeholder="Vehicles"
                                 autoComplete="off"
                                 value={c}
-                                // required
                                 onChange={(e) =>
                                   dispatch({
                                     type: "INCREMENT",
