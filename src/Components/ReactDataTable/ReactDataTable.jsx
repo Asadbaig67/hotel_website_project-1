@@ -4,6 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useFetch } from "../../Utilis/Fetch";
 import axios from "axios";
 import DataTable from "react-data-table-component";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
+import CalendarViewDayIcon from "@mui/icons-material/CalendarViewDay";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -26,7 +34,7 @@ const ReactDataTable = ({ path, user }) => {
   const { isOpen } = useSelector((state) => state.openSidebar);
 
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
-  
+
   const isDesktop = useMediaQuery("(max-width: 992px)");
 
   const { data, loading, error } = useFetch(url);
@@ -49,9 +57,7 @@ const ReactDataTable = ({ path, user }) => {
       (path === "Property" && user.partner_type === "Hotel") ||
       (path === "PropertyRequests" && user.partner_type === "Hotel")
     ) {
-      data = await axios.delete(
-        `${api}/hotels/deletehotel/${id}`
-      );
+      data = await axios.delete(`${api}/hotels/deletehotel/${id}`);
     } else if (path === "users") {
       data = await axios.delete(`${api}/user/delete/${id}`);
     } else if (
@@ -60,9 +66,7 @@ const ReactDataTable = ({ path, user }) => {
       (path === "Property" && user.partner_type === "Parking") ||
       (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
-      data = await axios.delete(
-        `${api}/parking/deleteparking/${id}`
-      );
+      data = await axios.delete(`${api}/parking/deleteparking/${id}`);
     } else if (
       path === "HotelsAndParkings" ||
       path === "hotelAndParkingRequests" ||
@@ -80,9 +84,7 @@ const ReactDataTable = ({ path, user }) => {
       path === "parkingbookings" ||
       path === "hotelandparkingbookings"
     ) {
-      data = await axios.delete(
-        `${api}/booking/deletebooking/${id}`
-      );
+      data = await axios.delete(`${api}/booking/deletebooking/${id}`);
     }
     if (data) setList(list.filter((item) => item._id !== id));
     setOpen(false);
@@ -115,9 +117,7 @@ const ReactDataTable = ({ path, user }) => {
       (path === "Property" && user.partner_type === "Parking") ||
       (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
-      data = await axios.get(
-        `${api}/parking/getParkingById/${id}`
-      );
+      data = await axios.get(`${api}/parking/getParkingById/${id}`);
       if (data) {
         navigate("/viewproperty", {
           state: { data: data.data, user: user, path: path },
@@ -159,9 +159,7 @@ const ReactDataTable = ({ path, user }) => {
     if (path === "hotelRequests") {
       data = await axios.put(`${api}/hotels/approvehotel/${id}`);
     } else if (path === "parkingRequests") {
-      data = await axios.put(
-        `${api}/parking/approveParking/${id}`
-      );
+      data = await axios.put(`${api}/parking/approveParking/${id}`);
     } else if (path === "hotelAndParkingRequests") {
       data = await axios.put(
         `${api}/hotelandparking/approveHotelAndParking/${id}`
@@ -174,9 +172,7 @@ const ReactDataTable = ({ path, user }) => {
   const handleCancelBooking = async (id) => {
     let data;
     if (path === "upcominghotelbookings") {
-      data = await axios.delete(
-        `${api}/booking/cancelHotelReservation/${id}`
-      );
+      data = await axios.delete(`${api}/booking/cancelHotelReservation/${id}`);
     } else if (path === "upcomingparkingbookings") {
       data = await axios.delete(
         `${api}/booking/cancelParkingReservation/${id}`
@@ -298,75 +294,127 @@ const ReactDataTable = ({ path, user }) => {
     setRatingOpen(false);
   };
 
-  const updateColumn = {
+  const updateColumn = (row) => {
+    return (
+      <Tooltip title="Edit">
+        <IconButton>
+          <EditIcon
+            style={{ fontSize: "24px", color: "#386BC0" }}
+            onClick={() => {
+              handleUpdate(row);
+            }}
+          />
+        </IconButton>
+      </Tooltip>
+    );
+  };
+
+  const deleteColumn = (row) => {
+    return (
+      <Tooltip title="Delete">
+        <IconButton>
+          <DeleteIcon
+            style={{ fontSize: "24px", color: "red" }}
+            onClick={() => {
+              handleClickOpen();
+              setDialogData({ id: row._id, action: "delete" });
+            }}
+          />
+        </IconButton>
+      </Tooltip>
+    );
+  };
+
+  const viewColumn = (row) => {
+    return (
+      <Tooltip title="View">
+        <IconButton>
+          <CalendarViewDayIcon
+            style={{ fontSize: "24px" }}
+            onClick={() => handleView(row._id)}
+          />
+        </IconButton>
+      </Tooltip>
+    );
+  };
+
+  const approveColumn = (row) => {
+    return (
+      <Tooltip title="Approve">
+        <IconButton>
+          <CheckCircleIcon
+            onClick={() => {
+              handleClickOpen();
+              setDialogData({
+                id: row._id,
+                action: "approve",
+                data: row.rating | row.hotel_rating,
+              });
+            }}
+            style={{ fontSize: "24px", color: "green" }}
+          />
+        </IconButton>
+      </Tooltip>
+    );
+  };
+
+  const cancelBookingColumn = (row) => {
+    return (
+      <Tooltip title="Cancel Booking">
+        <IconButton>
+          <CancelIcon
+            onClick={() => handleCancelBooking(row._id)}
+            style={{ fontSize: "24px", color: "red" }}
+          />
+        </IconButton>
+      </Tooltip>
+    );
+  };
+
+  const headerActionAdminPendingRequests = {
     name: "Action",
+    // width: "350px",
     cell: (row) => (
-      <button
-        className="btn btn-info btn-sm"
-        onClick={() => {
-          handleUpdate(row);
-        }}
-      >
-        Edit
-      </button>
+      <>
+        {updateColumn(row)}
+        {viewColumn(row)}
+        {deleteColumn(row)}
+        {approveColumn(row)}
+      </>
     ),
   };
 
-  const deleteColumn = {
+  const headerActionUpcomingRequests = {
     name: "Action",
+    // width: "250px",
     cell: (row) => (
-      <button
-        className="btn btn-danger btn-sm"
-        onClick={() => {
-          handleClickOpen();
-          setDialogData({ id: row._id, action: "delete" });
-        }}
-      >
-        Delete
-      </button>
+      <>
+        {viewColumn(row)}
+        {cancelBookingColumn(row)}
+      </>
     ),
   };
 
-  const viewColumn = {
+  const headerActionPartner = {
     name: "Action",
+    // width: "250px",
     cell: (row) => (
-      <button
-        className="btn btn-primary btn-sm"
-        onClick={() => handleView(row._id)}
-      >
-        View
-      </button>
+      <>
+        {updateColumn(row)}
+        {viewColumn(row)}
+        {deleteColumn(row)}
+      </>
     ),
   };
 
-  const approveColumn = {
+  const headerActionUserTable = {
     name: "Action",
+    // width: "200px",
     cell: (row) => (
-      <button
-        className="btn btn-primary"
-        onClick={() => {
-          handleClickOpen();
-          setDialogData({
-            id: row._id,
-            action: "approve",
-            data: row.rating | row.hotel_rating,
-          });
-        }}
-      >
-        Approve
-      </button>
-    ),
-  };
-
-  const cancelBookingColumn = {
-    name: "Action",
-    cell: (row) => (
-      <button
-        className="btn btn-danger"
-        onClick={() => handleCancelBooking(row._id)}
-      >
-        Cancel Booking
-      </button>
+      <>
+        {viewColumn(row)}
+        {deleteColumn(row)}
+      </>
     ),
   };
 
@@ -462,23 +510,18 @@ const ReactDataTable = ({ path, user }) => {
             path === "hotelRequests" ||
             path === "parkingRequests" ||
             path === "hotelAndParkingRequests"
-              ? header.concat(
-                  updateColumn,
-                  viewColumn,
-                  deleteColumn,
-                  approveColumn
-                )
+              ? header.concat(headerActionAdminPendingRequests)
               : path === "upcominghotelbookings" ||
                 path === "upcomingparkingbookings" ||
                 path === "upcominghotelandparkingbookings"
-              ? header.concat(viewColumn, cancelBookingColumn)
+              ? header.concat(headerActionUpcomingRequests)
               : path === "hotels" ||
                 path === "parkings" ||
                 path === "HotelsAndParkings" ||
                 path === "Property" ||
                 path === "PropertyRequests"
-              ? header.concat(updateColumn, viewColumn, deleteColumn)
-              : header.concat(viewColumn, deleteColumn)
+              ? header.concat(headerActionPartner)
+              : header.concat(headerActionUserTable)
           }
           data={list}
           actions={
