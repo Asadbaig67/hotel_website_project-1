@@ -487,7 +487,7 @@ const Navbar = ({ list }) => {
                 </Link>
                 <ul className={style.nav}>
                   <li>
-                    <NavLink
+                    <Link
                       to="/"
                       className={`${!list ? "text-dark" : ""}`}
                       onClick={() => {
@@ -503,10 +503,10 @@ const Navbar = ({ list }) => {
                           activePath === "hotel" ? "d-block" : "d-none"
                         }`}
                       />
-                    </NavLink>
+                    </Link>
                   </li>
                   <li>
-                    <NavLink
+                    <Link
                       to="/parking"
                       className={`${!list ? "text-dark" : ""}`}
                       onClick={() => {
@@ -522,10 +522,10 @@ const Navbar = ({ list }) => {
                           activePath === "parking" ? "d-block" : "d-none"
                         }`}
                       />
-                    </NavLink>
+                    </Link>
                   </li>
                   <li>
-                    <NavLink
+                    <Link
                       to="/HotelAndParking"
                       className={`${!list ? "text-dark" : ""}`}
                       onClick={() => {
@@ -543,7 +543,7 @@ const Navbar = ({ list }) => {
                             : "d-none"
                         }`}
                       />
-                    </NavLink>
+                    </Link>
                   </li>
                   {login ? (
                     <>
