@@ -241,7 +241,7 @@ const Signin = () => {
                   <Link to="/signup">Don't have an account? Sign Up</Link>
                 </Grid>
               </Grid>
-              <Button
+              {/* <Button
                 // type="submit"
                 fullWidth
                 variant="outlined"
@@ -268,8 +268,7 @@ const Signin = () => {
                   alt=""
                 />
                 <span className="mx-auto">Continue with Google</span>{" "}
-                {/* Wrapped the text in a span element */}
-              </Button>
+              </Button> */}
             </Box>
           </Box>
           <Copyright sx={{ mt: 8, mb: 4 }} />
