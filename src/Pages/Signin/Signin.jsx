@@ -243,10 +243,10 @@ const Signin = () => {
               </Grid>
               {/* <Button
                 // type="submit"
+
                 fullWidth
                 variant="outlined"
                 size="larger"
-                // color="secondary"
                 onClick={googleAuth}
                 sx={{
                   mt: 3,
@@ -256,7 +256,7 @@ const Signin = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "start",
-                }} // Added display and alignItems properties
+                }}
               >
                 <img
                   src={Googlelogo}
