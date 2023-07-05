@@ -241,12 +241,10 @@ const Signin = () => {
                   <Link to="/signup">Don't have an account? Sign Up</Link>
                 </Grid>
               </Grid>
-              <Button
-                // type="submit"
+              {/* <Button
                 fullWidth
                 variant="outlined"
                 size="larger"
-                // color="secondary"
                 onClick={googleAuth}
                 sx={{
                   mt: 3,
@@ -256,7 +254,7 @@ const Signin = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "start",
-                }} // Added display and alignItems properties
+                }}
               >
                 <img
                   src={Googlelogo}
@@ -268,8 +266,7 @@ const Signin = () => {
                   alt=""
                 />
                 <span className="mx-auto">Continue with Google</span>{" "}
-                {/* Wrapped the text in a span element */}
-              </Button>
+              </Button> */}
             </Box>
           </Box>
           <Copyright sx={{ mt: 8, mb: 4 }} />
