@@ -449,6 +449,8 @@ const ReactDataTable = ({ path, user }) => {
                 ? "Parking Requests"
                 : path === "hotelAndParkingRequests"
                 ? "Hotel And Parking Requests"
+                : path === "users"
+                ? "Users"
                 : null
               : user.account_type === "partner"
               ? user.partner_type === "Hotel"
