@@ -66,6 +66,7 @@ const Featured = () => {
         const response = await fetch(`${api}/hotels/gethotelbycity/${city}`);
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           dispatch({ type: "SET_FEATURED_DATA", payload: data });
 
           Navigate("/listHotel");
@@ -83,6 +84,7 @@ const Featured = () => {
         );
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           dispatch({ type: "SET_FEATURED_DATA", payload: data });
 
           Navigate("/HotelAndParkingList");
