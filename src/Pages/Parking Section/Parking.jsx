@@ -1,29 +1,11 @@
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
-import slider from "../../images/slider-bg.jpg";
 import style from "./parking.module.css";
-import about from "../../images/about-img.jpg";
-import w1 from "../../images/w1.png";
-import w2 from "../../images/w2.png";
-import w3 from "../../images/w3.png";
-import pricing from "../../images/pricing-bg.jpg";
-import c1 from "../../images/c1.jpg";
-import c2 from "../../images/c2.jpg";
+import about from "./about-img.jpg";
+import w1 from "./w1.png";
+import w2 from "./w2.png";
+import w3 from "./w3.png";
 import Footer from "../../Components/footer/Footer";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Box from "@mui/material/Box";
-import { TextField } from "@mui/material";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import EmailIcon from "@mui/icons-material/Email";
-import CallIcon from "@mui/icons-material/Call";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { pink } from "@mui/material/colors";
 import { useMediaQuery } from "@mui/material";
 
 const Parking = () => {
