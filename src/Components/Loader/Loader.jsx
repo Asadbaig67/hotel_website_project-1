@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./Loader.module.css";
-import logo from "../../images/bgrmvblk.png";
+import logo from "./bgrmvblk.png";
 
 const Loader = () => {
   return (

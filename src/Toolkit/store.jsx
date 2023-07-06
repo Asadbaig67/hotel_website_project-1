@@ -16,11 +16,7 @@ import { parkingDateReducer } from "./reducer/ParkingDate_search";
 import { noOfVehicle } from "./reducer/noOfVehicle";
 import { cityParkingReducer } from "./reducer/ParkingCity";
 import { hotelAndParkingCity } from "./reducer/hotelAndParkingCity";
-import { Hotel_Static_Data } from "./reducer/static_hotel_data";
-import { Parking_Static_Data } from "./reducer/static_parking_data";
-import { Hotel_Parking_Static_Data } from "./reducer/static_hotel_parking";
 import { Selected_Hotel } from "./reducer/Set_Seleted_hotel";
-import { Room_Static_Data } from "./reducer/static_room_data";
 import { setSearchLoaction } from "./reducer/searchLocation";
 import { alertPerson } from "./reducer/alertPerson";
 import { alertCity } from "./reducer/alertCity";
@@ -82,17 +78,15 @@ const reducer = combineReducers({
   searchVehicle: noOfVehicle,
   searchParkingCity: cityParkingReducer,
   searchHotelAndParkingCity: hotelAndParkingCity,
-  getStaticHotels: Hotel_Static_Data,
   getSelectedHotel: Selected_Hotel,
-  getStaticroom: Room_Static_Data,
+
   personAlert: alertPerson,
   cityAlert: alertCity,
   vehicleAlert: alertVehicle,
   dateAlert: alertDate,
   dateTimeAlert: alertDateTime,
   activePath: activePath,
-  getStaticParking: Parking_Static_Data,
-  getStaicHotalParking: Hotel_Parking_Static_Data,
+
   getSearchLocation: setSearchLoaction,
   mode: mode,
   view: view,
@@ -127,7 +121,7 @@ const reducer = combineReducers({
   setLogin: SET_LOGIN,
   setAddedHotel: SetHotel,
   profileImage: profileImageReducer,
-  openSidebar:openSidebar
+  openSidebar: openSidebar,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

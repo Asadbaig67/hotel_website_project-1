@@ -14,7 +14,6 @@ import List from "./Pages/list/List";
 import HotelForm from "./Pages/hotelForm/Hotel";
 import RoomForm from "./Pages/roomForm/Room";
 import Parking from "./Pages/Parking Section/Parking";
-import Roomcard from "./Components/RoomCard/Roomcard";
 import ParkingList from "./Pages/ParkingList/ParkingList";
 import HotelAndParking from "./Pages/HotelAndParking/HotelAndParking";
 import Reactmaps from "./Components/Map/reactMaps";
@@ -83,7 +82,6 @@ function App() {
           path="/listproperty"
           element={<PrivateRoute Component={Listing} />}
         />
-        <Route path="/roomcard" element={<Roomcard />} />
         <Route
           path="/hotelform"
           element={<PrivateRoute Component={AddHotelForm} />}

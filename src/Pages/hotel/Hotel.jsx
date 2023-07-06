@@ -1,6 +1,5 @@
 import "./hotel.css";
 import Navbar from "../../Components/Navbar/Navbar";
-import Roomcard from "../../Components/RoomCard/Roomcard";
 import MailList from "../../Components/mailList/MailList";
 import Footer from "../../Components/footer/Footer";
 import CloseIcon from "@mui/icons-material/Close";

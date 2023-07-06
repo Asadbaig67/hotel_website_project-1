@@ -2,16 +2,16 @@ import React from "react";
 import style from "./About.module.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/footer/Footer";
-import parking1 from "../../images/parking10.jpg";
-import Hotel1 from "../../images/hotelPic1.jpg";
-import Hotel21 from "../../images/hotelPic21.jpg";
-import Hotel2 from "../../images/hotelPic2.jpg";
-import Hotel23 from "../../images/hotelPic23.jpg";
-import Hotel3 from "../../images/hotelPic3.jpg";
-import Hotel4 from "../../images/hotelPic4.jpg";
-import Hotel12 from "../../images/hotelPic12.jpg";
-import Hotel25 from "../../images/hotelPic25.jpg";
-import Hotel6 from "../../images/hotelPic7.jpg";
+import parking1 from "./parking10.jpg";
+import Hotel1 from "./hotelPic1.jpg";
+import Hotel21 from "./hotelPic21.jpg";
+import Hotel2 from "./hotelPic2.jpg";
+import Hotel23 from "./hotelPic23.jpg";
+import Hotel3 from "./hotelPic3.jpg";
+import Hotel4 from "./hotelPic4.jpg";
+import Hotel12 from "./hotelPic12.jpg";
+import Hotel25 from "./hotelPic25.jpg";
+import Hotel6 from "./hotelPic7.jpg";
 import LabelImportantRoundedIcon from "@mui/icons-material/LabelImportantRounded";
 
 const About = () => {

@@ -10,7 +10,6 @@ import HotelIcon from "@mui/icons-material/Hotel";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import person from "../../images/user.png";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import ChartData from "../../Components/Chart/Chart";
 import SingleChartData from "../../Components/Chart/SingleDataChart";
