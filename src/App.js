@@ -42,6 +42,7 @@ import DashboardLoader from "./Components/Loader/DashboardLoader";
 import PrivateRoute from "./Components/Routes/PrivateRoute";
 import PublicRoute from "./Components/Routes/PublicRoute";
 import AdminNav from "./Components/AdminNavbar/AdminNav";
+import AddOperatingCities from "./Pages/AddOperatingCities/AddOperatingCities";
 // import ReactDataTable from "./Components/ReactDataTable/ReactDataTable";
 
 function App() {
@@ -110,6 +111,8 @@ function App() {
           element={<PrivateRoute Component={Dashboard} />}
         />
         <Route path="/profile" element={<PrivateRoute Component={Profile} />} />
+        <Route path="/operatingcities" element={<PrivateRoute Component={AddOperatingCities} />} />
+
         <Route
           path="/hotels"
           element={<PrivateRoute Component={HotelsList} />}
@@ -220,7 +223,6 @@ function App() {
           element={<PrivateRoute Component={UpdateParking} />}
         />
       </Routes>
-      {/* <ReactDataTable /> */}
     </>
   );
 }
