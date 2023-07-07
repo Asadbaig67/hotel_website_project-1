@@ -30,6 +30,7 @@ const Signin = () => {
   // code for loader top
 
   const [showPassword, setShowPassword] = React.useState(false);
+  const [networkError, setNetworkError] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -106,6 +107,7 @@ const Signin = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    setNetworkError(false);
     // show the loader
     setLoading(true);
 
@@ -146,6 +148,7 @@ const Signin = () => {
       }
     } catch (error) {
       console.error(error);
+      setNetworkError(true);
     } finally {
       // hide the loader
       setLoading(false);
@@ -224,6 +227,9 @@ const Signin = () => {
                   }
                 />
               </FormControl>
+              {networkError && (
+                <small className="text-danger">Network Error !</small>
+              )}
               <Button
                 type="submit"
                 fullWidth

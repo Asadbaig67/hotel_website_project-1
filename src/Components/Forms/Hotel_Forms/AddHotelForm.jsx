@@ -47,6 +47,7 @@ const AddHotelForm = () => {
   const handleClickOpen = () => {
     setOpen(true);
     if (
+      (loggedinUser.user.account_type === "admin" && formValues.email === "") ||
       formValues.name === "" ||
       formValues.title === "" ||
       formValues.rating === "" ||
@@ -77,6 +78,7 @@ const AddHotelForm = () => {
   };
 
   const [formValues, setFormValues] = useState({
+    email: "",
     name: "",
     title: "",
     rating: "",
@@ -209,12 +211,9 @@ const AddHotelForm = () => {
     formData.append("city", formValues.city);
     formData.append("country", formValues.country);
     formData.append("address", formValues.address);
-    formData.append(
-      "ownerId",
-      loggedinUser.user.account_type === "admin"
-        ? FinalOwner.id
-        : loggedinUser.user._id
-    );
+    loggedinUser.user.account_type === "admin"
+      ? formData.append("email", formValues.email)
+      : formData.append("ownerId", loggedinUser.user._id);
     for (let i = 0; i < features.length; i++) {
       formData.append("facilities", features[i]);
     }
@@ -308,6 +307,7 @@ const AddHotelForm = () => {
     GetHotelCities();
   }, []);
 
+
   return (
     <>
       <div>
@@ -355,17 +355,6 @@ const AddHotelForm = () => {
                             >
                               {index + 1}
                             </p>
-                            {/* <IconButton
-                              aria-label="delete"
-                              size="small"
-                              className={style.delete_button}
-                            >
-                              <DeleteIcon
-                                className="text-light me-1"
-                                fontSize="small"
-                                onClick={() => deleteHandler(imageObj)}
-                              />
-                            </IconButton> */}
                           </div>
                         </div>
                       </div>
@@ -456,55 +445,24 @@ const AddHotelForm = () => {
         </div>
       </div>
       <div className="d-flex">
-        {!open && <Sidebar />}
-        <div  style={{ width: "100vw", marginTop: "70px" }}>
+        <Sidebar />
+        <div style={{ width: "100vw", marginTop: "70px" }}>
           <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Hotel Form</h1>
             <form className="needs-validation mx-4">
               {loggedinUser.user.account_type === "admin" ? (
                 <div className="row mt-2">
-                  <div className="col-md-6">
-                    <label htmlFor="validationCustom01">OwnerID</label>
-                    <select
-                      className="form-select"
-                      name="type"
-                      id="validationCustom012"
-                      value={FinalOwner.id}
+                  <div className="col-md-12">
+                    <label htmlFor="validationCustom01">Owner Email</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      placeholder="Email"
+                      name="email"
+                      value={formValues.email}
                       required
-                      // disabled
-                    >
-                      <option value="1">Owner Id</option>
-                      <option value={FinalOwner.id}>{FinalOwner.id}</option>
-                    </select>
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="validationCustom01">Owner Name</label>
-                    <select
-                      className="form-select"
-                      name="type"
-                      id="validationCustom01"
-                      required
-                      onChange={(event) =>
-                        handleOwner({
-                          id: event.target.value,
-                          name: event.target.options[event.target.selectedIndex]
-                            .text,
-                        })
-                      }
-                    >
-                      <option key="1" value="1">
-                        Select The Owner
-                      </option>
-                      {Owner.map((owner) => {
-                        return (
-                          <>
-                            <option key={owner._id} value={owner._id}>
-                              {owner.name}
-                            </option>
-                          </>
-                        );
-                      })}
-                    </select>
+                      onChange={handleInputChange}
+                    />
                   </div>
                 </div>
               ) : (
@@ -557,7 +515,7 @@ const AddHotelForm = () => {
                       mode === "light" ? "dark" : "light"
                     }`}
                   >
-                    Hotel Rating
+                    Hotel Rating (out of 5)
                   </label>
                   <input
                     type="number"

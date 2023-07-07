@@ -40,6 +40,7 @@ const AddHotelParkingForm = () => {
   const handleClickOpen = () => {
     setOpen(true);
     if (
+      (loggedinUser.user.account_type === "admin" && formValues.email === "") ||
       formValues.hotel_name === "" ||
       formValues.hotel_title === "" ||
       formValues.parking_name === "" ||
@@ -91,6 +92,7 @@ const AddHotelParkingForm = () => {
       hotel_rating: 0,
       parking_title: "",
       total_slots: 0,
+      email: "",
       booked_slots: 0,
       hotel_description: "",
       parking_description: "",
@@ -107,8 +109,6 @@ const AddHotelParkingForm = () => {
   const [Owner, setOwner] = useState([]);
   const [FinalOwner, setFinalOwner] = useState({});
 
-  const IsMobile = useMediaQuery("(max-width:450px)");
-
   const [formValues, setFormValues] = useState({
     hotel_name: "",
     hotel_title: "",
@@ -121,6 +121,7 @@ const AddHotelParkingForm = () => {
     hotel_description: "",
     parking_description: "",
     parking_photos: [],
+    email: "",
     price: 0,
     city: "",
     country: "",
@@ -228,12 +229,10 @@ const AddHotelParkingForm = () => {
     setLoading(true);
     event.preventDefault();
     const formData = new FormData();
-    formData.append(
-      "ownerId",
-      loggedinUser.user.account_type === "admin"
-        ? FinalOwner.id
-        : loggedinUser.user._id
-    );
+
+    loggedinUser.user.account_type === "admin"
+      ? formData.append("email", formValues.email)
+      : formData.append("ownerId", loggedinUser.user._id);
     formData.append("hotel_name", formValues.hotel_name);
     formData.append("hotel_title", formValues.hotel_title);
     formData.append("parking_name", formValues.parking_name);
@@ -341,6 +340,8 @@ const AddHotelParkingForm = () => {
     };
     GetHotelAndParkingCities();
   }, []);
+
+  console.log(formValues);
 
   return (
     <>
@@ -512,54 +513,24 @@ const AddHotelParkingForm = () => {
         </div>
       </div>
       <div className="d-flex">
-        {!open && <Sidebar />}
+        <Sidebar />
         <div style={{ width: "100vw", marginTop: "70px" }}>
           <div className={`container-fluid w-100 `}>
             <h1 className="text-center fw-bold">Add Hotel And Parking Form</h1>
             <form className="needs-validation mx-4">
               {loggedinUser.user.account_type === "admin" ? (
                 <div className="row mt-2">
-                  <div className="col-md-6">
-                    <label htmlFor="validationCustom01">OwnerID</label>
-                    <select
-                      className="form-select"
-                      name="type"
-                      id="validationCustom012"
-                      value={FinalOwner.id}
+                  <div className="col-md-12">
+                    <label htmlFor="validationCustom01">Owner Email</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      placeholder="Email"
+                      name="email"
+                      value={formValues.email}
                       required
-                    >
-                      <option value="1">Owner Id</option>
-                      <option value={FinalOwner.id}>{FinalOwner.id}</option>
-                    </select>
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="validationCustom01">Owner Name</label>
-                    <select
-                      className="form-select"
-                      name="type"
-                      id="validationCustom01"
-                      required
-                      onChange={(event) =>
-                        handleOwner({
-                          id: event.target.value,
-                          name: event.target.options[event.target.selectedIndex]
-                            .text,
-                        })
-                      }
-                    >
-                      <option key="1" value="1">
-                        Select The Owner
-                      </option>
-                      {Owner.map((owner) => {
-                        return (
-                          <>
-                            <option key={owner._id} value={owner._id}>
-                              {owner.name}
-                            </option>
-                          </>
-                        );
-                      })}
-                    </select>
+                      onChange={handleInputChange}
+                    />
                   </div>
                 </div>
               ) : (
