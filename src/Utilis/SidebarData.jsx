@@ -5,6 +5,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PendingIcon from "@mui/icons-material/Pending";
+import AddIcon from "@mui/icons-material/Add";
 import { ElectricBike, Hotel } from "@mui/icons-material";
 
 //For admin
@@ -20,6 +21,12 @@ export const SidebarDataAdminProfile = [
     title: "Profile",
     icon: <AccountCircleIcon />,
     link: "/profile",
+  },
+  {
+    key: 9,
+    title: "Operating Cities",
+    icon: <AddIcon />,
+    link: "/operatingcities",
   },
   {
     key: 3,
