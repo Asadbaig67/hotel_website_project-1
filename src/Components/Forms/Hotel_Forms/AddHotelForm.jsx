@@ -229,18 +229,18 @@ const AddHotelForm = () => {
     };
 
     try {
-      const owner = await axios.get(
-        `${api}/user/getuserbyid/${
-          loggedinUser.user.account_type === "admin"
-            ? FinalOwner.id
-            : loggedinUser.user._id
-        }`
-      );
-      if (
-        owner.data.user.account_type === "user" ||
-        (owner.data.user.account_type === "partner" &&
-          owner.data.user.partner_type === "Hotel")
-      ) {
+      // const owner = await axios.get(
+      //   `${api}/user/getuserbyid/${
+      //     loggedinUser.user.account_type === "admin"
+      //       ? FinalOwner.id
+      //       : loggedinUser.user._id
+      //   }`
+      // );
+      // if (
+      //   owner.data.user.account_type === "user" ||
+      //   (owner.data.user.account_type === "partner" &&
+      //     owner.data.user.partner_type === "Hotel")
+      // ) {
         const response = await fetch(url, options);
         if (response.status === 200) {
           setMessage("Hotel Added Successfully!!");
@@ -264,12 +264,12 @@ const AddHotelForm = () => {
           type: "SET_HOTEL",
           payload: hotel,
         });
-      } else {
-        setMessage("Invalid Owner!!");
-        setSuccess(false);
-        setLoading(false);
-        setError(true);
-      }
+      // } else {
+      //   setMessage("Invalid Owner!!");
+      //   setSuccess(false);
+      //   setLoading(false);
+      //   setError(true);
+      // }
     } catch (error) {
       console.error(error);
     }

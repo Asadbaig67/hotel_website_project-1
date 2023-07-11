@@ -84,6 +84,24 @@ const HotelsList = () => {
         payload: `${api}/booking/getCancelledBookings`,
       });
       dispatch({ type: "SETHEADER", payload: bookingHeader1 });
+    } else if (path === "deListedHotels") {
+      dispatch({
+        type: "SETURL",
+        payload: `${api}/hotels/getalldelistedhotel`,
+      });
+      dispatch({ type: "SETHEADER", payload: hotelsHeader1 });
+    } else if (path === "deListedParkings") {
+      dispatch({
+        type: "SETURL",
+        payload: `${api}/parking/getAllDelistedParking`,
+      });
+      dispatch({ type: "SETHEADER", payload: parkingHeader1 });
+    } else if (path === "deListedHotelAndParking") {
+      dispatch({
+        type: "SETURL",
+        payload: `${api}/hotelandparking/getAllDelistedHotelAndParking`,
+      });
+      dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader1 });
     }
   } else if (view === "partner") {
     if (path === "Property") {
@@ -185,6 +203,26 @@ const HotelsList = () => {
           payload: `${api}/booking/getUpcommingBookingsByHotelparkingOwnerId/${id}`,
         });
         dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader1 });
+      }
+    }  else if (path==="delistedProperties"){
+      if (user.partner_type === "Hotel") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/hotels/getdelistedhotelbyonwerid/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: hotelsHeader1 });
+      } else if (user.partner_type === "Parking") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/parking/getDelistedParkingByOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: parkingHeader1 });
+      } else if (user.partner_type === "HotelAndParking") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/hotelandparking/getdelistedhotelandparkingbyownerid/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader1 });
       }
     }
   } else if (view === "user") {
