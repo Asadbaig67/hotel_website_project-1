@@ -53,6 +53,24 @@ export const SidebarDataAdminProfile = [
     link: "/HotelsAndParkings",
   },
   {
+    key: 7,
+    title: "De Listed Hotels",
+    icon: <Hotel />,
+    link: "/deListedHotels",
+  },
+  {
+    key: 8,
+    title: "De Listed Parkings",
+    icon: <ElectricBike />,
+    link: "/deListedParkings",
+  },
+  {
+    key: 9,
+    title: "De Listed Hotel and Parkings",
+    icon: <Hotel />,
+    link: "/deListedHotelAndParking",
+  },
+  {
     key: "a",
     title: "Bookings",
     icon: <BusinessCenterIcon />,
@@ -106,6 +124,12 @@ export const SidebarDataPatnerProfile = [
     title: "My Property",
     icon: <HomeIcon />,
     link: "/Property",
+  },
+  {
+    key: 11,
+    title: "De Listed Property",
+    icon: <HomeIcon />,
+    link: "/delistedProperties",
   },
   {
     key: "12",
