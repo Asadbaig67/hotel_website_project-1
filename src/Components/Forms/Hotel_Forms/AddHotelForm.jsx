@@ -236,40 +236,41 @@ const AddHotelForm = () => {
             : loggedinUser.user._id
         }`
       );
-      if (
-        owner.data.user.account_type === "user" ||
-        (owner.data.user.account_type === "partner" &&
-          owner.data.user.partner_type === "Hotel")
-      ) {
-        const response = await fetch(url, options);
-        if (response.status === 200) {
-          setMessage("Hotel Added Successfully!!");
-          setLoading(false);
-          setSuccess(true);
-        } else if (response.status === 422) {
-          setMessage("Hotel Alreay Exists!!");
-          setSuccess(false);
-          setLoading(false);
-          setError(true);
-        } else {
-          setMessage("Something Went Wrong!!");
-          setSuccess(false);
-          setLoading(false);
-          setError(true);
-        }
-
-        const data = await response.json();
-        const hotel = data.hotel;
-        dispatch({
-          type: "SET_HOTEL",
-          payload: hotel,
-        });
+      // if (
+      //   owner.data.user.account_type === "user" ||
+      //   (owner.data.user.account_type === "partner" &&
+      //     owner.data.user.partner_type === "Hotel")
+      // ) {
+      const response = await fetch(url, options);
+      if (response.status === 200) {
+        setMessage("Hotel Added Successfully!!");
+        setLoading(false);
+        setSuccess(true);
+      } else if (response.status === 422) {
+        setMessage("Hotel Alreay Exists!!");
+        setSuccess(false);
+        setLoading(false);
+        setError(true);
       } else {
-        setMessage("Invalid Owner!!");
+        setMessage("Something Went Wrong!!");
         setSuccess(false);
         setLoading(false);
         setError(true);
       }
+      console.log(response);
+      const data = await response.json();
+      const hotel = data.hotel;
+      console.log(hotel);
+      dispatch({
+        type: "SET_HOTEL",
+        payload: hotel,
+      });
+      // } else {
+      //   setMessage("Invalid Owner!!");
+      //   setSuccess(false);
+      //   setLoading(false);
+      //   setError(true);
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -306,7 +307,6 @@ const AddHotelForm = () => {
 
     GetHotelCities();
   }, []);
-
 
   return (
     <>

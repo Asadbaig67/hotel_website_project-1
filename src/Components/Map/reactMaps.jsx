@@ -7,6 +7,21 @@
 // };
 
 // const ReactMaps = (props) => {
+
+// if (navigator.geolocation) {
+//     console.log(navigator.geolocation.watchPosition((position) => {
+//        console.log("The lattitudes are ", position.coords.latitude);
+//        console.log("The LongiTudes Are ", position.coords.longitude);
+//     }, (error) => {
+//        console.log(error);
+//     }, {
+//        enableHighAccuracy: true,
+//        timeout: 5000,
+//        maximumAge: 0
+//     }
+//     ));
+//  }
+
 //   const [zoom, setZoom] = useState(8);
 //   const [center, setCenter] = useState({ lat: 31.485903, lng: 74.368225 });
 //   const [markerPosition, setMarkerPosition] = useState({
