@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
+import AddIcon from "@mui/icons-material/Add";
 import CalendarViewDayIcon from "@mui/icons-material/CalendarViewDay";
 
 import TextField from "@mui/material/TextField";
@@ -94,7 +94,9 @@ const ReactDataTable = ({ path, user }) => {
     let data;
     if (
       path === "hotels" ||
+      path === "deListedHotels" ||
       path === "hotelRequests" ||
+      (path === "delistedProperties" && user.partner_type === "Hotel") ||
       (path === "Property" && user.partner_type === "Hotel") ||
       (path === "PropertyRequests" && user.partner_type === "Hotel")
     ) {
@@ -114,6 +116,8 @@ const ReactDataTable = ({ path, user }) => {
     } else if (
       path === "parkings" ||
       path === "parkingRequests" ||
+      path === "deListedParkings" ||
+      (path === "delistedProperties" && user.partner_type === "Parking") ||
       (path === "Property" && user.partner_type === "Parking") ||
       (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
@@ -126,6 +130,9 @@ const ReactDataTable = ({ path, user }) => {
     } else if (
       path === "HotelsAndParkings" ||
       path === "hotelAndParkingRequests" ||
+      path === "deListedHotelAndParking" ||
+      (path === "delistedProperties" &&
+        user.partner_type === "HotelAndParking") ||
       (path === "Property" && user.partner_type === "HotelAndParking") ||
       (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
@@ -205,6 +212,26 @@ const ReactDataTable = ({ path, user }) => {
     }
     if (data) setList(list.filter((item) => item._id !== id));
     setRatingOpen(false);
+  };
+
+  const handleAddToList = async (id) => {
+    const body = {
+      account_type: user.account_type,
+      id: id,
+    };
+    let result;
+    if (path === "deListedHotels") {
+      result = await axios.put(`${api}/hotels/addHotelToList`, body);
+    } else if (path === "deListedParkings") {
+      result = await axios.put(`${api}/parking/addParkingToList`, body);
+    } else if (path === "deListedHotelAndParking") {
+      result = await axios.put(
+        `${api}/hotelandparking/addHotelandparkingToList`,
+        body
+      );
+    }
+    if (result) setList(list.filter((item) => item._id !== id));
+    setOpen(false);
   };
 
   const handleUpdate = (id) => {
@@ -311,7 +338,7 @@ const ReactDataTable = ({ path, user }) => {
 
   const deleteColumn = (row) => {
     return (
-      <Tooltip title="Delete">
+      <Tooltip title="Delist">
         <IconButton>
           <DeleteIcon
             style={{ fontSize: "24px", color: "red" }}
@@ -371,6 +398,22 @@ const ReactDataTable = ({ path, user }) => {
     );
   };
 
+  const addToList = (row) => {
+    return (
+      <Tooltip title="Add to listing">
+        <IconButton>
+          <AddIcon
+            onClick={() => {
+              handleClickOpen();
+              setDialogData({ id: row._id, action: "list" });
+            }}
+            style={{ fontSize: "24px", color: "blue" }}
+          />
+        </IconButton>
+      </Tooltip>
+    );
+  };
+
   const headerActionAdminPendingRequests = {
     name: "Action",
     // width: "350px",
@@ -418,6 +461,26 @@ const ReactDataTable = ({ path, user }) => {
     ),
   };
 
+  const deListedAdminTable = {
+    name: "Action",
+    cell: (row) => (
+      <>
+        {viewColumn(row)}
+        {addToList(row)}
+      </>
+    ),
+  };
+
+  const deListedPartnerTable = {
+    name: "Action",
+    cell: (row) => (
+      <>
+        {viewColumn(row)}
+        {addToList(row)}
+      </>
+    ),
+  };
+
   const [widthdata, setWidthdata] = useState(window.innerWidth - 90);
 
   useEffect(() => {
@@ -451,6 +514,12 @@ const ReactDataTable = ({ path, user }) => {
                 ? "Hotel And Parking Requests"
                 : path === "users"
                 ? "Users"
+                : path === "deListedHotels"
+                ? "De Listed Hotels"
+                : path === "deListedParkings"
+                ? "De Listed Parkings"
+                : path === "deListedHotelAndParking"
+                ? "De Listed Hotels And Parkings"
                 : null
               : user.account_type === "partner"
               ? user.partner_type === "Hotel"
@@ -464,6 +533,8 @@ const ReactDataTable = ({ path, user }) => {
                   ? "Pending Properties"
                   : path === "bookingRequests"
                   ? "Upcoming Bookings"
+                  : path === "delistedProperties"
+                  ? "De Listed Properties"
                   : null
                 : user.partner_type === "Parking"
                 ? path === "Property"
@@ -476,6 +547,8 @@ const ReactDataTable = ({ path, user }) => {
                   ? "Pending Properties"
                   : path === "bookingRequests"
                   ? "Upcoming Bookings"
+                  : path === "delistedProperties"
+                  ? "De Listed Properties"
                   : null
                 : user.partner_type === "HotelAndParking"
                 ? path === "Property"
@@ -488,6 +561,8 @@ const ReactDataTable = ({ path, user }) => {
                   ? "Pending Properties"
                   : path === "bookingRequests"
                   ? "Upcoming Bookings"
+                  : path === "delistedProperties"
+                  ? "De Listed Properties"
                   : null
                 : null
               : user.account_type === "user"
@@ -523,6 +598,12 @@ const ReactDataTable = ({ path, user }) => {
                 path === "Property" ||
                 path === "PropertyRequests"
               ? header.concat(headerActionPartner)
+              : path === "deListedHotels" ||
+                path === "deListedParkings" ||
+                path === "deListedHotelAndParking"
+              ? header.concat(deListedAdminTable)
+              : path === "delistedProperties"
+              ? header.concat(deListedPartnerTable)
               : header.concat(headerActionUserTable)
           }
           data={list}
@@ -546,13 +627,22 @@ const ReactDataTable = ({ path, user }) => {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle>
-            {dialogData.action === "delete" ? "Delete" : "Approve"}
+            {dialogData.action === "delete"
+              ? "Delete"
+              : dialogData.action === "list"
+              ? "Add to list"
+              : "Approve"}
           </DialogTitle>
           <hr className="m-0" />
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
               Are you sure you want to{" "}
-              {dialogData.action === "delete" ? "Delete" : "Approve"}?
+              {dialogData.action === "delete"
+                ? "Delete"
+                : dialogData.action === "list"
+                ? "List this property"
+                : "Approve"}
+              ?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -565,11 +655,15 @@ const ReactDataTable = ({ path, user }) => {
               onClick={() => {
                 dialogData.action === "delete"
                   ? handleDelete(dialogData.id)
+                  : dialogData.action === "list"
+                  ? handleAddToList(dialogData.id)
                   : handleApprove(dialogData.id);
               }}
             >
               {dialogData.action === "delete"
                 ? "Delete"
+                : dialogData.action === "list"
+                ? "Add to list"
                 : `Approve with rating ${dialogData.data}`}
             </Button>
             {dialogData.action === "approve" ? (

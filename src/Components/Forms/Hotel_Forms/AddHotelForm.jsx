@@ -229,13 +229,13 @@ const AddHotelForm = () => {
     };
 
     try {
-      const owner = await axios.get(
-        `${api}/user/getuserbyid/${
-          loggedinUser.user.account_type === "admin"
-            ? FinalOwner.id
-            : loggedinUser.user._id
-        }`
-      );
+      // const owner = await axios.get(
+      //   `${api}/user/getuserbyid/${
+      //     loggedinUser.user.account_type === "admin"
+      //       ? FinalOwner.id
+      //       : loggedinUser.user._id
+      //   }`
+      // );
       // if (
       //   owner.data.user.account_type === "user" ||
       //   (owner.data.user.account_type === "partner" &&

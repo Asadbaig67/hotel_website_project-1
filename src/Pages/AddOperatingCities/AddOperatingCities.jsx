@@ -156,7 +156,7 @@ const AddOperatingCities = () => {
         return (
           <div className="container">
             <div className="row">
-              <div className="form-check col-md-2 d-flex align-items-center">
+              <div className="form-check col-md-2 col-sm-3 d-flex align-items-center">
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -174,7 +174,7 @@ const AddOperatingCities = () => {
                   Hotel
                 </label>
               </div>
-              <div className="form-check col-md-3 d-flex align-items-center">
+              <div className="form-check col-md-3 col-sm-3 d-flex align-items-center">
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -192,7 +192,7 @@ const AddOperatingCities = () => {
                   Parking
                 </label>
               </div>
-              <div className="form-check col-md-4 d-flex align-items-center">
+              <div className="form-check col-md-4 col-sm-3 d-flex align-items-center">
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -212,7 +212,7 @@ const AddOperatingCities = () => {
                   Hotel And Parking
                 </label>
               </div>
-              <div className="col-md-1">
+              <div className="col-md-1 col-sm-1">
                 <Tooltip title={"Add"}>
                   <IconButton
                     style={{ color: "green" }}
@@ -224,7 +224,7 @@ const AddOperatingCities = () => {
                   </IconButton>
                 </Tooltip>
               </div>
-              <div className="col-md-1">
+              <div className="col-md-1 col-sm-1">
                 <Tooltip title={"Remove"}>
                   <IconButton
                     style={{ color: "red" }}
@@ -295,7 +295,7 @@ const AddOperatingCities = () => {
           <div>
             <div className="container pb-3 mt-4">
               <div className="row justify-content-center flex align-items-end">
-                <div className="col-md-11">
+                <div className="col-md-12">
                   <h1 className="fs-1 fw-bold">Add Cities</h1>
                   <p>Grow up your business by adding new operating cities</p>
                 </div>

@@ -118,6 +118,22 @@ function App() {
           element={<PrivateRoute Component={HotelsList} />}
         />
         <Route
+          path="/deListedHotels"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/deListedParkings"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/deListedHotelAndParking"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/delistedProperties"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
           path="/users"
           element={<PrivateRoute Component={HotelsList} />}
         />
