@@ -59,6 +59,7 @@ const HotelBooking = () => {
 
   //Alerts Code
   const [emptyInput, setEmptyInput] = useState(false);
+  const [emptyParkingInput, setEmptyParkingInput] = useState(false);
   const [finalloading, setFinalLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -91,8 +92,12 @@ const HotelBooking = () => {
     phone: "",
     adults: 0,
     childrens: 0,
+    vehicles: 0,
   });
 
+  const [vehicleInfo, setVehicleInfo] = useState([]);
+  const [vehicleName, setVehicleName] = useState([]);
+  const [vehicleNumber, setVehicleNumber] = useState([]);
   // FUNCTIONS AND METHODS
 
   // Alert Code Functions
@@ -100,11 +105,35 @@ const HotelBooking = () => {
     if (
       formValues.name === "" ||
       formValues.email === "" ||
-      formValues.phone === ""
+      formValues.phone === "" ||
+      formValues.adults === "" ||
+      formValues.childrens === "" ||
+      formValues.vehicles === ""
     ) {
       setEmptyInput(true);
     } else {
       setEmptyInput(false);
+    }
+    console.log("Length =", vehicleInfo.length);
+    if (vehicleInfo.length === 0) {
+      setEmptyParkingInput(true);
+      return;
+    }
+    console.log(
+      "Logic ",
+      formValues.vehicles * 2 !== Object.keys(vehicleInfo).length
+    );
+    if (formValues.vehicles * 2 !== Object.keys(vehicleInfo).length) {
+      setEmptyParkingInput(true);
+      return;
+    }
+    if (!formValues.vehicles * 2 !== Object.keys(vehicleInfo).length) {
+      const entries = Object.entries(vehicleInfo);
+      const empty = entries.some(([key, value]) => {
+        return value === "";
+      });
+      setEmptyParkingInput(empty);
+      return;
     }
   };
 
@@ -126,6 +155,30 @@ const HotelBooking = () => {
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value,
+    }));
+  };
+
+  const handleAddVehicle = (event) => {
+    const { name, value } = event.target;
+    setVehicleInfo((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const handleVehicleName = (event) => {
+    const { name, value } = event.target;
+    setVehicleName((prevValues) => ({
+      ...prevValues,
+      [name + "Name"]: value,
+    }));
+  };
+
+  const handleVehicleNumber = (event) => {
+    const { name, value } = event.target;
+    setVehicleNumber((prevValues) => ({
+      ...prevValues,
+      [name + "Number"]: value,
     }));
   };
 
@@ -178,12 +231,12 @@ const HotelBooking = () => {
     }
   }, 0);
 
-  const hotel_id = "6496d36b14c3e46e40e510f6";
+  const hotelAndParkingId = "64863f0115ed9bead43021ae";
   const handleRoomsRequest = async (event) => {
     setLoading(true);
     setOpenTab(false);
     event.preventDefault();
-    const url = `${api}/hotels/gethotelrooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${hotel_id}`;
+    const url = `${api}/hotelandparking/getHotelAndParkingRooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${hotelAndParkingId}`;
     const options = {
       method: "GET",
     };
@@ -206,7 +259,7 @@ const HotelBooking = () => {
     setFinalLoading(true);
     setMessage("");
     event.preventDefault();
-    const url = `${api}/adminbookings/hotelbooking`;
+    const url = `${api}/adminbookings/hotelandparkingbooking`;
 
     const options = {
       method: "POST",
@@ -214,7 +267,7 @@ const HotelBooking = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        hotelId: hotel_id,
+        hotelAndParkingId,
         checkIn: valueIn.format("YYYY-MM-DD"),
         checkOut: valueOut.format("YYYY-MM-DD"),
         rooms: roomsVar,
@@ -223,6 +276,11 @@ const HotelBooking = () => {
         phone: formValues.phone,
         adults: formValues.adults,
         childrens: formValues.childrens,
+        parking_info: {
+          parking_name: "Parking one",
+          vehicles_info: vehicleInfo,
+          booked_slots: formValues.vehicles,
+        },
         total_price,
       }),
     };
@@ -244,6 +302,8 @@ const HotelBooking = () => {
       console.log(error);
     }
   };
+
+  console.log(vehicleInfo);
 
   return (
     <>
@@ -267,7 +327,7 @@ const HotelBooking = () => {
               </h1>
             </div>
             <div class="modal-body">
-              {emptyInput ? (
+              {emptyInput || emptyParkingInput ? (
                 <span className="text-danger d-block">
                   Please fill all the fields!!
                 </span>
@@ -279,15 +339,17 @@ const HotelBooking = () => {
                   Please select atleast one room!!
                 </span>
               )}
-              {!(roomsVar.length === 0) && !emptyInput && (
-                <>
-                  <span className="d-block">
-                    {message === ""
-                      ? "Are you sure to make this booking?"
-                      : message}
-                  </span>
-                </>
-              )}
+              {!(roomsVar.length === 0) &&
+                !emptyInput &&
+                !emptyParkingInput && (
+                  <>
+                    <span className="d-block">
+                      {message === ""
+                        ? "Are you sure to make this booking?"
+                        : message}
+                    </span>
+                  </>
+                )}
             </div>
             <div class="modal-footer">
               {!success && (
@@ -303,7 +365,9 @@ const HotelBooking = () => {
               {!finalloading && !success && !error && (
                 <Button
                   variant="contained"
-                  disabled={roomsVar.length === 0 || emptyInput}
+                  disabled={
+                    roomsVar.length === 0 || emptyInput || emptyParkingInput
+                  }
                   onClick={handleBooking}
                 >
                   Confirm Booking
@@ -342,7 +406,9 @@ const HotelBooking = () => {
             marginLeft: "25px",
           }}
         >
-          <h1 className="text-center fw-bold fs-1 my-4">Hotel Booking Form</h1>
+          <h1 className="text-center fw-bold fs-1 my-4">
+            Hotel And Parking Booking Form
+          </h1>
           <form className="needs-validation card p-3 shadow mx-4">
             <div className="row my-1">
               <h2 className="my-2">Check Room Availablility :</h2>
@@ -500,7 +566,7 @@ const HotelBooking = () => {
             </div>
             <div className="row my-1">
               <h2 className="mb-3">Persons Information :</h2>
-              <div className="col-md-6 mb-3">
+              <div className="col-md-4 mb-3">
                 <TextField
                   id="outlined-number"
                   InputLabelProps={{
@@ -515,7 +581,7 @@ const HotelBooking = () => {
                   fullWidth
                 />
               </div>
-              <div className="col-md-6 mb-3">
+              <div className="col-md-4 mb-3">
                 <TextField
                   id="outlined-number"
                   InputLabelProps={{
@@ -530,7 +596,63 @@ const HotelBooking = () => {
                   fullWidth
                 />
               </div>
+              <div className="col-md-4 mb-3">
+                <TextField
+                  id="outlined-number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  label="No of Vehicles"
+                  name="vehicles"
+                  onChange={handleInputChange}
+                  value={formValues.vehicles}
+                  type="number"
+                  variant="outlined"
+                  fullWidth
+                />
+              </div>
             </div>
+
+            <div className="row my-1">
+              {formValues.vehicles > 0 && (
+                <>
+                  <h2 className="mb-3">Enter Vehicles Information :</h2>
+                  {[...Array(parseInt(formValues.vehicles))].map(
+                    (element, index) => (
+                      <>
+                        <div className="col-md-6 mb-3">
+                          <TextField
+                            id="outlined-basic"
+                            label={`Vehicle ${index + 1} Name`}
+                            name={`Vehicle-${index + 1}-Name`}
+                            // name={`Vehicle-${index + 1}`}
+                            type="text"
+                            onChange={handleAddVehicle}
+                            // onChange={handleVehicleName}
+                            variant="outlined"
+                            fullWidth
+                          />
+                        </div>
+                        <div className="col-md-6 mb-3">
+                          <TextField
+                            id="outlined-basic"
+                            label={`Vehicle ${index + 1} Number`}
+                            name={`Vehicle-${index + 1}-No`}
+                            // name={`Vehicle-${index + 1}`}
+                            type="text"
+                            onChange={handleAddVehicle}
+                            // onChange={handleVehicleNumber}
+                            variant="outlined"
+                            fullWidth
+                          />
+                        </div>
+                      </>
+                    )
+                  )}
+                </>
+              )}
+            </div>
+
             <hr className="mt-3" />
             <div className="row my-1">
               {(rooms.Single.length > 0 ||
@@ -617,16 +739,6 @@ const HotelBooking = () => {
                 Confirm Booking
               </button>
             </div>
-            {/* <div className="mt-5 text-center">
-              <button
-                className="btn btn-primary btn-lg profile-button mb-4"
-                type="submit"
-                onClick={handleBooking}
-              >
-                Confirm Booking
-              </button>
-              
-            </div> */}
           </form>
         </div>
       </div>

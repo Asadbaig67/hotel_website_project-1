@@ -28,9 +28,9 @@ const List = () => {
   );
 
   // Getting Static Data For Hotel and parking
-  const { hotel_parking_data } = useSelector(
-    (state) => state.getStaicHotalParking
-  );
+  // const { hotel_parking_data } = useSelector(
+  //   (state) => state.getStaicHotalParking
+  // );
 
   // Checking City For Hotel and parking
   const checkHotelParkingCity = (hotel_parking_data) => {
@@ -40,10 +40,10 @@ const List = () => {
     );
   };
   // Filtering Data For Hotel and `parking
-  let filtered_hotel_parking = [];
-  if (hotel_parking_data) {
-    filtered_hotel_parking = hotel_parking_data.filter(checkHotelParkingCity);
-  }
+  // let filtered_hotel_parking = [];
+  // if (hotel_parking_data) {
+  //   filtered_hotel_parking = hotel_parking_data.filter(checkHotelParkingCity);
+  // }
   // For Hotel and parking
 
   const [option, setOption] = useState(options);

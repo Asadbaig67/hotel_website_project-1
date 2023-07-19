@@ -257,7 +257,6 @@ const AddHotelForm = () => {
         setLoading(false);
         setError(true);
       }
-      console.log(response);
       const data = await response.json();
       const hotel = data.hotel;
       console.log(hotel);
