@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/footer/Footer";
 import Box from "@mui/material/Box";
@@ -9,11 +9,9 @@ import { useSelector } from "react-redux";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import Typography from "@mui/material/Typography";
 import LabelIcon from "@mui/icons-material/Label";
 import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
-import Chip from "@mui/material/Chip";
 
 // export default ViewBookings;
 const ViewBookings = () => {
@@ -60,7 +58,6 @@ const ViewBookings = () => {
   const additionalChargesPrice = 20;
   const taxDescription = "Tax (10%)";
   const taxPrice = 200;
-  
 
   let src;
   if (booked_property.photos && booked_property.photos[0]) {
@@ -75,7 +72,6 @@ const ViewBookings = () => {
   const familyRoomsArray = [];
   const Rooms = booked_property.Rooms;
   let room, room_no;
-
 
   if (options.singleRoom > 0) {
     for (let i = 0; i < Rooms.length; i++) {
@@ -255,6 +251,8 @@ const ViewBookings = () => {
     }
   };
 
+  console.log(roomArray);
+
   return (
     <>
       <Navbar />
@@ -284,7 +282,6 @@ const ViewBookings = () => {
         <div className="row">
           <div className="col-md-4">
             <div className="py-2">
-              
               <div className="">
                 <div className="card-body">
                   <div className="text-center">
@@ -392,7 +389,6 @@ const ViewBookings = () => {
                             }
                             precision={1}
                             getLabelText={getLabelText}
-                            
                             emptyIcon={
                               <StarIcon
                                 style={{ opacity: 0.55 }}
@@ -453,7 +449,6 @@ const ViewBookings = () => {
                             </>
                           )}
                           <br />
-                          
                         </div>
                         <p className="w-100 fst-italic text-muted">
                           {booked_property

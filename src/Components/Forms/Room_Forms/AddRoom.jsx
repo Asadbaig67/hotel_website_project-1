@@ -20,19 +20,14 @@ const AddRoomForm = () => {
   const [message, setMessage] = useState("");
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
-  //Alerts Code
-  const [alertOn, setAlertOn] = useState(false);
-  const [open, setOpen] = useState(true);
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("info");
-  const IsMobile = useMediaQuery("(max-width:450px)");
-
   const [formValues, setFormValues] = useState({
     room_no: "",
     type: "",
     price: "",
     desc: "",
   });
+
+  console.log("Hotel Is", hotel);
 
   // Modal Functions
   const handleClickOpen = () => {

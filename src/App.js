@@ -32,7 +32,10 @@ import UpdateHotel from "./Components/Forms/Hotel_Forms/UpdateHotelForm";
 import UpdateHotelAndParking from "./Components/Forms/Hotel&Parking_Forms/UpdateHotel_Parking";
 import UpdateParking from "./Components/Forms/Parking_Forms/Update_Parking";
 import AddRoomForm from "./Components/Forms/Room_Forms/AddRoom";
+
 import HotelBooking from "./Components/Forms/Booking_Forms/Hotel_booking";
+import HotelParkingBooking from "./Components/Forms/Booking_Forms/HotelParkingBooking";
+import ParkingBooking from "./Components/Forms/Booking_Forms/ParkingBookings";
 import ParkingPropertyDetails from "./Pages/singleParking/Singleparking";
 import Featured_skeleton from "./Components/Skeletons/Featured_skeleton";
 import Viewbookings from "./Pages/BookingDetails/Viewbookings";
@@ -223,8 +226,16 @@ function App() {
           element={<PrivateRoute Component={AddRoomForm} />}
         />
         <Route
-          path="/hotelbooking"
+          path="/hotel/book-rooms"
           element={<PrivateRoute Component={HotelBooking} />}
+        />
+        <Route
+          path="/hotelparking/book-rooms"
+          element={<PrivateRoute Component={HotelParkingBooking} />}
+        />
+        <Route
+          path="/parking/book-parking"
+          element={<PrivateRoute Component={ParkingBooking} />}
         />
         <Route
           path="/updatehotel"

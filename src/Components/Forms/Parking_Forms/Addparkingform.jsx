@@ -206,7 +206,7 @@ const AddParkingForm = () => {
     for (let i = 0; i < parkingImages.length; i++) {
       formData.append("photos", parkingImages[i].file);
     }
-    const url = `http://46.32.232.208:5000/parking/addparking`;
+    const url = `${api}/parking/addparking`;
 
     const options = {
       method: "POST",
@@ -215,47 +215,47 @@ const AddParkingForm = () => {
 
     try {
       const owner = await axios.get(
-        `http://46.32.232.208:5000/user/getuserbyid/${
+        `${api}/user/getuserbyid/${
           loggedinUser.user.account_type === "admin"
             ? FinalOwner.id
             : loggedinUser.user._id
         }`
       );
-      if (
-        owner.data.user.account_type === "user" ||
-        (owner.data.user.account_type === "partner" &&
-          owner.data.user.partner_type === "Parking")
-      ) {
-        const response = await fetch(url, options);
-        if (response.status === 200) {
-          setMessage("Parking Added Successfully!!");
-          setLoading(false);
-          setSuccess(true);
-        } else if (response.status === 422) {
-          setMessage("Parking Alreay Exists!!");
-          setSuccess(false);
-          setLoading(false);
-          setError(true);
-        } else {
-          setMessage("Something Went Wrong!!");
-          setSuccess(false);
-          setLoading(false);
-          setError(true);
-        }
-        const data = await response.json();
+      // if (
+      //   owner.data.user.account_type === "user" ||
+      //   (owner.data.user.account_type === "partner" &&
+      //     owner.data.user.partner_type === "Parking")
+      // ) {
+      const response = await fetch(url, options);
+      if (response.status === 200) {
+        setMessage("Parking Added Successfully!!");
+        setLoading(false);
+        setSuccess(true);
+      } else if (response.status === 422) {
+        setMessage("Parking Alreay Exists!!");
+        setSuccess(false);
+        setLoading(false);
+        setError(true);
       } else {
-        setMessage("Invalid Owner!!");
+        setMessage("Something Went Wrong!!");
         setSuccess(false);
         setLoading(false);
         setError(true);
       }
+      const data = await response.json();
+      // } else {
+      //   setMessage("Invalid Owner!!");
+      //   setSuccess(false);
+      //   setLoading(false);
+      //   setError(true);
+      // }
     } catch (error) {
       console.error(error);
     }
   };
 
   const GetOwners = async () => {
-    const url = `http://46.32.232.208:5000/user/getuseridandname`;
+    const url = `${api}/user/getuseridandname`;
     const params = {
       form_type: "parking",
     };
@@ -281,13 +281,12 @@ const AddParkingForm = () => {
   useEffect(() => {
     const getParkingCities = async () => {
       const response = await axios.get(
-        `http://46.32.232.208:5000/OperatingProperty/getParkingOperatingCity`
+        `${api}/OperatingProperty/getParkingOperatingCity`
       );
       dispatch({ type: "SET_PARKING_CITY", payload: response.data });
     };
     getParkingCities();
   }, []);
-
 
   return (
     <>
@@ -336,17 +335,6 @@ const AddParkingForm = () => {
                             >
                               {index + 1}
                             </p>
-                            {/* <IconButton
-                              aria-label="delete"
-                              size="small"
-                              className={style.delete_button}
-                            >
-                              <DeleteIcon
-                                className="text-light me-1"
-                                fontSize="small"
-                                onClick={() => deleteHandler(imageObj)}
-                              />
-                            </IconButton> */}
                           </div>
                         </div>
                       </div>
