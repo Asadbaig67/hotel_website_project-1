@@ -280,6 +280,7 @@ const HotelBooking = () => {
           parking_name: "Parking one",
           vehicles_info: vehicleInfo,
           booked_slots: formValues.vehicles,
+          price: 100,
         },
         total_price,
       }),

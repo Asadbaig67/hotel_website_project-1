@@ -192,7 +192,6 @@ const HotelBooking = () => {
       const response = await fetch(url, options);
       const { rooms } = await response.json();
       setRoomData(rooms);
-      console.log(rooms);
       setOpenTab(true);
       setLoading(false);
     } catch (error) {

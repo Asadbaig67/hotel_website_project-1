@@ -73,61 +73,63 @@ const ViewBookings = () => {
   const Rooms = booked_property.Rooms;
   let room, room_no;
 
-  if (options.singleRoom > 0) {
-    for (let i = 0; i < Rooms.length; i++) {
-      room = Rooms[i].room;
-      room_no = Rooms[i].room_no;
-      if (room.type === "Single") {
-        for (let j = 0; j < room_no.length; j++) {
-          if (j < options.singleRoom) {
-            let roomObj = {
-              ...room_no[j],
-              RoomId: room._id,
-              Room_price: room.price,
-            };
-            singleRoomsArray.push(roomObj);
-          } else {
-            break;
+  if (!booked_property.featured) {
+    if (options.singleRoom > 0) {
+      for (let i = 0; i < Rooms.length; i++) {
+        room = Rooms[i].room;
+        room_no = Rooms[i].room_no;
+        if (room.type === "Single") {
+          for (let j = 0; j < room_no.length; j++) {
+            if (j < options.singleRoom) {
+              let roomObj = {
+                ...room_no[j],
+                RoomId: room._id,
+                Room_price: room.price,
+              };
+              singleRoomsArray.push(roomObj);
+            } else {
+              break;
+            }
           }
         }
       }
     }
-  }
-  if (options.twinRoom > 0) {
-    for (let i = 0; i < Rooms.length; i++) {
-      room = Rooms[i].room;
-      room_no = Rooms[i].room_no;
-      if (room.type === "Twin") {
-        for (let j = 0; j < room_no.length; j++) {
-          if (j < options.twinRoom) {
-            let roomObj = {
-              ...room_no[j],
-              RoomId: room._id,
-              Room_price: room.price,
-            };
-            twinRoomsArray.push(roomObj);
-          } else {
-            break;
+    if (options.twinRoom > 0) {
+      for (let i = 0; i < Rooms.length; i++) {
+        room = Rooms[i].room;
+        room_no = Rooms[i].room_no;
+        if (room.type === "Twin") {
+          for (let j = 0; j < room_no.length; j++) {
+            if (j < options.twinRoom) {
+              let roomObj = {
+                ...room_no[j],
+                RoomId: room._id,
+                Room_price: room.price,
+              };
+              twinRoomsArray.push(roomObj);
+            } else {
+              break;
+            }
           }
         }
       }
     }
-  }
-  if (options.familyRoom > 0) {
-    for (let i = 0; i < Rooms.length; i++) {
-      room = Rooms[i].room;
-      room_no = Rooms[i].room_no;
-      if (room.type === "Family") {
-        for (let j = 0; j < room_no.length; j++) {
-          if (j < options.familyRoom) {
-            let roomObj = {
-              ...room_no[j],
-              RoomId: room._id,
-              Room_price: room.price,
-            };
-            familyRoomsArray.push(roomObj);
-          } else {
-            break;
+    if (options.familyRoom > 0) {
+      for (let i = 0; i < Rooms.length; i++) {
+        room = Rooms[i].room;
+        room_no = Rooms[i].room_no;
+        if (room.type === "Family") {
+          for (let j = 0; j < room_no.length; j++) {
+            if (j < options.familyRoom) {
+              let roomObj = {
+                ...room_no[j],
+                RoomId: room._id,
+                Room_price: room.price,
+              };
+              familyRoomsArray.push(roomObj);
+            } else {
+              break;
+            }
           }
         }
       }
@@ -149,38 +151,40 @@ const ViewBookings = () => {
   // Let Parking data
   let parking = {};
 
-  if (options.singleRoom > 0) {
-    singleRoomsArray.map((room) => {
-      tempObj = {
-        Room_type: "Single",
-        RoomId: room.RoomId,
-        Room_no: room.number,
-        Room_price: room.Room_price,
-      };
-      roomArray.push(tempObj);
-    });
-  }
-  if (options.twinRoom > 0) {
-    twinRoomsArray.map((room) => {
-      tempObj = {
-        Room_type: "Twin",
-        RoomId: room.RoomId,
-        Room_no: room.number,
-        Room_price: room.Room_price,
-      };
-      roomArray.push(tempObj);
-    });
-  }
-  if (options.familyRoom > 0) {
-    familyRoomsArray.map((room) => {
-      tempObj = {
-        Room_type: "Family",
-        RoomId: room.RoomId,
-        Room_no: room.number,
-        Room_price: room.Room_price,
-      };
-      roomArray.push(tempObj);
-    });
+  if (!booked_property.featured) {
+    if (options.singleRoom > 0) {
+      singleRoomsArray.map((room) => {
+        tempObj = {
+          Room_type: "Single",
+          RoomId: room.RoomId,
+          Room_no: room.number,
+          Room_price: room.Room_price,
+        };
+        roomArray.push(tempObj);
+      });
+    }
+    if (options.twinRoom > 0) {
+      twinRoomsArray.map((room) => {
+        tempObj = {
+          Room_type: "Twin",
+          RoomId: room.RoomId,
+          Room_no: room.number,
+          Room_price: room.Room_price,
+        };
+        roomArray.push(tempObj);
+      });
+    }
+    if (options.familyRoom > 0) {
+      familyRoomsArray.map((room) => {
+        tempObj = {
+          Room_type: "Family",
+          RoomId: room.RoomId,
+          Room_no: room.number,
+          Room_price: room.Room_price,
+        };
+        roomArray.push(tempObj);
+      });
+    }
   }
 
   roomArray = JSON.stringify(roomArray);
@@ -251,7 +255,7 @@ const ViewBookings = () => {
     }
   };
 
-  console.log(roomArray);
+  console.log("booked_property", booked_property);
 
   return (
     <>
@@ -325,9 +329,11 @@ const ViewBookings = () => {
                         ? `- ${options.familyRoom}x Family Room`
                         : null}{" "}
                     </div>
-                    <Link to="/listhotel" className="small">
-                      Change Your Selection
-                    </Link>
+                    {!booked_property.featured && (
+                      <Link to="/listhotel" className="small">
+                        Change Your Selection
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
@@ -492,16 +498,35 @@ const ViewBookings = () => {
                           <span>Single Room(s):</span>
                         </div>
                         <div className="col-md-8 justify-content-end">
-                          <span className="fw-bold">
-                            {singleRoomsArray.map(
-                              (room, index) =>
-                                `Room No: ${room.number}${
-                                  index === singleRoomsArray.length - 1
-                                    ? ""
-                                    : ", "
-                                }`
-                            )}
-                          </span>
+                          {booked_property.featured ? (
+                            <>
+                              <span className="fw-bold">
+                                {booked_property.singleRoomsArray.map(
+                                  (room, index) =>
+                                    `Room No: ${room.number}${
+                                      index ===
+                                      booked_property.singleRoomsArray.length -
+                                        1
+                                        ? ""
+                                        : ", "
+                                    }`
+                                )}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <span className="fw-bold">
+                                {singleRoomsArray.map(
+                                  (room, index) =>
+                                    `Room No: ${room.number}${
+                                      index === singleRoomsArray.length - 1
+                                        ? ""
+                                        : ", "
+                                    }`
+                                )}
+                              </span>
+                            </>
+                          )}
                         </div>
                       </>
                     )}
@@ -514,16 +539,34 @@ const ViewBookings = () => {
                           <span>Twin Room(s):</span>
                         </div>
                         <div className="col-md-8 justify-content-end">
-                          <span className="fw-bold">
-                            {twinRoomsArray.map(
-                              (room, index) =>
-                                `Room No: ${room.number}${
-                                  index === twinRoomsArray.length - 1
-                                    ? ""
-                                    : ", "
-                                }`
-                            )}
-                          </span>
+                          {booked_property.featured ? (
+                            <>
+                              <span className="fw-bold">
+                                {booked_property.twinRoomsArray.map(
+                                  (room, index) =>
+                                    `Room No: ${room.number}${
+                                      index ===
+                                      booked_property.twinRoomsArray.length - 1
+                                        ? ""
+                                        : ", "
+                                    }`
+                                )}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <span className="fw-bold">
+                                {twinRoomsArray.map(
+                                  (room, index) =>
+                                    `Room No: ${room.number}${
+                                      index === twinRoomsArray.length - 1
+                                        ? ""
+                                        : ", "
+                                    }`
+                                )}
+                              </span>
+                            </>
+                          )}
                         </div>
                       </>
                     ) : (
@@ -538,16 +581,35 @@ const ViewBookings = () => {
                           <span>Family Room(s):</span>
                         </div>
                         <div className="col-md-8 justify-content-end">
-                          <span className="fw-bold">
-                            {familyRoomsArray.map(
-                              (room, index) =>
-                                `Room No: ${room.number}${
-                                  index === familyRoomsArray.length - 1
-                                    ? ""
-                                    : ", "
-                                }`
-                            )}
-                          </span>
+                          {booked_property.featured ? (
+                            <>
+                              <span className="fw-bold">
+                                {booked_property.familyRoomsArray.map(
+                                  (room, index) =>
+                                    `Room No: ${room.number}${
+                                      index ===
+                                      booked_property.familyRoomsArray.length -
+                                        1
+                                        ? ""
+                                        : ", "
+                                    }`
+                                )}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <span className="fw-bold">
+                                {familyRoomsArray.map(
+                                  (room, index) =>
+                                    `Room No: ${room.number}${
+                                      index === familyRoomsArray.length - 1
+                                        ? ""
+                                        : ", "
+                                    }`
+                                )}
+                              </span>
+                            </>
+                          )}
                         </div>
                       </>
                     ) : (
@@ -693,12 +755,12 @@ const ViewBookings = () => {
                                     220 +
                                     booked_property.parking_price * c
                                   : booked_property.Total_Price + 220}
-                                {booked_property.StandardPrice && (
+                                {/* {booked_property.StandardPrice && (
                                   <small>
                                     Total Price = $
                                     {booked_property.StandardPrice + 220}
                                   </small>
-                                )}
+                                )} */}
                               </span>
                               <br />
                               <small className="text-dark ms-1">
@@ -719,12 +781,12 @@ const ViewBookings = () => {
                                 220 +
                                 booked_property.parking_price * c
                               : booked_property.Total_Price + 220}
-                            {booked_property.StandardPrice && (
+                            {/* {booked_property.StandardPrice && (
                               <small>
                                 Total Price = $
                                 {booked_property.StandardPrice + 220}
                               </small>
-                            )}
+                            )} */}
                           </button>
                         </div>
                       </div>
