@@ -70,6 +70,7 @@ const HotelBooking = () => {
   const [value, setValue] = React.useState("");
   const [inputValue, setInputValue] = React.useState("");
   const [allHotels, setAllHotels] = useState([]);
+  const { user } = loggedinUser;
 
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   // Accordion Code
@@ -244,6 +245,7 @@ const HotelBooking = () => {
         adults: formValues.adults,
         childrens: formValues.childrens,
         total_price,
+        bookedBy: user.account_type,
       }),
     };
 

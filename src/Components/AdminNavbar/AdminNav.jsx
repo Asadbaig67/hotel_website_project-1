@@ -3,9 +3,10 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useMediaQuery } from "@mui/material";
+import { Tooltip, useMediaQuery } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const AdminNav = () => {
   const dispatch = useDispatch();
@@ -46,29 +47,33 @@ const AdminNav = () => {
           Desalis
         </a>
         {isTablet && (
-          <Button
-            id="demo-positioned-button"
-            aria-controls={open ? "demo-positioned-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
-          >
-            <MenuIcon />
-          </Button>
+          <Tooltip title="Menu" arrow>
+            <Button
+              id="demo-positioned-button"
+              aria-controls={open ? "demo-positioned-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+            >
+              <MoreVertIcon />
+            </Button>
+          </Tooltip>
         )}
       </div>
 
       <div>
         {!isTablet && (
-          <Button
-            id="demo-positioned-button"
-            aria-controls={open ? "demo-positioned-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
-          >
-            <MenuIcon />
-          </Button>
+          <Tooltip title="Menu" arrow>
+            <Button
+              id="demo-positioned-button"
+              aria-controls={open ? "demo-positioned-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+            >
+              <MoreVertIcon />
+            </Button>
+          </Tooltip>
         )}
         <Menu
           id="demo-positioned-menu"

@@ -286,6 +286,7 @@ export const bookingHeader1 = [
   { name: "Check In", selector: (row) => row.checkIn },
   { name: "Check Out", selector: (row) => row.checkOut },
   { name: "Booking Date", selector: (row) => row.createdAt },
+  { name: "Booked by", selector: (row) => row.bookedBy },
 ];
 
 export const bookingHotelHeader1 = [
@@ -295,6 +296,7 @@ export const bookingHotelHeader1 = [
   { name: "Check In", selector: (row) => row.checkIn },
   { name: "Check Out", selector: (row) => row.checkOut },
   { name: "Booking Date", selector: (row) => row.createdAt },
+  { name: "Booked by", selector: (row) => row.bookedBy },
 ];
 
 export const bookingParkingHeader1 = [
@@ -304,6 +306,7 @@ export const bookingParkingHeader1 = [
   { name: "Check In", selector: (row) => row.checkIn },
   { name: "Check Out", selector: (row) => row.checkOut },
   { name: "Booking Date", selector: (row) => row.createdAt },
+  { name: "Booked by", selector: (row) => row.bookedBy },
 ];
 
 export const bookingHotelAndParkingHeader1 = [
@@ -313,6 +316,7 @@ export const bookingHotelAndParkingHeader1 = [
   { name: "Check In", selector: (row) => row.checkIn },
   { name: "Check Out", selector: (row) => row.checkOut },
   { name: "Booking Date", selector: (row) => row.createdAt },
+  { name: "Booked by", selector: (row) => row.bookedBy },
 ];
 
 export const dashboardOperatingCityHeader1 = [

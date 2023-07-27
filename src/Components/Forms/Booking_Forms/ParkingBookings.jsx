@@ -14,6 +14,7 @@ import Sidebar from "../../Sidebar/SideBar";
 import AdminNav from "../../AdminNavbar/AdminNav";
 import Button from "@mui/material/Button";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { useSelector } from "react-redux";
 
 const ParkingBooking = () => {
   // STATES AND VARIABLES
@@ -25,6 +26,8 @@ const ParkingBooking = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { user } = loggedinUser;
 
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   // Accordion Code
@@ -132,6 +135,7 @@ const ParkingBooking = () => {
           price: 200,
         },
         total_price,
+        bookedBy: user.account_type,
       }),
     };
 
