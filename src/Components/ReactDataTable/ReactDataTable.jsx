@@ -12,6 +12,12 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AddIcon from "@mui/icons-material/Add";
 import CalendarViewDayIcon from "@mui/icons-material/CalendarViewDay";
+import Avatar from "@mui/material/Avatar";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -22,6 +28,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { Hotel } from "@mui/icons-material";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -32,6 +40,11 @@ const ReactDataTable = ({ path, user }) => {
   const { header } = useSelector((state) => state.setHeader);
   const { url } = useSelector((state) => state.setDataUrl);
   const { isOpen } = useSelector((state) => state.openSidebar);
+  const listTypes = [
+    { text: "Hotel", link: "/hotel/book-rooms" },
+    { text: "Parking", link: "/parking/book-parking" },
+    { text: "Hotel And Parking", link: "/hotelparking/book-rooms" },
+  ];
 
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
@@ -44,6 +57,17 @@ const ReactDataTable = ({ path, user }) => {
   const [dialogData, setDialogData] = useState({});
   const [ratingOpen, setRatingOpen] = useState(false);
   const [rating, setRating] = useState(0);
+
+  const [openModal, setOpenModal] = React.useState(false);
+  const theme = useTheme();
+
+  const handleClickModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   useEffect(() => {
     setList(filteredData);
@@ -286,13 +310,20 @@ const ReactDataTable = ({ path, user }) => {
     ) {
       // window.location.href = "/addbooking";
       navigate("/parking/book-parking");
-    }else if (
+    } else if (
       (path === "booking" && user.partner_type === "HotelAndParking") ||
       (path === "cancelbooking" && user.partner_type === "HotelAndParking") ||
       (path === "bookingRequests" && user.partner_type === "HotelAndParking")
     ) {
       // window.location.href = "/addbooking";
       navigate("/hotelparking/book-rooms");
+    } else if (
+      (path === "booking" && user.account_type === "admin") ||
+      (path === "cancelbooking" && user.account_type === "admin") ||
+      (path === "bookingRequests" && user.account_type === "admin")
+    ) {
+      // window.location.href = "/addbooking";
+      handleClickModal();
     } else if (
       path === "parkingbookings" ||
       path === "upcomingparkingbookings"
@@ -633,7 +664,7 @@ const ReactDataTable = ({ path, user }) => {
           data={list}
           actions={
             <button className="btn btn-primary fw-bold" onClick={Addnew}>
-              <AddIcon/>
+              <AddIcon />
             </button>
           }
           pagination
@@ -740,6 +771,34 @@ const ReactDataTable = ({ path, user }) => {
               Approve
             </Button>
           </DialogActions>
+        </Dialog>
+        {/* Booking */}
+        <Dialog
+          sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 435 } }}
+          open={openModal}
+          onClose={handleCloseModal}
+          aria-labelledby="responsive-dialog-title"
+        >
+          <DialogTitle>Select One</DialogTitle>
+          <List sx={{ pt: 0 }}>
+            {listTypes.map((listType) => (
+              <ListItem disableGutters
+                sx={{ py: 0, px: 0 }}
+              >
+                <ListItemButton
+                  onClick={() => navigate(listType.link)}
+                  key={listType.text}
+                >
+                  {/* <ListItemAvatar>
+                    <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
+                      <PersonIcon />
+                    </Avatar>
+                  </ListItemAvatar> */}
+                  <ListItemText primary={listType.text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
         </Dialog>
       </div>
     </>
