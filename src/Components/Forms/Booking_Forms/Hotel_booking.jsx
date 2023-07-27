@@ -17,6 +17,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Sidebar from "../../Sidebar/SideBar";
 import AdminNav from "../../AdminNavbar/AdminNav";
 import Button from "@mui/material/Button";
+import { useSelector } from "react-redux";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -63,6 +64,8 @@ const HotelBooking = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { user } = loggedinUser;
 
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   // Accordion Code
@@ -223,6 +226,7 @@ const HotelBooking = () => {
         adults: formValues.adults,
         childrens: formValues.childrens,
         total_price,
+        bookedBy: user.account_type,
       }),
     };
 

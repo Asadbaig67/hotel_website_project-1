@@ -53,6 +53,21 @@ export const SidebarDataAdminProfile = [
     link: "/HotelsAndParkings",
   },
   {
+    key: "a",
+    title: "Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/booking",
+  },
+  {
+    key: "n",
+    title: "Canceled Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/cancelbooking",
+  },
+];
+
+export const SidebarDataAdminDeListedProperties = [
+  {
     key: 7,
     title: "De Listed Hotels",
     icon: <Hotel />,
@@ -69,18 +84,6 @@ export const SidebarDataAdminProfile = [
     title: "De Listed Hotel and Parkings",
     icon: <Hotel />,
     link: "/deListedHotelAndParking",
-  },
-  {
-    key: "a",
-    title: "Bookings",
-    icon: <BusinessCenterIcon />,
-    link: "/booking",
-  },
-  {
-    key: "n",
-    title: "Canceled Bookings",
-    icon: <BusinessCenterIcon />,
-    link: "/cancelbooking",
   },
 ];
 
