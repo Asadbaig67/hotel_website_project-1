@@ -12,6 +12,7 @@ import {
   SidebarDataUserProfile,
   SidebarDataUserBooking,
   SidebarDataUserUpcomingBooking,
+  SidebarDataAdminDeListedProperties
 } from "../../Utilis/SidebarData";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -75,7 +76,7 @@ const SideBar = ({ children }) => {
       <div className="main-container h-100">
         <motion.div
           animate={{
-            width: isOpen ? "300px" : "45px",
+            width: isOpen ? "250px" : "45px",
           }}
           style={{ zIndex: "6" }}
           className={`sidebar`}
@@ -107,6 +108,10 @@ const SideBar = ({ children }) => {
                   Pending Requests
                 </h3>
                 {sidebarDataFunction(SidebarDataAdminProfilePending)}
+                <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
+                  Delisted Properties
+                </h3>
+                {sidebarDataFunction(SidebarDataAdminDeListedProperties)}
               </>
             ) : view === "partner" ? (
               <>
@@ -134,7 +139,7 @@ const SideBar = ({ children }) => {
 
         <main
           style={{
-            margin: `${isOpen ? "130px" : "0px"}`,
+            margin: `${isOpen ? "100px" : "0px"}`,
             transitionDelay: `${isOpen ? "0.1s" : "0.2s"}`,
           }}
         >

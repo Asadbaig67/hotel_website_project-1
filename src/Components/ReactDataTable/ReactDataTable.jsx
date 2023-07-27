@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useFetch } from "../../Utilis/Fetch";
 import axios from "axios";
@@ -220,11 +220,14 @@ const ReactDataTable = ({ path, user }) => {
       id: id,
     };
     let result;
-    if (path === "deListedHotels") {
+    if (path === "deListedHotels" || user.partner_type === "Hotel") {
       result = await axios.put(`${api}/hotels/addHotelToList`, body);
-    } else if (path === "deListedParkings") {
+    } else if (path === "deListedParkings" || user.partner_type === "Parking") {
       result = await axios.put(`${api}/parking/addParkingToList`, body);
-    } else if (path === "deListedHotelAndParking") {
+    } else if (
+      path === "deListedHotelAndParking" ||
+      user.partner_type === "HotelAndParking"
+    ) {
       result = await axios.put(
         `${api}/hotelandparking/addHotelandparkingToList`,
         body
@@ -258,7 +261,9 @@ const ReactDataTable = ({ path, user }) => {
   const Addnew = () => {
     if (
       path === "hotels" ||
+      path === "deListedHotels" ||
       path === "hotelRequests" ||
+      (path === "delistedProperties" && user.partner_type === "Hotel") ||
       (path === "Property" && user.partner_type === "Hotel") ||
       (path === "PropertyRequests" && user.partner_type === "Hotel")
     ) {
@@ -268,12 +273,26 @@ const ReactDataTable = ({ path, user }) => {
       // window.location.href = "/adduser";
       navigate("/adduser");
     } else if (
-      path === "hotelbookings" ||
-      path === "upcominghotelbookings" ||
-      path === "cancelbooking"
+      (path === "booking" && user.partner_type === "Hotel") ||
+      (path === "cancelbooking" && user.partner_type === "Hotel") ||
+      (path === "bookingRequests" && user.partner_type === "Hotel")
     ) {
       // window.location.href = "/addbooking";
-      // navigate("/");
+      navigate("/hotel/book-rooms");
+    } else if (
+      (path === "booking" && user.partner_type === "Parking") ||
+      (path === "cancelbooking" && user.partner_type === "Parking") ||
+      (path === "bookingRequests" && user.partner_type === "Parking")
+    ) {
+      // window.location.href = "/addbooking";
+      navigate("/parking/book-parking");
+    }else if (
+      (path === "booking" && user.partner_type === "HotelAndParking") ||
+      (path === "cancelbooking" && user.partner_type === "HotelAndParking") ||
+      (path === "bookingRequests" && user.partner_type === "HotelAndParking")
+    ) {
+      // window.location.href = "/addbooking";
+      navigate("/hotelparking/book-rooms");
     } else if (
       path === "parkingbookings" ||
       path === "upcomingparkingbookings"
@@ -288,7 +307,9 @@ const ReactDataTable = ({ path, user }) => {
       navigate("/HotelAndParking");
     } else if (
       path === "parkings" ||
+      path === "deListedParkings" ||
       path === "parkingRequests" ||
+      (path === "delistedProperties" && user.partner_type === "Parking") ||
       (path === "Property" && user.partner_type === "Parking") ||
       (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
@@ -296,7 +317,10 @@ const ReactDataTable = ({ path, user }) => {
       navigate("/parkingform");
     } else if (
       path === "HotelsAndParkings" ||
+      path === "deListedHotelAndParking" ||
       path === "hotelAndParkingRequests" ||
+      (path === "delistedProperties" &&
+        user.partner_type === "HotelAndParking") ||
       (path === "Property" && user.partner_type === "HotelAndParking") ||
       (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
@@ -609,7 +633,7 @@ const ReactDataTable = ({ path, user }) => {
           data={list}
           actions={
             <button className="btn btn-primary fw-bold" onClick={Addnew}>
-              Add new
+              <AddIcon/>
             </button>
           }
           pagination

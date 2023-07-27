@@ -1,47 +1,72 @@
-import React, { useRef } from "react";
+import React from "react";
 import { DatePicker, Space } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import style from "./Date.module.css";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Dates = () => {
   dayjs.extend(customParseFormat);
   const { RangePicker } = DatePicker;
   const dispatch = useDispatch();
-
-  
-
+  const matches = useMediaQuery("(max-width:576px)");
   const disabledDate = (current) => {
     return current && current < dayjs().endOf("day");
   };
   return (
-    <Space direction="vertical" size={12}>
-      <RangePicker
-      
-        bordered={false}
-        format="DD-MM-YYYY"
-        disabledDate={disabledDate}
-        popupClassName={style.popup}
-        placeholder={["Check In", "Check Out"]}
-        inputPrefixCls={style.placeholder}
-        onChange={(val) => {
-          dispatch({
-            type: "SET_DATE",
-            payload: val.map((v) => v.format("DD-MM-YYYY")),
-          });
-        }}
-        onClick={() => {
-          dispatch({
-            type: "ALERTDATE",
-            payload: false,
-          });
-        }}
-        required={true}
-        // ref={datePickerRef}
-      />
-    </Space>
+    <>
+      {matches ? (
+        <Space direction="vertical" size={12}>
+          <RangePicker
+            bordered={false}
+            format="DD-MM-YYYY"
+            mode="single"
+            disabledDate={disabledDate}
+            popupClassName={style.popup}
+            placeholder={["Check In", "Check Out"]}
+            inputPrefixCls={style.placeholder}
+            onChange={(val) => {
+              dispatch({
+                type: "SET_DATE",
+                payload: val.map((v) => v.format("DD-MM-YYYY")),
+              });
+            }}
+            onClick={() => {
+              dispatch({
+                type: "ALERTDATE",
+                payload: false,
+              });
+            }}
+            required={true}
+          />
+        </Space>
+      ) : (
+        <Space direction="vertical" size={12}>
+          <RangePicker
+            bordered={false}
+            format="DD-MM-YYYY"
+            disabledDate={disabledDate}
+            popupClassName={style.popup}
+            placeholder={["Check In", "Check Out"]}
+            inputPrefixCls={style.placeholder}
+            onChange={(val) => {
+              dispatch({
+                type: "SET_DATE",
+                payload: val.map((v) => v.format("DD-MM-YYYY")),
+              });
+            }}
+            onClick={() => {
+              dispatch({
+                type: "ALERTDATE",
+                payload: false,
+              });
+            }}
+            required={true}
+          />
+        </Space>
+      )}
+    </>
   );
 };
 export default Dates;
