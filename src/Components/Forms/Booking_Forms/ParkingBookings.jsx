@@ -110,7 +110,7 @@ const ParkingBooking = () => {
   const handleBooking = async (event) => {
     setLoading(true);
     setMessage("");
-    event.preventDefault();
+    event.preventDefault();  
     const url = `${api}/adminbookings/parkingbooking`;
 
     const options = {
@@ -129,6 +129,7 @@ const ParkingBooking = () => {
           parking_name: "Parking one",
           vehicles_info: vehicleInfo,
           booked_slots: formValues.vehicles,
+          price: 200,
         },
         total_price,
       }),
@@ -151,8 +152,6 @@ const ParkingBooking = () => {
       console.log(error);
     }
   };
-
-  
 
   return (
     <>

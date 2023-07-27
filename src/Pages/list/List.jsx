@@ -19,6 +19,8 @@ const List = () => {
   const { adult, children, familyRoom, singleRoom, twinRoom } = options;
   const checkin = dates[0];
   const checkout = dates[1];
+  console.log("Checkin = ", checkin);
+  console.log("Checkout = ", checkout);
 
   const { activePath } = useSelector((state) => state.activePath);
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;

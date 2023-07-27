@@ -56,6 +56,8 @@ import { SET_LOGIN } from "./reducer/isLogin";
 import { SetHotel } from "./reducer/setHotel";
 import { profileImageReducer } from "./reducer/profileImage";
 import { openSidebar } from "./reducer/sidebarOpen";
+import { setSuccess } from "./reducer/successState";
+import { modalData } from "./reducer/modalData";
 
 const persistConfig = {
   key: "root",
@@ -122,6 +124,8 @@ const reducer = combineReducers({
   setAddedHotel: SetHotel,
   profileImage: profileImageReducer,
   openSidebar: openSidebar,
+  successState: setSuccess,
+  getmodalData: modalData,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
