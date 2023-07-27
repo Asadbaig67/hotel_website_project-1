@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -16,7 +17,9 @@ import Checkbox from "@mui/material/Checkbox";
 import CircularProgress from "@mui/material/CircularProgress";
 import Sidebar from "../../Sidebar/SideBar";
 import AdminNav from "../../AdminNavbar/AdminNav";
+import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
+import axios from "axios";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -63,6 +66,10 @@ const HotelBooking = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const [value, setValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState("");
+  const [allHotels, setAllHotels] = useState([]);
 
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   // Accordion Code
@@ -178,12 +185,26 @@ const HotelBooking = () => {
     }
   }, 0);
 
+  let hotelID;
+  if (loggedinUser.account_type === "admin") {
+    allHotels.filter((hotel) => {
+      if (hotel.name === value) {
+        hotelID = hotel.id;
+        return hotelID;
+      }
+    });
+  }
   const hotel_id = "6496d36b14c3e46e40e510f6";
   const handleRoomsRequest = async (event) => {
     setLoading(true);
     setOpenTab(false);
     event.preventDefault();
-    const url = `${api}/hotels/gethotelrooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${hotel_id}`;
+    let url;
+    if (loggedinUser.account_type === "admin") {
+      url = `${api}/hotels/gethotelrooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${hotelID}`;
+    } else {
+      url = `${api}/hotels/gethotelrooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${hotel_id}`;
+    }
     const options = {
       method: "GET",
     };
@@ -243,6 +264,22 @@ const HotelBooking = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const GetHotels = async () => {
+      const response = await axios.get(`${api}/hotels/getallhotelnames`);
+      setAllHotels(
+        response.data.map((hotel) => {
+          return { name: hotel.name, id: hotel._id };
+        })
+      );
+    };
+
+    GetHotels();
+  }, []);
+
+  // console.log(value);
+  // console.log(inputValue);
 
   return (
     <>
@@ -345,7 +382,13 @@ const HotelBooking = () => {
           <form className="needs-validation card p-3 shadow mx-4">
             <div className="row my-1">
               <h2 className="my-2">Check Room Availablility :</h2>
-              <div className="col-md-4 mb-2 col-sm-12">
+              <div
+                className={`${
+                  loggedinUser.account_type === "admin"
+                    ? "col-md-3"
+                    : "col-md-4"
+                }  mb-2 col-sm-12`}
+              >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
@@ -357,7 +400,13 @@ const HotelBooking = () => {
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
-              <div className="col-md-4 mb-3 col-sm-12 ">
+              <div
+                className={`${
+                  loggedinUser.account_type === "admin"
+                    ? "col-md-3"
+                    : "col-md-4"
+                } mb-3 col-sm-12 `}
+              >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
@@ -369,7 +418,41 @@ const HotelBooking = () => {
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
-              <div className="col-md-4 my-auto col-sm-12">
+              {loggedinUser.account_type === "admin" && (
+                <div className="mt-2 col-md-3 col-sm-12">
+                  <Autocomplete
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newValue,
+                      }));
+                    }}
+                    clearOnEscape
+                    inputValue={inputValue}
+                    onInputChange={(event, newInputValue) => {
+                      setInputValue(newInputValue);
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        city: newInputValue,
+                      }));
+                    }}
+                    id="controllable-states-demo"
+                    options={allHotels.map((hotel) => hotel.name)}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Hotel Name" />
+                    )}
+                  />
+                </div>
+              )}
+              <div
+                className={`${
+                  loggedinUser.account_type === "admin"
+                    ? "col-md-3"
+                    : "col-md-4"
+                } my-auto col-sm-12`}
+              >
                 <button
                   className="btn btn-lg btn-secondary w-100"
                   onClick={handleRoomsRequest}
