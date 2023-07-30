@@ -34,6 +34,9 @@ export const SidebarDataAdminProfile = [
     icon: <PersonIcon />,
     link: "/users",
   },
+]
+
+export const SidebarDataAdminListedProperties = [
   {
     key: 4,
     title: "Hotels",
@@ -52,11 +55,32 @@ export const SidebarDataAdminProfile = [
     icon: <Hotel />,
     link: "/HotelsAndParkings",
   },
+]
+
+export const SidebarDataAdminBooking = [
   {
     key: "a",
     title: "Bookings",
     icon: <BusinessCenterIcon />,
     link: "/booking",
+  },
+  {
+    key: "b",
+    title: "Upcoming Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/upcomingbooking",
+  },
+  {
+    key: "c",
+    title: "Previous Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/previousbooking",
+  },
+  {
+    key: "d",
+    title: "On going Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/ongoingbooking",
   },
   {
     key: "n",
@@ -134,6 +158,9 @@ export const SidebarDataPatnerProfile = [
     icon: <HomeIcon />,
     link: "/delistedProperties",
   },
+]
+
+export const SidebarDataPartnerBookings = [
   {
     key: "12",
     title: "Bookings",
@@ -141,18 +168,29 @@ export const SidebarDataPatnerProfile = [
     link: "/booking",
   },
   {
+    key: "a",
+    title: "Upcoming Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/upcomingbooking",
+  },
+  {
+    key: "b",
+    title: "Previous Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/previousbooking",
+  },
+  {
+    key: "c",
+    title: "On going Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/ongoingbooking",
+  },
+  {
     key: "13",
     title: "Canceled Bookings",
     icon: <BusinessCenterIcon />,
     link: "/cancelbooking",
   },
-
-  // {
-  //   key: 10,
-  //   title: "Uploads",
-  //   icon: <DriveFolderUploadIcon />,
-  //   link: "/oq",
-  // },
 ];
 
 export const SidebarDataPatnerProfilePending = [
@@ -201,6 +239,24 @@ export const SidebarDataUserBooking = [
     link: "/hotelandparkingbookings",
   },
   {
+    key: "a",
+    title: "Upcoming Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/upcomingbooking",
+  },
+  {
+    key: "b",
+    title: "Previous Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/previousbooking",
+  },
+  {
+    key: "c",
+    title: "On going Bookings",
+    icon: <BusinessCenterIcon />,
+    link: "/ongoingbooking",
+  },
+  {
     key: "n",
     title: "Canceled Bookings",
     icon: <BusinessCenterIcon />,
@@ -228,6 +284,7 @@ export const SidebarDataUserUpcomingBooking = [
     link: "/upcominghotelandparkingbookings",
   },
 ];
+
 //For All
 export const SidebarDataLogout = [
   {

@@ -205,6 +205,19 @@ function App() {
           element={<PrivateRoute Component={HotelsList} />}
         />
         <Route
+          path="/ongoingbooking"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/upcomingbooking"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path="/previousbooking"
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+
+        <Route
           path="/profiledata"
           element={<PrivateRoute Component={ProfileDataForm} />}
         />

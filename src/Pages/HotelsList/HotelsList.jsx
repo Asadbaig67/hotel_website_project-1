@@ -48,6 +48,24 @@ const HotelsList = () => {
         payload: `${api}/booking/getBooking`,
       });
       dispatch({ type: "SETHEADER", payload: bookingHeader1 });
+    } else if (path === "upcomingbooking") {
+      dispatch({
+        type: "SETURL",
+        payload: `${api}/booking/getAllUpcommingBookings`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHeader1 });
+    } else if (path === "previousbooking") {
+      dispatch({
+        type: "SETURL",
+        payload: `${api}/booking/getAllPreviousBookings`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHeader1 });
+    } else if (path === "ongoingbooking") {
+      dispatch({
+        type: "SETURL",
+        payload: `${api}/booking/getAllOnGoingBookings`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHeader1 });
     } else if (path === "parkings") {
       dispatch({
         type: "SETURL",
@@ -204,7 +222,7 @@ const HotelsList = () => {
         });
         dispatch({ type: "SETHEADER", payload: bookingHotelAndParkingHeader1 });
       }
-    }  else if (path==="delistedProperties"){
+    } else if (path === "delistedProperties") {
       if (user.partner_type === "Hotel") {
         dispatch({
           type: "SETURL",
@@ -223,6 +241,66 @@ const HotelsList = () => {
           payload: `${api}/hotelandparking/getdelistedhotelandparkingbyownerid/${id}`,
         });
         dispatch({ type: "SETHEADER", payload: hotelAndParkingHeader1 });
+      }
+    } else if (path === "upcomingbooking") {
+      if (user.partner_type === "Hotel") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/booking/getUpcommingBookingsByHotelOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader1 });
+      } else if (user.partner_type === "Parking") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/booking/getUpcommingBookingsByParkingOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader1 });
+      } else if (user.partner_type === "HotelAndParking") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/booking/getUpcommingBookingsByHotelparkingOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader1 });
+      }
+    } else if (path === "ongoingbooking") {
+      if (user.partner_type === "Hotel") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/booking/getAllOnGoingBookingByHotelOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader1 });
+      } else if (user.partner_type === "Parking") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/booking/getAllOnGoingBookingByParkingOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader1 });
+      } else if (user.partner_type === "HotelAndParking") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/booking/getAllOnGoingBookingByHotelAndParkingOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader1 });
+      }
+    } else if (path === "previousbooking") {
+      if (user.partner_type === "Hotel") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/booking/getPreviousBookingsByHotelOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader1 });
+      } else if (user.partner_type === "Parking") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/booking/getPreviousBookingsByParkingOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader1 });
+      } else if (user.partner_type === "HotelAndParking") {
+        dispatch({
+          type: "SETURL",
+          payload: `${api}/booking/getPreviousBookingsByHotelAndParkingOwnerId/${id}`,
+        });
+        dispatch({ type: "SETHEADER", payload: bookingHotelHeader1 });
       }
     }
   } else if (view === "user") {
@@ -268,50 +346,26 @@ const HotelsList = () => {
         payload: `${api}/booking/getCancelledBookingsByUserId/${id}`,
       });
       dispatch({ type: "SETHEADER", payload: bookingHeader1 });
+    } else if (path === "ongoingbooking") {
+      dispatch({
+        type: "SETURL",
+        payload: `${api}/booking/getAllOnGoingBookingByUserId/${id}`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHeader1 });
+    } else if (path === "previousbooking") {
+      dispatch({
+        type: "SETURL",
+        payload: `${api}/booking/getAllPreviousBookingsByUserId/${id}`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHeader1 });
+    } else if (path === "upcomingbooking") {
+      dispatch({
+        type: "SETURL",
+        payload: `${api}/booking/getAllUpcommingBookingsByUserId/${id}`,
+      });
+      dispatch({ type: "SETHEADER", payload: bookingHeader1 });
     }
   }
-
-  const Addnew = () => {
-    if (
-      path === "hotels" ||
-      path === "hotelRequests" ||
-      (path === "Property" && user.partner_type === "Hotel") ||
-      (path === "PropertyRequests" && user.partner_type === "Hotel")
-    ) {
-      navigate("/hotelform");
-    } else if (path === "users") {
-      navigate("/adduser");
-    } else if (
-      path === "hotelbookings" ||
-      path === "upcominghotelbookings" ||
-      path === "cancelbooking"
-    ) {
-    } else if (
-      path === "parkingbookings" ||
-      path === "upcomingparkingbookings"
-    ) {
-      navigate("/parking");
-    } else if (
-      path === "hotelandparkingbookings" ||
-      path === "upcominghotelandparkingbookings"
-    ) {
-      navigate("/HotelAndParking");
-    } else if (
-      path === "parkings" ||
-      path === "parkingRequests" ||
-      (path === "Property" && user.partner_type === "Parking") ||
-      (path === "PropertyRequests" && user.partner_type === "Parking")
-    ) {
-      navigate("/parkingform");
-    } else if (
-      path === "HotelsAndParkings" ||
-      path === "hotelAndParkingRequests" ||
-      (path === "Property" && user.partner_type === "HotelAndParking") ||
-      (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
-    ) {
-      navigate("/hotelparkingform");
-    }
-  };
 
   return (
     <>
