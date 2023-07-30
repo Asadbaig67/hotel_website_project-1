@@ -70,6 +70,10 @@ const HotelBooking = () => {
   const [value, setValue] = React.useState("");
   const [inputValue, setInputValue] = React.useState("");
   const [allHotels, setAllHotels] = useState([]);
+  const [hotelID, setHotelID] = useState("");
+  const [hotelID_Error, setHotelID_Error] = useState(false);
+  const [no_rooms_Error, setNo_Rooms_Error] = useState(false);
+  const [persons_error, setPersons_Error] = useState(false);
   const { user } = loggedinUser;
 
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
@@ -102,6 +106,24 @@ const HotelBooking = () => {
   });
 
   // FUNCTIONS AND METHODS
+  const validRoom = () => {
+    const numOfPerson =
+      parseInt(formValues.adults, 10) + parseInt(formValues.childrens, 10);
+    const totalSingleRoomCapacity = rooms.Single.length;
+    const totalTwinRoomCapacity = rooms.Twin.length * 2;
+    const totalfamilyRoomCapacity = rooms.Family.length * 5;
+    const totalRoomCapacity =
+      totalSingleRoomCapacity + totalTwinRoomCapacity + totalfamilyRoomCapacity;
+    console.log("formValues Adults= ", formValues.adults);
+    console.log("formValues Childrens= ", formValues.childrens);
+    console.log("Add Of = ", formValues.adults + formValues.childrens);
+    console.log("Persons are = ", numOfPerson);
+    console.log("Room Capacity = ", totalRoomCapacity);
+    if (numOfPerson > totalRoomCapacity) {
+      return true;
+    }
+    return false;
+  };
 
   // Alert Code Functions
   const handleClickOpen = () => {
@@ -114,9 +136,11 @@ const HotelBooking = () => {
     } else {
       setEmptyInput(false);
     }
+    setPersons_Error(validRoom());
   };
 
   const handleConditions = () => {
+    setNo_Rooms_Error(false);
     setError(false);
     setMessage("");
   };
@@ -172,6 +196,27 @@ const HotelBooking = () => {
     }
   };
 
+  const GetHotels = async () => {
+    const response = await axios.get(`${api}/hotels/getallhotelnames`);
+    setAllHotels(
+      response.data.map((hotel) => {
+        return { name: hotel.name, id: hotel._id };
+      })
+    );
+  };
+
+  const Partner_GetHotelNames = async () => {
+    const response = await axios.get(
+      `${api}/hotels/getHotelNamesByOwnerId/${loggedinUser.user._id}`
+    );
+    const { hotels } = response.data;
+    setAllHotels(
+      hotels.map((hotel) => {
+        return { name: hotel.name, id: hotel._id };
+      })
+    );
+  };
+
   // LOOP THROUGH ROOMS VAR AND CALCULATE TOTAL PRICE
 
   let total_price = roomsVar.reduce((accumulator, currentRoom) => {
@@ -186,33 +231,39 @@ const HotelBooking = () => {
     }
   }, 0);
 
-  let hotelID;
-  if (loggedinUser.account_type === "admin") {
+  useEffect(() => {
     allHotels.filter((hotel) => {
       if (hotel.name === value) {
-        hotelID = hotel.id;
-        return hotelID;
+        setHotelID(hotel.id);
+        return;
+      } else if (value === null) {
+        setHotelID("");
       }
     });
-  }
-  const hotel_id = "6496d36b14c3e46e40e510f6";
+  }, [value]);
+
   const handleRoomsRequest = async (event) => {
+    if (hotelID === "") {
+      setHotelID_Error(true);
+      return;
+    }
     setLoading(true);
     setOpenTab(false);
     event.preventDefault();
-    let url;
-    if (loggedinUser.account_type === "admin") {
-      url = `${api}/hotels/gethotelrooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${hotelID}`;
-    } else {
-      url = `${api}/hotels/gethotelrooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${hotel_id}`;
-    }
+    let url = `${api}/hotels/gethotelrooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${hotelID}`;
     const options = {
       method: "GET",
     };
 
     try {
       const response = await fetch(url, options);
-      const { rooms } = await response.json();
+      const { rooms, message } = await response.json();
+      if (message === "No Rooms Available") {
+        setOpenTab(false);
+        setNo_Rooms_Error(true);
+        setLoading(false);
+        return;
+      }
       setRoomData(rooms);
       setOpenTab(true);
       setLoading(false);
@@ -235,7 +286,7 @@ const HotelBooking = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        hotelId: hotel_id,
+        hotelId: hotelID,
         checkIn: valueIn.format("YYYY-MM-DD"),
         checkOut: valueOut.format("YYYY-MM-DD"),
         rooms: roomsVar,
@@ -268,20 +319,12 @@ const HotelBooking = () => {
   };
 
   useEffect(() => {
-    const GetHotels = async () => {
-      const response = await axios.get(`${api}/hotels/getallhotelnames`);
-      setAllHotels(
-        response.data.map((hotel) => {
-          return { name: hotel.name, id: hotel._id };
-        })
-      );
-    };
-
-    GetHotels();
+    if (loggedinUser.user.account_type === "admin") {
+      GetHotels();
+    } else {
+      Partner_GetHotelNames();
+    }
   }, []);
-
-  // console.log(value);
-  // console.log(inputValue);
 
   return (
     <>
@@ -317,7 +360,7 @@ const HotelBooking = () => {
                   Please select atleast one room!!
                 </span>
               )}
-              {!(roomsVar.length === 0) && !emptyInput && (
+              {!(roomsVar.length === 0) && !emptyInput && !persons_error && (
                 <>
                   <span className="d-block">
                     {message === ""
@@ -325,6 +368,12 @@ const HotelBooking = () => {
                       : message}
                   </span>
                 </>
+              )}
+              {persons_error && (
+                <span className="text-danger d-block">
+                  Select More Rooms! {roomsVar.length} rooms are not enough for{" "}
+                  {formValues.adults} persons.
+                </span>
               )}
             </div>
             <div class="modal-footer">
@@ -341,7 +390,9 @@ const HotelBooking = () => {
               {!finalloading && !success && !error && (
                 <Button
                   variant="contained"
-                  disabled={roomsVar.length === 0 || emptyInput}
+                  disabled={
+                    roomsVar.length === 0 || emptyInput || persons_error
+                  }
                   onClick={handleBooking}
                 >
                   Confirm Booking
@@ -384,13 +435,7 @@ const HotelBooking = () => {
           <form className="needs-validation card p-3 shadow mx-4">
             <div className="row my-1">
               <h2 className="my-2">Check Room Availablility :</h2>
-              <div
-                className={`${
-                  loggedinUser.account_type === "admin"
-                    ? "col-md-3"
-                    : "col-md-4"
-                }  mb-2 col-sm-12`}
-              >
+              <div className={`col-md-3  mb-2 col-sm-12`}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
@@ -402,13 +447,7 @@ const HotelBooking = () => {
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
-              <div
-                className={`${
-                  loggedinUser.account_type === "admin"
-                    ? "col-md-3"
-                    : "col-md-4"
-                } mb-3 col-sm-12 `}
-              >
+              <div className={`col-md-3 mb-3 col-sm-12 `}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
@@ -420,41 +459,42 @@ const HotelBooking = () => {
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
-              {loggedinUser.account_type === "admin" && (
-                <div className="mt-2 col-md-3 col-sm-12">
-                  <Autocomplete
-                    value={value}
-                    onChange={(event, newValue) => {
-                      setValue(newValue);
-                      setFormValues((prevValues) => ({
-                        ...prevValues,
-                        city: newValue,
-                      }));
-                    }}
-                    clearOnEscape
-                    inputValue={inputValue}
-                    onInputChange={(event, newInputValue) => {
-                      setInputValue(newInputValue);
-                      setFormValues((prevValues) => ({
-                        ...prevValues,
-                        city: newInputValue,
-                      }));
-                    }}
-                    id="controllable-states-demo"
-                    options={allHotels.map((hotel) => hotel.name)}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Hotel Name" />
-                    )}
-                  />
-                </div>
-              )}
-              <div
-                className={`${
-                  loggedinUser.account_type === "admin"
-                    ? "col-md-3"
-                    : "col-md-4"
-                } my-auto col-sm-12`}
-              >
+              <div className="mt-2 col-md-3 col-sm-12">
+                <Autocomplete
+                  value={value}
+                  onChange={(event, newValue) => {
+                    setValue(newValue);
+                    setFormValues((prevValues) => ({
+                      ...prevValues,
+                      city: newValue,
+                    }));
+                  }}
+                  clearOnEscape
+                  inputValue={inputValue}
+                  onInputChange={(event, newInputValue) => {
+                    setInputValue(newInputValue);
+                    setFormValues((prevValues) => ({
+                      ...prevValues,
+                      city: newInputValue,
+                    }));
+                  }}
+                  id="controllable-states-demo"
+                  options={allHotels.map((hotel) => hotel.name)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      error={hotelID_Error && hotelID === ""}
+                      helperText={
+                        hotelID_Error &&
+                        hotelID === "" &&
+                        "Select Hotel Name First"
+                      }
+                      label="Hotel Name"
+                    />
+                  )}
+                />
+              </div>
+              <div className={`col-md-3 my-auto col-sm-12`}>
                 <button
                   className="btn btn-lg btn-secondary w-100"
                   onClick={handleRoomsRequest}
@@ -471,7 +511,7 @@ const HotelBooking = () => {
             </div>
 
             <div className="row my-1">
-              {openTab && (
+              {openTab && !no_rooms_Error && (
                 <>
                   <h2 className="my-2">Rooms Details :</h2>
                   <span className="text-primary">
@@ -542,7 +582,17 @@ const HotelBooking = () => {
                   </div>
                 </>
               )}
+              {no_rooms_Error && (
+                <>
+                  <div className="bg-danger rounded-4 p-2">
+                    <h2 className="text-light">
+                      No Rooms Available For Booking!
+                    </h2>
+                  </div>
+                </>
+              )}
             </div>
+
             <div className="row my-1">
               <h2 className="mb-3">Customer Information :</h2>
               <div className="col-md-4 mb-3">
@@ -701,16 +751,6 @@ const HotelBooking = () => {
                 Confirm Booking
               </button>
             </div>
-            {/* <div className="mt-5 text-center">
-              <button
-                className="btn btn-primary btn-lg profile-button mb-4"
-                type="submit"
-                onClick={handleBooking}
-              >
-                Confirm Booking
-              </button>
-              
-            </div> */}
           </form>
         </div>
       </div>
