@@ -12,7 +12,10 @@ import {
   SidebarDataUserProfile,
   SidebarDataUserBooking,
   SidebarDataUserUpcomingBooking,
-  SidebarDataAdminDeListedProperties
+  SidebarDataAdminDeListedProperties,
+  SidebarDataAdminListedProperties,
+  SidebarDataAdminBooking,
+  SidebarDataPartnerBookings,
 } from "../../Utilis/SidebarData";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -21,6 +24,8 @@ const SideBar = ({ children }) => {
   const { isOpen } = useSelector((state) => state.openSidebar);
   const toggle = () => dispatch({ type: "TOGGLESIDEBAR", payload: !isOpen });
   const { view } = useSelector((state) => state.view);
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { user } = loggedinUser;
 
   const showAnimation = {
     hidden: {
@@ -91,7 +96,8 @@ const SideBar = ({ children }) => {
                   exit="hidden"
                   className="logo"
                 >
-                  Admin
+                  {user.account_type.slice(0, 1).toUpperCase() +
+                    user.account_type.slice(1)}
                 </motion.h1>
               )}
             </AnimatePresence>
@@ -105,6 +111,14 @@ const SideBar = ({ children }) => {
               <>
                 {sidebarDataFunction(SidebarDataAdminProfile)}
                 <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
+                  Properties
+                </h3>
+                {sidebarDataFunction(SidebarDataAdminListedProperties)}
+                <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
+                  Bookings
+                </h3>
+                {sidebarDataFunction(SidebarDataAdminBooking)}
+                <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
                   Pending Requests
                 </h3>
                 {sidebarDataFunction(SidebarDataAdminProfilePending)}
@@ -116,6 +130,10 @@ const SideBar = ({ children }) => {
             ) : view === "partner" ? (
               <>
                 {sidebarDataFunction(SidebarDataPatnerProfile)}
+                <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
+                  Bookings
+                </h3>
+                {sidebarDataFunction(SidebarDataPartnerBookings)}
                 <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
                   Pending Requests
                 </h3>
