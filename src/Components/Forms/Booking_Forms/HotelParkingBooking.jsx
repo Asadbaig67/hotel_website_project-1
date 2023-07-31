@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -18,6 +18,8 @@ import Sidebar from "../../Sidebar/SideBar";
 import AdminNav from "../../AdminNavbar/AdminNav";
 import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
+import Autocomplete from "@mui/material/Autocomplete";
+import axios from "axios";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -65,6 +67,14 @@ const HotelBooking = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
+  const [value, setValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState("");
+  const [allHotels, setAllHotels] = useState([]);
+  const [hotelID, setHotelID] = useState("");
+  const [hotelID_Error, setHotelID_Error] = useState(false);
+  const [no_rooms_Error, setNo_Rooms_Error] = useState(false);
+  const [persons_error, setPersons_Error] = useState(false);
+  const [price, setPrice] = useState(0);
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
 
@@ -103,6 +113,22 @@ const HotelBooking = () => {
   const [vehicleNumber, setVehicleNumber] = useState([]);
   // FUNCTIONS AND METHODS
 
+  // FUNCTIONS AND METHODS
+  const validRoom = () => {
+    const numOfPerson =
+      parseInt(formValues.adults, 10) + parseInt(formValues.childrens, 10);
+    const totalSingleRoomCapacity = rooms.Single.length;
+    const totalTwinRoomCapacity = rooms.Twin.length * 2;
+    const totalfamilyRoomCapacity = rooms.Family.length * 5;
+    const totalRoomCapacity =
+      totalSingleRoomCapacity + totalTwinRoomCapacity + totalfamilyRoomCapacity;
+
+    if (numOfPerson > totalRoomCapacity) {
+      return true;
+    }
+    return false;
+  };
+
   // Alert Code Functions
   const handleClickOpen = () => {
     if (
@@ -117,15 +143,10 @@ const HotelBooking = () => {
     } else {
       setEmptyInput(false);
     }
-    console.log("Length =", vehicleInfo.length);
     if (vehicleInfo.length === 0) {
       setEmptyParkingInput(true);
       return;
     }
-    console.log(
-      "Logic ",
-      formValues.vehicles * 2 !== Object.keys(vehicleInfo).length
-    );
     if (formValues.vehicles * 2 !== Object.keys(vehicleInfo).length) {
       setEmptyParkingInput(true);
       return;
@@ -136,11 +157,13 @@ const HotelBooking = () => {
         return value === "";
       });
       setEmptyParkingInput(empty);
-      return;
+      // return;
     }
+    setPersons_Error(validRoom());
   };
 
   const handleConditions = () => {
+    setNo_Rooms_Error(false);
     setError(false);
     setMessage("");
   };
@@ -183,6 +206,39 @@ const HotelBooking = () => {
       ...prevValues,
       [name + "Number"]: value,
     }));
+  };
+
+  const GetHotels = async () => {
+    const response = await axios.get(
+      `${api}/hotelandparking/getallhotelandparkings`
+    );
+    setAllHotels(
+      response.data.map((hotel) => {
+        console.log("Hotel Name ye hai boy = ", hotel.hotel_name);
+        return {
+          name: hotel.hotel_name,
+          price: hotel.parking_price,
+          id: hotel._id,
+        };
+      })
+    );
+  };
+
+  const Partner_GetHotelNames = async () => {
+    const response = await axios.get(
+      `${api}/hotelandparking/getHotelAndParkingNamesByOwnerId/${loggedinUser.user._id}`
+    );
+    const { hotels } = response.data;
+    console.log("Hotels = ", hotels);
+    setAllHotels(
+      hotels.map((hotel) => {
+        return {
+          name: hotel.hotel_name,
+          price: hotel.parking_price,
+          id: hotel._id,
+        };
+      })
+    );
   };
 
   const handleAddRoom = (number, type, price, id, checked) => {
@@ -234,19 +290,43 @@ const HotelBooking = () => {
     }
   }, 0);
 
+  useEffect(() => {
+    allHotels.filter((hotel) => {
+      if (hotel.name === value) {
+        setHotelID(hotel.id);
+        setPrice(hotel.price);
+        return;
+      } else if (value === null) {
+        setHotelID("");
+        setPrice(0);
+      }
+    });
+  }, [value]);
+
   const hotelAndParkingId = "64863f0115ed9bead43021ae";
   const handleRoomsRequest = async (event) => {
+    if (hotelID === "") {
+      setHotelID_Error(true);
+      return;
+    }
     setLoading(true);
     setOpenTab(false);
     event.preventDefault();
-    const url = `${api}/hotelandparking/getHotelAndParkingRooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${hotelAndParkingId}`;
+    const url = `${api}/hotelandparking/getHotelAndParkingRooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${hotelID}`;
     const options = {
       method: "GET",
     };
 
     try {
       const response = await fetch(url, options);
-      const { rooms } = await response.json();
+
+      const { rooms, message } = await response.json();
+      if (message === "No Rooms Available") {
+        setOpenTab(false);
+        setNo_Rooms_Error(true);
+        setLoading(false);
+        return;
+      }
       setRoomData(rooms);
       console.log(rooms);
       setOpenTab(true);
@@ -270,7 +350,7 @@ const HotelBooking = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        hotelAndParkingId,
+        hotelAndParkingId: hotelID,
         checkIn: valueIn.format("YYYY-MM-DD"),
         checkOut: valueOut.format("YYYY-MM-DD"),
         rooms: roomsVar,
@@ -283,7 +363,7 @@ const HotelBooking = () => {
           parking_name: "Parking one",
           vehicles_info: vehicleInfo,
           booked_slots: formValues.vehicles,
-          price: 100,
+          price: price * formValues.vehicles,
         },
         total_price,
         bookedBy: user.account_type,
@@ -308,7 +388,15 @@ const HotelBooking = () => {
     }
   };
 
-  console.log(vehicleInfo);
+  useEffect(() => {
+    if (loggedinUser.user.account_type === "admin") {
+      GetHotels();
+    } else {
+      Partner_GetHotelNames();
+    }
+  }, []);
+
+  console.log("Hotel = ", hotelID);
 
   return (
     <>
@@ -346,7 +434,8 @@ const HotelBooking = () => {
               )}
               {!(roomsVar.length === 0) &&
                 !emptyInput &&
-                !emptyParkingInput && (
+                !emptyParkingInput &&
+                !persons_error && (
                   <>
                     <span className="d-block">
                       {message === ""
@@ -355,6 +444,12 @@ const HotelBooking = () => {
                     </span>
                   </>
                 )}
+              {persons_error && (
+                <span className="text-danger d-block">
+                  Select More Rooms! {roomsVar.length} rooms are not enough for{" "}
+                  {formValues.adults} persons.
+                </span>
+              )}
             </div>
             <div class="modal-footer">
               {!success && (
@@ -371,7 +466,10 @@ const HotelBooking = () => {
                 <Button
                   variant="contained"
                   disabled={
-                    roomsVar.length === 0 || emptyInput || emptyParkingInput
+                    roomsVar.length === 0 ||
+                    emptyInput ||
+                    emptyParkingInput ||
+                    persons_error
                   }
                   onClick={handleBooking}
                 >
@@ -417,7 +515,7 @@ const HotelBooking = () => {
           <form className="needs-validation card p-3 shadow mx-4">
             <div className="row my-1">
               <h2 className="my-2">Check Room Availablility :</h2>
-              <div className="col-md-4 mb-2 col-sm-12">
+              <div className={`col-md-3  mb-2 col-sm-12`}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
@@ -429,7 +527,7 @@ const HotelBooking = () => {
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
-              <div className="col-md-4 mb-3 col-sm-12 ">
+              <div className={`col-md-3 mb-3 col-sm-12 `}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
@@ -441,7 +539,42 @@ const HotelBooking = () => {
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
-              <div className="col-md-4 my-auto col-sm-12">
+              <div className="mt-2 col-md-3 col-sm-12">
+                <Autocomplete
+                  value={value}
+                  onChange={(event, newValue) => {
+                    setValue(newValue);
+                    setFormValues((prevValues) => ({
+                      ...prevValues,
+                      city: newValue,
+                    }));
+                  }}
+                  clearOnEscape
+                  inputValue={inputValue}
+                  onInputChange={(event, newInputValue) => {
+                    setInputValue(newInputValue);
+                    setFormValues((prevValues) => ({
+                      ...prevValues,
+                      city: newInputValue,
+                    }));
+                  }}
+                  id="controllable-states-demo"
+                  options={allHotels.map((hotel) => hotel.name)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      error={hotelID_Error && hotelID === ""}
+                      helperText={
+                        hotelID_Error &&
+                        hotelID === "" &&
+                        "Select Hotel Parking Name First"
+                      }
+                      label="Hotel Parking Name"
+                    />
+                  )}
+                />
+              </div>
+              <div className={`col-md-3 my-auto col-sm-12`}>
                 <button
                   className="btn btn-lg btn-secondary w-100"
                   onClick={handleRoomsRequest}
@@ -458,7 +591,7 @@ const HotelBooking = () => {
             </div>
 
             <div className="row my-1">
-              {openTab && (
+              {openTab && !no_rooms_Error && (
                 <>
                   <h2 className="my-2">Rooms Details :</h2>
                   <span className="text-primary">
@@ -529,7 +662,17 @@ const HotelBooking = () => {
                   </div>
                 </>
               )}
+              {no_rooms_Error && (
+                <>
+                  <div className="bg-danger rounded-4 p-2">
+                    <h2 className="text-light">
+                      No Rooms Available For Booking!
+                    </h2>
+                  </div>
+                </>
+              )}
             </div>
+
             <div className="row my-1">
               <h2 className="mb-3">Customer Information :</h2>
               <div className="col-md-4 mb-3">
@@ -721,15 +864,22 @@ const HotelBooking = () => {
               </div>
             </div>
             <div
-              className="row my-1 rounded-3 py-2"
+              className="row my-1 rounded-3 py-4"
               style={{ backgroundColor: "#ebf3ff" }}
             >
               <h1 className="mb-3 text-dark">Payment Information :</h1>
 
               <div className="">
-                <span>Price for {nights} nights</span>
-                <h1>
-                  Total Price :<span>{total_price}/-</span>
+                <span className="d-block">Price for {nights} nights</span>
+                <span className="d-block">
+                  Price for Parking :{" "}
+                  <span className="text-warning">
+                    {price * formValues.vehicles}
+                  </span>{" "}
+                </span>
+                <h1 className="mt-2">
+                  <span className="bg-light rounded-3 py-2">Total Price </span>:
+                  <span className="text-warning">{total_price}/-</span>
                 </h1>
               </div>
             </div>

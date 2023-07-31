@@ -1,20 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { styled } from "@mui/material/styles";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
-import MuiAccordion from "@mui/material/Accordion";
-import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import CircularProgress from "@mui/material/CircularProgress";
 import Sidebar from "../../Sidebar/SideBar";
 import AdminNav from "../../AdminNavbar/AdminNav";
 import Button from "@mui/material/Button";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useSelector } from "react-redux";
+import Autocomplete from "@mui/material/Autocomplete";
+import axios from "axios";
 
 const ParkingBooking = () => {
   // STATES AND VARIABLES
@@ -26,6 +23,14 @@ const ParkingBooking = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
+  const [value, setValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState("");
+  const [allParkings, setallParkings] = useState([]);
+  const [parkingID, setParkingID] = useState("");
+  const [parkingID_Error, setParkingID_Error] = useState(false);
+  const [availableSlots, setAvailableSlots] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [openTab, setOpenTab] = useState(false);
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
 
@@ -105,15 +110,76 @@ const ParkingBooking = () => {
     }));
   };
 
-  let singleParkingPrice = 1000;
-  const total_price = formValues.vehicles * singleParkingPrice;
+  const GetParkings = async () => {
+    const response = await axios.get(`${api}/parking/getallparkings`);
+    setallParkings(
+      response.data.map((parking) => {
+        console.log("Hotel Name ye hai boy = ", parking.name);
+        return {
+          name: parking.name,
+          price: parking.price,
+          id: parking._id,
+        };
+      })
+    );
+  };
 
-  const parkingId = "6489849705a34468514ae1fc";
+  const Partner_GetParkingNames = async () => {
+    const response = await axios.get(
+      `${api}/parking/getParkingNamesByOwnerId/${loggedinUser.user._id}`
+    );
+    const { parkings } = response.data;
+    console.log("Parking Response = ", parkings);
+    setallParkings(
+      parkings.map((parking) => {
+        return {
+          name: parking.name,
+          price: parking.price,
+          id: parking._id,
+        };
+      })
+    );
+  };
+
+  useEffect(() => {
+    allParkings.filter((parking) => {
+      if (parking.name === value) {
+        setParkingID(parking.id);
+        setPrice(parking.price);
+        return;
+      } else if (value === null) {
+        setParkingID("");
+        setPrice(0);
+      }
+    });
+  }, [value]);
+
+  const handleSlotsRequest = async () => {
+    if (parkingID === "") {
+      setParkingID_Error(true);
+      return;
+    }
+    setLoading(true);
+    setOpenTab(false);
+    const url = `${api}/parking/getAvailableSlotsByParkingId/${parkingID}`;
+    try {
+      const response = await axios.get(url);
+      console.log("Response = ", response.data);
+      const { availableSlots } = response.data;
+      console.log("Available Slots = ", availableSlots);
+      setAvailableSlots(availableSlots);
+      setOpenTab(true);
+      setLoading(false);
+    } catch (error) {
+      setOpenTab(false);
+      setLoading(false);
+    }
+  };
 
   const handleBooking = async (event) => {
     setLoading(true);
     setMessage("");
-    event.preventDefault();  
+    event.preventDefault();
     const url = `${api}/adminbookings/parkingbooking`;
 
     const options = {
@@ -122,9 +188,9 @@ const ParkingBooking = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        parkingId,
-        checkIn: valueIn.format("YYYY-MM-DDTHH:mm:ssZ[Z]"),
-        checkOut: valueOut.format("YYYY-MM-DDTHH:mm:ssZ[Z]"),
+        parkingId: parkingID,
+        checkIn: valueIn.format("YYYY-MM-DDTHH:mm:ssZ"),
+        checkOut: valueOut.format("YYYY-MM-DDTHH:mm:ssZ"),
         name: formValues.name,
         email: formValues.email,
         phone: formValues.phone,
@@ -132,9 +198,9 @@ const ParkingBooking = () => {
           parking_name: "Parking one",
           vehicles_info: vehicleInfo,
           booked_slots: formValues.vehicles,
-          price: 200,
+          price: price * formValues.vehicles,
         },
-        total_price,
+        total_price: price * formValues.vehicles,
         bookedBy: user.account_type,
       }),
     };
@@ -156,6 +222,14 @@ const ParkingBooking = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (loggedinUser.user.account_type === "admin") {
+      GetParkings();
+    } else {
+      Partner_GetParkingNames();
+    }
+  }, []);
 
   return (
     <>
@@ -255,7 +329,7 @@ const ParkingBooking = () => {
           <form className="needs-validation card p-3 shadow mx-4">
             <div className="row my-1">
               <h2 className="my-2">Enter CheckIn | CheckOut Dates :</h2>
-              <div className="col-md-4 mb-2 col-sm-12">
+              <div className="col-md-3 mb-2 col-sm-12">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DateTimePicker"]}>
                     <DateTimePicker
@@ -267,7 +341,7 @@ const ParkingBooking = () => {
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
-              <div className="col-md-4 mb-3 col-sm-12 ">
+              <div className="col-md-3 mb-3 col-sm-12 ">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DateTimePicker"]}>
                     <DateTimePicker
@@ -279,12 +353,73 @@ const ParkingBooking = () => {
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
-              <div className="col-md-4 bg-light text-center rounded-3 my-auto col-sm-12">
-                <span className="fs-4">
-                  Availabe Slots :{" "}
-                  <span className="text-warning fs-2"> 100</span>
-                </span>
+              <div className="mt-2 col-md-3 col-sm-12">
+                <Autocomplete
+                  value={value}
+                  onChange={(event, newValue) => {
+                    setValue(newValue);
+                    setFormValues((prevValues) => ({
+                      ...prevValues,
+                      city: newValue,
+                    }));
+                  }}
+                  clearOnEscape
+                  inputValue={inputValue}
+                  onInputChange={(event, newInputValue) => {
+                    setInputValue(newInputValue);
+                    setFormValues((prevValues) => ({
+                      ...prevValues,
+                      city: newInputValue,
+                    }));
+                  }}
+                  id="controllable-states-demo"
+                  options={allParkings.map((hotel) => hotel.name)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      error={parkingID_Error && parkingID === ""}
+                      helperText={
+                        parkingID_Error &&
+                        parkingID === "" &&
+                        "Select Parking Name First"
+                      }
+                      label="Parking Name"
+                    />
+                  )}
+                />
               </div>
+              <div className="col-md-3 mt-3  col-sm-12">
+                <button
+                  className="btn btn-lg btn-secondary w-100"
+                  onClick={handleSlotsRequest}
+                  type="button"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <CircularProgress size={20} sx={{ p: 0 }} />
+                  ) : (
+                    "Check Available Slots"
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className="row my-1">
+              {openTab && (
+                <>
+                  <div className="col-md-12 bg-light text-center rounded-3 my-auto col-sm-12">
+                    <div>
+                      <span className="fs-3">
+                        Availabe Slots :{" "}
+                        <span className="text-warning fs-2">
+                          {" "}
+                          {availableSlots}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="row my-1">
@@ -392,7 +527,7 @@ const ParkingBooking = () => {
               <div className="">
                 <span>Price for {nights} days</span>
                 <h1>
-                  Total Price :<span>{total_price}/-</span>
+                  Total Price :<span>{price * formValues.vehicles}/-</span>
                 </h1>
               </div>
               <div className="mt-5 text-center">
