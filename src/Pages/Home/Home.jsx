@@ -5,6 +5,9 @@ import Featured from "../../Components/featured/Featured";
 import FeaturedProperties from "../../Components/featuredProperties/FeaturedProperties";
 import Footer from "../../Components/footer/Footer";
 import MailList from "../../Components/mailList/MailList";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+
 // import PropertyList from "../../Components/propertyList/PropertyList";
 import style from "./home.module.css";
 import { useMediaQuery } from "@mui/material";
@@ -15,6 +18,7 @@ const Home = (props) => {
   const logout = () => {
     window.open(`${api}/user/logout`, "_self");
   };
+  const dispatch = useDispatch();
 
   // State For Logged In User
   const [user, setUser] = useState(null);
@@ -33,6 +37,21 @@ const Home = (props) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    dispatch({
+      type: "SUCCESS",
+      payload: false,
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch({
+      type: "SET_MODAL_DATA",
+      payload: [],
+    });
+  }, []);
+
 
   return (
     <div>

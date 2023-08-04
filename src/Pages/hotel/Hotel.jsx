@@ -40,15 +40,17 @@ const Hotel = () => {
   const [option, setOption] = useState(options);
 
   const handleOptionChange = (e) => {
-    setOption({ ...option, [e.target.name]: e.target.value });
+    console.log(e.target.value);
+    setOption({ ...option, [e.target.name]: parseInt(e.target.value) });
     dispatch({
       type: "SET_OPTION",
-      payload: option,
+      payload: {
+        ...option,
+        [e.target.name]: parseInt(e.target.value),
+      },
     });
   };
 
-  if (selected_hotel) {
-  }
   let Facilities = [];
   if (selected_hotel.Facilities) {
     Facilities = [...selected_hotel.Facilities];
@@ -70,6 +72,8 @@ const Hotel = () => {
   const [familyRoomError, setFamilyRoomError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [vehiclesError, setVehiclesError] = useState(false);
+
   let roomArray = [];
   let singleRoomsArray = [];
   let twinRoomsArray = [];
@@ -204,6 +208,12 @@ const Hotel = () => {
         Nights: dayjs(valueOut).diff(dayjs(valueIn), "day"),
         roomArray,
         singleRoomsArray,
+        ...(activePath === "hotelAndParking" && {
+          parking: {
+            Total_slots: c,
+            Parking_price: parkingPrice,
+          },
+        }),
         twinRoomsArray,
         familyRoomsArray,
         featured: true,
@@ -221,15 +231,48 @@ const Hotel = () => {
     Navigate("/bookingdetails");
   };
 
+  const CheckConditions = (e) => {
+    if ((c === 0 || !c) && activePath === "hotelAndParking") {
+      setVehiclesError(true);
+      alert("Please add vehicle");
+      return;
+    }
+    if (option.adult === 0 || !option.adult || isNaN(option.adult)) {
+      alert("Adults must be greater than 0");
+      return;
+    }
+    if (
+      option.singleRoom === 0 &&
+      option.twinRoom === 0 &&
+      option.familyRoom === 0
+    ) {
+      alert("Rooms must be greater than 0");
+      return;
+    }
+    if (
+      isNaN(option.singleRoom) ||
+      isNaN(option.twinRoom) ||
+      isNaN(option.familyRoom)
+    ) {
+      alert("Rooms must be a number");
+      return;
+    }
+    handleRoomsRequest(e);
+  };
+
   const handleRoomsRequest = async (event) => {
     event.preventDefault();
     setLoading(true);
-    // setSuccess(false);
     dispatch({
       type: "SUCCESS",
       payload: false,
     });
-    const url = `${api}/hotels/gethotelrooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${selected_hotel._id}`;
+    let url;
+    if (activePath === "hotelAndParking") {
+      url = `${api}/hotelandparking/getHotelAndParkingRooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${selected_hotel._id}`;
+    } else {
+      url = `${api}/hotels/gethotelrooms?checkIn=${valueIn}&checkOut=${valueOut}&id=${selected_hotel._id}`;
+    }
     const options = {
       method: "GET",
     };
@@ -237,6 +280,7 @@ const Hotel = () => {
     try {
       const response = await fetch(url, options);
       const { rooms } = await response.json();
+      console.log("Rooms", rooms);
       setLoading(false);
       setRooms(rooms);
       dispatch({
@@ -265,19 +309,19 @@ const Hotel = () => {
   const Total_Price = rooms_Array.reduce((acc, room) => {
     if (room.type === "Single") {
       if (option.singleRoom > 0) {
-        SingleRoomPrice = room.price;
+        SingleRoomPrice = room.price * option.singleRoom;
         return acc + option.singleRoom * room.price;
       }
     }
     if (room.type === "Twin") {
       if (option.twinRoom > 0) {
-        TwinRoomPrice = room.price;
+        TwinRoomPrice = room.price * option.twinRoom;
         return acc + option.twinRoom * room.price;
       }
     }
     if (room.type === "Family") {
       if (option.familyRoom > 0) {
-        FamilyRoomPrice = room.price;
+        FamilyRoomPrice = room.price * option.familyRoom;
         return acc + option.familyRoom * room.price;
       }
     }
@@ -424,25 +468,30 @@ const Hotel = () => {
   }, [singleRoomError, twinRoomError, familyRoomError]);
 
   useEffect(() => {
-    if (!success_State) {
+    if (dates.length === 0) {
+      dispatch({
+        type: "SUCCESS",
+        payload: false,
+      });
+    }
+  }, [dates]);
+
+  useEffect(() => {
+    if (dates.length === 0) {
       dispatch({
         type: "SET_MODAL_DATA",
         payload: [],
       });
     }
-  }, [success_State]);
+  }, [dates]);
 
-  console.log("Success Satet Not Wali", success_State);
-  // console.log("Rooms", rooms);
-  // console.log("Room Array", roomArray);
-  // console.log("Single Room Array", singleRoomsArray);
-  // console.log("Twin Room Array", twinRoomsArray);
-  // console.log("Family Room Array", familyRoomsArray);
-  // console.log("Total Price", Total_Price);
-  // console.log("Single Room Price", SingleRoomPrice);
-  // console.log("Twin Room Price", TwinRoomPrice);
-  // console.log("Family Room Price", FamilyRoomPrice);
-  // console.log("Nights", dayjs(valueOut).diff(dayjs(valueIn), "day"));
+  useEffect(() => {
+    if (c !== "0" && c !== "") {
+      setVehiclesError(false);
+    }
+  }, [c]);
+
+  console.log("Rooms", option.singleRoom, option.twinRoom, option.familyRoom);
 
   return (
     <>
@@ -520,8 +569,16 @@ const Hotel = () => {
                 </div>
               </div>
               <div className="row my-1">
-                <h2 className="my-2">Enter No Of Adults and Childrens :</h2>
-                <div className="col-md-6 mb-3 col-sm-12">
+                <h2 className="my-2">
+                  {activePath === "hotelAndParking"
+                    ? "Enter No Of Adults,Childrens and Vehicles"
+                    : "Enter No Of Adults and Childrens "}
+                </h2>
+                <div
+                  className={` ${
+                    activePath === "hotelAndParking" ? "col-md-4" : "col-md-6"
+                  } mb-3 col-sm-12`}
+                >
                   <TextField
                     id="filled-basic"
                     label="Adults"
@@ -533,7 +590,11 @@ const Hotel = () => {
                     fullWidth
                   />
                 </div>
-                <div className="col-md-6 mb-3 col-sm-12">
+                <div
+                  className={`${
+                    activePath === "hotelAndParking" ? "col-md-4" : "col-md-6"
+                  } mb-3 col-sm-12`}
+                >
                   <TextField
                     id="filled-basic"
                     label="Childrens"
@@ -545,6 +606,31 @@ const Hotel = () => {
                     fullWidth
                   />
                 </div>
+                {activePath === "hotelAndParking" && (
+                  <div
+                    className={`${
+                      activePath === "hotelAndParking" ? "col-md-4" : "col-md-6"
+                    } mb-3 col-sm-12`}
+                  >
+                    <TextField
+                      id="filled-basic"
+                      label="Vehicles"
+                      variant="outlined"
+                      name="vehicle"
+                      value={c}
+                      error={vehiclesError}
+                      helperText={vehiclesError && "Please add vehicle"}
+                      onChange={(e) =>
+                        dispatch({
+                          type: "INCREMENT",
+                          payload: e.target.value,
+                        })
+                      }
+                      type="number"
+                      fullWidth
+                    />
+                  </div>
+                )}
               </div>
               <div className="row my-1">
                 <h2 className="my-2">Add Rooms Quantity :</h2>
@@ -656,7 +742,7 @@ const Hotel = () => {
                 <button
                   type="button"
                   // onClick={RequestRooms}
-                  onClick={handleRoomsRequest}
+                  onClick={CheckConditions}
                   class="btn btn-lg btn-secondary"
                   disabled={singleRoomError || twinRoomError || familyRoomError}
                 >
@@ -932,17 +1018,17 @@ const Hotel = () => {
                               Standard Price = ${selected_hotel.StandardPrice}
                             </small>
                           )}
-                        {success_State && SingleRoomPrice ? (
+                        {success_State && SingleRoomPrice > 0 ? (
                           <small>Single Room Price = ${SingleRoomPrice}</small>
                         ) : (
                           ""
                         )}
-                        {success_State && TwinRoomPrice ? (
+                        {success_State && TwinRoomPrice > 0 ? (
                           <small>Twin Room Price = ${TwinRoomPrice}</small>
                         ) : (
                           ""
                         )}
-                        {success_State && FamilyRoomPrice ? (
+                        {success_State && FamilyRoomPrice > 0 ? (
                           <small>Single Room Price = ${FamilyRoomPrice}</small>
                         ) : (
                           ""

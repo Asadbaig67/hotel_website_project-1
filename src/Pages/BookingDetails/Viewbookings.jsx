@@ -44,6 +44,7 @@ const ViewBookings = () => {
   const { dates } = useSelector((state) => state.searchDate);
   const datesParking = useSelector((state) => state.searchParkingDate.dates);
   const { c } = useSelector((state) => state.searchVehicle);
+  const { activePath } = useSelector((state) => state.activePath);
 
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
@@ -187,7 +188,11 @@ const ViewBookings = () => {
     }
   }
 
-  roomArray = JSON.stringify(roomArray);
+  if (booked_property.featured) {
+    roomArray = JSON.stringify(booked_property.roomArray);
+  } else {
+    roomArray = JSON.stringify(roomArray);
+  }
 
   if (booked_property.parking_name) {
     parking = {
@@ -221,23 +226,26 @@ const ViewBookings = () => {
   const HandleBooking = async () => {
     // Api Request
     if (!booked_property.parking_name) {
-      const hotelURL = `${api}/booking/addBooking?userId=${userId}&hotelId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&adults=${options.adult}&children=${options.children}`;
+      let hotelURL = `${api}/booking/addBooking?userId=${userId}&hotelId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&adults=${options.adult}&children=${options.children}`;
+
       const requestOptions = {
         method: "POST",
       };
       try {
         const response = await fetch(hotelURL, requestOptions);
         const data = await response.json();
+        console.log(data);
         if (response.ok) {
           alert("Booking Successful");
         } else {
           alert("Booking Failed");
         }
       } catch (error) {
-        console.error(error);
+        console.error(error.message);
       }
     } else {
-      const hotelandparkingURL = `${api}/booking/addHotelAndParkingBooking?userId=${userId}&HotelAndParkingId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&parking=${parking}`;
+      let hotelandparkingURL = `${api}/booking/addHotelAndParkingBooking?userId=${userId}&HotelAndParkingId=${hotelId}&room=${roomArray}&checkIn=${CorrectCheckIn}&checkOut=${CorrectCheckOut}&parking=${parking}`;
+
       const requestOptions = {
         method: "POST",
       };
@@ -255,7 +263,7 @@ const ViewBookings = () => {
     }
   };
 
-  console.log("booked_property", booked_property);
+  console.log(parking);
 
   return (
     <>
@@ -330,7 +338,7 @@ const ViewBookings = () => {
                         : null}{" "}
                     </div>
                     {!booked_property.featured && (
-                      <Link to="/listhotel" className="small">
+                      <Link to="/listHotel" className="small">
                         Change Your Selection
                       </Link>
                     )}
