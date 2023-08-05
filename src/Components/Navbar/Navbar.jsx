@@ -174,6 +174,14 @@ const Navbar = ({ list }) => {
     setOpenOptions(false);
     if (path === "/") {
       dispatch({
+        type: "SUCCESS",
+        payload: false,
+      });
+      dispatch({
+        type: "SET_MODAL_DATA",
+        payload: [],
+      });
+      dispatch({
         type: "ALERTPERSON",
         payload: validRoom(),
       });
@@ -200,6 +208,14 @@ const Navbar = ({ list }) => {
         });
       }
     } else if (path === "/parking") {
+      dispatch({
+        type: "SUCCESS",
+        payload: false,
+      });
+      dispatch({
+        type: "SET_MODAL_DATA",
+        payload: [],
+      });
       if (cityParking === "") {
         dispatch({
           type: "ALERTCITY",
@@ -234,6 +250,14 @@ const Navbar = ({ list }) => {
         });
       }
     } else if (path === "/HotelAndParking") {
+      dispatch({
+        type: "SUCCESS",
+        payload: false,
+      });
+      dispatch({
+        type: "SET_MODAL_DATA",
+        payload: [],
+      });
       dispatch({
         type: "ALERTPERSON",
         payload: validRoom(),
