@@ -41,9 +41,24 @@ const ReactDataTable = ({ path, user }) => {
   const { url } = useSelector((state) => state.setDataUrl);
   const { isOpen } = useSelector((state) => state.openSidebar);
   const listTypes = [
-    { text: "Hotel", link: "/hotel/book-rooms" },
-    { text: "Parking", link: "/parking/book-parking" },
-    { text: "Hotel And Parking", link: "/hotelparking/book-rooms" },
+    {
+      text: "Hotel",
+      link: `/${user.account_type}${
+        user.account_type === "partner" ? `/${user.partner_type}` : ""
+      }/book-rooms`,
+    },
+    {
+      text: "Parking",
+      link: `/${user.account_type}${
+        user.account_type === "partner" ? `/${user.partner_type}` : ""
+      }/book-parking`,
+    },
+    {
+      text: "Hotel And Parking",
+      link: `/${user.account_type}${
+        user.account_type === "partner" ? `/${user.partner_type}` : ""
+      }/book-rooms`,
+    },
   ];
 
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
@@ -126,16 +141,26 @@ const ReactDataTable = ({ path, user }) => {
     ) {
       data = await axios.get(`${api}/hotels/gethotelbyid/${id}`);
       if (data) {
-        navigate("/viewproperty", {
-          state: { data: data.data, user: user, path: path },
-        });
+        navigate(
+          `/${user.account_type}${
+            user.account_type === "partner" ? `/${user.partner_type}` : ""
+          }/viewproperty/${id}`,
+          {
+            state: { data: data.data, user: user, path: path },
+          }
+        );
       }
     } else if (path === "users") {
       data = await axios.get(`${api}/user/getuserbyid/${id}`);
       if (data) {
-        navigate("/viewproperty", {
-          state: { data: data.data, user: user, path: path },
-        });
+        navigate(
+          `/${user.account_type}${
+            user.account_type === "partner" ? `/${user.partner_type}` : ""
+          }/viewproperty/${id}`,
+          {
+            state: { data: data.data, user: user, path: path },
+          }
+        );
       }
     } else if (
       path === "parkings" ||
@@ -147,9 +172,14 @@ const ReactDataTable = ({ path, user }) => {
     ) {
       data = await axios.get(`${api}/parking/getParkingById/${id}`);
       if (data) {
-        navigate("/viewproperty", {
-          state: { data: data.data, user: user, path: path },
-        });
+        navigate(
+          `/${user.account_type}${
+            user.account_type === "partner" ? `/${user.partner_type}` : ""
+          }/viewproperty/${id}`,
+          {
+            state: { data: data.data, user: user, path: path },
+          }
+        );
       }
     } else if (
       path === "HotelsAndParkings" ||
@@ -164,9 +194,14 @@ const ReactDataTable = ({ path, user }) => {
         `${api}/hotelandparking/gethotelandparkingbyid/${id}`
       );
       if (data) {
-        navigate("/viewproperty", {
-          state: { data: data.data, user: user, path: path },
-        });
+        navigate(
+          `/${user.account_type}${
+            user.account_type === "partner" ? `/${user.partner_type}` : ""
+          }/viewproperty/${id}`,
+          {
+            state: { data: data.data, user: user, path: path },
+          }
+        );
       }
     } else if (
       path === "bookings" ||
@@ -178,9 +213,14 @@ const ReactDataTable = ({ path, user }) => {
     ) {
       data = await axios.get(`${api}/booking/getBooking/${id}`);
       if (data) {
-        navigate("/viewbookingdetails", {
-          state: { data: data.data, user: user, path: path },
-        });
+        navigate(
+          `/${user.account_type}${
+            user.account_type === "partner" ? `/${user.partner_type}` : ""
+          }/viewbookingdetails/${id}`,
+          {
+            state: { data: data.data, user: user, path: path },
+          }
+        );
       }
     }
   };
@@ -267,19 +307,34 @@ const ReactDataTable = ({ path, user }) => {
       path === "hotels" ||
       path === "hotelRequests"
     )
-      navigate("/updatehotel", { state: { id: id } });
+      navigate(
+        `${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/updatehotel/${id}`,
+        { state: { id: id } }
+      );
     else if (
       user.partner_type === "Parking" ||
       path === "parkings" ||
       path === "parkingRequests"
     )
-      navigate("/updateparking", { state: { id: id } });
+      navigate(
+        `${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/updatehotel/${id}`,
+        { state: { id: id } }
+      );
     else if (
       user.partner_type === "HotelAndParking" ||
       path === "HotelsAndParkings" ||
       path === "hotelAndParkingRequests"
     )
-      navigate("/updatehotelandparking", { state: { id: id } });
+      navigate(
+        `${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/updatehotel/${id}`,
+        { state: { id: id } }
+      );
   };
 
   const Addnew = () => {
@@ -291,9 +346,17 @@ const ReactDataTable = ({ path, user }) => {
       (path === "Property" && user.partner_type === "Hotel") ||
       (path === "PropertyRequests" && user.partner_type === "Hotel")
     ) {
-      navigate("/hotelform");
+      navigate(
+        `/${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/hotelform`
+      );
     } else if (path === "users") {
-      navigate("/adduser");
+      navigate(
+        `/${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/adduser`
+      );
     } else if (
       (path === "booking" && user.partner_type === "Hotel") ||
       (path === "cancelbooking" && user.partner_type === "Hotel") ||
@@ -302,19 +365,31 @@ const ReactDataTable = ({ path, user }) => {
       (path === "ongoingbooking" && user.partner_type === "Hotel") ||
       (path === "previousbooking" && user.partner_type === "Hotel")
     ) {
-      navigate("/hotel/book-rooms");
+      navigate(
+        `/${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/book-rooms`
+      );
     } else if (
       (path === "booking" && user.partner_type === "Parking") ||
       (path === "cancelbooking" && user.partner_type === "Parking") ||
       (path === "bookingRequests" && user.partner_type === "Parking")
     ) {
-      navigate("/parking/book-parking");
+      navigate(
+        `/${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/book-parking`
+      );
     } else if (
       (path === "booking" && user.partner_type === "HotelAndParking") ||
       (path === "cancelbooking" && user.partner_type === "HotelAndParking") ||
       (path === "bookingRequests" && user.partner_type === "HotelAndParking")
     ) {
-      navigate("/hotelparking/book-rooms");
+      navigate(
+        `/${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/book-rooms`
+      );
     } else if (
       (path === "booking" && user.account_type === "admin") ||
       (path === "cancelbooking" && user.account_type === "admin") ||
@@ -328,12 +403,20 @@ const ReactDataTable = ({ path, user }) => {
       path === "parkingbookings" ||
       path === "upcomingparkingbookings"
     ) {
-      navigate("/parking");
+      navigate(
+        `/${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/parking`
+      );
     } else if (
       path === "hotelandparkingbookings" ||
       path === "upcominghotelandparkingbookings"
     ) {
-      navigate("/HotelAndParking");
+      navigate(
+        `/${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/HotelAndParking`
+      );
     } else if (
       path === "parkings" ||
       path === "deListedParkings" ||
@@ -342,7 +425,11 @@ const ReactDataTable = ({ path, user }) => {
       (path === "Property" && user.partner_type === "Parking") ||
       (path === "PropertyRequests" && user.partner_type === "Parking")
     ) {
-      navigate("/parkingform");
+      navigate(
+        `/${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/parkingform`
+      );
     } else if (
       path === "HotelsAndParkings" ||
       path === "deListedHotelAndParking" ||
@@ -352,7 +439,11 @@ const ReactDataTable = ({ path, user }) => {
       (path === "Property" && user.partner_type === "HotelAndParking") ||
       (path === "PropertyRequests" && user.partner_type === "HotelAndParking")
     ) {
-      navigate("/hotelparkingform");
+      navigate(
+        `/${user.account_type}${
+          user.account_type === "partner" ? `/${user.partner_type}` : ""
+        }/hotelparkingform`
+      );
     } else if (user.account_type === "user") {
       navigate("/");
     }
@@ -826,7 +917,7 @@ const ReactDataTable = ({ path, user }) => {
           <DialogTitle>Select One</DialogTitle>
           <List sx={{ pt: 0 }}>
             {listTypes.map((listType) => (
-              <ListItem disableGutters sx={{ py: 0, px: 0 }}>
+              <ListItem sx={{ py: 0, px: 0 }}>
                 <ListItemButton
                   onClick={() => navigate(listType.link)}
                   key={listType.text}

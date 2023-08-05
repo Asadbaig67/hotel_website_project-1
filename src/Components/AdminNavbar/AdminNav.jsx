@@ -5,13 +5,15 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Tooltip, useMediaQuery } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const AdminNav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { user } = loggedinUser;
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -96,7 +98,12 @@ const AdminNav = () => {
             </Link>
           </MenuItem>
           <MenuItem>
-            <Link to="/profile" style={{ color: "black" }}>
+            <Link
+              to={`${user.account_type}${
+                user.account_type === "partner" ? `/${user.partner_type}` : ""
+              }/profile`}
+              style={{ color: "black" }}
+            >
               My Profile
             </Link>
           </MenuItem>

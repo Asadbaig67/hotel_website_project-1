@@ -27,7 +27,9 @@ const HotelsList = () => {
   const location = useLocation();
 
   const { view } = useSelector((state) => state.view);
-  const path = location.pathname.split("/")[1];
+  const path =
+    location.pathname.split("/")[user.account_type === "partner" ? 3 : 2];
+  console.log(path);
 
   if (view === "admin") {
     if (path === "hotels") {

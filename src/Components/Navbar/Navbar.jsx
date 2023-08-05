@@ -327,7 +327,7 @@ const Navbar = ({ list }) => {
     }
 
     navSearch
-      ? navigate(`/listHotel`)
+      ? navigate(`/hotel`)
       : nav2
       ? navigate("/HotelAndParkingList")
       : navigate(`/ParkingList`);
@@ -363,7 +363,7 @@ const Navbar = ({ list }) => {
   };
 
   useEffect(() => {
-    if (path === "/" || path === "/listHotel" || path === "/singleHotel") {
+    if (path === "/" || path === "/hotel" || path === "/singleHotel") {
       dispatch({
         type: "activePath",
         payload: "hotel",
@@ -663,7 +663,16 @@ const Navbar = ({ list }) => {
                                 <Avatar />{" "}
                                 <Link
                                   className="text-dark"
-                                  to={loggedinUser ? "/dashboard" : "/signin"}
+                                  to={
+                                    loggedinUser
+                                      ? `/${loggedinUser.user.account_type}${
+                                          loggedinUser.user.account_type ===
+                                          "partner"
+                                            ? `/${loggedinUser.user.partner_type}`
+                                            : ""
+                                        }/dashboard`
+                                      : "/signin"
+                                  }
                                 >
                                   My Dashboard
                                 </Link>

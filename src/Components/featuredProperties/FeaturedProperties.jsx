@@ -68,8 +68,8 @@ const FeaturedProperties = () => {
       payload: hotel,
     });
     activePath === "hotel"
-      ? Navigate("/singleHotel")
-      : Navigate("/singleHotelAndParking");
+      ? Navigate(`/singleHotel/${hotel._id}`)
+      : Navigate(`/singleHotelAndParking/${hotel._id}`);
   };
 
   function getLabelText(value) {

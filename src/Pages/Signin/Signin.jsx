@@ -90,6 +90,9 @@ const Signin = () => {
 
   const { activePath } = useSelector((state) => state.activePath);
   const { redirectRoute } = useSelector((state) => state.getRedirectRoute);
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { view } = useSelector((state) => state.view);
+  const { user } = loggedinUser;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -137,10 +140,16 @@ const Signin = () => {
       const data = response.data;
       dispatch({ type: "SET_LOGGEDIN_USER", payload: data });
       dispatch({ type: "SETVIEWTYPE", payload: data.user.account_type });
+      const partner_type =
+        data.user.account_type === "partner" ? data.user.partner_type : "";
       dispatch({ type: "LOGIN", payload: true });
       if (response.status === 200) {
         if (redirectRoute === "dashboard") {
-          Navigate("/dashboard");
+          Navigate(
+            `/${view}${
+              view === "partner" ? `/${partner_type}` : ""
+            }/dashboard`
+          );
         }
         if (redirectRoute === "/") {
           Navigate("/");
