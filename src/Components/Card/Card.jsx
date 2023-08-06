@@ -150,8 +150,10 @@ const Card = (props) => {
       });
     }
     activePath === "hotel"
-      ? navigate(`/hotel/singleHotel/${hotel._id}`)
-      : navigate(`/singleHotelAndParking/${hotel._id}`);
+      ? navigate(`/hotel/hotellist/${hotel.city}/${hotel._id}`)
+      : navigate(
+          `/HotelAndParking/HotelAndParkingList/${hotel.city}/${hotel._id}`
+        );
   };
 
   let src;
@@ -162,7 +164,6 @@ const Card = (props) => {
   } else {
     src = null;
   }
-
 
   return (
     <>

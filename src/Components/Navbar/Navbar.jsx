@@ -52,6 +52,7 @@ const Navbar = ({ list }) => {
   const handleonClick = (event) => {
     setTooltip(event.currentTarget);
   };
+
   const handleonClose = () => {
     setTooltip(null);
   };
@@ -63,6 +64,7 @@ const Navbar = ({ list }) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClick1 = (event) => {
     setAnchorEl1(event.currentTarget);
   };
@@ -70,9 +72,11 @@ const Navbar = ({ list }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const handleClose1 = () => {
     setAnchorEl1(null);
   };
+
   const open = Boolean(anchorEl);
   const open1 = Boolean(anchorEl1);
   const id = open ? "simple-popover" : undefined;
@@ -100,7 +104,8 @@ const Navbar = ({ list }) => {
   const { activePath } = useSelector((state) => state.activePath);
   const { options } = useSelector((state) => state.searchOption);
   const location = useLocation();
-  const path = location.pathname;
+  const path = `/${location.pathname.split("/")[1] || ""}`;
+  console.log(path);
   const [navSearch, setNavSearch] = useState(false);
   const [nav2, setNav2] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -117,6 +122,7 @@ const Navbar = ({ list }) => {
       };
     });
   };
+
   const navigate = useNavigate();
 
   //For Mobile Rsponsive of Navbar Search Bar
@@ -327,10 +333,10 @@ const Navbar = ({ list }) => {
     }
 
     navSearch
-      ? navigate(`/hotel`)
+      ? navigate(`/hotel/hotellist`)
       : nav2
-      ? navigate("/HotelAndParkingList")
-      : navigate(`/ParkingList`);
+      ? navigate("/HotelAndParking/HotelAndParkingList")
+      : navigate(`/parking/ParkingList`);
 
     if (path === "/parking") {
       try {

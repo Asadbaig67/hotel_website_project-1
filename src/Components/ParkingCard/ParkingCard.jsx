@@ -17,7 +17,7 @@ const ParkingCard = (props) => {
 
   const HandleClick = () => {
     dispatch({ type: "SET_SELECTED_PARKING", payload: props.data });
-    Navigate("/singleparking");
+    Navigate(`/parking/ParkingList/${city}/${parking._id}`);
   };
 
   return (
