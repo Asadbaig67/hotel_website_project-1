@@ -1,5 +1,6 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Contact from "./Pages/Contact/Contact";
 import About from "./Pages/About Us/About";
 import Home from "./Pages/Home/Home";
@@ -49,10 +50,12 @@ import AddOperatingCities from "./Pages/AddOperatingCities/AddOperatingCities";
 // import ReactDataTable from "./Components/ReactDataTable/ReactDataTable";
 
 function App() {
+  const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
+  const { user } = loggedinUser;
   return (
     <>
       <Routes>
-        <Route path="/search" element={<SearchBar />} />
+        {/* <Route path="/search" element={<SearchBar />} /> */}
         <Route path="/signup" element={<PublicRoute Component={Signup} />} />
         <Route path="/signin" element={<PublicRoute Component={Signin} />} />
         <Route path="/forgetpassword" element={<Forgetpass />} />
@@ -61,206 +64,315 @@ function App() {
           element={<PublicRoute Component={Changepassword} />}
         />
         <Route path="/notfound" element={<PageNotFound />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/listHotel" element={<List />} />
-        <Route path="/singleHotel" element={<Hotel />} />
-        <Route
+
+        {/* Client routes */}
+
+        {/* <Route
           path="/addHotel"
           element={<PrivateRoute Component={HotelForm} />}
         />
         <Route
           path="/addRoom"
           element={<PrivateRoute Component={RoomForm} />}
-        />
-        <Route path="/navbaradmin" element={<AdminNav />} />
-        <Route path="/parking" element={<Parking />} />
-        <Route path="/loader" element={<Loader />} />
-        <Route path="/dashboardloader" element={<DashboardLoader />} />
-        <Route path="/ParkingList" element={<ParkingList />} />
-        <Route path="/HotelAndParking" element={<HotelAndParking />} />
-        <Route path="/HotelAndParkingList" element={<List />} />
-        <Route path="/singleHotelAndParking" element={<Hotel />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<About />} />
+        /> 
         <Route
           path="/listproperty"
           element={<PrivateRoute Component={Listing} />}
         />
+        <Route path="/loader" element={<Loader />} />
+        <Route path="/dashboardloader" element={<DashboardLoader />} /> */}
+
+        <Route path="/" element={<Home />} />
+        <Route path="/hotel/hotellist" element={<List />} />
+        <Route path="/hotel/hotellist/:city/:id" element={<Hotel />} />
+
+        <Route path="/parking" element={<Parking />} />
+        <Route path="/parking/ParkingList" element={<ParkingList />} />
         <Route
-          path="/hotelform"
-          element={<PrivateRoute Component={AddHotelForm} />}
+          path="/parking/ParkingList/:city/:id"
+          element={<ParkingPropertyDetails />}
         />
+
+        <Route path="/HotelAndParking" element={<HotelAndParking />} />
+        <Route path="/HotelAndParking/HotelAndParkingList" element={<List />} />
         <Route
-          path="/parkingform"
-          element={<PrivateRoute Component={AddParkingForm} />}
+          path="/HotelAndParking/HotelAndParkingList/:city/:id"
+          element={<Hotel />}
         />
-        <Route path="/skeleton" element={<Featured_skeleton />} />
-        <Route path="/singleparking" element={<ParkingPropertyDetails />} />
+
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+
         <Route
           path="/bookingdetails"
           element={<PrivateRoute Component={Viewbookings} />}
         />
+
+        {/* admin routes */}
+
         <Route
-          path="/viewbookingdetails"
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/dashboard`}
+          element={<PrivateRoute Component={Dashboard} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/profile`}
+          element={<PrivateRoute Component={Profile} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/operatingcities`}
+          element={<PrivateRoute Component={AddOperatingCities} />}
+        />
+
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/hotels`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/deListedHotels`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/deListedParkings`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/deListedHotelAndParking`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/delistedProperties`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/users`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/booking`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/cancelbooking`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/hotelRequests`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/parkingRequests`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/hotelAndParkingRequests`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/HotelsAndParkings`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/parkings`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/property`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/PropertyRequests`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/bookingRequests`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/hotelbookings`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/parkingbookings`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/hotelandparkingbookings`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/upcominghotelbookings`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/upcomingparkingbookings`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/upcominghotelandparkingbookings`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/ongoingbooking`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/upcomingbooking`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/previousbooking`}
+          element={<PrivateRoute Component={HotelsList} />}
+        />
+
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/viewbookingdetails/:id`}
           element={<PrivateRoute Component={AdminBookings} />}
         />
         <Route
-          path="/viewproperty"
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/viewproperty/:id`}
           element={<PrivateRoute Component={Viewproperty} />}
         />
 
         <Route
-          path="/dashboard"
-          element={<PrivateRoute Component={Dashboard} />}
-        />
-        <Route path="/profile" element={<PrivateRoute Component={Profile} />} />
-        <Route path="/operatingcities" element={<PrivateRoute Component={AddOperatingCities} />} />
-
-        <Route
-          path="/hotels"
-          element={<PrivateRoute Component={HotelsList} />}
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/hotelform`}
+          element={<PrivateRoute Component={AddHotelForm} />}
         />
         <Route
-          path="/deListedHotels"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/deListedParkings"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/deListedHotelAndParking"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/delistedProperties"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/users"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/booking"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/cancelbooking"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/hotelRequests"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/parkingRequests"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/hotelAndParkingRequests"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/HotelsAndParkings"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/parkings"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/property"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/PropertyRequests"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/bookingRequests"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/hotelbookings"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/parkingbookings"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/hotelandparkingbookings"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/upcominghotelbookings"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/upcomingparkingbookings"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/upcominghotelandparkingbookings"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/ongoingbooking"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/upcomingbooking"
-          element={<PrivateRoute Component={HotelsList} />}
-        />
-        <Route
-          path="/previousbooking"
-          element={<PrivateRoute Component={HotelsList} />}
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/parkingform`}
+          element={<PrivateRoute Component={AddParkingForm} />}
         />
 
         <Route
-          path="/profiledata"
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/profiledata`}
           element={<PrivateRoute Component={ProfileDataForm} />}
         />
         <Route path="/maps" element={<Reactmaps />} />
         <Route
-          path="/hotelform"
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/hotelform`}
           element={<PrivateRoute Component={AddHotelForm} />}
         />
         <Route
-          path="/parkingform"
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/parkingform`}
           element={<PrivateRoute Component={AddParkingForm} />}
         />
         <Route
-          path="/hotelparkingform"
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/hotelparkingform`}
           element={<PrivateRoute Component={AddHotelParkingForm} />}
         />
         <Route
-          path="/roomform"
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/roomform`}
           element={<PrivateRoute Component={AddRoomForm} />}
         />
         <Route
-          path="/hotel/book-rooms"
-          element={<PrivateRoute Component={HotelBooking} />}
-        />
-        <Route
-          path="/hotelparking/book-rooms"
-          element={<PrivateRoute Component={HotelParkingBooking} />}
-        />
-        <Route
-          path="/parking/book-parking"
-          element={<PrivateRoute Component={ParkingBooking} />}
-        />
-        <Route
-          path="/updatehotel"
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/updatehotel/:id`}
           element={<PrivateRoute Component={UpdateHotel} />}
         />
         <Route
-          path="/updatehotelandparking"
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/updatehotelandparking/:id`}
           element={<PrivateRoute Component={UpdateHotelAndParking} />}
         />
         <Route
-          path="/updateparking"
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/updateparking/:id`}
           element={<PrivateRoute Component={UpdateParking} />}
+        />
+
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/book-rooms`}
+          element={<PrivateRoute Component={HotelBooking} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/book-rooms`}
+          element={<PrivateRoute Component={HotelParkingBooking} />}
+        />
+        <Route
+          path={`/:type${
+            user && user.account_type === "partner" ? "/:partner_type" : ""
+          }/book-parking`}
+          element={<PrivateRoute Component={ParkingBooking} />}
         />
       </Routes>
     </>

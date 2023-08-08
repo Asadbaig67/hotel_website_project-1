@@ -26,6 +26,7 @@ const SideBar = ({ children }) => {
   const { view } = useSelector((state) => state.view);
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
+  const [isOpenDropDown, setIsOpenDropDown] = useState(false);
 
   const showAnimation = {
     hidden: {
@@ -48,9 +49,22 @@ const SideBar = ({ children }) => {
     return (
       <>
         {routes.map((route, index) => {
+          if (route.subRoutes) {
+            return (
+              <SidebarMenu
+                setIsOpen={setIsOpenDropDown}
+                route={route}
+                showAnimation={showAnimation}
+                isOpen={isOpenDropDown}
+              />
+            );
+          }
+
           return (
             <NavLink
-              to={route.link}
+              to={`/${user.account_type}${
+                user.account_type === "partner" ? `/${user.partner_type}` : ""
+              }${route.link}`}
               key={index}
               className="link"
               activeClassName="active"
@@ -110,7 +124,7 @@ const SideBar = ({ children }) => {
             {view === "admin" ? (
               <>
                 {sidebarDataFunction(SidebarDataAdminProfile)}
-                <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
+                {/* <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
                   Properties
                 </h3>
                 {sidebarDataFunction(SidebarDataAdminListedProperties)}
@@ -125,31 +139,31 @@ const SideBar = ({ children }) => {
                 <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
                   Delisted Properties
                 </h3>
-                {sidebarDataFunction(SidebarDataAdminDeListedProperties)}
+                {sidebarDataFunction(SidebarDataAdminDeListedProperties)} */}
               </>
             ) : view === "partner" ? (
               <>
                 {sidebarDataFunction(SidebarDataPatnerProfile)}
-                <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
+                {/* <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
                   Bookings
                 </h3>
                 {sidebarDataFunction(SidebarDataPartnerBookings)}
                 <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
                   Pending Requests
                 </h3>
-                {sidebarDataFunction(SidebarDataPatnerProfilePending)}
+                {sidebarDataFunction(SidebarDataPatnerProfilePending)} */}
               </>
             ) : view === "user" ? (
               <>
                 {sidebarDataFunction(SidebarDataUserProfile)}
-                <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
+                {/* <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
                   Your Bookings
                 </h3>
                 {sidebarDataFunction(SidebarDataUserBooking)}
                 <h3 className={`${isOpen ? "" : "d-none"} divider_heading`}>
                   Your Upcoming Bookings
                 </h3>
-                {sidebarDataFunction(SidebarDataUserUpcomingBooking)}
+                {sidebarDataFunction(SidebarDataUserUpcomingBooking)} */}
               </>
             ) : null}
           </section>
