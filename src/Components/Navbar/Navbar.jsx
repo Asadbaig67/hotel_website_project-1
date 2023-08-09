@@ -178,6 +178,7 @@ const Navbar = ({ list }) => {
   const handleOnSearch = async () => {
     dispatch({ type: "SET_FEATURED_DATA", payload: [] });
     setOpenOptions(false);
+
     if (path === "/") {
       dispatch({
         type: "SUCCESS",
@@ -202,17 +203,17 @@ const Navbar = ({ list }) => {
           payload: false,
         });
       }
-      if (dates[0] === undefined || dates[1] === undefined) {
-        dispatch({
-          type: "ALERTDATE",
-          payload: true,
-        });
-      } else {
-        dispatch({
-          type: "ALERTDATE",
-          payload: false,
-        });
-      }
+      // if (dates[0] === undefined || dates[1] === undefined) {
+      //   dispatch({
+      //     type: "ALERTDATE",
+      //     payload: true,
+      //   });
+      // } else {
+      //   dispatch({
+      //     type: "ALERTDATE",
+      //     payload: false,
+      //   });
+      // }
     } else if (path === "/parking") {
       dispatch({
         type: "SUCCESS",
@@ -279,17 +280,17 @@ const Navbar = ({ list }) => {
           payload: false,
         });
       }
-      if (dates[0] === undefined || dates[1] === undefined) {
-        dispatch({
-          type: "ALERTDATE",
-          payload: true,
-        });
-      } else {
-        dispatch({
-          type: "ALERTDATE",
-          payload: false,
-        });
-      }
+      // if (dates[0] === undefined || dates[1] === undefined) {
+      //   dispatch({
+      //     type: "ALERTDATE",
+      //     payload: true,
+      //   });
+      // } else {
+      //   dispatch({
+      //     type: "ALERTDATE",
+      //     payload: false,
+      //   });
+      // }
       if (c === "") {
         dispatch({
           type: "ALERTVEHICLE",
@@ -304,22 +305,10 @@ const Navbar = ({ list }) => {
     }
 
     if (
-      (path === "/" &&
-        (city === "" ||
-          dates[0] === undefined ||
-          dates[1] === undefined ||
-          validRoom())) ||
-      (path === "/parking" &&
-        (cityParking === "" ||
-          datesParking[0] === undefined ||
-          datesParking[1] === undefined ||
-          c === "")) ||
+      (path === "/" && (city === "" || validRoom())) ||
+      (path === "/parking" && (cityParking === "" || c === "")) ||
       (path === "/HotelAndParking" &&
-        (cityHotelAndParking === "" ||
-          dates[0] === undefined ||
-          dates[1] === undefined ||
-          validRoom() ||
-          c === ""))
+        (cityHotelAndParking === "" || validRoom() || c === ""))
     ) {
       // alert("Please fill all the fields");
       return;
