@@ -8,20 +8,26 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 import Dropdown from "../../Components/dropdown/Dropdown";
 import PageNotFound from "../../Components/No Data Page/PageNotFound";
+import { useLocation } from "react-router-dom";
 
 const List = () => {
   const dispatch = useDispatch();
-  const { city } = useSelector((state) => state.searchCity);
-  const { dates } = useSelector((state) => state.searchDate);
-  const { options } = useSelector((state) => state.searchOption);
-  const { c } = useSelector((state) => state.searchVehicle);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const city = searchParams.get("city");
+  const dates = JSON.parse(decodeURIComponent(searchParams.get("dates")));
+  const options = JSON.parse(decodeURIComponent(searchParams.get("option")));
+  const c = JSON.parse(decodeURIComponent(searchParams.get("c")));
+  console.log(options)
+
+  // const { city } = useSelector((state) => state.searchCity);
+  // const { dates } = useSelector((state) => state.searchDate);
+  // const { options } = useSelector((state) => state.searchOption);
+  // const { c } = useSelector((state) => state.searchVehicle);
 
   const { adult, children, familyRoom, singleRoom, twinRoom } = options;
   const checkin = dates[0];
   const checkout = dates[1];
-  console.log("Checkin = ", checkin);
-  console.log("Checkout = ", checkout);
-
   const { activePath } = useSelector((state) => state.activePath);
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
@@ -255,7 +261,7 @@ const List = () => {
               hotelData.length > 0 && (
                 <>
                   {hotelData.map((item) => (
-                    <Card item={item} key={item._id} />
+                    <Card item={item} key={item._id} options={options} dates={dates}/>
                   ))}
                 </>
               )

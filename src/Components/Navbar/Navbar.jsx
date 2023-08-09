@@ -322,7 +322,11 @@ const Navbar = ({ list }) => {
     }
 
     navSearch
-      ? navigate(`/hotel/hotellist`)
+      ? navigate(
+          `/hotel/hotellist?city=${city}&dates=${encodeURIComponent(
+            JSON.stringify(dates)
+          )}&option=${encodeURIComponent(JSON.stringify(option))}`
+        )
       : nav2
       ? navigate("/HotelAndParking/HotelAndParkingList")
       : navigate(`/parking/ParkingList`);

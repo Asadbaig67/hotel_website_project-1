@@ -12,9 +12,9 @@ const Card = (props) => {
   const price = 200;
   const { featured_hotel } = useSelector((state) => state.getfeaturedhotel);
   const { activePath } = useSelector((state) => state.activePath);
-  const { options } = useSelector((state) => state.searchOption);
+  const options = props.options;
 
-  const { dates } = useSelector((state) => state.searchDate);
+  const dates = props.dates;
 
   // Nights Calculation
 
@@ -150,10 +150,8 @@ const Card = (props) => {
       });
     }
     activePath === "hotel"
-      ? navigate(`/hotel/hotellist/${hotel.city}/${hotel._id}`)
-      : navigate(
-          `/HotelAndParking/HotelAndParkingList/${hotel.city}/${hotel._id}`
-        );
+      ? navigate(`/hotel/singleHotel/${hotel._id}`)
+      : navigate(`/singleHotelAndParking/${hotel._id}`);
   };
 
   let src;
