@@ -7,7 +7,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PendingIcon from "@mui/icons-material/Pending";
 import AddIcon from "@mui/icons-material/Add";
 import { ElectricBike, Hotel } from "@mui/icons-material";
-import { IoBusinessOutline } from "react-icons/io5";
+import BusinessIcon from '@mui/icons-material/Business';
 
 //For admin
 export const SidebarDataAdminProfile = [
@@ -38,7 +38,7 @@ export const SidebarDataAdminProfile = [
   {
     key: 4,
     title: "Properties",
-    icon: <IoBusinessOutline />,
+    icon: <BusinessIcon />,
     exact: true,
     subRoutes: [
       {
@@ -102,7 +102,7 @@ export const SidebarDataAdminProfile = [
   {
     key: 6,
     title: "De-Listed Properties",
-    icon: <IoBusinessOutline />,
+    icon: <BusinessIcon />,
     exact: true,
     subRoutes: [
       {

@@ -69,7 +69,7 @@ const Featured = () => {
           console.log(data);
           dispatch({ type: "SET_FEATURED_DATA", payload: data });
 
-          Navigate("/listHotel");
+          Navigate("/hotel/hotellist");
         } else {
           throw new Error("Request failed");
         }

@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ReactDataTable from "../../Components/ReactDataTable/ReactDataTable";
 import AdminNav from "../../Components/AdminNavbar/AdminNav";
@@ -17,7 +17,7 @@ import {
 import Sidebar from "../../Components/Sidebar/SideBar";
 
 const HotelsList = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
