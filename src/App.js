@@ -96,7 +96,7 @@ function App() {
         <Route path="/HotelAndParking" element={<HotelAndParking />} />
         <Route path="/HotelAndParking/HotelAndParkingList" element={<List />} />
         <Route
-          path="/HotelAndParking/HotelAndParkingList/:city/:id"
+          path="/HotelAndParking/HotelAndParkingList/:city"
           element={<Hotel />}
         />
 
@@ -105,6 +105,10 @@ function App() {
 
         <Route
           path="/hotel/hotellist/bookingdetails"
+          element={<PrivateRoute Component={Viewbookings} />}
+        />
+        <Route
+          path="/hotelAndParking/hotelAndParkingList/bookingdetails"
           element={<PrivateRoute Component={Viewbookings} />}
         />
 
