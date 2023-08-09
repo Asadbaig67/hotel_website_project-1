@@ -31,9 +31,9 @@ const List = () => {
   const { activePath } = useSelector((state) => state.activePath);
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
-  const { cityHotelAndParking } = useSelector(
-    (state) => state.searchHotelAndParkingCity
-  );
+  // const { cityHotelAndParking } = useSelector(
+  //   (state) => state.searchHotelAndParkingCity
+  // );
 
   // Getting Static Data For Hotel and parking
   // const { hotel_parking_data } = useSelector(
@@ -44,7 +44,7 @@ const List = () => {
   const checkHotelParkingCity = (hotel_parking_data) => {
     return (
       hotel_parking_data.hotel_city.toLowerCase() ===
-      cityHotelAndParking.toLowerCase()
+      city.toLowerCase()
     );
   };
   // Filtering Data For Hotel and `parking
@@ -83,7 +83,7 @@ const List = () => {
       dispatch({ type: "SET_HOTEL_DATA", payload: [] });
       dispatch({ type: "SET_FEATURED_DATA", payload: [] });
       // const url = `${api}/hotelandparking/search?city=${cityHotelAndParking}&checkIn=2023-03-11T00:00:00.000Z&checkOut=2023-03-14T00:00:00.000Z&adult=4&children=2&singleRoom=1&twinRoom=1&familyRoom=1&vehicle=5`;
-      const url = `${api}/hotelandparking/search?city=${cityHotelAndParking}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleRoom}&twinRoom=${twinRoom}&familyRoom=${familyRoom}&vehicles=${c}`;
+      const url = `${api}/hotelandparking/search?city=${city}&checkIn=${checkin}&checkOut=${checkout}&adult=${adult}&children=${children}&singleRoom=${singleRoom}&twinRoom=${twinRoom}&familyRoom=${familyRoom}&vehicles=${c}`;
       const response = await fetch(url, {
         method: "GET",
         // credentials: "include",
@@ -287,7 +287,7 @@ const List = () => {
               hotelData.length > 0 && (
                 <>
                   {hotelData.map((item) => (
-                    <Card item={item} key={item._id} />
+                    <Card item={item} key={item._id} options={options} dates={dates} c={c}/>
                   ))}
                 </>
               )

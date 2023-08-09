@@ -156,7 +156,15 @@ const Card = (props) => {
               JSON.stringify(options)
             )}&dates=${encodeURIComponent(JSON.stringify(dates))}&c=${props.c}`
           )
-        : navigate(`/singleHotelAndParking/${hotel._id}`);
+        : navigate(
+            `/HotelAndParking/HotelAndParkingList/${
+              updatedHotel.hotel_city
+            }?hotel=${encodeURIComponent(
+              JSON.stringify(updatedHotel)
+            )}&options=${encodeURIComponent(
+              JSON.stringify(options)
+            )}&dates=${encodeURIComponent(JSON.stringify(dates))}&c=${props.c}`
+          );
     }
   };
 

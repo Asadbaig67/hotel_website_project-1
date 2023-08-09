@@ -35,7 +35,7 @@ const Hotel = () => {
   const options = JSON.parse(decodeURIComponent(searchParams.get("options")));
   const c = searchParams.get("c");
   const dates = JSON.parse(decodeURIComponent(searchParams.get("dates")));
-  console.log(selected_hotel);
+  console.log(c);
   // const { options } = useSelector((state) => state.searchOption);
   // const { c } = useSelector((state) => state.searchVehicle);
   // const { dates } = useSelector((state) => state.searchDate);
@@ -235,13 +235,23 @@ const Hotel = () => {
         type: "SET_BOOKED_PROPERTY",
         payload: selected_hotel,
       });
-      Navigate(
-        `/hotel/hotellist/bookingdetails?hotel=${encodeURIComponent(
-          JSON.stringify(selected_hotel)
-        )}&dates=${encodeURIComponent(
-          JSON.stringify(dates)
-        )}&options=${encodeURIComponent(JSON.stringify(options))}&c=${c}`
-      );
+      if (activePath === "hotelAndParking") {
+        Navigate(
+          `/hotelAndParking/hotelAndParkingList/bookingdetails?hotel=${encodeURIComponent(
+            JSON.stringify(selected_hotel)
+          )}&dates=${encodeURIComponent(
+            JSON.stringify(dates)
+          )}&options=${encodeURIComponent(JSON.stringify(options))}&c=${c}`
+        );
+      } else {
+        Navigate(
+          `/hotel/hotellist/bookingdetails?hotel=${encodeURIComponent(
+            JSON.stringify(selected_hotel)
+          )}&dates=${encodeURIComponent(
+            JSON.stringify(dates)
+          )}&options=${encodeURIComponent(JSON.stringify(options))}&c=${c}`
+        );
+      }
     }
   };
 
