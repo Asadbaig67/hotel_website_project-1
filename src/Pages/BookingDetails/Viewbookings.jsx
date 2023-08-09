@@ -4,7 +4,7 @@ import Footer from "../../Components/footer/Footer";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -15,6 +15,15 @@ import Divider from "@mui/material/Divider";
 
 // export default ViewBookings;
 const ViewBookings = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const booked_property = JSON.parse(
+    decodeURIComponent(searchParams.get("hotel"))
+  );
+  const options = JSON.parse(decodeURIComponent(searchParams.get("options")));
+  const c = searchParams.get("c");
+  const dates = JSON.parse(decodeURIComponent(searchParams.get("dates")));
+  console.log(booked_property);
   const Root = styled("div")(({ theme }) => ({
     width: "100%",
     ...theme.typography.body2,
@@ -39,11 +48,11 @@ const ViewBookings = () => {
   const steps = ["Your Selection", "Your Details", "Final Step"];
 
   const { cardData } = useSelector((state) => state.setCardData);
-  const { options } = useSelector((state) => state.searchOption);
-  const { booked_property } = useSelector((state) => state.getBookedDetails);
-  const { dates } = useSelector((state) => state.searchDate);
+  // const { options } = useSelector((state) => state.searchOption);
+  // const { booked_property } = useSelector((state) => state.getBookedDetails);
+  // const { dates } = useSelector((state) => state.searchDate);
   const datesParking = useSelector((state) => state.searchParkingDate.dates);
-  const { c } = useSelector((state) => state.searchVehicle);
+  // const { c } = useSelector((state) => state.searchVehicle);
   const { activePath } = useSelector((state) => state.activePath);
 
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;

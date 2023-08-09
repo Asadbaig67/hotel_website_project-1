@@ -148,10 +148,16 @@ const Card = (props) => {
         type: "setHotelData",
         payload: updatedHotel,
       });
+      activePath === "hotel"
+        ? navigate(
+            `/hotel/hotellist/${updatedHotel.city}?hotel=${encodeURIComponent(
+              JSON.stringify(updatedHotel)
+            )}&options=${encodeURIComponent(
+              JSON.stringify(options)
+            )}&dates=${encodeURIComponent(JSON.stringify(dates))}&c=${props.c}`
+          )
+        : navigate(`/singleHotelAndParking/${hotel._id}`);
     }
-    activePath === "hotel"
-      ? navigate(`/hotel/singleHotel/${hotel._id}`)
-      : navigate(`/singleHotelAndParking/${hotel._id}`);
   };
 
   let src;

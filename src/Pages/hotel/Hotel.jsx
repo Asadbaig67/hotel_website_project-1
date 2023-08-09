@@ -27,15 +27,23 @@ import { useSelector, useDispatch } from "react-redux";
 const Hotel = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-
-  const { options } = useSelector((state) => state.searchOption);
-  const { c } = useSelector((state) => state.searchVehicle);
-  const { dates } = useSelector((state) => state.searchDate);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const selected_hotel = JSON.parse(
+    decodeURIComponent(searchParams.get("hotel"))
+  );
+  const options = JSON.parse(decodeURIComponent(searchParams.get("options")));
+  const c = searchParams.get("c");
+  const dates = JSON.parse(decodeURIComponent(searchParams.get("dates")));
+  console.log(selected_hotel);
+  // const { options } = useSelector((state) => state.searchOption);
+  // const { c } = useSelector((state) => state.searchVehicle);
+  // const { dates } = useSelector((state) => state.searchDate);
   const { success_State } = useSelector((state) => state.successState);
   const { rooms_Array } = useSelector((state) => state.getmodalData);
 
   const { activePath } = useSelector((state) => state.activePath);
-  const { selected_hotel } = useSelector((state) => state.getSelectedHotel);
+  // const { selected_hotel } = useSelector((state) => state.getSelectedHotel);
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
   const [option, setOption] = useState(options);
 
@@ -227,8 +235,14 @@ const Hotel = () => {
         type: "SET_BOOKED_PROPERTY",
         payload: selected_hotel,
       });
+      Navigate(
+        `/hotel/hotellist/bookingdetails?hotel=${encodeURIComponent(
+          JSON.stringify(selected_hotel)
+        )}&dates=${encodeURIComponent(
+          JSON.stringify(dates)
+        )}&options=${encodeURIComponent(JSON.stringify(options))}&c=${c}`
+      );
     }
-    Navigate("/bookingdetails");
   };
 
   const CheckConditions = (e) => {
