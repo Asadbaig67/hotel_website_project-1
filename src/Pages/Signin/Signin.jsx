@@ -146,9 +146,7 @@ const Signin = () => {
       if (response.status === 200) {
         if (redirectRoute === "dashboard") {
           Navigate(
-            `/${view}${
-              view === "partner" ? `/${partner_type}` : ""
-            }/dashboard`
+            `/${view}${view === "partner" ? `/${partner_type}` : ""}/dashboard`
           );
         }
         if (redirectRoute === "/") {
