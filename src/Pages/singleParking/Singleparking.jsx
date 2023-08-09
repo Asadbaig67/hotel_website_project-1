@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/footer/Footer";
 import styles from "./ParkingPropertyDetails.module.css";
@@ -13,17 +13,37 @@ import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import { useSelector } from "react-redux";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Tooltip from "@mui/material/Tooltip";
+import { useDispatch } from "react-redux";
 
 function ParkingPropertyDetails() {
+  // Data From Link
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const searchData = new URLSearchParams(location.search);
+  const selected_parking = JSON.parse(
+    decodeURIComponent(searchData.get("parkingdata"))
+  );
+  console.log("city parking=>", selected_parking);
+  const dates = JSON.parse(decodeURIComponent(searchData.get("dates")));
+  const No_of_Vehicles = searchData.get("vehicles");
+
+  // useEffect(() => {
+  //   dispatch({ type: "SET_SELECTED_PARKING", payload: cityParking });
+  //   dispatch({
+  //     type: "INCREMENT",
+  //     payload: No_of_Vehicles,
+  //   });
+  //   dispatch({
+  //     type: "SETPARKING_DATE",
+  //     payload: dates,
+  //   });
+  // }, []);
+
   const { booked_property } = useSelector((state) => state.getBookedDetails);
   const { c } = useSelector((state) => state.searchVehicle);
 
   // Data The User Selected From Card
-  const { selected_parking } = useSelector((state) => state.getSelectedParking);
-  console.log(
-    "here is the selected parking at parking - page= ",
-    selected_parking
-  );
+  // const { selected_parking } = useSelector((state) => state.getSelectedParking);
 
   // Parking Dates
   const datesParking = useSelector((state) => state.searchParkingDate.dates);

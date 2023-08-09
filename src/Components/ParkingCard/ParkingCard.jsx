@@ -5,25 +5,24 @@ import { useNavigate } from "react-router-dom";
 const ParkingCard = (props) => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  const {
-    
-    availableSlots,
-    parking,
-  } = props.data;
+  const { availableSlots, parking } = props.data;
 
   const { name, city, country, description, price, title, photos, rating } =
     parking;
 
-
   const HandleClick = () => {
-    dispatch({ type: "SET_SELECTED_PARKING", payload: props.data });
-    Navigate(`/parking/ParkingList/${city}/${parking._id}`);
+    Navigate(
+      `/parking/ParkingList/${city}?parkingdata=${encodeURIComponent(
+        JSON.stringify(props.data)
+      )}&dates=${encodeURIComponent(JSON.stringify(props.dates))}&vehicles=${
+        props.vehicles
+      }`
+    );
   };
 
   return (
     <>
       <div className="card my-3 shadow mx-4">
-        
         <img
           src={photos[0]}
           height="220"

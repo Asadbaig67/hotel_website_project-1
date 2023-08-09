@@ -89,8 +89,8 @@ function App() {
         <Route path="/parking" element={<Parking />} />
         <Route path="/parking/ParkingList" element={<ParkingList />} />
         <Route
-          path="/parking/ParkingList/:city/:id"
-          element={<ParkingPropertyDetails />}
+          path="/parking/ParkingList/:city"
+          element={<PrivateRoute Component={ParkingPropertyDetails} />}
         />
 
         <Route path="/HotelAndParking" element={<HotelAndParking />} />
