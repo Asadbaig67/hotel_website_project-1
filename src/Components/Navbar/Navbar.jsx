@@ -333,29 +333,35 @@ const Navbar = ({ list }) => {
             JSON.stringify(dates)
           )}&option=${encodeURIComponent(JSON.stringify(option))}&c=${c}`
         )
-      : navigate(`/parking/ParkingList`);
+      : navigate(
+          `/parking/ParkingList?city=${encodeURIComponent(
+            JSON.stringify(cityParking)
+          )}&vehicles=${c}&dates=${encodeURIComponent(
+            JSON.stringify(datesParking)
+          )}`
+        );
 
-    if (path === "/parking") {
-      try {
-        const url = `${api}/parking/search?city=${cityParking}&vehicles=${c}`;
-        const response = await fetch(url, {
-          method: "GET",
-          // credentials: "include",
-        });
-        const { parkingList } = await response.json();
-        if (parkingList) {
-          dispatch({
-            type: "SET_PARKING_DATA",
-            payload: parkingList,
-          });
-        } else {
-          dispatch({
-            type: "SET_PARKING_DATA",
-            payload: { message: "No Parking Found" },
-          });
-        }
-      } catch (error) {}
-    }
+    // if (path === "/parking") {
+    //   try {
+    //     const url = `${api}/parking/search?city=${cityParking}&vehicles=${c}`;
+    //     const response = await fetch(url, {
+    //       method: "GET",
+    //       // credentials: "include",
+    //     });
+    //     const { parkingList } = await response.json();
+    //     if (parkingList) {
+    //       dispatch({
+    //         type: "SET_PARKING_DATA",
+    //         payload: parkingList,
+    //       });
+    //     } else {
+    //       dispatch({
+    //         type: "SET_PARKING_DATA",
+    //         payload: { message: "No Parking Found" },
+    //       });
+    //     }
+    //   } catch (error) {}
+    // }
   };
 
   const HandleLogout = async () => {
