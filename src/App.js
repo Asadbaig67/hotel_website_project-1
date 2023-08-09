@@ -84,7 +84,7 @@ function App() {
 
         <Route path="/" element={<Home />} />
         <Route path="/hotel/hotellist" element={<List />} />
-        <Route path="/hotel/hotellist/:city/:id" element={<Hotel />} />
+        <Route path="/hotel/hotellist/:city" element={<Hotel />} />
 
         <Route path="/parking" element={<Parking />} />
         <Route path="/parking/ParkingList" element={<ParkingList />} />
@@ -104,7 +104,7 @@ function App() {
         <Route path="/about" element={<About />} />
 
         <Route
-          path="/bookingdetails"
+          path="/hotel/hotellist/bookingdetails"
           element={<PrivateRoute Component={Viewbookings} />}
         />
 
