@@ -328,7 +328,11 @@ const Navbar = ({ list }) => {
           )}&option=${encodeURIComponent(JSON.stringify(option))}`
         )
       : nav2
-      ? navigate("/HotelAndParking/HotelAndParkingList")
+      ? navigate(
+          `/HotelAndParking/HotelAndParkingList?city=${cityHotelAndParking}&dates=${encodeURIComponent(
+            JSON.stringify(dates)
+          )}&option=${encodeURIComponent(JSON.stringify(option))}&c=${c}`
+        )
       : navigate(
           `/parking/ParkingList?city=${encodeURIComponent(
             JSON.stringify(cityParking)
