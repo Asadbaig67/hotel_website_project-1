@@ -9,19 +9,12 @@ import Dropdown from "../dropdown/Dropdown";
 import hotel from "./hotel-bg.jpg";
 import hotelparking from "./hotelparking-bg.jpg";
 import parking from "./parking-bg.jpg";
-import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import Badge from "@mui/material/Badge";
 import PersonIcon from "@mui/icons-material/Person";
 import HotelIcon from "@mui/icons-material/Hotel";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import LogoutIcon from "@mui/icons-material/Logout";
 import RemoveIcon from "@mui/icons-material/Remove";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
@@ -36,10 +29,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import axios from "axios";
 
 const Navbar = ({ list }) => {
   // Get Logged In User
@@ -105,7 +95,6 @@ const Navbar = ({ list }) => {
   const { options } = useSelector((state) => state.searchOption);
   const location = useLocation();
   const path = `/${location.pathname.split("/")[1] || ""}`;
-  console.log(path);
   const [navSearch, setNavSearch] = useState(false);
   const [nav2, setNav2] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -280,17 +269,6 @@ const Navbar = ({ list }) => {
           payload: false,
         });
       }
-      // if (dates[0] === undefined || dates[1] === undefined) {
-      //   dispatch({
-      //     type: "ALERTDATE",
-      //     payload: true,
-      //   });
-      // } else {
-      //   dispatch({
-      //     type: "ALERTDATE",
-      //     payload: false,
-      //   });
-      // }
       if (c === "") {
         dispatch({
           type: "ALERTVEHICLE",
@@ -340,28 +318,6 @@ const Navbar = ({ list }) => {
             JSON.stringify(datesParking)
           )}`
         );
-
-    // if (path === "/parking") {
-    //   try {
-    //     const url = `${api}/parking/search?city=${cityParking}&vehicles=${c}`;
-    //     const response = await fetch(url, {
-    //       method: "GET",
-    //       // credentials: "include",
-    //     });
-    //     const { parkingList } = await response.json();
-    //     if (parkingList) {
-    //       dispatch({
-    //         type: "SET_PARKING_DATA",
-    //         payload: parkingList,
-    //       });
-    //     } else {
-    //       dispatch({
-    //         type: "SET_PARKING_DATA",
-    //         payload: { message: "No Parking Found" },
-    //       });
-    //     }
-    //   } catch (error) {}
-    // }
   };
 
   const HandleLogout = async () => {
@@ -530,12 +486,22 @@ const Navbar = ({ list }) => {
                         });
                       }}
                     >
-                      Hotels
-                      <hr
-                        className={`mt-0 ${style.activeTab} ${
-                          activePath === "hotel" ? "d-block" : "d-none"
+                      <p
+                        className={`${style.navPage} ${
+                          isTablet && activePath === "hotel"
+                            ? "bg-secondary bg-opacity-50"
+                            : null
                         }`}
-                      />
+                      >
+                        Hotels
+                      </p>
+                      {!isTablet && (
+                        <hr
+                          className={`mt-0 ${style.activeTab} ${
+                            activePath === "hotel" ? "d-block" : "d-none"
+                          }`}
+                        />
+                      )}
                     </Link>
                   </li>
                   <li>
@@ -549,12 +515,22 @@ const Navbar = ({ list }) => {
                         });
                       }}
                     >
-                      Parkings
-                      <hr
-                        className={`mt-0 ${style.activeTab} ${
-                          activePath === "parking" ? "d-block" : "d-none"
+                      <p
+                        className={`{style.navPage} ${
+                          isTablet && activePath === "parking"
+                            ? "bg-secondary bg-opacity-50"
+                            : null
                         }`}
-                      />
+                      >
+                        Parkings
+                      </p>
+                      {!isTablet && (
+                        <hr
+                          className={`mt-0 ${style.activeTab} ${
+                            activePath === "parking" ? "d-block" : "d-none"
+                          }`}
+                        />
+                      )}
                     </Link>
                   </li>
                   <li>
@@ -568,36 +544,51 @@ const Navbar = ({ list }) => {
                         });
                       }}
                     >
-                      Hotel and Parking
-                      <hr
-                        className={`mt-0 ${style.activeTab} ${
-                          activePath === "hotelAndParking"
-                            ? "d-block"
-                            : "d-none"
+                      <p
+                        className={`{style.navPage} ${
+                          isTablet && activePath === "hotelAndParking"
+                            ? "bg-secondary bg-opacity-50"
+                            : null
                         }`}
-                      />
+                      >
+                        Hotel and Parking
+                      </p>
+                      {!isTablet && (
+                        <hr
+                          className={`mt-0 ${style.activeTab} ${
+                            activePath === "hotelAndParking"
+                              ? "d-block"
+                              : "d-none"
+                          }`}
+                        />
+                      )}
                     </Link>
                   </li>
                   {login ? (
                     <>
-                      <li>
-                        <button
-                          onClick={() => {
-                            navigate("/contact");
-                          }}
-                          className={`${style.iconShow} btn btn-primary rounded`}
-                        >
-                          Contact us
-                        </button>
-                      </li>
-                      <NavLink
-                        to="/contact"
-                        className={`${!list ? "text-dark" : ""} ${
-                          style.iconHide
-                        }`}
-                      >
-                        Contact us
-                      </NavLink>
+                      {!isTablet ? (
+                        <li>
+                          <button
+                            onClick={() => {
+                              navigate("/contact");
+                            }}
+                            className={`${style.iconShow} btn btn-primary rounded`}
+                          >
+                            Contact us
+                          </button>
+                        </li>
+                      ) : (
+                        <li>
+                          <NavLink
+                            to="/contact"
+                            className={`${!list ? "text-dark" : ""} ${
+                              style.iconHide
+                            }`}
+                          >
+                            <p className={style.navPage}>Contact us</p>
+                          </NavLink>
+                        </li>
+                      )}
                       <li>
                         <div>
                           <React.Fragment>
@@ -719,7 +710,7 @@ const Navbar = ({ list }) => {
                             className={style.iconHide}
                             onClick={handleonClick}
                           >
-                            Profile
+                            <p className={style.profile}>Profile</p>
                           </span>
                         </div>
                       </li>

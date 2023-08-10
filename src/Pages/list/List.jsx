@@ -23,7 +23,7 @@ const List = () => {
   const citySearch = useSelector((state) => state.searchCity.city);
   const date = useSelector((state) => state.searchDate.dates);
   const optionRoom = useSelector((state) => state.searchOption.options);
-  // const { c } = useSelector((state) => state.searchVehicle);
+  const no_of_vehicles = useSelector((state) => state.searchVehicle.c);
 
   const { adult, children, familyRoom, singleRoom, twinRoom } = options;
   let checkin, checkout;
@@ -71,7 +71,7 @@ const List = () => {
       Navigate(
         `/HotelAndParking/HotelAndParkingList?city=${cityHotelAndParking}&dates=${encodeURIComponent(
           JSON.stringify(date)
-        )}&option=${encodeURIComponent(JSON.stringify(option))}&c=${c}`
+        )}&option=${encodeURIComponent(JSON.stringify(option))}&c=${no_of_vehicles}`
       );
     }
   };
@@ -202,7 +202,13 @@ const List = () => {
               <div className={`${style.lsItem}`}>
                 <label className={`${style.lsLabel}`}>Destination</label>
                 <div className="bg-white p-1 rounded-4">
-                  <Dropdown name="cityHotel" />
+                  <Dropdown
+                    name={`${
+                      activePath === "hotel"
+                        ? "cityHotel"
+                        : "cityHotelAndparking"
+                    }`}
+                  />
                 </div>
               </div>
               <div className={`${style.lsItem}`}>
