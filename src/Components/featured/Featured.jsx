@@ -26,11 +26,20 @@ const Featured = () => {
 
   const getCityCount = async (city) => {
     try {
-      const response = await axios.get(
-        `${api}/hotels/getcountofapprovedhotelbycity/${city}`
-      );
-      if (response.status === 200) {
-        return response.data.count;
+      if (activePath === "hotel") {
+        const response = await axios.get(
+          `${api}/hotels/getcountofapprovedhotelbycity/${city}`
+        );
+        if (response.status === 200) {
+          return response.data.count;
+        }
+      } else if (activePath === "hotelAndParking") {
+        const response = await axios.get(
+          `${api}/hotelandparking/getcountofapprovedhotelandparkingbycity/${city}`
+        );
+        if (response.status === 200) {
+          return response.data.count;
+        }
       }
       return 0;
     } catch (error) {
@@ -61,39 +70,29 @@ const Featured = () => {
 
   const HandleClick = async (city) => {
     if (activePath === "hotel") {
-      try {
-        dispatch({ type: "SET_HOTEL_DATA", payload: [] });
-        const response = await fetch(`${api}/hotels/gethotelbycity/${city}`);
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          dispatch({ type: "SET_FEATURED_DATA", payload: data });
-
-          Navigate("/hotel/hotellist");
-        } else {
-          throw new Error("Request failed");
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      Navigate(
+        `/hotel/hotellist?city=${city}&propertyType=${"featuredHotel"}&option=${encodeURIComponent(
+          JSON.stringify({
+            adult: 1,
+            children: 0,
+            familyRoom: 0,
+            singleRoom: 1,
+            twinRoom: 0,
+          })
+        )}`
+      );
     } else if (activePath === "hotelAndParking") {
-      try {
-        dispatch({ type: "SET_HOTEL_DATA", payload: [] });
-        const response = await fetch(
-          `${api}/hotelandparking/cityhotel/${city}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          dispatch({ type: "SET_FEATURED_DATA", payload: data });
-
-          Navigate("/HotelAndParkingList");
-        } else {
-          throw new Error("Request failed");
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      Navigate(
+        `/HotelAndParking/HotelAndParkingList?city=${city}&propertyType=${"featuredHotelAndParking"}&option=${encodeURIComponent(
+          JSON.stringify({
+            adult: 1,
+            children: 0,
+            familyRoom: 0,
+            singleRoom: 1,
+            twinRoom: 0,
+          })
+        )}`
+      );
     }
   };
 

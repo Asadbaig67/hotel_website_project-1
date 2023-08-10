@@ -1,6 +1,6 @@
 import style from "./list.module.css";
 import Navbar from "../../Components/Navbar/Navbar";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import Card from "../../Components/Card/Card";
 import Dates from "../../Components/date/Date";
 import Footer from "../../Components/footer/Footer";
@@ -8,32 +8,35 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 import Dropdown from "../../Components/dropdown/Dropdown";
 import PageNotFound from "../../Components/No Data Page/PageNotFound";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const List = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const Navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const city = searchParams.get("city");
   const dates = JSON.parse(decodeURIComponent(searchParams.get("dates")));
   const options = JSON.parse(decodeURIComponent(searchParams.get("option")));
   const c = JSON.parse(decodeURIComponent(searchParams.get("c")));
-  console.log(options)
-
-  // const { city } = useSelector((state) => state.searchCity);
-  // const { dates } = useSelector((state) => state.searchDate);
-  // const { options } = useSelector((state) => state.searchOption);
+  const propertyType = searchParams.get("propertyType");
+  const citySearch = useSelector((state) => state.searchCity.city);
+  const date = useSelector((state) => state.searchDate.dates);
+  const optionRoom = useSelector((state) => state.searchOption.options);
   // const { c } = useSelector((state) => state.searchVehicle);
 
   const { adult, children, familyRoom, singleRoom, twinRoom } = options;
-  const checkin = dates[0];
-  const checkout = dates[1];
+  let checkin, checkout;
+  if (dates) {
+    checkin = dates[0];
+    checkout = dates[1];
+  }
   const { activePath } = useSelector((state) => state.activePath);
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
-  // const { cityHotelAndParking } = useSelector(
-  //   (state) => state.searchHotelAndParkingCity
-  // );
+  const { cityHotelAndParking } = useSelector(
+    (state) => state.searchHotelAndParkingCity
+  );
 
   // Getting Static Data For Hotel and parking
   // const { hotel_parking_data } = useSelector(
@@ -42,10 +45,7 @@ const List = () => {
 
   // Checking City For Hotel and parking
   const checkHotelParkingCity = (hotel_parking_data) => {
-    return (
-      hotel_parking_data.hotel_city.toLowerCase() ===
-      city.toLowerCase()
-    );
+    return hotel_parking_data.hotel_city.toLowerCase() === city.toLowerCase();
   };
   // Filtering Data For Hotel and `parking
   // let filtered_hotel_parking = [];
@@ -59,7 +59,21 @@ const List = () => {
 
   const handleClick = () => {
     dispatch({ type: "SET_OPTION", payload: option });
-    activePath === "hotel" ? getHotels() : getHotelAndParking();
+    dispatch({ type: "SET_HOTEL_DATA", payload: [] });
+    dispatch({ type: "SET_FEATURED_DATA", payload: [] });
+    if (activePath === "hotel") {
+      Navigate(
+        `/hotel/hotellist?city=${citySearch}&dates=${encodeURIComponent(
+          JSON.stringify(date)
+        )}&option=${encodeURIComponent(JSON.stringify(option))}`
+      );
+    } else {
+      Navigate(
+        `/HotelAndParking/HotelAndParkingList?city=${cityHotelAndParking}&dates=${encodeURIComponent(
+          JSON.stringify(date)
+        )}&option=${encodeURIComponent(JSON.stringify(option))}&c=${c}`
+      );
+    }
   };
 
   const getHotels = async () => {
@@ -73,6 +87,7 @@ const List = () => {
       });
       // const hoteldata = await axios.get(url);
       const hoteldata = await response.json();
+      console.log("Hotel Data", hoteldata);
       dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
     } catch (error) {
       console.log("You get The Error ", error);
@@ -120,17 +135,59 @@ const List = () => {
   };
 
   useEffect(() => {
+    const featuredProperty = async (city) => {
+      if (
+        propertyType === "featuredHotel" ||
+        propertyType === "featuredHotelAndParking"
+      ) {
+        if (activePath === "hotel") {
+          try {
+            dispatch({ type: "SET_FEATURED_DATA", payload: [] });
+            dispatch({ type: "SET_HOTEL_DATA", payload: [] });
+            const response = await fetch(
+              `${api}/hotels/gethotelbycity/${city}`
+            );
+            if (response.ok) {
+              const data = await response.json();
+              console.log(data);
+              dispatch({ type: "SET_FEATURED_DATA", payload: data });
+            } else {
+              throw new Error("Request failed");
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        } else if (activePath === "hotelAndParking") {
+          try {
+            dispatch({ type: "SET_FEATURED_DATA", payload: [] });
+            dispatch({ type: "SET_HOTEL_DATA", payload: [] });
+            const response = await fetch(
+              `${api}/hotelandparking/cityhotel/${city}`
+            );
+            if (response.ok) {
+              const data = await response.json();
+              console.log(data);
+              dispatch({ type: "SET_FEATURED_DATA", payload: data });
+            } else {
+              throw new Error("Request failed");
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      }
+    };
+    featuredProperty(city);
+  }, [propertyType]);
+
+  useEffect(() => {
     if (activePath === "hotel" && featured_hotel.length === 0) {
       getHotels();
     }
     if (activePath === "hotelAndParking" && featured_hotel.length === 0) {
       getHotelAndParking();
     }
-  }, [activePath]);
-
-  console.log("Active Path = ", activePath);
-  console.log("Featured Hotel = ", featured_hotel.length);
-  console.log("Hotel Data = ", hotelData.length);
+  }, [location.search]);
 
   return (
     <div className="container-fluid w-100">
@@ -248,7 +305,12 @@ const List = () => {
               featured_hotel.length > 0 && (
                 <>
                   {featured_hotel.map((item) => (
-                    <Card item={item} key={item._id} />
+                    <Card
+                      item={item}
+                      key={item._id}
+                      options={options}
+                      dates={dates}
+                    />
                   ))}
                 </>
               )
@@ -261,7 +323,12 @@ const List = () => {
               hotelData.length > 0 && (
                 <>
                   {hotelData.map((item) => (
-                    <Card item={item} key={item._id} options={options} dates={dates}/>
+                    <Card
+                      item={item}
+                      key={item._id}
+                      options={options}
+                      dates={dates}
+                    />
                   ))}
                 </>
               )
@@ -274,7 +341,13 @@ const List = () => {
               featured_hotel.length > 0 && (
                 <>
                   {featured_hotel.map((item) => (
-                    <Card item={item} key={item._id} />
+                    <Card
+                      item={item}
+                      key={item._id}
+                      options={options}
+                      dates={dates}
+                      c={c}
+                    />
                   ))}
                 </>
               )
@@ -287,7 +360,13 @@ const List = () => {
               hotelData.length > 0 && (
                 <>
                   {hotelData.map((item) => (
-                    <Card item={item} key={item._id} options={options} dates={dates} c={c}/>
+                    <Card
+                      item={item}
+                      key={item._id}
+                      options={options}
+                      dates={dates}
+                      c={c}
+                    />
                   ))}
                 </>
               )
