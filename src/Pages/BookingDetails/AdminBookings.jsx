@@ -4,10 +4,10 @@ import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../../Components/Sidebar/SideBar";
+import AdminNav from "../../Components/AdminNavbar/AdminNav";
 
 const ViewBookings = () => {
   const labels = {
@@ -23,9 +23,9 @@ const ViewBookings = () => {
     5: "Excellent+",
   };
 
-  const { cardData } = useSelector((state) => state.setCardData);
   const Location = useLocation();
-  const { data, path, user } = Location.state;
+  const searchParams = new URLSearchParams(Location.search);
+  const data = JSON.parse(decodeURIComponent(searchParams.get("data")));
 
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
@@ -184,6 +184,9 @@ const ViewBookings = () => {
 
   return (
     <>
+      <div>
+        <AdminNav />
+      </div>
       <div className="d-flex">
         <Sidebar />
 

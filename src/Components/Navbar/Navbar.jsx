@@ -720,7 +720,7 @@ const Navbar = ({ list }) => {
                       {" "}
                       <li>
                         <NavLink to="/signin" className={style.text_shadow}>
-                          Sign In
+                          <p>Sign In</p>
                         </NavLink>
                       </li>
                     </>

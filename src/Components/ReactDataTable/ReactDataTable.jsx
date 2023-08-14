@@ -141,10 +141,12 @@ const ReactDataTable = ({ path, user }) => {
         navigate(
           `/${user.account_type}${
             user.account_type === "partner" ? `/${user.partner_type}` : ""
-          }/viewproperty/${id}`,
-          {
-            state: { data: data.data, user: user, path: path },
-          }
+          }/${path}/view?data=${encodeURIComponent(
+            JSON.stringify(data.data)
+          )}&path=${path}&user=${encodeURIComponent(JSON.stringify(user))}`
+          // {
+          //   state: { data: data.data, user: user, path: path },
+          // }
         );
       }
     } else if (path === "users") {
@@ -172,10 +174,12 @@ const ReactDataTable = ({ path, user }) => {
         navigate(
           `/${user.account_type}${
             user.account_type === "partner" ? `/${user.partner_type}` : ""
-          }/viewproperty/${id}`,
-          {
-            state: { data: data.data, user: user, path: path },
-          }
+          }/${path}/view?data=${encodeURIComponent(
+            JSON.stringify(data.data)
+          )}&path=${path}&user=${encodeURIComponent(JSON.stringify(user))}`
+          // {
+          //   state: { data: data.data, user: user, path: path },
+          // }
         );
       }
     } else if (
@@ -194,10 +198,12 @@ const ReactDataTable = ({ path, user }) => {
         navigate(
           `/${user.account_type}${
             user.account_type === "partner" ? `/${user.partner_type}` : ""
-          }/viewproperty/${id}`,
-          {
-            state: { data: data.data, user: user, path: path },
-          }
+          }/${path}/view?data=${encodeURIComponent(
+            JSON.stringify(data.data)
+          )}&path=${path}&user=${encodeURIComponent(JSON.stringify(user))}`
+          // {
+          //   state: { data: data.data, user: user, path: path },
+          // }
         );
       }
     } else if (
@@ -213,10 +219,12 @@ const ReactDataTable = ({ path, user }) => {
         navigate(
           `/${user.account_type}${
             user.account_type === "partner" ? `/${user.partner_type}` : ""
-          }/viewbookingdetails/${id}`,
-          {
-            state: { data: data.data, user: user, path: path },
-          }
+          }/${path}/viewbooking?data=${encodeURIComponent(
+            JSON.stringify(data.data)
+          )}&path=${path}&user=${encodeURIComponent(JSON.stringify(user))}`
+          // {
+          //   state: { data: data.data, user: user, path: path },
+          // }
         );
       }
     }
