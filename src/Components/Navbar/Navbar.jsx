@@ -105,7 +105,6 @@ const Navbar = ({ list }) => {
   const { options } = useSelector((state) => state.searchOption);
   const location = useLocation();
   const path = `/${location.pathname.split("/")[1] || ""}`;
-  console.log(path);
   const [navSearch, setNavSearch] = useState(false);
   const [nav2, setNav2] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
