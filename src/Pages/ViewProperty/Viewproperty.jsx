@@ -32,7 +32,10 @@ const Viewproperty = () => {
   const IsTablet = useMediaQuery("(max-width:768px)");
   const navigate = useNavigate();
   const location = useLocation();
-  const { data, user, path } = location.state;
+  const searchParams = new URLSearchParams(location.search);
+  const path = searchParams.get("path");
+  const data = JSON.parse(decodeURIComponent(searchParams.get("data")));
+  const user = JSON.parse(decodeURIComponent(searchParams.get("user")));
   const [header, setHeader] = useState([]);
 
   const [roomdata, setRoomdata] = useState({});
