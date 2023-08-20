@@ -12,10 +12,8 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AddIcon from "@mui/icons-material/Add";
 import CalendarViewDayIcon from "@mui/icons-material/CalendarViewDay";
-import Avatar from "@mui/material/Avatar";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 
@@ -29,7 +27,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Hotel } from "@mui/icons-material";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -144,10 +141,12 @@ const ReactDataTable = ({ path, user }) => {
         navigate(
           `/${user.account_type}${
             user.account_type === "partner" ? `/${user.partner_type}` : ""
-          }/viewproperty/${id}`,
-          {
-            state: { data: data.data, user: user, path: path },
-          }
+          }/${path}/view?data=${encodeURIComponent(
+            JSON.stringify(data.data)
+          )}&path=${path}&user=${encodeURIComponent(JSON.stringify(user))}`
+          // {
+          //   state: { data: data.data, user: user, path: path },
+          // }
         );
       }
     } else if (path === "users") {
@@ -175,10 +174,12 @@ const ReactDataTable = ({ path, user }) => {
         navigate(
           `/${user.account_type}${
             user.account_type === "partner" ? `/${user.partner_type}` : ""
-          }/viewproperty/${id}`,
-          {
-            state: { data: data.data, user: user, path: path },
-          }
+          }/${path}/view?data=${encodeURIComponent(
+            JSON.stringify(data.data)
+          )}&path=${path}&user=${encodeURIComponent(JSON.stringify(user))}`
+          // {
+          //   state: { data: data.data, user: user, path: path },
+          // }
         );
       }
     } else if (
@@ -197,10 +198,12 @@ const ReactDataTable = ({ path, user }) => {
         navigate(
           `/${user.account_type}${
             user.account_type === "partner" ? `/${user.partner_type}` : ""
-          }/viewproperty/${id}`,
-          {
-            state: { data: data.data, user: user, path: path },
-          }
+          }/${path}/view?data=${encodeURIComponent(
+            JSON.stringify(data.data)
+          )}&path=${path}&user=${encodeURIComponent(JSON.stringify(user))}`
+          // {
+          //   state: { data: data.data, user: user, path: path },
+          // }
         );
       }
     } else if (
@@ -216,10 +219,12 @@ const ReactDataTable = ({ path, user }) => {
         navigate(
           `/${user.account_type}${
             user.account_type === "partner" ? `/${user.partner_type}` : ""
-          }/viewbookingdetails/${id}`,
-          {
-            state: { data: data.data, user: user, path: path },
-          }
+          }/${path}/viewbooking?data=${encodeURIComponent(
+            JSON.stringify(data.data)
+          )}&path=${path}&user=${encodeURIComponent(JSON.stringify(user))}`
+          // {
+          //   state: { data: data.data, user: user, path: path },
+          // }
         );
       }
     }

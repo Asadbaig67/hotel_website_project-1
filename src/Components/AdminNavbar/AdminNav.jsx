@@ -50,7 +50,7 @@ const AdminNav = () => {
       );
       const data = res.data;
       const unread = data.filter((item) => item.read === false);
-      setNotifications(unread.reverse());
+      setNotifications(data.reverse());
       if (!(unread.length > 0)) {
         setNotificationDotVisible(true);
       } else {
@@ -59,6 +59,13 @@ const AdminNav = () => {
     };
     getNotifications();
   }, []);
+
+  const markAsRead = async (notification) => {
+    const id = notification._id;
+    console.log(notification);
+    const res = await axios.put(`${api}/notification/markAsRead/${id}`);
+    console.log(res.data);
+  };
   return (
     <nav
       class="navbar navbar-expand-lg bg-body-tertiary"
@@ -235,65 +242,70 @@ const AdminNav = () => {
             },
           }}
         >
-          {/* <div className="bg-secondary bg-opacity-25 rounded-5 mx-2"> */}
-            {notifications &&
-              notifications.map((notification, i) => {
-                return (
-                  <>
-                    <MenuItem>
-                      <div className="row justify-content-between w-100">
-                        <div className="col-2">
-                          <img
-                            src={pic}
-                            alt="pic"
-                            className="rounded-circle"
-                            style={{ width: "50px", height: "50px" }}
-                          />
-                        </div>
-                        <div className="col-9">
-                          <div>
-                            <p
-                              style={{
-                                whiteSpace: "normal",
-                                wordWrap: "break-word",
-                                fontWeight: "bold",
-                                fontSize: "10px",
-                              }}
-                            >
-                              {notification.title}
-                            </p>
-                            <p
-                              style={{
-                                whiteSpace: "normal",
-                                wordWrap: "break-word",
-                                fontSize: "12px",
-                              }}
-                            >
-                              {notification.message}
-                            </p>
-                            <p
-                              style={{
-                                whiteSpace: "normal",
-                                wordWrap: "break-word",
-                                fontSize: "10px",
-                              }}
-                            >
-                              {moment(notification.date).format(
-                                "MMMM D, YYYY HH:mm:ss"
-                              )}
-                            </p>
-                          </div>
+          {notifications &&
+            notifications.map((notification, i) => {
+              return (
+                <>
+                  <MenuItem
+                    className={`${
+                      !notification.read ? "bg-primary bg-opacity-25" : ""
+                    } `}
+                    onClick={() => {
+                      markAsRead(notification);
+                    }}
+                  >
+                    <div className={`row justify-content-between w-100`}>
+                      <div className="col-2">
+                        <img
+                          src={pic}
+                          alt="pic"
+                          className="rounded-circle"
+                          style={{ width: "50px", height: "50px" }}
+                        />
+                      </div>
+                      <div className="col-9">
+                        <div>
+                          <p
+                            style={{
+                              whiteSpace: "normal",
+                              wordWrap: "break-word",
+                              fontWeight: "bold",
+                              fontSize: "10px",
+                            }}
+                          >
+                            {notification.title}
+                          </p>
+                          <p
+                            style={{
+                              whiteSpace: "normal",
+                              wordWrap: "break-word",
+                              fontSize: "12px",
+                            }}
+                          >
+                            {notification.message}
+                          </p>
+                          <p
+                            style={{
+                              whiteSpace: "normal",
+                              wordWrap: "break-word",
+                              fontSize: "10px",
+                            }}
+                          >
+                            {moment(notification.date).format(
+                              "MMMM D, YYYY HH:mm:ss"
+                            )}
+                          </p>
                         </div>
                       </div>
-                    </MenuItem>
-                    {notifications.length - 1 === i ? null : (
-                      <hr className="mx-4 my-1" />
-                    )}
-                    {/* <hr className="mx-4"/> */}
-                  </>
-                );
-              })}
-          {/* </div> */}
+                    </div>
+                  </MenuItem>
+                  {notifications.length - 1 === i ? null : (
+                    <hr className="m-0" />
+                  )}
+                  {/* <hr className="mx-4"/> */}
+                </>
+              );
+            })}
         </Menu>
       </div>
     </nav>

@@ -4,24 +4,17 @@ import { useSelector } from "react-redux";
 import Contact from "./Pages/Contact/Contact";
 import About from "./Pages/About Us/About";
 import Home from "./Pages/Home/Home";
-import Listing from "./Pages/Property Listing/Listing";
 import Hotel from "./Pages/hotel/Hotel";
 import Signin from "./Pages/Signin/Signin";
 import Signup from "./Pages/Signup/Signup";
 import Forgetpass from "./Pages/Forgetpassword/Forgetpass";
 import Changepassword from "./Pages/ChangePassword/Changepassword";
-// import Map from "./Components/Map/Map";
 import List from "./Pages/list/List";
-import HotelForm from "./Pages/hotelForm/Hotel";
-import RoomForm from "./Pages/roomForm/Room";
 import Parking from "./Pages/Parking Section/Parking";
 import ParkingList from "./Pages/ParkingList/ParkingList";
 import HotelAndParking from "./Pages/HotelAndParking/HotelAndParking";
 import Reactmaps from "./Components/Map/reactMaps";
-import Loader from "./Components/Loader/Loader";
-import SearchBar from "./Components/SearchBar/SearchBar";
 import PageNotFound from "./Components/No Data Page/PageNotFound";
-
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Profile from "./Pages/Profile/Profile";
 import HotelsList from "./Pages/HotelsList/HotelsList";
@@ -33,21 +26,19 @@ import UpdateHotel from "./Components/Forms/Hotel_Forms/UpdateHotelForm";
 import UpdateHotelAndParking from "./Components/Forms/Hotel&Parking_Forms/UpdateHotel_Parking";
 import UpdateParking from "./Components/Forms/Parking_Forms/Update_Parking";
 import AddRoomForm from "./Components/Forms/Room_Forms/AddRoom";
-
 import HotelBooking from "./Components/Forms/Booking_Forms/Hotel_booking";
 import HotelParkingBooking from "./Components/Forms/Booking_Forms/HotelParkingBooking";
 import ParkingBooking from "./Components/Forms/Booking_Forms/ParkingBookings";
 import ParkingPropertyDetails from "./Pages/singleParking/Singleparking";
-import Featured_skeleton from "./Components/Skeletons/Featured_skeleton";
 import Viewbookings from "./Pages/BookingDetails/Viewbookings";
 import Viewproperty from "./Pages/ViewProperty/Viewproperty";
 import AdminBookings from "./Pages/BookingDetails/AdminBookings";
-import DashboardLoader from "./Components/Loader/DashboardLoader";
+import AddOperatingCities from "./Pages/AddOperatingCities/AddOperatingCities";
+import Errorpage from "./Pages/Errorpage/Errorpage";
 import PrivateRoute from "./Components/Routes/PrivateRoute";
 import PublicRoute from "./Components/Routes/PublicRoute";
-import AdminNav from "./Components/AdminNavbar/AdminNav";
-import AddOperatingCities from "./Pages/AddOperatingCities/AddOperatingCities";
-// import ReactDataTable from "./Components/ReactDataTable/ReactDataTable";
+import AdminRoute from "./Components/Routes/AdminRoute";
+import NotFoundRoute from "./Components/Routes/NotFoundRoute";
 
 function App() {
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
@@ -118,266 +109,267 @@ function App() {
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/dashboard`}
-          element={<PrivateRoute Component={Dashboard} />}
+          element={<AdminRoute Component={Dashboard} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/profile`}
-          element={<PrivateRoute Component={Profile} />}
+          element={<AdminRoute Component={Profile} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/operatingcities`}
-          element={<PrivateRoute Component={AddOperatingCities} />}
+          element={<AdminRoute Component={AddOperatingCities} />}
         />
 
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/hotels`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/deListedHotels`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/deListedParkings`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/deListedHotelAndParking`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/delistedProperties`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/users`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/booking`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/cancelbooking`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/hotelRequests`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/parkingRequests`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/hotelAndParkingRequests`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/HotelsAndParkings`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/parkings`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/property`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/PropertyRequests`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/bookingRequests`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/hotelbookings`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/parkingbookings`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/hotelandparkingbookings`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/upcominghotelbookings`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/upcomingparkingbookings`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/upcominghotelandparkingbookings`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/ongoingbooking`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/upcomingbooking`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/previousbooking`}
-          element={<PrivateRoute Component={HotelsList} />}
+          element={<AdminRoute Component={HotelsList} />}
         />
 
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
-          }/viewbookingdetails/:id`}
-          element={<PrivateRoute Component={AdminBookings} />}
+          }/:path/viewbooking`}
+          element={<AdminRoute Component={AdminBookings} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
-          }/viewproperty/:id`}
-          element={<PrivateRoute Component={Viewproperty} />}
+          }/:path/view`}
+          element={<AdminRoute Component={Viewproperty} />}
         />
 
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/hotelform`}
-          element={<PrivateRoute Component={AddHotelForm} />}
+          element={<AdminRoute Component={AddHotelForm} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/parkingform`}
-          element={<PrivateRoute Component={AddParkingForm} />}
+          element={<AdminRoute Component={AddParkingForm} />}
         />
 
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/profiledata`}
-          element={<PrivateRoute Component={ProfileDataForm} />}
+          element={<AdminRoute Component={ProfileDataForm} />}
         />
         <Route path="/maps" element={<Reactmaps />} />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/hotelform`}
-          element={<PrivateRoute Component={AddHotelForm} />}
+          element={<AdminRoute Component={AddHotelForm} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/parkingform`}
-          element={<PrivateRoute Component={AddParkingForm} />}
+          element={<AdminRoute Component={AddParkingForm} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/hotelparkingform`}
-          element={<PrivateRoute Component={AddHotelParkingForm} />}
+          element={<AdminRoute Component={AddHotelParkingForm} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/roomform`}
-          element={<PrivateRoute Component={AddRoomForm} />}
+          element={<AdminRoute Component={AddRoomForm} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/updatehotel/:id`}
-          element={<PrivateRoute Component={UpdateHotel} />}
+          element={<AdminRoute Component={UpdateHotel} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/updatehotelandparking/:id`}
-          element={<PrivateRoute Component={UpdateHotelAndParking} />}
+          element={<AdminRoute Component={UpdateHotelAndParking} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/updateparking/:id`}
-          element={<PrivateRoute Component={UpdateParking} />}
+          element={<AdminRoute Component={UpdateParking} />}
         />
 
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/book-rooms`}
-          element={<PrivateRoute Component={HotelBooking} />}
+          element={<AdminRoute Component={HotelBooking} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/book-rooms`}
-          element={<PrivateRoute Component={HotelParkingBooking} />}
+          element={<AdminRoute Component={HotelParkingBooking} />}
         />
         <Route
           path={`/:type${
             user && user.account_type === "partner" ? "/:partner_type" : ""
           }/book-parking`}
-          element={<PrivateRoute Component={ParkingBooking} />}
+          element={<AdminRoute Component={ParkingBooking} />}
         />
+        <Route path="*" element={<NotFoundRoute Component={Dashboard} />} />
       </Routes>
     </>
   );
