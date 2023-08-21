@@ -9,6 +9,13 @@ import Loader from "../../Components/Loader/Loader";
 import Dropdown from "../../Components/dropdown/Dropdown";
 import PageNotFound from "../../Components/No Data Page/PageNotFound";
 import { useLocation, useNavigate } from "react-router-dom";
+import PersonIcon from "@mui/icons-material/Person";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+// import RoomsDropdown from "../../Components/RoomsDropdown/RoomDropdown";
+import SearchBar from "../../Components/SearchBar/SearchBar";
 
 const List = () => {
   const dispatch = useDispatch();
@@ -31,17 +38,13 @@ const List = () => {
     checkin = dates[0];
     checkout = dates[1];
   }
+  const [option, setOption] = useState(options);
   const { activePath } = useSelector((state) => state.activePath);
   const api = process.env.REACT_APP_BACKEND_URL_LOCAL;
 
   const { cityHotelAndParking } = useSelector(
     (state) => state.searchHotelAndParkingCity
   );
-
-  // Getting Static Data For Hotel and parking
-  // const { hotel_parking_data } = useSelector(
-  //   (state) => state.getStaicHotalParking
-  // );
 
   // Checking City For Hotel and parking
   const checkHotelParkingCity = (hotel_parking_data) => {
@@ -53,9 +56,17 @@ const List = () => {
   //   filtered_hotel_parking = hotel_parking_data.filter(checkHotelParkingCity);
   // }
   // For Hotel and parking
+  const handleOption = (name, operation) => {
+    setOption((prev) => {
+      return {
+        ...prev,
+        [name]: operation === "i" ? option[name] + 1 : option[name] - 1,
+      };
+    });
+  };
 
-  const [option, setOption] = useState(options);
   const [openDate, setOpenDate] = useState(false);
+  const [openRooms, setOpenRooms] = useState(false);
 
   const handleClick = () => {
     dispatch({ type: "SET_OPTION", payload: option });
@@ -87,7 +98,6 @@ const List = () => {
       });
       // const hoteldata = await axios.get(url);
       const hoteldata = await response.json();
-      console.log("Hotel Data", hoteldata);
       dispatch({ type: "SET_HOTEL_DATA", payload: hoteldata });
     } catch (error) {
       console.log("You get The Error ", error);
@@ -294,7 +304,6 @@ const List = () => {
               </button>
             </div>
           </div>
-
           <div className={`col-8 ${style.listResult}`}>
             {activePath === "hotel" &&
               featured_hotel.length === 0 &&
@@ -310,6 +319,10 @@ const List = () => {
               activePath === "hotel" &&
               featured_hotel.length > 0 && (
                 <>
+                  <span className="fs-6 mb-2 border badge rounded-pill text-bg-light">
+                    <span className="text-warning">{city} </span>:{" "}
+                    {featured_hotel.length} properties found
+                  </span>
                   {featured_hotel.map((item) => (
                     <Card
                       item={item}
@@ -328,6 +341,11 @@ const List = () => {
               activePath === "hotel" &&
               hotelData.length > 0 && (
                 <>
+                  <span className="fs-6 mb-2 border badge rounded-pill text-bg-light">
+                    <span className="text-warning">{city} </span>:{" "}
+                    {hotelData.length} properties found
+                  </span>
+                  <SearchBar options={options} />
                   {hotelData.map((item) => (
                     <Card
                       item={item}
@@ -346,6 +364,10 @@ const List = () => {
               activePath === "hotelAndParking" &&
               featured_hotel.length > 0 && (
                 <>
+                  <span className="fs-6 mb-2 border badge rounded-pill text-bg-light">
+                    <span className="text-warning">{city} </span>:{" "}
+                    {featured_hotel.length} properties found
+                  </span>
                   {featured_hotel.map((item) => (
                     <Card
                       item={item}
@@ -365,6 +387,10 @@ const List = () => {
               activePath === "hotelAndParking" &&
               hotelData.length > 0 && (
                 <>
+                  <span className="fs-6 mb-2 border badge rounded-pill text-bg-light">
+                    <span className="text-warning">{city} </span>:{" "}
+                    {hotelData.length} properties found
+                  </span>
                   {hotelData.map((item) => (
                     <Card
                       item={item}

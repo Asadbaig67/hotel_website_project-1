@@ -1,0 +1,82 @@
+.room_dropdown_container {
+  position: relative;
+  cursor: text;
+  background-color: #ffffff;
+  /* border-radius: 5px; */
+  /* border: 1px solid black; */
+  /* font-weight: bold; */
+  height: 41px;
+}
+
+
+.room_element {
+  width: 260px;
+  /* text-align: center; */
+  height: 240px;
+  position: absolute;
+  top: 10;
+  right: 2px;
+  padding: 12px 12px 12px 12px;
+  transition: max-height 0.3s ease-in-out;
+  /* opacity: 0.7; */
+  z-index: 9;
+  border-radius: 80px;
+  /* background: #ffffff; */
+  /* box-shadow: 20px 20px 50px #bebebe, -20px -20px 50px #bebebe; */
+}
+.room_items {
+  top: 100px;
+  margin: 30px;
+}
+
+.options {
+  /* z-index: 10; */
+  position: absolute;
+  top: 50px;
+  background-color: white;
+  color: gray;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+}
+
+.optionItem {
+  width: 370px;
+  /* width:max-content; */
+  display: flex;
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  margin: 10px;
+}
+
+@media (max-width: 400px) {
+  .optionItem {
+    width: 250px;
+    /* width:max-content; */
+    /* justify-content: space-between; */
+    /* align-items: center; */
+  }
+}
+
+.optionCounter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: black;
+}
+
+.optionCounterButton {
+  /* margin-left: 10px; */
+  width: 10px !important;
+  height: 10px !important;
+  border: 1px solid #0071c2 !important;
+  color: #0071c2 !important;
+  cursor: pointer;
+  border-radius: 5px !important;
+  background-color: white !important;
+}
+
+.optionCounterButton:disabled {
+  cursor: not-allowed;
+}
