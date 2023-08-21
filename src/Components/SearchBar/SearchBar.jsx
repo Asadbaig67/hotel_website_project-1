@@ -6,7 +6,6 @@ import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import style from "./Search.module.css";
 import Button from "@mui/material/Button";
 
-
 const SearchBar = (props) => {
   const { options } = props;
 
