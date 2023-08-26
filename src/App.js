@@ -34,7 +34,6 @@ import Viewbookings from "./Pages/BookingDetails/Viewbookings";
 import Viewproperty from "./Pages/ViewProperty/Viewproperty";
 import AdminBookings from "./Pages/BookingDetails/AdminBookings";
 import AddOperatingCities from "./Pages/AddOperatingCities/AddOperatingCities";
-import Errorpage from "./Pages/Errorpage/Errorpage";
 import PrivateRoute from "./Components/Routes/PrivateRoute";
 import PublicRoute from "./Components/Routes/PublicRoute";
 import AdminRoute from "./Components/Routes/AdminRoute";
