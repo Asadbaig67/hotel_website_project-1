@@ -6,7 +6,6 @@ const NotFoundRoute = (props) => {
   const { login } = useSelector((state) => state.setLogin);
   const { loggedinUser } = useSelector((state) => state.getLoggedInUser);
   const { user } = loggedinUser;
-  const { Component } = props;
   return login ? (
     <Navigate
       to={`/${user.account_type}${
